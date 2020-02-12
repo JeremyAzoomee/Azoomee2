@@ -7,7 +7,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/WebGameAPI/WebGameAPIDataManager.h>
 #include <AzoomeeCommon/WebGameAPI/VideoPlaylistManager.h>
-#include "FavouritesManager.h"
+#include <AzoomeeCommon/ContentDataManagers/FavouritesManager.h>
 #include <AzoomeeCommon/ContentDataManagers/ContentHistoryManager.h>
 #include <AzoomeeCommon/ContentDataManagers/RecentlyPlayedManager.h>
 #include <AzoomeeCommon/Utils/SessionIdManager.h>

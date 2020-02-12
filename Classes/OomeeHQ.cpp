@@ -15,7 +15,7 @@
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/AppConfig.h>
-#include "FavouritesManager.h"
+#include <AzoomeeCommon/ContentDataManagers/FavouritesManager.h>
 #include "ArtAppDelegate.h"
 #include "SceneManagerScene.h"
 #include "GameDataManager.h"

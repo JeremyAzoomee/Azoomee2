@@ -155,6 +155,7 @@
 		E2264F4923F1AFAD00392D89 /* VideoPlaylistManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2264F4723F1AFAD00392D89 /* VideoPlaylistManager.cpp */; };
 		E2264F5E23F30F2500392D89 /* ContentHistoryManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2264F5D23F30F2500392D89 /* ContentHistoryManager.cpp */; };
 		E2264F6123F3FECD00392D89 /* RecentlyPlayedManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2264F5F23F3FECD00392D89 /* RecentlyPlayedManager.cpp */; };
+		E2264F6423F4048000392D89 /* FavouritesManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2264F6323F4048000392D89 /* FavouritesManager.cpp */; };
 		E229F70B233E1465005BA0D4 /* RoundedRectSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E229F70A233E1465005BA0D4 /* RoundedRectSprite.cpp */; };
 		E230584B23E83C530057CFE7 /* AppConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230584A23E83C530057CFE7 /* AppConfig.cpp */; };
 		E23058C923EC75630057CFE7 /* MessagePopupBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23058C823EC75630057CFE7 /* MessagePopupBase.cpp */; };
@@ -459,6 +460,8 @@
 		E2264F5D23F30F2500392D89 /* ContentHistoryManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ContentHistoryManager.cpp; sourceTree = "<group>"; };
 		E2264F5F23F3FECD00392D89 /* RecentlyPlayedManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RecentlyPlayedManager.cpp; sourceTree = "<group>"; };
 		E2264F6023F3FECD00392D89 /* RecentlyPlayedManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecentlyPlayedManager.h; sourceTree = "<group>"; };
+		E2264F6223F4048000392D89 /* FavouritesManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FavouritesManager.h; sourceTree = "<group>"; };
+		E2264F6323F4048000392D89 /* FavouritesManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FavouritesManager.cpp; sourceTree = "<group>"; };
 		E229F709233E13D6005BA0D4 /* RoundedRectSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoundedRectSprite.h; sourceTree = "<group>"; };
 		E229F70A233E1465005BA0D4 /* RoundedRectSprite.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RoundedRectSprite.cpp; sourceTree = "<group>"; };
 		E230584923E8236A0057CFE7 /* AppConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppConfig.h; sourceTree = "<group>"; };
@@ -1036,6 +1039,8 @@
 		E2264F5B23F30ECF00392D89 /* ContentDataManagers */ = {
 			isa = PBXGroup;
 			children = (
+				E2264F6223F4048000392D89 /* FavouritesManager.h */,
+				E2264F6323F4048000392D89 /* FavouritesManager.cpp */,
 				E2264F6023F3FECD00392D89 /* RecentlyPlayedManager.h */,
 				E2264F5F23F3FECD00392D89 /* RecentlyPlayedManager.cpp */,
 				E2264F5C23F30F2400392D89 /* ContentHistoryManager.h */,
@@ -1244,6 +1249,7 @@
 				92D1B49622A8178400357513 /* ChildManager.cpp in Sources */,
 				924ACE0C20A4A073007A5550 /* HQStructureDownloadHandler.cpp in Sources */,
 				E2264F4923F1AFAD00392D89 /* VideoPlaylistManager.cpp in Sources */,
+				E2264F6423F4048000392D89 /* FavouritesManager.cpp in Sources */,
 				4349C84D1EA8ADEF00FE964B /* MPUIColorToNSStringValueTransformer.m in Sources */,
 				92D1B49322A7F7C000357513 /* CookieManager.cpp in Sources */,
 				3012ED481E969A180009027D /* AudioMixer.cpp in Sources */,

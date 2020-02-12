@@ -10,7 +10,7 @@
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include <AzoomeeCommon/ContentDataManagers/ContentHistoryManager.h>
-#include "FavouritesManager.h"
+#include <AzoomeeCommon/ContentDataManagers/FavouritesManager.h>
 #include "ChatDelegate.h"
 #include <AzoomeeCommon/WebGameAPI/VideoPlaylistManager.h>
 #include "BackEndCaller.h"

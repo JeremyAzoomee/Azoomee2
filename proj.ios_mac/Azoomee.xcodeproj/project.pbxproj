@@ -145,7 +145,6 @@
 		9271D7D32040557D00370120 /* OomeeMakerDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D7D22040557D00370120 /* OomeeMakerDelegate.cpp */; };
 		92759EB21FE81F6300639190 /* ContentOpener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92759EB11FE81F6300639190 /* ContentOpener.cpp */; };
 		928A6DCB20EBB9650053E793 /* ChildCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928A6DCA20EBB9650053E793 /* ChildCreator.cpp */; };
-		929A9D57206CF9F1009B323D /* FavouritesManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929A9D56206CF9F1009B323D /* FavouritesManager.cpp */; };
 		929FB10322E8A6440088D406 /* MarketingAssetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929FB10222E8A6440088D406 /* MarketingAssetManager.cpp */; };
 		929FB10722E9A8450088D406 /* PaymentSuccessScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929FB10522E9A8450088D406 /* PaymentSuccessScreen.cpp */; };
 		92A519652194A7CF008DBD51 /* VodacomOnboardingDCBWebview.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92A519642194A7CF008DBD51 /* VodacomOnboardingDCBWebview.cpp */; };
@@ -606,8 +605,6 @@
 		92759EB11FE81F6300639190 /* ContentOpener.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ContentOpener.cpp; sourceTree = "<group>"; };
 		928A6DC920EBB42B0053E793 /* ChildCreator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChildCreator.h; sourceTree = "<group>"; };
 		928A6DCA20EBB9650053E793 /* ChildCreator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildCreator.cpp; sourceTree = "<group>"; };
-		929A9D51206CF9D9009B323D /* FavouritesManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FavouritesManager.h; sourceTree = "<group>"; };
-		929A9D56206CF9F1009B323D /* FavouritesManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FavouritesManager.cpp; sourceTree = "<group>"; };
 		929FB0FC22E88F4B0088D406 /* MarketingAssetManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MarketingAssetManager.h; sourceTree = "<group>"; };
 		929FB10222E8A6440088D406 /* MarketingAssetManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MarketingAssetManager.cpp; sourceTree = "<group>"; };
 		929FB10422E9944C0088D406 /* PaymentSuccessScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PaymentSuccessScreen.h; sourceTree = "<group>"; };
@@ -1480,8 +1477,6 @@
 			children = (
 				026BAF771E3FFD33009C4ACE /* HQHistoryManager.h */,
 				026BAF761E3FFD33009C4ACE /* HQHistoryManager.cpp */,
-				929A9D51206CF9D9009B323D /* FavouritesManager.h */,
-				929A9D56206CF9F1009B323D /* FavouritesManager.cpp */,
 			);
 			name = HistoryManager;
 			sourceTree = "<group>";
@@ -2259,7 +2254,6 @@
 				4319D3E21E67134600110F92 /* LoginScene.cpp in Sources */,
 				E21E659523605186000BC90F /* StickerCategory.cpp in Sources */,
 				E21E658723605186000BC90F /* StickerListViewColumn.cpp in Sources */,
-				929A9D57206CF9F1009B323D /* FavouritesManager.cpp in Sources */,
 				E23058B123E9BCAC0057CFE7 /* RewardItem.cpp in Sources */,
 				9229EE5422DDE6CA009732B0 /* SignupPage.cpp in Sources */,
 				921C75A8218B08D800EB93D6 /* LanguageSelectScene.cpp in Sources */,

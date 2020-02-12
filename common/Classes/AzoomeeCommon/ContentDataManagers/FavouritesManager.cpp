@@ -5,12 +5,12 @@
 //  Created by Macauley on 29/03/2018.
 //
 
-#include "FavouritesManager.h"
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Utils/DirUtil.h>
-#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
+#include "FavouritesManager.h" 
+#include "../Data/Child/ChildManager.h"
+#include "../Utils/StringFunctions.h"
+#include "../Analytics/AnalyticsSingleton.h"
+#include "../Utils/DirUtil.h"
+#include "../Data/HQDataObject/ContentItemManager.h"
 
 using namespace cocos2d;
 
