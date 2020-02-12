@@ -10,7 +10,7 @@
 #include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
-#include "RecentlyPlayedManager.h"
+#include <AzoomeeCommon/ContentDataManagers/RecentlyPlayedManager.h>
 #include "GameDataManager.h"
 #include "Style.h"
 

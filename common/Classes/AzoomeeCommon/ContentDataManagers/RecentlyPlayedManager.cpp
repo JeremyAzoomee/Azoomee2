@@ -6,10 +6,10 @@
 //
 
 #include "RecentlyPlayedManager.h"
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
-#include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Utils/DirUtil.h>
+#include "../Data/Child/ChildManager.h"
+#include "../Data/HQDataObject/ContentItemManager.h"
+#include "../Utils/StringFunctions.h"
+#include "../Utils/DirUtil.h"
 
 using namespace cocos2d;
 

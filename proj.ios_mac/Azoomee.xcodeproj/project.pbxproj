@@ -108,7 +108,6 @@
 		921A26BF217E1653005C8C41 /* VodacomMessageBoxInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921A26BE217E1653005C8C41 /* VodacomMessageBoxInfo.cpp */; };
 		921C75A8218B08D800EB93D6 /* LanguageSelectScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921C75A7218B08D800EB93D6 /* LanguageSelectScene.cpp */; };
 		921C75AD219464A100EB93D6 /* VodacomOnboardingTnCLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921C75AC219464A100EB93D6 /* VodacomOnboardingTnCLayer.cpp */; };
-		9220EB21201A185C00BD7A90 /* RecentlyPlayedManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EB20201A185C00BD7A90 /* RecentlyPlayedManager.cpp */; };
 		9229EE4322D75A6A009732B0 /* ProductLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE4222D75A6A009732B0 /* ProductLayout.cpp */; };
 		9229EE4A22D795BA009732B0 /* IAPFooter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE4922D795BA009732B0 /* IAPFooter.cpp */; };
 		9229EE4E22DCAFAA009732B0 /* SignupScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9229EE4D22DCAFAA009732B0 /* SignupScene.cpp */; };
@@ -532,8 +531,6 @@
 		921C75A7218B08D800EB93D6 /* LanguageSelectScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LanguageSelectScene.cpp; sourceTree = "<group>"; };
 		921C75AB2194543500EB93D6 /* VodacomOnboardingTnCLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VodacomOnboardingTnCLayer.h; sourceTree = "<group>"; };
 		921C75AC219464A100EB93D6 /* VodacomOnboardingTnCLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VodacomOnboardingTnCLayer.cpp; sourceTree = "<group>"; };
-		9220EB1C201A144B00BD7A90 /* RecentlyPlayedManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecentlyPlayedManager.h; sourceTree = "<group>"; };
-		9220EB20201A185C00BD7A90 /* RecentlyPlayedManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RecentlyPlayedManager.cpp; sourceTree = "<group>"; };
 		9229EE4222D75A6A009732B0 /* ProductLayout.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ProductLayout.cpp; sourceTree = "<group>"; };
 		9229EE4922D795BA009732B0 /* IAPFooter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = IAPFooter.cpp; sourceTree = "<group>"; };
 		9229EE4C22DCA78F009732B0 /* SignupScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignupScene.h; sourceTree = "<group>"; };
@@ -1483,8 +1480,6 @@
 			children = (
 				026BAF771E3FFD33009C4ACE /* HQHistoryManager.h */,
 				026BAF761E3FFD33009C4ACE /* HQHistoryManager.cpp */,
-				9220EB1C201A144B00BD7A90 /* RecentlyPlayedManager.h */,
-				9220EB20201A185C00BD7A90 /* RecentlyPlayedManager.cpp */,
 				929A9D51206CF9D9009B323D /* FavouritesManager.h */,
 				929A9D56206CF9F1009B323D /* FavouritesManager.cpp */,
 			);
@@ -2163,7 +2158,6 @@
 				E21E659323605186000BC90F /* Message.cpp in Sources */,
 				926A2B3B21357A7900AE7964 /* SettingsYourAccountPage.cpp in Sources */,
 				E22B85E62382EC1900F2F7F4 /* ShareInChatLayer.cpp in Sources */,
-				9220EB21201A185C00BD7A90 /* RecentlyPlayedManager.cpp in Sources */,
 				E22B85ED2384429D00F2F7F4 /* ShareInChatScene.cpp in Sources */,
 				E220FF092366F2E60086779A /* RecentMessageBar.cpp in Sources */,
 				921A2669216F6F7A005C8C41 /* VodacomOnboardingFlowData.cpp in Sources */,

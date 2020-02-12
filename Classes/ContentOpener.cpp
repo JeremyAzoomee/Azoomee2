@@ -11,7 +11,7 @@
 #include "GameDataManager.h"
 #include <AzoomeeCommon/WebGameAPI/VideoPlaylistManager.h>
 #include "WebViewSelector.h"
-#include "RecentlyPlayedManager.h"
+#include <AzoomeeCommon/ContentDataManagers/RecentlyPlayedManager.h>
 #include "ArtAppDelegate.h"
 #include "ManualGameInputLayer.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>

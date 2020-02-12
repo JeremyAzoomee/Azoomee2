@@ -11,7 +11,7 @@
 #include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
-#include "RecentlyPlayedManager.h"
+#include <AzoomeeCommon/ContentDataManagers/RecentlyPlayedManager.h>
 #include "HQConstants.h"
 #include "Style.h"
 #include "ContentOpener.h"

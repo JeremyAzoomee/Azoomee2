@@ -154,6 +154,7 @@
 		E2264F4823F1AFAD00392D89 /* WebGameAPIDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2264F4623F1AFAD00392D89 /* WebGameAPIDataManager.cpp */; };
 		E2264F4923F1AFAD00392D89 /* VideoPlaylistManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2264F4723F1AFAD00392D89 /* VideoPlaylistManager.cpp */; };
 		E2264F5E23F30F2500392D89 /* ContentHistoryManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2264F5D23F30F2500392D89 /* ContentHistoryManager.cpp */; };
+		E2264F6123F3FECD00392D89 /* RecentlyPlayedManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2264F5F23F3FECD00392D89 /* RecentlyPlayedManager.cpp */; };
 		E229F70B233E1465005BA0D4 /* RoundedRectSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E229F70A233E1465005BA0D4 /* RoundedRectSprite.cpp */; };
 		E230584B23E83C530057CFE7 /* AppConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230584A23E83C530057CFE7 /* AppConfig.cpp */; };
 		E23058C923EC75630057CFE7 /* MessagePopupBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23058C823EC75630057CFE7 /* MessagePopupBase.cpp */; };
@@ -456,6 +457,8 @@
 		E2264F4723F1AFAD00392D89 /* VideoPlaylistManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoPlaylistManager.cpp; sourceTree = "<group>"; };
 		E2264F5C23F30F2400392D89 /* ContentHistoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentHistoryManager.h; sourceTree = "<group>"; };
 		E2264F5D23F30F2500392D89 /* ContentHistoryManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ContentHistoryManager.cpp; sourceTree = "<group>"; };
+		E2264F5F23F3FECD00392D89 /* RecentlyPlayedManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RecentlyPlayedManager.cpp; sourceTree = "<group>"; };
+		E2264F6023F3FECD00392D89 /* RecentlyPlayedManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecentlyPlayedManager.h; sourceTree = "<group>"; };
 		E229F709233E13D6005BA0D4 /* RoundedRectSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoundedRectSprite.h; sourceTree = "<group>"; };
 		E229F70A233E1465005BA0D4 /* RoundedRectSprite.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RoundedRectSprite.cpp; sourceTree = "<group>"; };
 		E230584923E8236A0057CFE7 /* AppConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppConfig.h; sourceTree = "<group>"; };
@@ -1033,6 +1036,8 @@
 		E2264F5B23F30ECF00392D89 /* ContentDataManagers */ = {
 			isa = PBXGroup;
 			children = (
+				E2264F6023F3FECD00392D89 /* RecentlyPlayedManager.h */,
+				E2264F5F23F3FECD00392D89 /* RecentlyPlayedManager.cpp */,
 				E2264F5C23F30F2400392D89 /* ContentHistoryManager.h */,
 				E2264F5D23F30F2500392D89 /* ContentHistoryManager.cpp */,
 			);
@@ -1194,6 +1199,7 @@
 				E230584B23E83C530057CFE7 /* AppConfig.cpp in Sources */,
 				022218CC1ECF203000AD167F /* SessionIdManager.cpp in Sources */,
 				02BEDF2E1FE1327500D4C9B3 /* ContentItemManager.cpp in Sources */,
+				E2264F6123F3FECD00392D89 /* RecentlyPlayedManager.cpp in Sources */,
 				301CCA9A1EB14280009ADA0C /* API.cpp in Sources */,
 				3012ED711E96A3140009027D /* LocaleManager.cpp in Sources */,
 				4349C8201EA8ADEF00FE964B /* MPABTestDesignerDisconnectMessage.m in Sources */,

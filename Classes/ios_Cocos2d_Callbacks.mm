@@ -14,7 +14,7 @@
 #include "ChatDelegate.h"
 #include <AzoomeeCommon/WebGameAPI/VideoPlaylistManager.h>
 #include "BackEndCaller.h"
-#include "RecentlyPlayedManager.h"
+#include <AzoomeeCommon/ContentDataManagers/RecentlyPlayedManager.h>
 #include <AzoomeeCommon/Device.h>
 #include <AzoomeeCommon/Data/AppConfig.h>
 #include "RewardManager.h"

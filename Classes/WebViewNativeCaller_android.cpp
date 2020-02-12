@@ -9,7 +9,7 @@
 #include <AzoomeeCommon/WebGameAPI/VideoPlaylistManager.h>
 #include "FavouritesManager.h"
 #include <AzoomeeCommon/ContentDataManagers/ContentHistoryManager.h>
-#include "RecentlyPlayedManager.h"
+#include <AzoomeeCommon/ContentDataManagers/RecentlyPlayedManager.h>
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
