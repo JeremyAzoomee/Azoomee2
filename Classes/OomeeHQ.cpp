@@ -18,7 +18,7 @@
 #include <AzoomeeCommon/ContentDataManagers/FavouritesManager.h>
 #include "ArtAppDelegate.h"
 #include "SceneManagerScene.h"
-#include "GameDataManager.h"
+#include <AzoomeeCommon/ContentDataManagers/GameDataManager.h>
 #include "Style.h"
 #include "ShareInChatLayer.h"
 

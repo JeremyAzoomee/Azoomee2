@@ -156,6 +156,7 @@
 		E2264F5E23F30F2500392D89 /* ContentHistoryManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2264F5D23F30F2500392D89 /* ContentHistoryManager.cpp */; };
 		E2264F6123F3FECD00392D89 /* RecentlyPlayedManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2264F5F23F3FECD00392D89 /* RecentlyPlayedManager.cpp */; };
 		E2264F6423F4048000392D89 /* FavouritesManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2264F6323F4048000392D89 /* FavouritesManager.cpp */; };
+		E2264F6723F45D7500392D89 /* GameDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2264F6623F45D7500392D89 /* GameDataManager.cpp */; };
 		E229F70B233E1465005BA0D4 /* RoundedRectSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E229F70A233E1465005BA0D4 /* RoundedRectSprite.cpp */; };
 		E230584B23E83C530057CFE7 /* AppConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230584A23E83C530057CFE7 /* AppConfig.cpp */; };
 		E23058C923EC75630057CFE7 /* MessagePopupBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23058C823EC75630057CFE7 /* MessagePopupBase.cpp */; };
@@ -462,6 +463,8 @@
 		E2264F6023F3FECD00392D89 /* RecentlyPlayedManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecentlyPlayedManager.h; sourceTree = "<group>"; };
 		E2264F6223F4048000392D89 /* FavouritesManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FavouritesManager.h; sourceTree = "<group>"; };
 		E2264F6323F4048000392D89 /* FavouritesManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FavouritesManager.cpp; sourceTree = "<group>"; };
+		E2264F6523F45D7500392D89 /* GameDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameDataManager.h; sourceTree = "<group>"; };
+		E2264F6623F45D7500392D89 /* GameDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameDataManager.cpp; sourceTree = "<group>"; };
 		E229F709233E13D6005BA0D4 /* RoundedRectSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoundedRectSprite.h; sourceTree = "<group>"; };
 		E229F70A233E1465005BA0D4 /* RoundedRectSprite.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RoundedRectSprite.cpp; sourceTree = "<group>"; };
 		E230584923E8236A0057CFE7 /* AppConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppConfig.h; sourceTree = "<group>"; };
@@ -1039,6 +1042,8 @@
 		E2264F5B23F30ECF00392D89 /* ContentDataManagers */ = {
 			isa = PBXGroup;
 			children = (
+				E2264F6623F45D7500392D89 /* GameDataManager.cpp */,
+				E2264F6523F45D7500392D89 /* GameDataManager.h */,
 				E2264F6223F4048000392D89 /* FavouritesManager.h */,
 				E2264F6323F4048000392D89 /* FavouritesManager.cpp */,
 				E2264F6023F3FECD00392D89 /* RecentlyPlayedManager.h */,
@@ -1179,6 +1184,7 @@
 				3000FF761ED5AB7100E9717C /* AzoomeeViewController.mm in Sources */,
 				021B1FCB1F838A0A0044DCF7 /* HQDataObject.cpp in Sources */,
 				4349C8411EA8ADEF00FE964B /* MPResources.m in Sources */,
+				E2264F6723F45D7500392D89 /* GameDataManager.cpp in Sources */,
 				4349C85D1EA8ADEF00FE964B /* UIView+MPHelpers.m in Sources */,
 				3000FF751ED5AB7100E9717C /* AzoomeeAppController.mm in Sources */,
 				92EC0C732232C9F400B02F20 /* Shop.cpp in Sources */,

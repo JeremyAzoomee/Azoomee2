@@ -2,33 +2,37 @@
 #define Azoomee_GameDataManager_h
 
 #include <cocos/cocos2d.h>
-#include "network/HttpClient.h"
-#include "external/json/document.h"
-#include <AzoomeeCommon/Azoomee.h>
-#include "SceneManagerScene.h"
-#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
-#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
-#include <AzoomeeCommon/Utils/FileZipUtil.h>
-#include <AzoomeeCommon/Utils/FileDownloader.h>
-#include <AzoomeeCommon/Data/HQDataObject/HQCarouselObject.h>
+#include "../Azoomee.h"
+#include "../Data/HQDataObject/HQContentItemObject.h"
+#include "../ImageDownloader/ImageDownloader.h"
+#include "../Utils/FileZipUtil.h"
+#include "../Utils/FileDownloader.h"
+#include "../Data/HQDataObject/HQCarouselObject.h"
+#include "../UI/UIConsts.h"
 
 NS_AZOOMEE_BEGIN
 
 class GameDataManager : public cocos2d::Ref, public FileDownloaderDelegate, public FileZipDelegate
 {
-    
 public:
-    ImageDownloaderRef imageDownloader;
+    typedef std::function<void(Orientation orientation, const std::string& path, const cocos2d::Vec2& closeButtonAnchor)> OnSuccessCallback;
+    typedef std::function<void(const std::string& errorType, long errorCode)> OnFailedCallback;
     
     static GameDataManager* getInstance(void);
     static const char* const kManualGameId;
     static const std::string kGameCacheFolder;
     static const std::map<std::string, cocos2d::Vec2> kCloseAnchorKeyToVec2Map;
     
+    static const std::string kZipDownloadError;
+    static const std::string kJsonDownloadError;
+    static const std::string kVersionIncompatibleError;
+    static const std::string kUnzipError;
+    static const std::string kStartFileUnavailableError;
+    
     virtual ~GameDataManager();
     bool init(void);
 
-    void startProcessingGame(const HQContentItemObjectRef &itemData);
+    void startProcessingGame(const HQContentItemObjectRef &itemData, const OnSuccessCallback& successCallback, const OnFailedCallback& failedCallback, bool offline);
     void getJSONGameData(const std::string &url, const std::string &itemId);
     
     bool unzipGame(const std::string& zipPath,const std::string& dirpath,const std::string& passwd);
@@ -50,6 +54,10 @@ private:
 #endif
     
 private:
+    
+    OnSuccessCallback _successCallback = nullptr;
+    OnFailedCallback _failedCallback = nullptr;
+    
     //offline game tools
     std::vector<std::string> getJsonFileListFromDir() const;
     
@@ -83,21 +91,15 @@ private:
     std::string getGameCachePath() const;
     std::string getGameIdPath(const std::string &gameId);
     
-    void startGame(const std::string &basePath, const std::string &startFileName);
-    
-    //Loading screen
-    void displayLoadingScreen();
-    void hideLoadingScreen();
-    void showErrorMessage();
-    void showIncompatibleMessage();
+    void finishGameProcessing(const std::string &basePath, const std::string &startFileName);
     
     FileDownloaderRef _fileDownloader = nullptr;
+    ImageDownloaderRef _imageDownloader;
     
     std::string _contentId = "";
     
-    bool processCancelled = false;
-    
     bool _gameIsBeingStreamed = false;
+    bool _offline = false;
     
     bool isGameCompatibleWithCurrentAppVersion(const std::string &jsonFileName);
     Orientation getGameOrientation(const std::string& jsonFileName);

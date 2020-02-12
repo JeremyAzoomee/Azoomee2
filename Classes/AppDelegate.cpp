@@ -13,7 +13,7 @@
 #include "SceneManagerScene.h"
 #include "OfflineScene.h"
 #include "../artapp/Classes/AzoomeeArt/MainScene.h"
-#include "GameDataManager.h"
+#include <AzoomeeCommon/ContentDataManagers/GameDataManager.h>
 #include <AzoomeeCommon/Device.h>
 #include "WebViewSelector.h"
 

@@ -8,7 +8,7 @@
 #include "OfflineScene.h"
 #include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
-#include "GameDataManager.h"
+#include <AzoomeeCommon/ContentDataManagers/GameDataManager.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include "FlowDataSingleton.h"
 #include "LoginController.h"

@@ -8,7 +8,7 @@
 #include "ContentOpener.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/ContentDataManagers/ContentHistoryManager.h>
-#include "GameDataManager.h"
+#include <AzoomeeCommon/ContentDataManagers/GameDataManager.h>
 #include <AzoomeeCommon/WebGameAPI/VideoPlaylistManager.h>
 #include "WebViewSelector.h"
 #include <AzoomeeCommon/ContentDataManagers/RecentlyPlayedManager.h>
@@ -25,6 +25,9 @@
 #include <AzoomeeCommon/Data/HQDataObject/HQStructureDownloadHandler.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include "ErrorCodes.h"
+#include "SceneManagerScene.h"
+#include "PopupMessageBox.h"
+#include <AzoomeeCommon/Utils/LocaleManager.h>
 
 #include "AgeGate.h"
 
@@ -78,8 +81,39 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
         RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(),HQConsts::kGameHQName);
         RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), HQConsts::kOomeeHQName);
         ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
+        
+        const auto& onSuccessCallback = [](Orientation orientation, const std::string& path, const cocos2d::Vec2& closeButtonAnchor){
+            ModalMessages::getInstance()->stopLoading();
+            Director::getInstance()->replaceScene(SceneManagerScene::createWebview(orientation, path, closeButtonAnchor));
+        };
+        
+        const auto& onFailedCallback = [](const std::string& errorType, long errorCode){
+            ModalMessages::getInstance()->stopLoading();
+            long messageCode = ERROR_CODE_SOMETHING_WENT_WRONG;
+            if(errorType == GameDataManager::kZipDownloadError || errorType == GameDataManager::kJsonDownloadError)
+            {
+                messageCode = errorCode;
+            }
+            else if (errorType == GameDataManager::kVersionIncompatibleError)
+            {
+                messageCode = ERROR_CODE_GAME_INCOMPATIBLE;
+            }
+            const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(messageCode);
+            
+            PopupMessageBox* messageBox = PopupMessageBox::create();
+            messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+            messageBox->setBody(errorMessageText.at(ERROR_BODY));
+            messageBox->setButtonText(_("Back"));
+            messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+            messageBox->setPatternColour(Colours::Color_3B::azure);
+            messageBox->setButtonPressedCallback([](MessagePopupBase* pSender){
+                pSender->removeFromParent();
+            });
+            Director::getInstance()->getRunningScene()->addChild(messageBox, 1000);
 
-        GameDataManager::getInstance()->startProcessingGame(contentItem);
+        };
+        ModalMessages::getInstance()->startLoading();
+        GameDataManager::getInstance()->startProcessingGame(contentItem, onSuccessCallback, onFailedCallback, HQHistoryManager::getInstance()->isOffline());
     }
     else if(contentItem->getType()  == HQContentItemObject::kContentTypeVideo || contentItem->getType()  == HQContentItemObject::kContentTypeAudio)
     {

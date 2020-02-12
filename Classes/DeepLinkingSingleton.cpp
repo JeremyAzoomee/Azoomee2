@@ -2,7 +2,7 @@
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include "BackEndCaller.h"
 #include "WebViewSelector.h"
-#include "GameDataManager.h"
+#include <AzoomeeCommon/ContentDataManagers/GameDataManager.h>
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>

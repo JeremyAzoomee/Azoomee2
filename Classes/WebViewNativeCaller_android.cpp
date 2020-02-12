@@ -17,6 +17,7 @@
 #include "ChatDelegate.h"
 #include "BackEndCaller.h"
 #include "WebViewSelector.h"
+#include "RewardManager.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
