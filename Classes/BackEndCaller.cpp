@@ -18,7 +18,6 @@
 #include "RequestAdultPinLayer.h"
 #include "RoutePaymentSingleton.h"
 #include "SceneManagerScene.h"
-#include "DeepLinkingSingleton.h"
 #include "FlowDataSingleton.h"
 #include "OfflineChecker.h"
 #include "ForceUpdateSingleton.h"
@@ -512,10 +511,6 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     else if(requestTag == API::TagGetParentDetails)
     {
         UserAccountManager::getInstance()->parseParentDetails(body);
-    }
-    else if(requestTag == "deepLinkContentRequest")
-    {
-        DeepLinkingSingleton::getInstance()->contentDetailsResponse(body);
     }
     else if(requestTag == API::TagUpdateBillingData)
     {
