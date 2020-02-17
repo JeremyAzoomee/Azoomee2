@@ -1,7 +1,6 @@
 #include "API.h"
 #include <cocos/cocos2d.h>
 #include <functional>
-#include "../Utils/SessionIdManager.h"
 #include "../Analytics/AnalyticsSingleton.h"
 #include "../Utils/StringFunctions.h"
 #include "../Data/AppConfig.h"
@@ -509,7 +508,7 @@ HttpRequestCreator* API::DeleteChild(const std::string& childId,
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->_requestPath = StringUtils::format("/api/user/child/%s", childId.c_str());
-    request->_requestBody = StringUtils::format("{\"profileName\":\"%s%s\",\"sex\":\"%s\",\"status\":\"DELETED\"}", childProfileName.c_str(),SessionIdManager::getInstance()->getCurrentSessionId().c_str(), childGender.c_str());
+    request->_requestBody = StringUtils::format("{\"profileName\":\"%s%s\",\"sex\":\"%s\",\"status\":\"DELETED\"}", childProfileName.c_str(),childId.c_str(), childGender.c_str());
     request->_requestTag = TagDeleteChild;
     request->_method = "PATCH";
     request->_encrypted = true;
