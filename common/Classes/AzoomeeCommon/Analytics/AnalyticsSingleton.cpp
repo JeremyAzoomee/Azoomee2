@@ -60,7 +60,7 @@ void AnalyticsSingleton::mixPanelRegisterSuperProperties(const std::string& key,
 
 void AnalyticsSingleton::registerAppVersion()
 {
-    mixPanelRegisterSuperProperties("appVersion",AppConfig::getInstance()->getVersionNumberToDisplay());
+    mixPanelRegisterSuperProperties("appVersion",AppConfig::getInstance()->getVersionNumber());
 }
     
 void AnalyticsSingleton::registerAnonymousIp(const std::string& anonymousIp)

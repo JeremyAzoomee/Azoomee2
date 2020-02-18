@@ -47,6 +47,15 @@ public:
     void setClientAnonymousIp(const std::string& publicIp);
     std::string getClientAnonymousIp() const;
     
+    std::string getAppVersion() const;
+    
+    void identifyMixpanel();
+    void deleteHttpCookies();
+    
+    bool biometricAuthenticationAvailable();
+    void startBiometricAuthentication();
+    void stopBiometricAuthentication();
+    
 private:
     
     bool _isDeviceIphoneX = false;

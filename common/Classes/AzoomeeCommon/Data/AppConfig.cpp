@@ -8,12 +8,6 @@
 #include "AppConfig.h"
 #include "../Device.h"
 #include "../Utils/LocaleManager.h"
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#include "platform/android/jni/JniHelper.h"
-static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppActivity";
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-#include "../Utils/IosNativeFunctionsSingleton.h"
-#endif
 
 NS_AZOOMEE_BEGIN
 
@@ -72,13 +66,7 @@ std::string AppConfig::getRemoteWebGameAPIPath()
 //Version configuration
 std::string AppConfig::getVersionNumber()
 {
-    std::string versionNum = "0.0.0 (0)";
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    versionNum = IosNativeFunctionsSingleton::getInstance()->getAppVersionNum();
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    versionNum = cocos2d::JniHelper::callStaticStringMethod(kAzoomeeActivityJavaClassName, "getAppVersionNum");
-#endif
-    return versionNum;
+    return Device::getInstance()->getAppVersion();
 }
 
 std::string AppConfig::getVersionNumberWithPlatform()
