@@ -8,13 +8,7 @@
 #include "ModalMessages.h"
 #include "ForceUpdateAppLockScene.h"
 #include <AzoomeeCommon/Data/AppConfig.h>
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#include "platform/android/jni/JniHelper.h"
-
-static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppActivity";
-
-#endif
+#include <AzoomeeCommon/Device.h>
 
 using namespace cocos2d;
 
@@ -245,22 +239,23 @@ std::string ForceUpdateSingleton::getUpdateUrlFromFile()
 	}
 	return "";
 #endif
-		
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+	
+    const std::string& osManufacturer = Device::getInstance()->getOSManufacturer();
     
-    std::string resultStr = JniHelper::callStaticStringMethod(kAzoomeeActivityJavaClassName, "getOSBuildManufacturer");
-    
-    if (resultStr == "Amazon")
+    if(osManufacturer == Device::kOSManufacturerAmazon)
     {
         return forceUpdateData.at(kUpdateUrlAmazonID);
     }
-    else
+    else if(osManufacturer == Device::kOSManufacturerGoogle)
     {
         return forceUpdateData.at(kUpdateUrlGoogleID);
     }
-#else
-    return forceUpdateData.at(kUpdateUrlAppleID);
-#endif
+    else if(osManufacturer == Device::kOSManufacturerApple)
+    {
+        return forceUpdateData.at(kUpdateUrlAppleID);
+    }
+    
+    return "";
 }
 
 void ForceUpdateSingleton::onFileDownloadComplete(const std::string &fileString, const std::string &tag, long responseCode)

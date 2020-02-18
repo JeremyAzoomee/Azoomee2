@@ -10,6 +10,7 @@
 
 #include "Azoomee.h"
 #include <cocos/cocos2d.h>
+#include "Application.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -55,6 +56,8 @@ public:
     bool biometricAuthenticationAvailable();
     void startBiometricAuthentication();
     void stopBiometricAuthentication();
+    
+    void setOrientation(Application::Orientation orientation);
     
 private:
     

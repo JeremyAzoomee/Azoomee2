@@ -16,6 +16,7 @@
 #import <Mixpanel/Mixpanel.h>
 #import "Utils/BiometricAuthenticationHandler.h"
 #import "Utils/LocaleManager.h"
+#import "Platform/iOS/AzoomeeViewController.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -136,6 +137,23 @@ void Device::startBiometricAuthentication()
 void Device::stopBiometricAuthentication()
 {
     //Do Nothing, is handled by OS
+}
+
+void Device::setOrientation(Application::Orientation orientation)
+{
+    AzoomeeViewController* rootViewController = [AzoomeeViewController sharedInstance];
+    switch(orientation)
+    {
+        case Application::Orientation::Portrait:
+            [rootViewController setOrientationToPortrait];
+            break;
+        case Application::Orientation::Landscape:
+            [rootViewController setOrientationToLandscape];
+            break;
+        case Application::Orientation::Any:
+            [rootViewController setOrientationToAny];
+            break;
+    }
 }
 
 NS_AZOOMEE_END

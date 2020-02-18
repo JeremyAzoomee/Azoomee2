@@ -11,6 +11,7 @@
 #include "Utils/StringFunctions.h"
 #include "platform/android/jni/JniHelper.h"
 static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppActivity";
+static const std::string kCommonActivityJavaClassName = "com/tinizine/azoomee/common/AzoomeeActivity";
 
 using namespace cocos2d;
 
@@ -98,6 +99,22 @@ void Device::startBiometricAuthentication()
 void Device::stopBiometricAuthentication()
 {
     JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "stopFingerprintAuthentication");
+}
+
+void Device::setOrientation(Application::Orientation orientation)
+{
+    switch(orientation)
+    {
+        case Application::Orientation::Portrait:
+            JniHelper::callStaticVoidMethod(kCommonActivityJavaClassName, "setOrientationPortrait");
+            break;
+        case Application::Orientation::Landscape:
+            JniHelper::callStaticVoidMethod(kCommonActivityJavaClassName, "setOrientationLandscape");
+            break;
+        case Application::Orientation::Any:
+            JniHelper::callStaticVoidMethod(kCommonActivityJavaClassName, "setOrientationAny");
+            break;
+    }
 }
 
 NS_AZOOMEE_END
