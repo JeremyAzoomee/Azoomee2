@@ -12,8 +12,9 @@ using namespace cocos2d;
 #define INPUT_STYLE_SIZE 88
 
 
-namespace Azoomee
-{
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 TextInputLayer* TextInputLayer::createWithSize(Size inputBoxSize, int textInputType)
 {
@@ -516,7 +517,7 @@ void TextInputLayer::editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox)
     auto pos = editBox->convertToWorldSpace(editBox->getPosition());
     pos.y -= editBox->getContentSize().height;
     bool isPortrait = Director::getInstance()->getVisibleSize().width < Director::getInstance()->getVisibleSize().height;
-    float height = UserDefault::getInstance()->getFloatForKey(isPortrait ? Device::kEstimatedKeyboardHeightPortrait : Device::kEstimatedKeyboardHeightLandscape);
+    float height = UserDefault::getInstance()->getFloatForKey(isPortrait ? TZ::Device::kEstimatedKeyboardHeightPortrait : TZ::Device::kEstimatedKeyboardHeightLandscape);
     if(pos.y < height)
     {
         Director::getInstance()->getRunningScene()->setPositionY(height - pos.y);
@@ -543,4 +544,4 @@ void TextInputLayer::editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox)
     }
 }
   
-}
+NS_AZ_END

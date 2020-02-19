@@ -19,7 +19,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const Size ChatHQ::kFriendTileSize = Size(300,450);
 
@@ -63,7 +65,7 @@ void ChatHQ::onEnter()
     const std::string& childName = child->getProfileName();
     const std::string& childAvatar = child->getAvatar();
     _currentUser = Chat::Friend::create(childId, childName, childAvatar);
-    Azoomee::Chat::delegate = ChatDelegate::getInstance();
+    AZ::Chat::delegate = ChatDelegate::getInstance();
     Chat::ChatAPI::getInstance()->registerObserver(this);
     Chat::ChatAPI::getInstance()->requestFriendList();
     Chat::ChatAPI::getInstance()->scheduleFriendListPoll();
@@ -232,4 +234,4 @@ void ChatHQ::onChatAPIGetTimelineSummary(const Chat::MessageList& messageList)
 }
 
 
-NS_AZOOMEE_END
+NS_AZ_END

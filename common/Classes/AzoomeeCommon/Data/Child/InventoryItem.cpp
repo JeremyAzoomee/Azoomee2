@@ -7,7 +7,7 @@
 
 #include "InventoryItem.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 const std::string InventoryItem::kAccessoryType = "ACCESSORIES";
 
@@ -65,5 +65,5 @@ std::string InventoryItem::getMeta() const
 	return _meta;
 }
 
-NS_AZOOMEE_END
+NS_TZ_END
 

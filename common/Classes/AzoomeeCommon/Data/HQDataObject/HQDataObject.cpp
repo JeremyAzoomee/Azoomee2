@@ -1,6 +1,6 @@
 #include "HQDataObject.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 const std::string HQDataObject::kGroupHQName = "GROUP HQ";  //custom hq to hold series content
 
@@ -87,4 +87,4 @@ void MutableHQDataObject::clearData()
     _images.clear();
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

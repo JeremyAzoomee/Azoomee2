@@ -8,10 +8,10 @@
 #ifndef NotificationNode_h
 #define NotificationNode_h
 
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include <cocos/cocos2d.h>
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 // layers that extend NotificationNode will be used to diaplay visuals on the notifications node, set by Director::getInstance()->setNotificationNode(Node);
 // notification nodes exists above all normal scene layers, so isnt impacted by scene transitions, allowing it to work with the async mechanics.
@@ -29,6 +29,6 @@ public:
 	CREATE_FUNC(NotificationNode);
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif /* NotificationNode_h */

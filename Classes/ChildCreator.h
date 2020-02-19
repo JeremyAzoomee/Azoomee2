@@ -10,11 +10,14 @@
 
 #include <memory>
 #include <string>
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
 #include <AzoomeeCommon/Data/Child/Child.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class ChildCreator;
 typedef std::shared_ptr<ChildCreator> ChildCreatorRef;
@@ -50,6 +53,6 @@ public:
 	bool updateChild(const ChildRef& child);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* ChildCreator_h */

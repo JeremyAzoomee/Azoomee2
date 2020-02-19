@@ -11,8 +11,7 @@ using namespace cocos2d;
 using namespace rapidjson;
 
 
-namespace Azoomee
-{
+NS_TZ_BEGIN
     
 #pragma mark SETTERS
 
@@ -273,4 +272,4 @@ std::string JWTTool::getJWTSignature(std::string sHeader, std::string sBody)
     return encodedSignature;
 }
   
-}
+NS_TZ_END

@@ -7,7 +7,7 @@
 
 #include "ShopDisplayItem.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 ShopDisplayItemRef ShopDisplayItem::createWithJson(const rapidjson::Value& shopDisplayItemData)
 {
@@ -86,4 +86,4 @@ std::string ShopDisplayItem::getPurchaseUrl() const
 	return _purchaseUrl;
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

@@ -15,7 +15,9 @@ using namespace cocos2d;
 
 #define PIN_Z_ORDER 3000
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const std::string RequestAdultPinLayer::kAndroidMsgBoxName = "androidBiometricMessageBox";
 
@@ -375,4 +377,4 @@ void RequestAdultPinLayer::setPinIsForPayment(bool pinIsForPayment)
     _pinIsForPayment = pinIsForPayment;
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

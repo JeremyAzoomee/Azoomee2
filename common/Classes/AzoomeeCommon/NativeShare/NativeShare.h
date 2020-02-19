@@ -2,11 +2,12 @@
 #define AzoomeeCommon_NativeShare_h
 
 #include <cocos/cocos2d.h>
+#include "../Tinizine.h"
 
-namespace Azoomee
-{
+NS_TZ_BEGIN
   
     void nativeShareScreenString(const std::string& shareString);
-}
+
+NS_TZ_END
 
 #endif

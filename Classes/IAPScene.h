@@ -8,19 +8,22 @@
 #ifndef IAPScene_h
 #define IAPScene_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/UI/Scene.h>
 #include "MarketingCarousel.h"
 #include "ProductLayout.h"
 #include "IAPFooter.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
 
-class IAPScene : public Azoomee::Scene
+NS_AZ_BEGIN
+
+class IAPScene : public TZ::Scene
 {
-	typedef Azoomee::Scene Super;
+	typedef TZ::Scene Super;
 private:
 	MarketingCarousel* _marketingCarousel = nullptr;
 	ProductLayout* _productLayout = nullptr;
@@ -41,6 +44,6 @@ public:
 };
 
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* IAPScene_h */

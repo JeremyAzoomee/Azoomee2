@@ -8,12 +8,12 @@
 #ifndef FileDownloader_h
 #define FileDownloader_h
 
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include <cocos/cocos2d.h>
 #include <cocos/network/HttpClient.h>
 #include <memory>
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class FileDownloader;
 typedef std::shared_ptr<FileDownloader> FileDownloaderRef;
@@ -46,6 +46,6 @@ public:
     void downloadFileFromServerAnswerReceived(cocos2d::network::HttpClient* sender, cocos2d::network::HttpResponse* response);
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif /* FileDownloader_h */

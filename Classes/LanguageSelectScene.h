@@ -8,19 +8,22 @@
 #ifndef LanguageSelectScene_h
 #define LanguageSelectScene_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/UI/Scene.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/DynamicText.h>
 #include <AzoomeeCommon/UI/RoundedRectSprite.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
 
-class LanguageSelectScene : public Azoomee::Scene
+NS_AZ_BEGIN
+
+class LanguageSelectScene : public TZ::Scene
 {
-	typedef Azoomee::Scene Super;
+	typedef TZ::Scene Super;
 private:
 	static const std::string kGreekLangID;
     static const cocos2d::Size kBaseButtonSize;
@@ -51,7 +54,7 @@ public:
 	CREATE_FUNC(LanguageSelectScene);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 
 #endif /* LanguageSelectScene_h */

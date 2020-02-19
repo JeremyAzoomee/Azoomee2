@@ -8,13 +8,13 @@
 #ifndef Inventory_h
 #define Inventory_h
 
-#include "../../Azoomee.h"
+#include "../../Tinizine.h"
 #include <string>
 #include <memory>
 #include "../Json.h"
 #include "InventoryItem.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class Inventory;
 typedef std::shared_ptr<Inventory> InventoryRef;
@@ -40,6 +40,6 @@ public:
 	
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif /* Inventory_h */

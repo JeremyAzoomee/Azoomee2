@@ -10,12 +10,15 @@
 
 //#define STANDALONE_APP YES
 
-#define NS_AZOOMEE_OM_BEGIN namespace Azoomee { namespace OomeeMaker {
-#define NS_AZOOMEE_OM_END }}
+#define NS_AZ_OM_BEGIN namespace AZ { namespace OomeeMaker {
+#define NS_AZ_OM_END }}
 
 #include <string>
+#include <AzoomeeCommon/Tinizine.h>
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 // Delegate is used to deal with navigating outside the oomee maker app
 struct Delegate {
@@ -29,6 +32,6 @@ struct Delegate {
 // Delegate instance in namespace
 extern Delegate* delegate;
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END
 
 #endif /* AzoomeeOomeeMaker_h */

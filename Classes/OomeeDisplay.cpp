@@ -14,7 +14,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const cocos2d::Size OomeeDisplay::kKidCodeFrameSize = Size(334,217);
 const cocos2d::Size OomeeDisplay::kKidCodeFramePadding = Size(10,10);
@@ -176,4 +178,4 @@ void OomeeDisplay::onImageDownloadFailed()
     
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

@@ -8,7 +8,7 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 	
 LanguageParams::LanguageParams(const std::string& identifier, const std::string& name, const std::string& text)
 {
@@ -290,4 +290,4 @@ void LocaleManager::onFileDownloadComplete(const std::string& fileString, const 
 	}
 }
   
-NS_AZOOMEE_END
+NS_TZ_END

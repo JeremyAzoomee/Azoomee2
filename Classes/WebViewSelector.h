@@ -2,11 +2,14 @@
 #define __WEBVIEWSELECTOR_SCENE_H__
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <AzoomeeCommon/UI/UIConsts.h>
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class WebViewSelector : public cocos2d::Layer, HttpRequestCreatorResponseDelegate
 {
@@ -38,6 +41,6 @@ public:
 
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif // __WEBVIEW_SCENE_H__

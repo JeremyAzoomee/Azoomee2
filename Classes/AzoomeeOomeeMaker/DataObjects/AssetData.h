@@ -12,7 +12,9 @@
 #include <AzoomeeCommon/Data/Json.h>
 #include <string>
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 class AssetData;
 typedef std::vector<AssetData> AssetSet;
@@ -38,6 +40,6 @@ public:
 
 
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END
 
 #endif /* AssetData_h */

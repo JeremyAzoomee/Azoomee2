@@ -9,7 +9,7 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 bool MessagePopupBase::init()
 {
@@ -29,4 +29,4 @@ bool MessagePopupBase::init()
     return true;
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

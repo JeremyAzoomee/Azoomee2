@@ -9,7 +9,9 @@ using namespace cocos2d;
 
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 bool StickerSelector::init()
 {
@@ -102,4 +104,4 @@ void StickerSelector::addStickerSelectedEventListener(const StickerSelectedCallb
     _selectedEventCallback = callback;
 }
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

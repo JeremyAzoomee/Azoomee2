@@ -8,7 +8,9 @@
 
 #include "PatternFileStorage.h"
 
-NS_AZOOMEE_AA_BEGIN
+USING_NS_TZ
+
+NS_AZ_AA_BEGIN
 
 static std::auto_ptr<PatternFileStorage> sPatternFileStorageSharedInstance;
 
@@ -53,4 +55,4 @@ std::string PatternFileStorage::getTransparantFileByName(const std::string &name
     }
 }
 
-NS_AZOOMEE_AA_END
+NS_AZ_AA_END

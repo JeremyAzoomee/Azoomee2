@@ -5,7 +5,7 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 static VideoPlaylistManager *_sharedVideoPlaylistManager = NULL;
 
@@ -117,4 +117,4 @@ HQContentItemObjectRef VideoPlaylistManager::getContentItemDataForPlaylistElemen
     return _storedPlaylist->getContentItems().at(elementNumber);
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

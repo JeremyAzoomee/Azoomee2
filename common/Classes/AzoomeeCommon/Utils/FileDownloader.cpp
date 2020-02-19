@@ -12,7 +12,7 @@
 
 using namespace cocos2d::network;
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 const std::string FileDownloader::kEtagName = "ETag";
@@ -102,4 +102,4 @@ void FileDownloader::downloadFileFromServerAnswerReceived(cocos2d::network::Http
     }
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

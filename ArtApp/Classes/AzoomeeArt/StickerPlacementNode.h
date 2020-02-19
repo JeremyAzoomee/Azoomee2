@@ -14,7 +14,8 @@
 #include <vector>
 #include "AzoomeeArtApp.h"
 
-NS_AZOOMEE_AA_BEGIN
+USING_NS_TZ
+NS_AZ_AA_BEGIN
 
 class StickerPlacementNode : public cocos2d::Node
 {
@@ -47,6 +48,6 @@ public:
     void updateStickerControls();
 };
 
-NS_AZOOMEE_AA_END
+NS_AZ_AA_END
 
 #endif /* StickerPlacementNode_h */

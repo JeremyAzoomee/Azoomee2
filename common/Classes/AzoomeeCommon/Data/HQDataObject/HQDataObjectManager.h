@@ -2,10 +2,10 @@
 #define __HQDATAOBJECTMANAGER_IOS_H__
 
 #include "cocos2d.h"
-#include "../../Azoomee.h"
+#include "../../Tinizine.h"
 #include "HQDataObject.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class HQDataObjectManager
 {
@@ -31,6 +31,6 @@ private:
     std::string _currentHQDataEtag;
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif

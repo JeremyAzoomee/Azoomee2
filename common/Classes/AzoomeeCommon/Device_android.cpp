@@ -15,7 +15,7 @@ static const std::string kCommonActivityJavaClassName = "com/tinizine/azoomee/co
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 std::string Device::getDeviceInformation()
 {
@@ -117,4 +117,4 @@ void Device::setOrientation(Application::Orientation orientation)
     }
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

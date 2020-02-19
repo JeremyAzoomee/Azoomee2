@@ -5,8 +5,7 @@
 
 static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppActivity";
 
-namespace Azoomee
-{
+NS_TZ_BEGIN
   
 //------------- CONVERSION FUNCTIONS --------------
 
@@ -102,4 +101,4 @@ void AnalyticsSingleton::appsFlyerSendEvent(const std::string& eventID, const st
 	
 }
   
-}
+NS_TZ_END

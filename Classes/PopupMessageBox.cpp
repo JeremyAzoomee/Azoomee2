@@ -13,7 +13,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const std::string PopupMessageBox::kPopupMessageBoxName = "messageBox";
 const float PopupMessageBox::kPopupSize = 1096.0f;
@@ -288,4 +290,4 @@ void PopupMessageBox::setSecondButtonPressedCallback(const ButtonPressedCallback
     _secondCallback = callback;
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

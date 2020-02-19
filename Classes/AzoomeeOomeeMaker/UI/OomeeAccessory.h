@@ -13,7 +13,9 @@
 #include "../DataObjects/OomeeColour.h"
 #include <cocos/cocos2d.h>
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 class OomeeAccessory : public cocos2d::Node
 {
@@ -42,7 +44,7 @@ public:
     CREATE_FUNC(OomeeAccessory);
 };
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END
 
 
 #endif /* OomeeAccessory_h */

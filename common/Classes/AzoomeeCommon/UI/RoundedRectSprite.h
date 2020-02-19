@@ -8,10 +8,10 @@
 #ifndef RoundedRectSprite_h
 #define RoundedRectSprite_h
 
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include <cocos/cocos2d.h>
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 /*
    OpenGL ES only supports repeating textures when texture sizes are a power of 2, so this class will only work as intended
    when using tile mode if Po2 textures are passed into it.
@@ -46,6 +46,6 @@ public:
     CREATE_FUNC(RoundedRectSprite);
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif /* RoundedRectSprite_h */

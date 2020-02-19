@@ -1,12 +1,12 @@
 #ifndef AzoomeeCommon_LayoutParams_h
 #define AzoomeeCommon_LayoutParams_h
 
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 // Some convenience methods for creating Layout params
 
@@ -151,6 +151,6 @@ inline void SetSizePercentHeightForSquareAspectRatio(cocos2d::ui::Widget* widget
     SetSizePercentHeightAspectRatio(widget, cocos2d::Vec2(1.0f, 1.0f));
 }
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif

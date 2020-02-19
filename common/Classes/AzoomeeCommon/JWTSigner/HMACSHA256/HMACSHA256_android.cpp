@@ -7,8 +7,7 @@ static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppAc
 using namespace cocos2d;
 
 
-namespace Azoomee
-{
+NS_TZ_BEGIN
 
 std::string HMACSHA256::getHMACSHA256Hash(const std::string& message, const std::string& secret)
 {
@@ -19,4 +18,4 @@ std::string HMACSHA256::getHMACSHA256Hash(const std::string& message, const std:
     return hmacResponse;
 }
     
-}
+NS_TZ_END

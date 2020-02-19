@@ -2,10 +2,13 @@
 #define __OFFLINECHECKER_H__
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include "network/HttpClient.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class OfflineChecker;
 
@@ -40,6 +43,6 @@ private:
     int _amountOfFailures = 0;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif

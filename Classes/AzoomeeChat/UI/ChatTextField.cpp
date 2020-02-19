@@ -4,7 +4,9 @@
 using namespace cocos2d;
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 ChatTextField* ChatTextField::create()
 {
@@ -62,4 +64,4 @@ bool ChatTextField::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* unusedEv
 //    ;
 //}
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

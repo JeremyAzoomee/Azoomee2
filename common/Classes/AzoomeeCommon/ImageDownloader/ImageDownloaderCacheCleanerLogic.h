@@ -2,10 +2,9 @@
 #define AzoomeeCommon_ImageDownloaderCacheCleanerLogic_h
 
 #include <cocos/cocos2d.h>
+#include "../Tinizine.h"
 
-
-namespace Azoomee
-{
+NS_TZ_BEGIN
 
 class ImageDownloaderCacheCleanerLogic : public cocos2d::Ref
 {
@@ -23,6 +22,6 @@ private:
     int numberOfImagesRemoved;
 };
   
-}
+NS_TZ_END
 
 #endif

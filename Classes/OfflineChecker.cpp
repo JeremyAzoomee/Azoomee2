@@ -4,7 +4,9 @@
 using namespace cocos2d;
 using namespace network;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 static OfflineChecker *_sharedOfflineChecker = NULL;
 
@@ -97,4 +99,4 @@ void OfflineChecker::onOfflineCheckFailed()
     }
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

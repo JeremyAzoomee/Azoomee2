@@ -12,7 +12,7 @@ using namespace cocos2d;
 using namespace cocos2d::network;
 
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 HttpRequestCreator::HttpRequestCreator(HttpRequestCreatorResponseDelegate* delegate) :
   delegate(delegate)
@@ -293,4 +293,4 @@ void HttpRequestCreator::handleEventAfterError(const std::string& requestTag, lo
     }
 }
   
-NS_AZOOMEE_END
+NS_TZ_END

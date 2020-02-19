@@ -8,22 +8,25 @@
 #ifndef SettingsHub_h
 #define SettingsHub_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <AzoomeeCommon/UI/Scene.h>
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
 #include <cocos/cocos2d.h>
 #include <ui/CocosGUI.h>
 #include "RequestAdultPinLayer.h"
 #include "SettingsNavigationButton.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 enum class SettingsPages {LANGUAGE, KIDS, FRIENDSHIPS, ACCOUNT, ONLINE_SAFETY, SUPPORT};
 enum class SettingsOrigin {HQ, CHILD_SELECT, CHAT};
 
-class SettingsHub : public Azoomee::Scene, RequestAdultPinLayerDelegate, HttpRequestCreatorResponseDelegate
+class SettingsHub : public TZ::Scene, RequestAdultPinLayerDelegate, HttpRequestCreatorResponseDelegate
 {
-    typedef Azoomee::Scene Super;
+    typedef TZ::Scene Super;
 private:
 	SettingsOrigin _origin = SettingsOrigin::CHILD_SELECT;
 	
@@ -69,6 +72,6 @@ public:
 	void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* SettingsHub_h */

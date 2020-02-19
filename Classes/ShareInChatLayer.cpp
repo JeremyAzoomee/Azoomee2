@@ -15,7 +15,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const float ShareInChatLayer::kSavedImgWidth = 640.0f;
 
@@ -232,4 +234,4 @@ void ShareInChatLayer::setOnCompleteCallback(const OnCompleteCallbackCallback& c
     _callback = callback;
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

@@ -1,12 +1,12 @@
 #ifndef AzoomeeCommon_HttpRequestCreator_h
 #define AzoomeeCommon_HttpRequestCreator_h
 
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include <cocos/cocos2d.h>
 #include <cocos/network/HttpClient.h>
 
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 /**
  * A delegate to respond to success or failure responses to a HttpRequest
@@ -74,6 +74,6 @@ private:
     void handleEventAfterError(const std::string& requestTag, long errorCode);
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif

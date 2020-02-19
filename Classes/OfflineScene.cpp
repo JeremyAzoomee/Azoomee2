@@ -19,7 +19,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const Size OfflineScene::kTileSize = Size(570, 430);
 const float OfflineScene::kPadding = 20.0f;
@@ -235,5 +237,5 @@ void OfflineScene::connectivityStateChanged(bool online)
     }
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 

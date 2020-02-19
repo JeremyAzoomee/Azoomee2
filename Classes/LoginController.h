@@ -2,9 +2,12 @@
 #define __LOGIN_CONTROLLER_H__
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 enum class LoginOrigin {LOGOUT, IAP_PAYWALL, SIGNUP, HQ};
 
@@ -32,6 +35,6 @@ public:
     LoginOrigin getOrigin() const;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif

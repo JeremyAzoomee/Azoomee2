@@ -9,7 +9,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const int RewardScreen::kAutoCallbackActionTag = 9999;
 
@@ -75,4 +77,4 @@ void RewardScreen::setRewardData(const RewardItemRef &reward)
 	_rewardData = reward;
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

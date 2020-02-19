@@ -1,11 +1,14 @@
 #ifndef Azoomee_SettingsButton_h
 #define Azoomee_SettingsButton_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class SettingsButton : public cocos2d::ui::Button
 {
@@ -18,6 +21,6 @@ public:
     CREATE_FUNC(SettingsButton);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif

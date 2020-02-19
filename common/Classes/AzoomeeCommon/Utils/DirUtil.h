@@ -8,10 +8,10 @@
 #ifndef DirUtil_h
 #define DirUtil_h
 
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include "cocos2d.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
     
 class DirUtil
 {
@@ -33,6 +33,6 @@ public:
     
 };
     
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif

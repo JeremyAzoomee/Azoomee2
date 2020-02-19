@@ -12,7 +12,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool SettingsMessageBox::init()
 {
@@ -62,7 +64,7 @@ void SettingsMessageBox::onExit()
     Super::onExit();
 }
 
-void SettingsMessageBox::setDelegate(Azoomee::SettingsMessageBoxDelegate *delegate)
+void SettingsMessageBox::setDelegate(AZ::SettingsMessageBoxDelegate *delegate)
 {
     _delegate = delegate;
 }
@@ -79,4 +81,4 @@ void SettingsMessageBox::onButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Wid
     }
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

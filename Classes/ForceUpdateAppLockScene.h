@@ -2,17 +2,20 @@
 #define __Azoomee_ForceUpdateAppLockScene_H__
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <AzoomeeCommon/UI/Scene.h>
 #include <AzoomeeCommon/UI/DynamicText.h>
 #include <AzoomeeCommon/UI/TextButton.h>
 #include <AzoomeeCommon/UI/RoundedRectSprite.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
 
-class ForceUpdateAppLockScene : public Azoomee::Scene
+NS_AZ_BEGIN
+
+class ForceUpdateAppLockScene : public TZ::Scene
 {
-    typedef Azoomee::Scene Super;
+    typedef TZ::Scene Super;
 private:
     RoundedRectSprite* _bgPattern = nullptr;
     cocos2d::LayerGradient* _bgGradient = nullptr;
@@ -31,6 +34,6 @@ public:
 
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif

@@ -15,7 +15,9 @@
 #include "OomeeColour.h"
 #include <AzoomeeCommon/Data/Json.h>
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 class OomeeMakerDataStorage
 {
@@ -66,6 +68,6 @@ public:
     bool _initialised = false;
 };
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END
 
 #endif /* OomeeMakerDataStorage_h */

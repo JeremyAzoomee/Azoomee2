@@ -5,7 +5,7 @@ using namespace cocos2d;
 #define CIRCLE_TAG 1000
 #define WEBVIEW_Z_ORDER 2000
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 Layer* ModalWebview::createWithURL(std::string url)
 {

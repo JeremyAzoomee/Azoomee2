@@ -9,8 +9,11 @@
 #define VodacomMessageBoxInfo_h
 
 #include "../SettingsMessageBox.h"
+#include "../Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class VodacomMessageBoxInfo : public SettingsMessageBox
 {
@@ -28,7 +31,7 @@ public:
 	CREATE_FUNC(VodacomMessageBoxInfo);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 
 #endif /* VodacomMessageBoxInfo_h */

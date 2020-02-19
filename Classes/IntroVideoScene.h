@@ -2,16 +2,19 @@
 #define __INTRO_VIDEO_SCENE_H__
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <AzoomeeCommon/UI/Scene.h>
 #include "ForceUpdateSingleton.h"
 #include "ui/UIVideoPlayer.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
 
-class IntroVideoScene: public Azoomee::Scene, ForceUpdateDelegate
+NS_AZ_BEGIN
+
+class IntroVideoScene: public TZ::Scene, ForceUpdateDelegate
 {
-    typedef Azoomee::Scene Super;
+    typedef TZ::Scene Super;
 private:
     static const char* const kSkipVideoKeyInUserDefault;
     
@@ -36,6 +39,6 @@ public:
 	void onForceUpdateCheckFinished(const ForceUpdateResult& result) override;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif // __INTRO_VIDEO_SCENE_H__

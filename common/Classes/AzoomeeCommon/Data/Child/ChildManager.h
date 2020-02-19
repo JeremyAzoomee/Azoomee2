@@ -12,7 +12,7 @@
 #include "../Json.h"
 #include "Child.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 	
 class ChildManager
 {
@@ -49,6 +49,6 @@ private:
 	MutableChildRef _loggedInChild = nullptr;
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif /* ChildManager_h */

@@ -15,7 +15,9 @@
 using namespace cocos2d;
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 bool FriendListScene::init()
 {
@@ -31,7 +33,7 @@ bool FriendListScene::init()
     _rootLayout->setSizeType(ui::Widget::SizeType::PERCENT);
     _rootLayout->setSizePercent(Vec2(1.0f, 1.0f));
     
-    if(Device::getInstance()->isDeviceIphoneX())
+    if(TZ::Device::getInstance()->isDeviceIphoneX())
     {
         const bool isLandscape = _rootLayout->getContentSize().width > _rootLayout->getContentSize().height;
         
@@ -127,7 +129,7 @@ void FriendListScene::onSizeChanged()
     const cocos2d::Size& contentSize = getContentSize();
     const bool isLandscape = contentSize.width > contentSize.height;
     
-    if(Device::getInstance()->isDeviceIphoneX())
+    if(TZ::Device::getInstance()->isDeviceIphoneX())
     {
         if(isLandscape)
         {
@@ -225,7 +227,7 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     
     //childAvatar->setScale(0.25f);
     
-    auto childInfoLabel = ui::Text::create(displayName, Azoomee::Style::Font::Regular(), 48);
+    auto childInfoLabel = ui::Text::create(displayName, AZ::Style::Font::Regular(), 48);
     childInfoLabel->setColor(Colours::Color_3B::white);
     childInfoLabel->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
     childInfoLabel->setSizeType(ui::Widget::SizeType::ABSOLUTE);
@@ -256,7 +258,7 @@ void FriendListScene::onBackButtonPressed()
     // Reset the polling time
     ChatAPI::getInstance()->scheduleFriendListPoll( ChatAPI::kScheduleRateLow );
     
-    Azoomee::Chat::delegate->onChatNavigationBack();
+    AZ::Chat::delegate->onChatNavigationBack();
 }
 
 void FriendListScene::onFriendListItemSelected(const FriendRef& friendData)
@@ -316,4 +318,4 @@ void FriendListScene::onChatAPIRefreshChildSession()
 	ChatAPI::getInstance()->scheduleFriendListPoll( ChatAPI::kScheduleRateHigh );
 }
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

@@ -15,7 +15,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 static std::auto_ptr<ChatDelegate> sChatDelegateSharedInstance;
 
@@ -39,7 +41,7 @@ void ChatDelegate::shareContentInChat()
     }
 }
 
-#pragma mark - Azoomee::Chat::Delegate
+#pragma mark - AZ::Chat::Delegate
 
 void ChatDelegate::onChatNavigationBack()
 {
@@ -123,4 +125,4 @@ void ChatDelegate::onImageDownloadFailed()
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ShareInChatScene));
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

@@ -8,15 +8,18 @@
 #ifndef EpisodeSelector_h
 #define EpisodeSelector_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObject.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
 #include <AzoomeeCommon/UI/RoundedRectSprite.h>
 #include "EpisodeBar.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class EpisodeSelector : public cocos2d::ui::Layout, ImageDownloaderDelegate
 {
@@ -87,6 +90,6 @@ public:
     virtual void onImageDownloadFailed() override;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* EpisodeSelector_h */

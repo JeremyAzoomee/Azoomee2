@@ -18,7 +18,9 @@
 #include <AzoomeeCommon/UI/CCSpriteWithHue.h>
 #include <cocos/cocos2d.h>
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 enum class AccessoryAction {ADD, REMOVE};
 
@@ -96,6 +98,6 @@ public:
     static bool touchOnSpritePixelPerfect(cocos2d::Touch* touch, cocos2d::Sprite* targetSprite);
 };
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END
 
 #endif /* OomeeFigure_h */

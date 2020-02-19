@@ -29,9 +29,6 @@
 #import <AppsFlyerLib/AppsFlyerTracker.h>
 #import <AirshipKit/AirshipKit.h>
 
-using namespace Azoomee;
-
-
 @implementation AppController
 
 @synthesize window;

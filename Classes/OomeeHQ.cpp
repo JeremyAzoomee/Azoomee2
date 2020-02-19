@@ -24,7 +24,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool OomeeHQ::init()
 {
@@ -393,4 +395,4 @@ void OomeeHQ::setDropdownOpen()
     _offlineDropdown->setOpen(true);
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

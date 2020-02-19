@@ -3,13 +3,13 @@
 
 #include <string>
 #include <cocos/cocos2d.h>
+#include "../Tinizine.h"
 
 #if !defined(DEBUG)
 #define CRASHLYTICS_ENABLED
 #endif
 
-namespace Azoomee
-{
+NS_TZ_BEGIN
 namespace CrashlyticsConsts
 {
 	const std::string kContentIdKey = "contentId";
@@ -22,6 +22,6 @@ void createCrashlyticsException(const std::string& exceptionDomain, int exceptio
 void createCrashlyticsUserInfo(const std::string& AdultIdentifier, const std::string& ChildIdentifier);
 void setCrashlyticsKeyWithString(const std::string& key, const std::string& dataString);
   
-}
+NS_TZ_END
 
 #endif

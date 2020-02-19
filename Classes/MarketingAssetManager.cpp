@@ -10,7 +10,9 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 MarketingAssetRef MarketingAsset::create()
 {
@@ -193,4 +195,4 @@ void MarketingAssetManager::onImageDownloadFailed()
 	
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

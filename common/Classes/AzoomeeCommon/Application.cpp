@@ -10,7 +10,7 @@
 #endif
 
 using namespace cocos2d;
-using namespace Azoomee;
+using namespace TZ;
 
 static cocos2d::Size designResolutionLandscapeSize = cocos2d::Size(2732, 2048);
 static cocos2d::Size designResolutionPortraitSize = cocos2d::Size(designResolutionLandscapeSize.height, designResolutionLandscapeSize.width);
@@ -24,7 +24,7 @@ extern "C"
     {
         if(env)
         {
-            Azoomee::Application* appDel = (Azoomee::Application*)cocos2d::Application::getInstance();
+            TZ::Application* appDel = (TZ::Application*)cocos2d::Application::getInstance();
             appDel->onVirtualKeyboardShown(true, height);
         }
     }
@@ -33,7 +33,7 @@ extern "C"
     {
         if(env)
         {
-            Azoomee::Application* appDel = (Azoomee::Application*)cocos2d::Application::getInstance();
+            TZ::Application* appDel = (TZ::Application*)cocos2d::Application::getInstance();
             appDel->onVirtualKeyboardShown(false, height);
         }
     }
@@ -42,7 +42,7 @@ extern "C"
 #endif
 
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 // if you want a different context, modify the value of glContextAttrs
 // it will affect all platforms
@@ -84,7 +84,7 @@ bool Application::applicationDidFinishLaunching()
     auto frameSize = glview->getFrameSize();
     applicationScreenSizeChanged(frameSize.width, frameSize.height);
 
-	Device::getInstance()->setIsDevicePhone(MAX(frameSize.width, frameSize.height) / MIN(frameSize.width, frameSize.height) >= 1.71); // sweet spot between 16/9 and 16/10 to keep most tablets open for landscape
+	TZ::Device::getInstance()->setIsDevicePhone(MAX(frameSize.width, frameSize.height) / MIN(frameSize.width, frameSize.height) >= 1.71); // sweet spot between 16/9 and 16/10 to keep most tablets open for landscape
 	
     return true;
 }
@@ -121,9 +121,9 @@ void Application::applicationScreenSizeChanged(int newWidth, int newHeight)
 {
     updateResolution(newWidth, newHeight);
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    // Notify the running scene if it's an Azoomee::Scene
+    // Notify the running scene if it's an TZ::Scene
     auto director = Director::getInstance();
-    Azoomee::Scene* scene = dynamic_cast<Azoomee::Scene*>(director->getRunningScene());
+    TZ::Scene* scene = dynamic_cast<TZ::Scene*>(director->getRunningScene());
     if(scene != nullptr)
     {
         scene->screenSizeDidChange();
@@ -136,9 +136,9 @@ void Application::applicationScreenSizeWillChange(int newWidth, int newHeight, f
 {
     updateResolution(newWidth, newHeight);
     
-    // Notify the running scene if it's an Azoomee::Scene
+    // Notify the running scene if it's an TZ::Scene
     auto director = Director::getInstance();
-    Azoomee::Scene* scene = dynamic_cast<Azoomee::Scene*>(director->getRunningScene());
+    TZ::Scene* scene = dynamic_cast<TZ::Scene*>(director->getRunningScene());
     if(scene != nullptr)
     {
         scene->screenSizeWillChange(duration);
@@ -157,13 +157,13 @@ void Application::updateResolution(int newWidth, int newHeight)
     // Landscape
     if(newWidth > newHeight)
     {
-        Azoomee::AnalyticsSingleton::getInstance()->setLandscapeOrientation();
+        TZ::AnalyticsSingleton::getInstance()->setLandscapeOrientation();
         glview->setDesignResolutionSize(designResolutionLandscapeSize.width, designResolutionLandscapeSize.height, ResolutionPolicy::NO_BORDER);
     }
     // Portrait
     else
     {
-        Azoomee::AnalyticsSingleton::getInstance()->setPortraitOrientation();
+        TZ::AnalyticsSingleton::getInstance()->setPortraitOrientation();
         glview->setDesignResolutionSize(designResolutionPortraitSize.width, designResolutionPortraitSize.height, ResolutionPolicy::NO_BORDER);
     }
 }
@@ -182,7 +182,7 @@ void Application::setOrientation(Orientation orientation)
     {
         cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) frameSize.height, (int) frameSize.width);
     }
-    Device::getInstance()->setOrientation(orientation);
+    TZ::Device::getInstance()->setOrientation(orientation);
 }
 
 
@@ -216,5 +216,5 @@ void Application::onVirtualKeyboardShown(bool shown, int height)
 
 #endif
 
-NS_AZOOMEE_END
+NS_TZ_END
 

@@ -8,11 +8,11 @@
 #ifndef Device_h
 #define Device_h
 
-#include "Azoomee.h"
+#include "Tinizine.h"
 #include <cocos/cocos2d.h>
 #include "Application.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class Device
 {
@@ -69,6 +69,6 @@ private:
     std::string _clientIp = "";
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif /* Device_h */

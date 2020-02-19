@@ -14,7 +14,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 void OomeeItemList::doLayout()
 {
@@ -162,4 +164,4 @@ void OomeeItemList::setColumns(int columns)
     _columns = columns;
 }
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END

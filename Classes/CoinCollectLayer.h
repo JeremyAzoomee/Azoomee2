@@ -8,12 +8,15 @@
 #ifndef CoinCollectLayer_h
 #define CoinCollectLayer_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include "RewardScreen.h"
 #include <AzoomeeCommon/UI/RoundedRectSprite.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class CoinCollectLayer : public RewardScreen
 {
@@ -66,7 +69,7 @@ public:
 	CREATE_FUNC(CoinCollectLayer);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 
 #endif /* CoinCollectLayer_h */

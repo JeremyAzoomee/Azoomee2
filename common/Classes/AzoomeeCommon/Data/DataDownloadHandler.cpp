@@ -8,7 +8,7 @@
 #include "DataDownloadHandler.h"
 #include "../Utils/DirUtil.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 
 DataDownloadHandler::DataDownloadHandler()
@@ -70,4 +70,4 @@ void DataDownloadHandler::onFileDownloadComplete(const std::string& fileString, 
 	
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

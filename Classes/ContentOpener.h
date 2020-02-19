@@ -8,12 +8,15 @@
 #ifndef ContentOpener_h
 #define ContentOpener_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include "cocos2d.h"
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 #include <AzoomeeCommon/API/API.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class ContentOpener : public HttpRequestCreatorResponseDelegate
 {
@@ -36,6 +39,6 @@ public:
 	void onHttpRequestFailed(const std::string& requestTag, long errorCode);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* ContentOpener_h */

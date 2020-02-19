@@ -11,7 +11,9 @@
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 static std::auto_ptr<TutorialController> sTutorialContollerSharedInstance;
 
@@ -227,4 +229,4 @@ void TutorialController::setTutorialCompleted(const std::string& tutorialId)
 	cocos2d::UserDefault::getInstance()->setBoolForKey((tutorialId + "_" + ChildManager::getInstance()->getLoggedInChild()->getId()).c_str(), true);
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

@@ -3,11 +3,14 @@
 
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include "TextInputLayer.h"
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class RequestAdultPinLayer;
 
@@ -18,7 +21,7 @@ public:
     virtual void AdultPinAccepted(RequestAdultPinLayer* layer) = 0;
 };
 
-class RequestAdultPinLayer : public cocos2d::ui::Layout, public TextInputLayerDelegate, public Azoomee::HttpRequestCreatorResponseDelegate
+class RequestAdultPinLayer : public cocos2d::ui::Layout, public TextInputLayerDelegate, public TZ::HttpRequestCreatorResponseDelegate
 {
     typedef cocos2d::ui::Layout Super;
 private:
@@ -83,6 +86,6 @@ public:
     
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif

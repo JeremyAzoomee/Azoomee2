@@ -9,7 +9,7 @@
 #import "WebViewController_ios.h"
 #import "ios_Cocos2d_Callbacks.h"
 
-using namespace Azoomee;
+using namespace AZ;
 
 @implementation WebViewController
 
@@ -430,7 +430,7 @@ using namespace Azoomee;
     
     [webview removeFromSuperview];
 	
-	Azoomee::sendProgressMetaDataGame();
+	AZ::sendProgressMetaDataGame();
 	
     [backButton removeFromSuperview];
     backButton = nil;

@@ -9,7 +9,7 @@
 #include "../Device.h"
 #include "../Utils/LocaleManager.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 const std::string AppConfig::kArtCacheFolder = "artCache/";
 
@@ -66,7 +66,7 @@ std::string AppConfig::getRemoteWebGameAPIPath()
 //Version configuration
 std::string AppConfig::getVersionNumber()
 {
-    return Device::getInstance()->getAppVersion();
+    return TZ::Device::getInstance()->getAppVersion();
 }
 
 std::string AppConfig::getVersionNumberWithPlatform()
@@ -85,7 +85,7 @@ std::string AppConfig::getVersionNumberToDisplay()
 
 std::string AppConfig::getVersionInformationForRequestHeader()
 {
-    return Device::getInstance()->getOSManufacturer() + "/" + getVersionNumberWithPlatform();
+    return TZ::Device::getInstance()->getOSManufacturer() + "/" + getVersionNumberWithPlatform();
 }
    
 //Data download congiguration
@@ -94,4 +94,4 @@ std::string AppConfig::getLocaleZipUrl()
     return getStringFromJson("localeZipUrl", _appConfigData[_env.c_str()]);
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

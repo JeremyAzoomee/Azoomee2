@@ -2,7 +2,7 @@
 #define __CHILDSELECTOR_SCENE_H__
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <cocos/ui/CocosGUI.h>
 #include "OfflineChecker.h"
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
@@ -12,12 +12,15 @@
 #include <AzoomeeCommon/UI/TextButton.h>
 #include <AzoomeeCommon/Data/Child/Child.h>
 #include "ForceUpdateSingleton.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
 
-class ChildSelectorScene : public Azoomee::Scene, public OfflineCheckerDelegate, public Azoomee::HttpRequestCreatorResponseDelegate, public ForceUpdateDelegate
+NS_AZ_BEGIN
+
+class ChildSelectorScene : public TZ::Scene, public OfflineCheckerDelegate, public TZ::HttpRequestCreatorResponseDelegate, public ForceUpdateDelegate
 {
-    typedef Azoomee::Scene Super;
+    typedef TZ::Scene Super;
     
 private:
     static const cocos2d::Size kBaseButtonSize;
@@ -54,6 +57,6 @@ public:
     
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif

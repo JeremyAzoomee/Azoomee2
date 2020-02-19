@@ -8,14 +8,17 @@
 #ifndef AddFriendTile_h
 #define AddFriendTile_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/UI/DynamicText.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
 #include "AzoomeeChat/Data/Friend.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class AddFriendTile : public cocos2d::ui::Layout
 {
@@ -54,6 +57,6 @@ public:
     
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* AddFriendTile_h */

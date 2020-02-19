@@ -17,7 +17,8 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_AA_BEGIN
+USING_NS_TZ
+NS_AZ_AA_BEGIN
 
 const std::vector<Color3B> DrawingCanvasUILayer::_kColours = { // top left
     Color3B(Colours::Color_4F::grey), //row 1
@@ -283,7 +284,7 @@ void DrawingCanvasUILayer::addColourSelectButtons(const Size& visibleSize, const
     closeButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onCloseColourSelectPressed, this));
     _colourButtonLayout->addChild(closeButton);
     
-    if(Device::getInstance()->isDeviceIphoneX())
+    if(TZ::Device::getInstance()->isDeviceIphoneX())
     {
         _colourButtonLayout->setScale(0.85);
     }
@@ -462,7 +463,7 @@ void DrawingCanvasUILayer::addBrushRadiusSlider(const Size& visibleSize, const P
     
     this->addChild(_brushSizeSlider,MAIN_UI_LAYER);
     
-    if(Device::getInstance()->isDeviceIphoneX())
+    if(TZ::Device::getInstance()->isDeviceIphoneX())
     {
         _brushSizeSlider->setScale(0.75);
         _brushSizeSlider->setPosition(_brushSizeSlider->getPosition() + Vec2(50,0));
@@ -1066,4 +1067,4 @@ void DrawingCanvasUILayer::getStickerFilesFromJSON()
 
 
 
-NS_AZOOMEE_AA_END
+NS_AZ_AA_END

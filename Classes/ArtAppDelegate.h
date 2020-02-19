@@ -9,14 +9,17 @@
 #ifndef ArtAppDelegate_h
 #define ArtAppDelegate_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include "../ArtApp/Classes/AzoomeeArt/AzoomeeArtApp.h"
 #include <string>
 #include <memory>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
 
-class ArtAppDelegate: public Azoomee::ArtApp::Delegate
+NS_AZ_BEGIN
+
+class ArtAppDelegate: public AZ::ArtApp::Delegate
 {
 public:
     static ArtAppDelegate* getInstance();
@@ -33,6 +36,6 @@ private:
     long _secondsSpentInArtApp = 0;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* ArtAppDelegate_h */

@@ -8,12 +8,15 @@
 #ifndef SettingsSupportPage_h
 #define SettingsSupportPage_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <ui/CocosGUI.h>
 #include "SettingsPageHeader.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class SettingsSupportPage : public cocos2d::ui::Layout
 {
@@ -31,6 +34,6 @@ public:
     CREATE_FUNC(SettingsSupportPage);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* SettingsSupportPage_h */

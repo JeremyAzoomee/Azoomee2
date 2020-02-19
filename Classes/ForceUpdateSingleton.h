@@ -2,10 +2,13 @@
 #define Azoomee_ForceUpdateSingleton_h
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <AzoomeeCommon/Utils/FileDownloader.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 enum class ForceUpdateResult {DO_NOTHING, NOTIFY, LOCK};
 
@@ -61,6 +64,6 @@ private:
 	static const std::string kUpdateUrlVodaID;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif

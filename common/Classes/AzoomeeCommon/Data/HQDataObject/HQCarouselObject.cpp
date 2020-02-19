@@ -1,6 +1,6 @@
 #include "HQCarouselObject.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 MutableHQCarouselObjectRef MutableHQCarouselObject::create()
 {
@@ -76,4 +76,4 @@ cocos2d::Color4B HQCarouselObject::getColour() const
     return _colour;
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

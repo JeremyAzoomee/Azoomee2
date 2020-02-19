@@ -8,7 +8,7 @@
 #ifndef HQScene_h
 #define HQScene_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <AzoomeeCommon/UI/Scene.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 #include <AzoomeeCommon/UI/RoundedRectSprite.h>
@@ -24,8 +24,11 @@
 #include "ChatHQ.h"
 #include "SettingsButton.h"
 #include "HQConstants.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class HQSnapshot
 {
@@ -56,9 +59,9 @@ public:
     HQContentItemObjectRef getSelectedSeries() const;
 };
 
-class HQScene : public Azoomee::Scene
+class HQScene : public TZ::Scene
 {
-    typedef Azoomee::Scene Super;
+    typedef TZ::Scene Super;
 private:
     static const std::string kTutHandName;
     static const float kTitleBarPadding;
@@ -107,6 +110,6 @@ public:
     CREATE_FUNC(HQScene);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* HQScene_h */

@@ -8,7 +8,7 @@
 #include "Child.h"
 #include "../../Utils/TimeUtils.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 Child::Child()
 {
@@ -141,4 +141,4 @@ void MutableChild::setAvatarColour(const cocos2d::Color4B &colour)
     _avatarColour = colour;
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

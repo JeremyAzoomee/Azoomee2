@@ -17,7 +17,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const char* const WebViewSelector::kIosWebviewName = "iosWebView";
 const char* const WebViewSelector::kAndroidWebviewName = "androidWebView";
@@ -113,7 +115,7 @@ void WebViewSelector::onEnter()
     loadWebView(_targetUrl, _orientation, _closeButtonAnchor);
 }
 
-void WebViewSelector::setParams(const std::string &url, Azoomee::Orientation orientation, const cocos2d::Vec2 &closeButtonAnchor)
+void WebViewSelector::setParams(const std::string &url, TZ::Orientation orientation, const cocos2d::Vec2 &closeButtonAnchor)
 {
     _targetUrl = url;
     _orientation = orientation;
@@ -156,4 +158,4 @@ void WebViewSelector::onHttpRequestFailed(const std::string& requestTag, long er
 }
 
 
-NS_AZOOMEE_END
+NS_AZ_END

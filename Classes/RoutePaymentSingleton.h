@@ -3,9 +3,12 @@
 
 #include "cocos2d.h"
 #include <AzoomeeCommon/Data/Json.h>
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class RoutePaymentSingleton : public cocos2d::Ref
 {
@@ -64,6 +67,6 @@ public:
 	static const std::string kPaymentFailedEventName;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif

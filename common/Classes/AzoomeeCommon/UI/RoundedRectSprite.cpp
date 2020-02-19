@@ -9,7 +9,7 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 bool RoundedRectSprite::init()
 {
@@ -152,4 +152,4 @@ void RoundedRectSprite::setTileScaleFactor(float scale)
     _tileScaleFactor = scale;
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

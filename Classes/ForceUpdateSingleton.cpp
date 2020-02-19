@@ -12,7 +12,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const std::string ForceUpdateSingleton::kAcceptedMinAzVerID = "acceptedMinAzoomeeVersion";
 const std::string ForceUpdateSingleton::kNotifiedMinAzVerID = "notifiedMinAzoomeeVersion";
@@ -240,17 +242,17 @@ std::string ForceUpdateSingleton::getUpdateUrlFromFile()
 	return "";
 #endif
 	
-    const std::string& osManufacturer = Device::getInstance()->getOSManufacturer();
+    const std::string& osManufacturer = TZ::Device::getInstance()->getOSManufacturer();
     
-    if(osManufacturer == Device::kOSManufacturerAmazon)
+    if(osManufacturer == TZ::Device::kOSManufacturerAmazon)
     {
         return forceUpdateData.at(kUpdateUrlAmazonID);
     }
-    else if(osManufacturer == Device::kOSManufacturerGoogle)
+    else if(osManufacturer == TZ::Device::kOSManufacturerGoogle)
     {
         return forceUpdateData.at(kUpdateUrlGoogleID);
     }
-    else if(osManufacturer == Device::kOSManufacturerApple)
+    else if(osManufacturer == TZ::Device::kOSManufacturerApple)
     {
         return forceUpdateData.at(kUpdateUrlAppleID);
     }
@@ -269,4 +271,4 @@ void ForceUpdateSingleton::onFileDownloadComplete(const std::string &fileString,
 	
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

@@ -11,8 +11,11 @@
 #include "VodacomOnboardingLayer.h"
 #include "../TextInputLayer.h"
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
+#include "../Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class VodacomOnboardingVoucherLayer : public VodacomOnboardingLayer, HttpRequestCreatorResponseDelegate, TextInputLayerDelegate
 {
@@ -42,7 +45,7 @@ public:
 	virtual void editBoxEditingDidEnd(TextInputLayer* inputLayer) override;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 
 #endif /* VodacomOnboardingVoucherLayer_h */

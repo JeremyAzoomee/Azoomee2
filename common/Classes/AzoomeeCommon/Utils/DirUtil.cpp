@@ -8,7 +8,7 @@
 #include "DirUtil.h"
 #include <dirent.h>
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 std::vector<std::string> DirUtil::getFilesInDirectory(const std::string& path)
 {
@@ -176,4 +176,4 @@ std::vector<std::string> DirUtil::getFilesInDirectoryWithExtention(const std::st
     }
 }
     
-NS_AZOOMEE_END
+NS_TZ_END

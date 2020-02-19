@@ -2,6 +2,7 @@
 #define AzoomeeCommon_AudioMixer_h
 
 #include <cocos/cocos2d.h>
+#include "../Tinizine.h"
 
 #define OK_BUTTON_AUDIO_EFFECT "Azoomee_Button_Click_06_v1.mp3"
 #define TEXT_BUTTON_AUDIO_EFFECT "Azoomee_Button_Click_07_v1.mp3"
@@ -17,8 +18,7 @@
 #define HQ_BACKGROUND_MUSIC "bgmusic.mp3"
 
 
-namespace Azoomee
-{
+NS_TZ_BEGIN
 
 class AudioMixer : public cocos2d::Ref
 {
@@ -45,6 +45,6 @@ private:
 
 };
 
-}
+NS_TZ_END
 
 #endif

@@ -8,14 +8,16 @@
 #ifndef ShopItemPurchasePopup_h
 #define ShopItemPurchasePopup_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/Data/Shop/ShopDisplayItem.h>
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
+#include "Azoomee.h"
 
+USING_NS_TZ
 
-NS_AZOOMEE_BEGIN
+NS_AZ_BEGIN
 
 class ShopItemPurchasePopup : public cocos2d::ui::Layout
 {
@@ -50,6 +52,6 @@ public:
 	CREATE_FUNC(ShopItemPurchasePopup);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* ShopItemPurchasePopup_h */

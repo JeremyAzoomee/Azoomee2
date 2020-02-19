@@ -7,7 +7,7 @@
 
 // UrlEncode/Decode credit: http://bogomip.net/blog/cpp-url-encoding-and-decoding/
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 namespace Net
 {
 
@@ -114,4 +114,4 @@ unsigned char hexToChar(const std::string &str)
 }
     
 }
-NS_AZOOMEE_END
+NS_TZ_END

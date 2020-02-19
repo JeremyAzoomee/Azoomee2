@@ -8,11 +8,11 @@
 #ifndef NotificationNodeDisplayManager_h
 #define NotificationNodeDisplayManager_h
 
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include "cocos/cocos2d.h"
 #include "NotificationNode.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class NotificationNodeDisplayManager
 {
@@ -40,6 +40,6 @@ public:
 	
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif /* NotificationNodeDisplayManager_h */

@@ -43,7 +43,7 @@
 	//
 */
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 namespace Net
 {
     
@@ -957,4 +957,4 @@ std::string URI::intToStr( int a )
     
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

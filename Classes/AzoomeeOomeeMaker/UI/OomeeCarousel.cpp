@@ -10,7 +10,9 @@
 #include "OomeeSelectScene.h"
 #include <AzoomeeCommon/Device.h>
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 using namespace cocos2d;
 
@@ -378,7 +380,7 @@ void OomeeCarousel::update(float deltaT)
         float dist = abs(button->getPosition().x - this->getPosition().x);
         float relativeDist = dist / (this->getContentSize().width / 2.0f);
         button->setScale(MAX(0.1,1.2 - relativeDist));
-        if(Device::getInstance()->isDevice18x9())
+        if(TZ::Device::getInstance()->isDevice18x9())
         {
             button->setScale(button->getScale() * 0.8f);
         }
@@ -413,4 +415,4 @@ std::vector<std::string> OomeeCarousel::getOomeeData() const
 	return _oomeeData;
 }
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END

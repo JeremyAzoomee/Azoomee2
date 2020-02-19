@@ -7,7 +7,7 @@
 
 #include "Parent.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 Parent::Parent()
 {
@@ -131,4 +131,4 @@ bool Parent::isAnonymous() const
 }
 
 
-NS_AZOOMEE_END
+NS_TZ_END

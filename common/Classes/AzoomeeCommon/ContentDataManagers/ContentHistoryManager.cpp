@@ -12,7 +12,7 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 static std::auto_ptr<ContentHistoryManager> sContentHistoryManagerSharedInstance;
 
@@ -158,4 +158,4 @@ void ContentHistoryManager::onHttpRequestFailed(const std::string& requestTag, l
     // TODO Handle error from UpdateContentProgressMeta
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

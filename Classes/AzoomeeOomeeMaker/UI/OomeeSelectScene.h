@@ -15,7 +15,9 @@
 #include <cocos/ui/CocosGUI.h>
 #include "../../ConfirmCancelMessageBox.h"
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 class OomeeSelectScene : public cocos2d::Scene, public OomeeCarouselButtonDelegate
 {
@@ -52,6 +54,6 @@ public:
     
 };
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END
 
 #endif /* OomeeSelectScene_h */

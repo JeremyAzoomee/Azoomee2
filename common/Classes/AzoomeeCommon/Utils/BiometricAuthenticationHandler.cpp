@@ -4,7 +4,7 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 const char* const BiometricAuthenticationHandler::kBiometricValidationSuccess = "biometricValidationSuccess";
 const char* const BiometricAuthenticationHandler::kBiometricValidationFailure = "biometricValidationFailure";
@@ -107,4 +107,4 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_Biometric_biometricAuthenticationEr
 }
 #endif
 
-NS_AZOOMEE_END
+NS_TZ_END

@@ -7,7 +7,7 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 static WebGameAPIDataManager *_sharedWebGameAPIDataManager = NULL;
 
@@ -192,4 +192,4 @@ std::string WebGameAPIDataManager::getPathForLocalStorageFile()
     return DirUtil::getDocumentsPath() + "scoreCache/" + ChildManager::getInstance()->getLoggedInChild()->getId() + "/" + runningGameId + "/localstorage.data";
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

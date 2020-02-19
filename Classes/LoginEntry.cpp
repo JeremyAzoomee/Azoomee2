@@ -16,7 +16,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool LoginEntry::init()
 {
@@ -258,5 +260,5 @@ void LoginEntry::editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox)
 	setContinueButtonEnabled(isValidInput(editBox->getText(), _state));
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 

@@ -11,7 +11,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const float EpisodeSelector::kListViewPadding = 45.0f;
 const float EpisodeSelector::kHeaderHeightPercent = 0.29f;
@@ -266,4 +268,4 @@ void EpisodeSelector::onImageDownloadFailed()
 
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

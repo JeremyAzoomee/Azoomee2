@@ -7,7 +7,9 @@
 
 #include "OomeeMakerDataStorage.h"
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 static std::auto_ptr<OomeeMakerDataStorage> sOomeeMakerDataStorageSharedInstance;
 
@@ -152,7 +154,7 @@ std::vector<OomeeItemRef> OomeeMakerDataStorage::getItemsForCategory(const std::
     return items;
 }
 
-std::vector<OomeeItemRef> OomeeMakerDataStorage::getFilteredItemsForCategory(const std::string &key, const Azoomee::OomeeMaker::OomeeRef &activeOomee)
+std::vector<OomeeItemRef> OomeeMakerDataStorage::getFilteredItemsForCategory(const std::string &key, const AZ::OomeeMaker::OomeeRef &activeOomee)
 {
     const std::vector<std::string>& incompatableItemIds = activeOomee->getIncompatableAccessories();
     std::vector<OomeeItemRef> itemData = getItemsForCategory(key);
@@ -172,4 +174,4 @@ std::string OomeeMakerDataStorage::getDefaultCategoryId() const
 	return _defaultCategoryId;
 }
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END

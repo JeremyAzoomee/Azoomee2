@@ -8,7 +8,7 @@
 #ifndef ChildOnboardingScene_h
 #define ChildOnboardingScene_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/UI/Scene.h>
@@ -18,12 +18,15 @@
 #include "ChildNameEntry.h"
 #include "ChildAgeEntry.h"
 #include "ChildCreator.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
 
-class ChildOnboardingScene : public Azoomee::Scene, HttpRequestCreatorResponseDelegate
+NS_AZ_BEGIN
+
+class ChildOnboardingScene : public TZ::Scene, HttpRequestCreatorResponseDelegate
 {
-    typedef Azoomee::Scene Super;
+    typedef TZ::Scene Super;
 public:
     enum State {ENTER_NAME, ENTER_AGE};
     
@@ -62,7 +65,7 @@ public:
     void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 
 #endif /* ChildOnboardingScene_h */

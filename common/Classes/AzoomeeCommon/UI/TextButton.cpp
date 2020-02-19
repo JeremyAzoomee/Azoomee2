@@ -10,7 +10,7 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 TextButton* TextButton::create(const std::string& normalImage)
 {
@@ -70,4 +70,4 @@ void TextButton::setTextFontInfo(const std::string& font, int fontSize)
 	_buttonText->setTTFConfig(config);
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

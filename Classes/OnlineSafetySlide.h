@@ -8,11 +8,14 @@
 #ifndef OnlineSafetySlide_h
 #define OnlineSafetySlide_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <ui/CocosGUI.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class OnlineSafetySlide : public cocos2d::ui::Layout
 {
@@ -39,6 +42,6 @@ public:
     
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* OnlineSafetySlide_h */

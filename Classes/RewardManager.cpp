@@ -10,7 +10,9 @@
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 
 #pragma mark - Init
@@ -393,4 +395,4 @@ void RewardManager::onHttpRequestFailed(const std::string& requestTag, long erro
 
 
 
-NS_AZOOMEE_END
+NS_AZ_END

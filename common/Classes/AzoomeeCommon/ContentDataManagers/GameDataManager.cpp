@@ -12,7 +12,7 @@
 using namespace cocos2d;
 using namespace cocos2d::network;
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 const char* const GameDataManager::kManualGameId = "MANUAL_GAME";
 const std::string GameDataManager::kGameCacheFolder = "gameCache/";
@@ -55,7 +55,7 @@ bool GameDataManager::init(void)
     createBundledGamesMap();
     
     // copy games loading pages from bundle to games cache so game data can be accessed in the new WKWebView
-    const std::string& cacheFolder = Azoomee::DirUtil::getCachesPath() + kGameCacheFolder;
+    const std::string& cacheFolder = TZ::DirUtil::getCachesPath() + kGameCacheFolder;
     FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/index_ios.html"), cacheFolder + "index_ios.html");
     FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/circle_1.png"), cacheFolder + "circle_1.png");
     FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/load.png"), cacheFolder + "load.png");
@@ -633,4 +633,4 @@ bool GameDataManager::copyBundledGameToCache(const std::string& gameId)
 }
 #endif
 
-NS_AZOOMEE_END
+NS_TZ_END

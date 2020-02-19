@@ -8,12 +8,12 @@
 #ifndef InventoryItem_h
 #define InventoryItem_h
 
-#include "../../Azoomee.h"
+#include "../../Tinizine.h"
 #include <string>
 #include <memory>
 #include "../Json.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class InventoryItem;
 typedef std::shared_ptr<InventoryItem> InventoryItemRef;
@@ -45,6 +45,6 @@ public:
 	static const std::string kAccessoryType;
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif /* InventoryItem_h */

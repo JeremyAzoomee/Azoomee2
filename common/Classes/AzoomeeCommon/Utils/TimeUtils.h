@@ -8,12 +8,12 @@
 #ifndef TimeUtils_h
 #define TimeUtils_h
 
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include <cocos/cocos2d.h>
 #include <time.h>
 #include <chrono>
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class TimeUtils
 {
@@ -30,6 +30,6 @@ public:
     
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif /* TimeUtils_h */

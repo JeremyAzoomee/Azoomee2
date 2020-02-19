@@ -1,12 +1,12 @@
 #ifndef Azoomee_ContentItemManager_h
 #define Azoomee_ContentItemManager_h
 
-#include "../../Azoomee.h"
+#include "../../Tinizine.h"
 #include <cocos/cocos2d.h>
 #include "HQContentItemObject.h"
 #include "../Json.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class ContentItemManager
 {
@@ -51,6 +51,6 @@ private:
     std::string _currentPoolEtag;
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif

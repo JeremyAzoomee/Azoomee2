@@ -8,7 +8,7 @@
 #include "DirUtil.h"
 #import <Foundation/Foundation.h>
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
     
 std::string DirUtil::getDocumentsPath()
 {
@@ -28,4 +28,4 @@ std::string DirUtil::getCachesPath()
     return path;
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

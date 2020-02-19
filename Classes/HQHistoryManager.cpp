@@ -3,7 +3,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 static HQHistoryManager *_sharedHQHistoryManager = NULL;
 
@@ -25,7 +27,7 @@ void HQHistoryManager::addHQToHistoryManager(std::string hqName)
 {
     if(hqName == getCurrentHQ()) return;
     
-    Azoomee::AnalyticsSingleton::getInstance()->registerCurrentScene(hqName);
+    TZ::AnalyticsSingleton::getInstance()->registerCurrentScene(hqName);
     
     _hqNames.push_back(hqName);
     
@@ -73,12 +75,12 @@ void HQHistoryManager::addDefaultHQIfHistoryEmpty()
 {
     if(_hqNames.size() == 0)
     {
-        Azoomee::AnalyticsSingleton::getInstance()->registerCurrentScene(kDefaultHQName);
+        TZ::AnalyticsSingleton::getInstance()->registerCurrentScene(kDefaultHQName);
         _hqNames.push_back(kDefaultHQName);
     }
     else
     {
-        Azoomee::AnalyticsSingleton::getInstance()->registerCurrentScene(getCurrentHQ());
+        TZ::AnalyticsSingleton::getInstance()->registerCurrentScene(getCurrentHQ());
     }
 }
 
@@ -206,4 +208,4 @@ bool HQHistoryManager::isDataCached() const
 
 
 
-NS_AZOOMEE_END
+NS_AZ_END

@@ -10,7 +10,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 const std::map<std::string, int> OomeeBody::kLayerOrderMap = {
     {"base", 0},
@@ -93,5 +95,5 @@ int OomeeBody::transformZOrder(int zOrder)
     return zOrder + (int)_oomeeData->getAssetSet().size();
 }
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END
 

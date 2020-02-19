@@ -8,14 +8,17 @@
 #ifndef EditAccountLayer_h
 #define EditAccountLayer_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include "TextInputLayer.h"
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
 #include <cocos/cocos2d.h>
 #include <ui/CocosGUI.h>
 #include "SettingsMessageBox.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 enum class EditPasswordState {LOCKED, CURRENT_PASSWORD, NEW_PASSWORD};
 
@@ -55,6 +58,6 @@ public:
 	void onButtonPressed(SettingsMessageBox* pSender, SettingsMessageBoxButtonType type) override;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* EditAccountLayer_h */

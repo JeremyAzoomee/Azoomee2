@@ -16,9 +16,11 @@ static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppAc
 #endif
 
 using namespace cocos2d;
-using namespace Azoomee;
+using namespace AZ;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 static GooglePaymentSingleton *_sharedGooglePaymentSingleton = NULL;
 
@@ -278,4 +280,4 @@ JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_AppActivity_getDeveloperKey(JNIE
 
 #endif
 
-NS_AZOOMEE_END
+NS_AZ_END

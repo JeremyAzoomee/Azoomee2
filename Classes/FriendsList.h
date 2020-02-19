@@ -11,8 +11,11 @@
 #include "ContentTileHolder.h"
 #include "FriendTile.h"
 #include "AzoomeeChat/Data/Friend.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class FriendsList : public cocos2d::ui::Layout
 {
@@ -64,6 +67,6 @@ public:
     CREATE_FUNC(FriendsList);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* FriendsList_h */

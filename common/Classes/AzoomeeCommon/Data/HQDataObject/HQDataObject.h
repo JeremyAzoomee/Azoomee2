@@ -1,12 +1,12 @@
 #ifndef Azoomee_HQDataObject_h
 #define Azoomee_HQDataObject_h
 
-#include "../../Azoomee.h"
+#include "../../Tinizine.h"
 #include <cocos/cocos2d.h>
 #include "HQCarouselObject.h"
 #include "HQContentItemObject.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class HQDataObject;
 typedef std::shared_ptr<HQDataObject> HQDataObjectRef;
@@ -58,6 +58,6 @@ public:
 	void clearData();
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif

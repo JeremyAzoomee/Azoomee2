@@ -2,11 +2,11 @@
 #define __VIDEOPLAYLISTMANAGER_H__
 
 #include <cocos/cocos2d.h>
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include "../Data/HQDataObject/HQContentItemObject.h"
 #include "../Data/HQDataObject/HQCarouselObject.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class VideoPlaylistManager
 {
@@ -28,6 +28,6 @@ private:
     const std::string kNoPlaylist = "noPlaylist";
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif

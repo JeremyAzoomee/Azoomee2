@@ -9,7 +9,7 @@
 #import "MediaPlayer_ios.h"
 #import "ios_Cocos2d_Callbacks.h"
 
-using namespace Azoomee;
+USING_NS_AZ
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
@@ -36,7 +36,7 @@ using namespace Azoomee;
 
 -(void)startBuildingMediaPlayer:(NSString*)url progressSeconds:(int)videoProgressSeconds
 {
-    NSString* playlistString = Azoomee::getPlaylistString();
+    NSString* playlistString = AZ::getPlaylistString();
     NSArray* playlistUrls = [playlistString componentsSeparatedByString:@"|"];
     NSMutableArray* playlistItems = [NSMutableArray array];
     int startPlaylistElementIndex = 0;
@@ -197,7 +197,7 @@ using namespace Azoomee;
     if(self.queuePlayer.rate != _previousRate)
     {
         _previousRate = self.queuePlayer.rate;
-        Azoomee::sendMixPanelData("video.quality", cocos2d::StringUtils::format("%f", _previousRate).c_str());
+        AZ::sendMixPanelData("video.quality", cocos2d::StringUtils::format("%f", _previousRate).c_str());
     }
     
     if(duration > 0.0f && position > 0.0f)
@@ -207,42 +207,42 @@ using namespace Azoomee;
         if(playbackRatio > 0.0f && _videoTimeSent < 0.0f)
         {
             _videoTimeSent = 0.0f;
-            Azoomee::sendMixPanelData("video.time", "0");
+            AZ::sendMixPanelData("video.time", "0");
         }
         
         if(playbackRatio > 0.25f && _videoTimeSent < 0.25f)
         {
             _videoTimeSent = 0.25f;
-            Azoomee::sendMixPanelData("video.time", "25");
+            AZ::sendMixPanelData("video.time", "25");
         }
         
         if(playbackRatio > 0.5f && _videoTimeSent < 0.5f)
         {
             _videoTimeSent = 0.5f;
-            Azoomee::sendMixPanelData("video.time", "50");
+            AZ::sendMixPanelData("video.time", "50");
         }
         
         if(playbackRatio > 0.75f && _videoTimeSent < 0.75f)
         {
             _videoTimeSent = 0.75f;
-            Azoomee::sendMixPanelData("video.time", "75");
+            AZ::sendMixPanelData("video.time", "75");
         }
     }
 }
 
 -(void) playerItemDidReachEnd:(NSNotification*)notification
 {
-    Azoomee::sendMixPanelData("video.complete", "");
-	Azoomee::sendProgressMetaDataVideo(0, CMTimeGetSeconds(_queuePlayer.currentItem.duration));
+    AZ::sendMixPanelData("video.complete", "");
+	AZ::sendProgressMetaDataVideo(0, CMTimeGetSeconds(_queuePlayer.currentItem.duration));
     if(self.queuePlayer.currentItem == self.queuePlayer.items.lastObject)
     {
-        Azoomee::sendMixPanelData("video.playlistComplete", "");
+        AZ::sendMixPanelData("video.playlistComplete", "");
         
         [self cleanupAndExit];
 		return;
     }
 	_currentItemIndex++;
-	Azoomee::newVideoOpened(_currentItemIndex);
+	AZ::newVideoOpened(_currentItemIndex);
 	if(!isAnonUser())
 	{
 		[_favButton setSelected: isFavContent()];
@@ -317,7 +317,7 @@ using namespace Azoomee;
     
     exitRequested = true;
 	
-	Azoomee::sendProgressMetaDataVideo(CMTimeGetSeconds(_queuePlayer.currentItem.currentTime), CMTimeGetSeconds(_queuePlayer.currentItem.duration));
+	AZ::sendProgressMetaDataVideo(CMTimeGetSeconds(_queuePlayer.currentItem.currentTime), CMTimeGetSeconds(_queuePlayer.currentItem.duration));
 	
     [self.backButton removeFromSuperview];
     if(!isAnonUser())
@@ -341,7 +341,7 @@ using namespace Azoomee;
     self.playerController = nil;
     self.lastPlayedItem = nil;
     
-    Azoomee::navigateToBaseScene();
+    AZ::navigateToBaseScene();
 }
 
 @end

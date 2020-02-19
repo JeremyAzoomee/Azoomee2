@@ -7,7 +7,9 @@
 
 #include "OomeeColour.h"
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 OomeeColourRef OomeeColour::create()
 {
@@ -56,4 +58,4 @@ std::map<std::string, cocos2d::Color4B> OomeeColour::getColours() const
     return _colourMap;
 }
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END

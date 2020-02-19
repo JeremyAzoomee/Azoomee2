@@ -7,7 +7,9 @@
 #include "DrawingCanvasUILayer.h"
 #include "ArtAppConfirmCancelMessageBox.h"
 
-NS_AZOOMEE_AA_BEGIN
+USING_NS_TZ
+
+NS_AZ_AA_BEGIN
 
 class MainScene : public cocos2d::Layer
 {
@@ -41,6 +43,6 @@ public:
     CREATE_FUNC(MainScene);
 };
 
-NS_AZOOMEE_AA_END
+NS_AZ_AA_END
 
 #endif // __ARTAPP_MAIN_SCENE_H__

@@ -2,13 +2,15 @@
 #define AzoomeeChat_AzoomeeChat_h
 
 #include <string>
+#include <AzoomeeCommon/Tinizine.h>
 
 // Some convenience macros for namespace
-#define NS_AZOOMEE_CHAT_BEGIN namespace Azoomee { namespace Chat {
-#define NS_AZOOMEE_CHAT_END }}
+#define NS_AZ_CHAT_BEGIN namespace AZ { namespace Chat {
+#define NS_AZ_CHAT_END }}
 
+USING_NS_TZ
 
-NS_AZOOMEE_CHAT_BEGIN
+NS_AZ_CHAT_BEGIN
 
 // Burnt in version number for the AzoomeeChat static library
 const char* const Version = "0.1.5";
@@ -30,6 +32,6 @@ struct Delegate {
 // Delegate instance in namespace
 extern Delegate* delegate;
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END
 
 #endif

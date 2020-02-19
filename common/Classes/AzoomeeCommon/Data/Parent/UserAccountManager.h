@@ -16,7 +16,7 @@
 #include "FriendRequest.h"
 #include <map>
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class UserAccountManager
 {
@@ -122,6 +122,6 @@ private:
     static const std::string kUserHasLoggedInOnDeviceKey;
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif /* UserAccountManager_h */

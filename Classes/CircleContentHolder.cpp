@@ -10,7 +10,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const float CircleContentHolder::kTileSpacingPercent = 0.1f;
 
@@ -137,4 +139,4 @@ void CircleContentHolder::refreshTiles()
     }
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

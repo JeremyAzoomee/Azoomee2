@@ -12,7 +12,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const cocos2d::Size OomeeMakerButton::kOverflowPadding = Size(0, 80);
 const cocos2d::Size OomeeMakerButton::kFramePadding = Size(10,10);
@@ -61,4 +63,4 @@ void OomeeMakerButton::onSizeChanged()
     _oomees->setContentSize(Size(MIN(_oomees->getTexture()->getPixelsWide() * (contentSize.height / _oomees->getTexture()->getPixelsHigh()), contentSize.width) - kFramePadding.width,contentSize.height - (kFramePadding.height / 2.0f)));
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

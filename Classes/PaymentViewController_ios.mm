@@ -4,7 +4,7 @@
 #include "LoginController.h"
 #include "IAPProductDataHandler.h"
 
-using namespace Azoomee;
+using namespace AZ;
 
 @interface PaymentViewController ()
 -(void) queryProductInfo;

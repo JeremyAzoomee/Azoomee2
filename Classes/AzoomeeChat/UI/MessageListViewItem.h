@@ -7,7 +7,9 @@
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
     
 class MessageListViewItem : public cocos2d::ui::Layout
 {
@@ -81,6 +83,6 @@ public:
     CREATE_FUNC(MessageListViewItem);
 };
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END
 
 #endif

@@ -14,7 +14,8 @@
 #include "PatternFileStorage.h"
 #include "ArtAppConfirmCancelMessageBox.h"
 
-NS_AZOOMEE_AA_BEGIN
+USING_NS_TZ
+NS_AZ_AA_BEGIN
 
 typedef std::pair<std::string,std::vector<std::pair<std::string,std::string>>> StickerSet;
 typedef std::shared_ptr<StickerSet> StickerSetRef;
@@ -112,6 +113,6 @@ public:
     
 };
 
-NS_AZOOMEE_AA_END
+NS_AZ_AA_END
 
 #endif /* DrawingCanvasUILayer_h */

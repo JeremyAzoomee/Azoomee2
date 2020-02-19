@@ -1,11 +1,13 @@
 #ifndef Azoomee_Urls_h
 #define Azoomee_Urls_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <string>
+#include "Azoomee.h"
 
+USING_NS_TZ
 
-NS_AZOOMEE_BEGIN
+NS_AZ_BEGIN
 
 namespace Url
 {
@@ -18,6 +20,6 @@ namespace Url
     const std::string kAmazonSubURL = "amzn://apps/library/subscriptions";
 }
   
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif

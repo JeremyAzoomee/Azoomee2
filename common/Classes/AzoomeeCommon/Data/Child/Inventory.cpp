@@ -7,7 +7,7 @@
 
 #include "Inventory.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 InventoryRef Inventory::createWithJson(const rapidjson::Value& inventoryData)
 {
@@ -61,4 +61,4 @@ bool Inventory::hasOomeeAccessory(const std::string& accessoryId) const
 	return false;
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

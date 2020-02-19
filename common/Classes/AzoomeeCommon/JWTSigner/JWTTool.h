@@ -3,10 +3,9 @@
 
 #include <cocos/cocos2d.h>
 #include "../Data/Json.h"
+#include "../Tinizine.h"
 
-
-namespace Azoomee
-{
+NS_TZ_BEGIN
 
 class JWTTool : public cocos2d::Ref
 {
@@ -46,6 +45,6 @@ private:
     std::string getJWTSignature(std::string sHeader, std::string sBody);
 };
   
-}
+NS_TZ_END
 
 #endif

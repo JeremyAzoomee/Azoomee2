@@ -8,14 +8,17 @@
 #ifndef TutorialController_h
 #define TutorialController_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <string>
 #include <memory>
 #include <vector>
 #include <map>
 #include "TutorialMessagingNode.h"
+#include "../Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class TutorialDelegate
 {
@@ -87,6 +90,6 @@ public:
 	void highlightMessageString(const std::string& targetStr, const cocos2d::Color3B& highlightColour);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* TutorialController_h */

@@ -215,7 +215,7 @@
 		3018498C1EBCC100005B994A /* Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Json.h; sourceTree = "<group>"; };
 		301CCA981EB14280009ADA0C /* API.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = API.cpp; sourceTree = "<group>"; };
 		301CCA991EB14280009ADA0C /* API.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = API.h; sourceTree = "<group>"; };
-		301CCA9B1EB14473009ADA0C /* Azoomee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Azoomee.h; sourceTree = "<group>"; };
+		301CCA9B1EB14473009ADA0C /* Tinizine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tinizine.h; sourceTree = "<group>"; };
 		30242C71228D672A00B564E4 /* DirUtil_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DirUtil_android.cpp; sourceTree = "<group>"; };
 		30242C72228D672A00B564E4 /* DirUtil_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DirUtil_ios.mm; sourceTree = "<group>"; };
 		302E84751ED1B992006A498C /* ObservableLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObservableLayout.cpp; sourceTree = "<group>"; };
@@ -757,7 +757,7 @@
 				E21F700B23E47F670007EFF9 /* Device.cpp */,
 				E213BFAF23FAEC3500BBB1FA /* Device_ios.mm */,
 				E213BFB123FAEF9C00BBB1FA /* Device_android.cpp */,
-				301CCA9B1EB14473009ADA0C /* Azoomee.h */,
+				301CCA9B1EB14473009ADA0C /* Tinizine.h */,
 				30DD5EBD1E96571F0084305B /* Analytics */,
 				3092BCED1EB10524006D6F4C /* API */,
 				3012ED451E969A180009027D /* Audio */,

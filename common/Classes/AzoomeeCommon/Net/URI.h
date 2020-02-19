@@ -45,11 +45,11 @@
 #	pragma warning(disable:4786)
 #endif
 
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include <vector>
 #include <string>
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 namespace Net
 {
 
@@ -419,6 +419,6 @@ inline void swap(URI& u1, URI& u2)
 }
 
 }
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif

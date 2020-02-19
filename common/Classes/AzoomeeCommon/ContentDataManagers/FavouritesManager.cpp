@@ -14,7 +14,7 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 static std::auto_ptr<FavouritesManager> sFavouritesManagerSharedInstance;
 
@@ -102,4 +102,4 @@ bool FavouritesManager::isFavouriteContent(const std::string &contentId)
     return std::find(favList.begin(), favList.end(), contentId) != favList.end();
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

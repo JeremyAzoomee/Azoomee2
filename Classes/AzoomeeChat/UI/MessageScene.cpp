@@ -17,7 +17,9 @@
 using namespace cocos2d;
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 const Vec2 MessageScene::kPaddingPercent = Vec2(0.02, 0.01);
 
@@ -541,4 +543,4 @@ void MessageScene::AdultPinAccepted(RequestAdultPinLayer* layer)
     this->addChild(messageBox, 1);
 }
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

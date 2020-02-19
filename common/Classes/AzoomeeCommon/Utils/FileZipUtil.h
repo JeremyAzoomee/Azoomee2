@@ -11,9 +11,9 @@
 
 #include "cocos2d.h"
 #include "external/unzip/unzip.h"
+#include "../Tinizine.h"
 
-namespace Azoomee
-{
+NS_TZ_BEGIN
 
     class FileZipDelegate
     {
@@ -33,6 +33,6 @@ namespace Azoomee
         void asyncUnzip(const std::string& zipPath,const std::string& dirpath,const std::string& passwd, FileZipDelegate* delegate);
         
     };
-}
+NS_TZ_END
 
 #endif /* FileZipUtil_h */

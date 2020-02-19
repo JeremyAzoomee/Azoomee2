@@ -12,7 +12,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const float ArtTileHolder::kTileSpacingPercent = 0.025f;
 const cocos2d::Vec2 ArtTileHolder::kTileAspectRatio = Vec2(1.0f, 0.625f);
@@ -303,4 +305,4 @@ cocos2d::Size ArtTileHolder::calcTileSize(float rowWidth)
     return Size(tileWidth * kTileAspectRatio.x, tileWidth * kTileAspectRatio.y); //16:10 aspect ratio tiles
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

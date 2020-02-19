@@ -8,14 +8,14 @@
 #ifndef Child_h
 #define Child_h
 
-#include "../../Azoomee.h"
+#include "../../Tinizine.h"
 #include <string>
 #include <memory>
 #include <chrono>
 #include "../Json.h"
 #include "Inventory.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class Child;
 class MutableChild;
@@ -83,6 +83,6 @@ public:
     
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif /* Child_h */

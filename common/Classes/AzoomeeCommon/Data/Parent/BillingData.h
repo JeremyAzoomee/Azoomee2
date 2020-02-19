@@ -8,12 +8,12 @@
 #ifndef BillingData_h
 #define BillingData_h
 
-#include "../../Azoomee.h"
+#include "../../Tinizine.h"
 #include <string>
 #include <memory>
 #include "../Json.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class BillingData;
 typedef std::shared_ptr<BillingData> BillingDataRef;
@@ -59,6 +59,6 @@ public:
 	std::string getOrganisation() const;
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif /* BillingData_h */

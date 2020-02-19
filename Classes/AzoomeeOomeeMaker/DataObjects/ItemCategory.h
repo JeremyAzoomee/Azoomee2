@@ -12,7 +12,9 @@
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Data/Json.h>
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 class ItemCategory;
 typedef std::shared_ptr<ItemCategory> ItemCategoryRef;
@@ -59,6 +61,6 @@ public:
     
 };
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END
 
 #endif /* ItemCategory_h */

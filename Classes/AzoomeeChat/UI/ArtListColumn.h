@@ -13,7 +13,9 @@
 #include <cocos/ui/CocosGUI.h>
 #include "ArtListItemOnScreenChecker.h"
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 class ArtListColumn : public cocos2d::ui::Layout
 {
@@ -69,6 +71,6 @@ public:
     CREATE_FUNC(ArtListColumn);
 };
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END
 
 #endif /* ArtListColumn_h */

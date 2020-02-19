@@ -13,7 +13,9 @@
 //#define AVATARS_IN_LISTVIEW
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
     
 class MessageListView : public cocos2d::ui::Layout
 {
@@ -84,6 +86,6 @@ public:
     CREATE_FUNC(MessageListView);
 };
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END
 
 #endif

@@ -13,7 +13,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 void OomeeItemButton::setItemData(const OomeeItemRef& itemdata)
 {
@@ -51,4 +53,4 @@ void OomeeItemButton::setItemSelectedCallback(const ItemSelectedCallback &callba
     _itemSelectedCallback = callback;
 }
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END

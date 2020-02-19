@@ -2,7 +2,7 @@
 #define Azoomee_GameDataManager_h
 
 #include <cocos/cocos2d.h>
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include "../Data/HQDataObject/HQContentItemObject.h"
 #include "../ImageDownloader/ImageDownloader.h"
 #include "../Utils/FileZipUtil.h"
@@ -10,7 +10,7 @@
 #include "../Data/HQDataObject/HQCarouselObject.h"
 #include "../UI/UIConsts.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class GameDataManager : public cocos2d::Ref, public FileDownloaderDelegate, public FileZipDelegate
 {
@@ -121,6 +121,6 @@ private:
 };
 
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif

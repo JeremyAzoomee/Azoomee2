@@ -11,11 +11,13 @@
 #include <cocos/ui/CocosGUI.h>
 #include "../../RequestAdultPinLayer.h"
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
     
-class MessageScene : public Azoomee::Scene, public ChatAPIObserver, public MessageComposer::Delegate, public RequestAdultPinLayerDelegate
+class MessageScene : public TZ::Scene, public ChatAPIObserver, public MessageComposer::Delegate, public RequestAdultPinLayerDelegate
 {
-    typedef Azoomee::Scene Super;
+    typedef TZ::Scene Super;
 private:
     
     static const cocos2d::Vec2 kPaddingPercent;
@@ -126,6 +128,6 @@ public:
     static MessageScene* create(const FriendList& participants);
 };
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END
 
 #endif

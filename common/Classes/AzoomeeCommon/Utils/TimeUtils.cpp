@@ -9,7 +9,7 @@
 #include <locale>
 #include <chrono>
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 bool TimeUtils::isDateStringFormatCorrectForComparison(const std::string &dateToCheck)
 {
@@ -103,4 +103,4 @@ std::chrono::milliseconds TimeUtils::getCurrentTimeMillis()
 }
 
 
-NS_AZOOMEE_END
+NS_TZ_END

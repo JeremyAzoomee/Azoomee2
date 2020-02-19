@@ -1,13 +1,13 @@
 #ifndef AzoomeeCommon_API_h
 #define AzoomeeCommon_API_h
 
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include <string>
 #include "../Data/Json.h"
 #include "HttpRequestCreator.h"
 
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 
 /**
@@ -393,6 +393,6 @@ public:
 													   HttpRequestCreatorResponseDelegate* delegate);
 };
   
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif

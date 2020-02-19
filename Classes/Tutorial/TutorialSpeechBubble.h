@@ -8,10 +8,13 @@
 #ifndef TutorialSpeechBubble_h
 #define TutorialSpeechBubble_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
+#include "../Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 enum class BubbleOrigin {LEFT, RIGHT, TOP, BOTTOM};
 
@@ -45,6 +48,6 @@ public:
 	CREATE_FUNC(TutorialSpeechBubble);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* TutorialSpeechBubble_h */

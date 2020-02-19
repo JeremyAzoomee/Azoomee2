@@ -1,10 +1,10 @@
 #ifndef UIConsts_h
 #define UIConsts_h
 
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 enum Orientation {
     Landscape = 0,
@@ -17,6 +17,6 @@ const float AspectRatio4x3 = 4.0f/3.0f;
 const float AspectRatio3x4 = 3.0f/4.0f;
 const float AspectRatio2x3 = 2.0f/3.0f;
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif

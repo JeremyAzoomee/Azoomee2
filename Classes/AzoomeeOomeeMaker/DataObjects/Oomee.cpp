@@ -7,7 +7,9 @@
 
 #include "Oomee.h"
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 OomeeRef Oomee::create()
 {
@@ -147,4 +149,4 @@ OomeeColourRef Oomee::getColour() const
 	return _colour;
 }
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END

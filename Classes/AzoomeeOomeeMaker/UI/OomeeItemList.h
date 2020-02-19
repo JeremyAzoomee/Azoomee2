@@ -14,7 +14,9 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 class OomeeItemList : public cocos2d::ui::ListView
 {
@@ -52,6 +54,6 @@ public:
     CREATE_FUNC(OomeeItemList);
 };
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END
 
 #endif /* OomeeItemList_h */

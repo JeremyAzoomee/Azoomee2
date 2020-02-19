@@ -12,7 +12,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 void SettingsMessageBoxFREvent::onEnter()
 {
@@ -97,7 +99,7 @@ void SettingsMessageBoxFREvent::onEnter()
     }
 }
 
-void SettingsMessageBoxFREvent::setType(Azoomee::EventType type)
+void SettingsMessageBoxFREvent::setType(AZ::EventType type)
 {
     _type = type;
 }
@@ -131,4 +133,4 @@ void SettingsMessageBoxFREvent::editBoxEditingDidEnd(TextInputLayer* inputLayer)
     
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

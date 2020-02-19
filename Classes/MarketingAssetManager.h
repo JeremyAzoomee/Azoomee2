@@ -8,12 +8,15 @@
 #ifndef MarketingAssetManager_h
 #define MarketingAssetManager_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
 #include <AzoomeeCommon/Data/Json.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class MarketingAsset;
 typedef std::shared_ptr<MarketingAsset> MarketingAssetRef;
@@ -70,6 +73,6 @@ public:
 	
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* MarketingAssetManager_h */

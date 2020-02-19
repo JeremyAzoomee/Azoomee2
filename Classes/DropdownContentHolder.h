@@ -12,8 +12,11 @@
 #include "RoundedRectTile.h"
 #include <AzoomeeCommon/UI/DynamicText.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class DropdownContentHolder : public ContentTileHolder, public ImageDownloaderDelegate
 {
@@ -93,6 +96,6 @@ public:
     virtual void onImageDownloadFailed() override;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* DropdownContentHolder_h */

@@ -10,11 +10,13 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
     
-class FriendListScene : public Azoomee::Scene, public ChatAPIObserver
+class FriendListScene : public TZ::Scene, public ChatAPIObserver
 {
-    typedef Azoomee::Scene Super;
+    typedef TZ::Scene Super;
 private:
     
     /// A friend object which represents the current user
@@ -67,6 +69,6 @@ public:
     CREATE_FUNC(FriendListScene);
 };
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END
 
 #endif

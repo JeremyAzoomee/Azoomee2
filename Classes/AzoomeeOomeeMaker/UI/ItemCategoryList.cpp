@@ -7,11 +7,13 @@
 
 #include "ItemCategoryList.h"
 #include "ItemCategoryButton.h"
-#include <AzoomeeCommon/Utils/ActionBuilder.h>
+#include "../../ActionBuilder.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 void ItemCategoryList::doLayout()
 {
@@ -103,4 +105,4 @@ void ItemCategoryList::setSelectedButton(const ItemCategoryRef& data)
     }
 }
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END

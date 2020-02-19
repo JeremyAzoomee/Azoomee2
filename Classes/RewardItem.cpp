@@ -7,7 +7,9 @@
 
 #include "RewardItem.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 RewardItemRef RewardItem::createWithJson(const rapidjson::Value& rewardData)
 {
@@ -91,4 +93,4 @@ std::string RewardItem::getName() const
 	return _item->getName();
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

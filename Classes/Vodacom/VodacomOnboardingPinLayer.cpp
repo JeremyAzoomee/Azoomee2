@@ -18,7 +18,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool VodacomOnboardingPinLayer::init()
 {
@@ -190,7 +192,7 @@ void VodacomOnboardingPinLayer::onConfirmPressed()
 	{
 		_flowData->setPin(_pinInput->getText());
 		ModalMessages::getInstance()->startLoading();
-		const std::string &sourceDevice = Device::getInstance()->getDeviceInformation();
+		const std::string &sourceDevice = TZ::Device::getInstance()->getDeviceInformation();
 		HttpRequestCreator* request = API::RegisterParentRequest(UserAccountManager::getInstance()->getLoggedInParentId(),_flowData->getEmail(), _flowData->getPassword(), _pinInput->getText(), "VODACOM", sourceDevice, boolToString(_flowData->getAcceptedMarketing()), this);
 		request->execute();
 	}
@@ -353,5 +355,5 @@ void VodacomOnboardingPinLayer::onButtonPressed(SettingsMessageBox *pSender, Set
 	}
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 #endif

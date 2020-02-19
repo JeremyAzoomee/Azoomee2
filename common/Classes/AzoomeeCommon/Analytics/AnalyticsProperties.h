@@ -9,10 +9,10 @@
 #define AnalyticsProperties_h
 
 #include <cocos/cocos2d.h>
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include <time.h>
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class AnalyticsProperties : public cocos2d::Ref
 {
@@ -72,6 +72,6 @@ public:
 	static const std::string kSecondsInContentKey;
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif /* AnalyticsProperties_h */

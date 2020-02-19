@@ -12,7 +12,9 @@
 #include "../AzoomeeChat.h"
 #include <AzoomeeCommon/ImageDownloader/OnScreenChecker.h>
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 class ArtListItemOnScreenChecker: public OnScreenChecker
 {
@@ -21,6 +23,6 @@ protected:
     virtual void elementAppeared(cocos2d::Node *sender) override;
 };
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END
 
 #endif /* ArtListItemOnScreenChecker_h */

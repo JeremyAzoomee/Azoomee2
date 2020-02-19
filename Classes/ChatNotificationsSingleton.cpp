@@ -8,7 +8,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 static ChatNotificationsSingleton *_sharedChatNotificationsSingleton = NULL;
 
@@ -55,4 +57,4 @@ bool ChatNotificationsSingleton::userHasNotifications()
     return loggedInUserHasNotifications;
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
