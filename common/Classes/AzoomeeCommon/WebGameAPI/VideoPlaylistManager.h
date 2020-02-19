@@ -2,19 +2,19 @@
 #define __VIDEOPLAYLISTMANAGER_H__
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
-#include <AzoomeeCommon/Data/HQDataObject/HQCarouselObject.h>
+#include "../Azoomee.h"
+#include "../Data/HQDataObject/HQContentItemObject.h"
+#include "../Data/HQDataObject/HQCarouselObject.h"
 
 NS_AZOOMEE_BEGIN
 
-class VideoPlaylistManager : public cocos2d::Ref
+class VideoPlaylistManager
 {
     
 public:
-    static VideoPlaylistManager* getInstance(void);
+    static VideoPlaylistManager* getInstance();
     virtual ~VideoPlaylistManager();
-    bool init(void);
+    bool init();
     
     void setPlaylist(const HQCarouselObjectRef &hqCarouselObject);
     std::string getPlaylist();

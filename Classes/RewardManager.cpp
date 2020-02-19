@@ -28,10 +28,16 @@ RewardManager* RewardManager::getInstance()
 
 RewardManager::RewardManager()
 {
+    _rewardHeaderCheckEventListener = cocos2d::EventListenerCustom::create(API::kRewardHeaderCheckEventName, [this](cocos2d::EventCustom* event){
+        std::string headers = *static_cast<std::string*>(event->getUserData());
+        checkResponseForNewRewards("", headers);
+    });
+    cocos2d::Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_rewardHeaderCheckEventListener, 1);
 }
 
 RewardManager::~RewardManager()
 {
+    cocos2d::Director::getInstance()->getEventDispatcher()->removeEventListener(_rewardHeaderCheckEventListener);
 }
 
 void RewardManager::getLatestRewardStrategy()

@@ -1,8 +1,7 @@
 #include "ios_Cocos2d_Callbacks.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include "WebGameAPIDataManager.h"
-#include "VideoPlaylistManager.h"
+#include <AzoomeeCommon/WebGameAPI/WebGameAPIDataManager.h>
 #include "SceneManagerScene.h"
 #include "LoginController.h"
 #include "FlowDataSingleton.h"
@@ -10,14 +9,15 @@
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
-#include "ContentHistoryManager.h"
-#include "FavouritesManager.h"
+#include <AzoomeeCommon/ContentDataManagers/ContentHistoryManager.h>
+#include <AzoomeeCommon/ContentDataManagers/FavouritesManager.h>
 #include "ChatDelegate.h"
-#include "VideoPlaylistManager.h"
+#include <AzoomeeCommon/WebGameAPI/VideoPlaylistManager.h>
 #include "BackEndCaller.h"
-#include "RecentlyPlayedManager.h"
+#include <AzoomeeCommon/ContentDataManagers/RecentlyPlayedManager.h>
 #include <AzoomeeCommon/Device.h>
 #include <AzoomeeCommon/Data/AppConfig.h>
+#include "RewardManager.h"
 
 using namespace cocos2d;
 NS_AZOOMEE_BEGIN
@@ -175,6 +175,8 @@ void sendProgressMetaDataVideo(int videoProgressSeconds, int videoDuration)
 void sendProgressMetaDataGame()
 {
 	ContentHistoryManager::getInstance()->onGameContentClosed();
+    // Notify RewardManager to calculate reward
+    RewardManager::getInstance()->calculateRewardForContent(ContentHistoryManager::getInstance()->getLastOpenedContent(), ContentHistoryManager::getInstance()->getTimeInContentSec());
 }
 
 void newVideoOpened(int playlistIndex)

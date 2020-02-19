@@ -2,17 +2,16 @@
 #define __WEBGAMEAPIDATAMANAGER_H__
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Azoomee.h>
+#include "../Azoomee.h"
 
 NS_AZOOMEE_BEGIN
 
-class WebGameAPIDataManager : public cocos2d::Ref
+class WebGameAPIDataManager
 {
-    
 public:
-    static WebGameAPIDataManager* getInstance(void);
+    static WebGameAPIDataManager* getInstance();
     virtual ~WebGameAPIDataManager();
-    bool init(void);
+
     char* handleAPIRequest(const char* method, const char* responseId, const char* sendData);
     void setGameId(std::string gameId);
     void saveLocalStorageData(std::string stringToBeWritten);

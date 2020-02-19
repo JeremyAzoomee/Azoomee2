@@ -15,7 +15,7 @@
 #include "ArtAppDelegate.h"
 #include "WebViewSelector.h"
 #include "IntroVideoScene.h"
-#include "ContentHistoryManager.h"
+#include <AzoomeeCommon/ContentDataManagers/ContentHistoryManager.h>
 #include "WelcomeScene.h"
 #include "RewardDisplayHandler.h"
 #include <AzoomeeCommon/Device.h>

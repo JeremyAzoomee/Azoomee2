@@ -151,6 +151,12 @@
 		92EC0C5B223177E700B02F20 /* ShopDisplayItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C5A223177E700B02F20 /* ShopDisplayItem.cpp */; };
 		92EC0C732232C9F400B02F20 /* Shop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C712232C9F300B02F20 /* Shop.cpp */; };
 		E21F700C23E47F670007EFF9 /* Device.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21F700B23E47F670007EFF9 /* Device.cpp */; };
+		E2264F4823F1AFAD00392D89 /* WebGameAPIDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2264F4623F1AFAD00392D89 /* WebGameAPIDataManager.cpp */; };
+		E2264F4923F1AFAD00392D89 /* VideoPlaylistManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2264F4723F1AFAD00392D89 /* VideoPlaylistManager.cpp */; };
+		E2264F5E23F30F2500392D89 /* ContentHistoryManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2264F5D23F30F2500392D89 /* ContentHistoryManager.cpp */; };
+		E2264F6123F3FECD00392D89 /* RecentlyPlayedManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2264F5F23F3FECD00392D89 /* RecentlyPlayedManager.cpp */; };
+		E2264F6423F4048000392D89 /* FavouritesManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2264F6323F4048000392D89 /* FavouritesManager.cpp */; };
+		E2264F6723F45D7500392D89 /* GameDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2264F6623F45D7500392D89 /* GameDataManager.cpp */; };
 		E229F70B233E1465005BA0D4 /* RoundedRectSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E229F70A233E1465005BA0D4 /* RoundedRectSprite.cpp */; };
 		E230584B23E83C530057CFE7 /* AppConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E230584A23E83C530057CFE7 /* AppConfig.cpp */; };
 		E23058C923EC75630057CFE7 /* MessagePopupBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23058C823EC75630057CFE7 /* MessagePopupBase.cpp */; };
@@ -447,6 +453,18 @@
 		92EC0C722232C9F400B02F20 /* Shop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shop.h; sourceTree = "<group>"; };
 		E21F700A23E47E2F0007EFF9 /* Device.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Device.h; sourceTree = "<group>"; };
 		E21F700B23E47F670007EFF9 /* Device.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Device.cpp; sourceTree = "<group>"; };
+		E2264F4423F1AFAC00392D89 /* WebGameAPIDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebGameAPIDataManager.h; sourceTree = "<group>"; };
+		E2264F4523F1AFAD00392D89 /* VideoPlaylistManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoPlaylistManager.h; sourceTree = "<group>"; };
+		E2264F4623F1AFAD00392D89 /* WebGameAPIDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WebGameAPIDataManager.cpp; sourceTree = "<group>"; };
+		E2264F4723F1AFAD00392D89 /* VideoPlaylistManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoPlaylistManager.cpp; sourceTree = "<group>"; };
+		E2264F5C23F30F2400392D89 /* ContentHistoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentHistoryManager.h; sourceTree = "<group>"; };
+		E2264F5D23F30F2500392D89 /* ContentHistoryManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ContentHistoryManager.cpp; sourceTree = "<group>"; };
+		E2264F5F23F3FECD00392D89 /* RecentlyPlayedManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RecentlyPlayedManager.cpp; sourceTree = "<group>"; };
+		E2264F6023F3FECD00392D89 /* RecentlyPlayedManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecentlyPlayedManager.h; sourceTree = "<group>"; };
+		E2264F6223F4048000392D89 /* FavouritesManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FavouritesManager.h; sourceTree = "<group>"; };
+		E2264F6323F4048000392D89 /* FavouritesManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FavouritesManager.cpp; sourceTree = "<group>"; };
+		E2264F6523F45D7500392D89 /* GameDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameDataManager.h; sourceTree = "<group>"; };
+		E2264F6623F45D7500392D89 /* GameDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameDataManager.cpp; sourceTree = "<group>"; };
 		E229F709233E13D6005BA0D4 /* RoundedRectSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoundedRectSprite.h; sourceTree = "<group>"; };
 		E229F70A233E1465005BA0D4 /* RoundedRectSprite.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RoundedRectSprite.cpp; sourceTree = "<group>"; };
 		E230584923E8236A0057CFE7 /* AppConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppConfig.h; sourceTree = "<group>"; };
@@ -743,6 +761,7 @@
 				30DD5EBD1E96571F0084305B /* Analytics */,
 				3092BCED1EB10524006D6F4C /* API */,
 				3012ED451E969A180009027D /* Audio */,
+				E2264F5B23F30ECF00392D89 /* ContentDataManagers */,
 				30DD5EBE1E96571F0084305B /* Crashlytics */,
 				30DD5EDF1E96841D0084305B /* Data */,
 				3012ED961E97E6A40009027D /* ImageDownloader */,
@@ -753,6 +772,7 @@
 				3000FF6D1ED5AB7000E9717C /* Platform */,
 				3012ED861E97DB450009027D /* UI */,
 				3012ED6A1E96A3140009027D /* Utils */,
+				E2264F3D23F1AF4D00392D89 /* WebGameAPI */,
 			);
 			path = AzoomeeCommon;
 			sourceTree = "<group>";
@@ -1008,6 +1028,32 @@
 			path = Shop;
 			sourceTree = "<group>";
 		};
+		E2264F3D23F1AF4D00392D89 /* WebGameAPI */ = {
+			isa = PBXGroup;
+			children = (
+				E2264F4623F1AFAD00392D89 /* WebGameAPIDataManager.cpp */,
+				E2264F4423F1AFAC00392D89 /* WebGameAPIDataManager.h */,
+				E2264F4723F1AFAD00392D89 /* VideoPlaylistManager.cpp */,
+				E2264F4523F1AFAD00392D89 /* VideoPlaylistManager.h */,
+			);
+			path = WebGameAPI;
+			sourceTree = "<group>";
+		};
+		E2264F5B23F30ECF00392D89 /* ContentDataManagers */ = {
+			isa = PBXGroup;
+			children = (
+				E2264F6623F45D7500392D89 /* GameDataManager.cpp */,
+				E2264F6523F45D7500392D89 /* GameDataManager.h */,
+				E2264F6223F4048000392D89 /* FavouritesManager.h */,
+				E2264F6323F4048000392D89 /* FavouritesManager.cpp */,
+				E2264F6023F3FECD00392D89 /* RecentlyPlayedManager.h */,
+				E2264F5F23F3FECD00392D89 /* RecentlyPlayedManager.cpp */,
+				E2264F5C23F30F2400392D89 /* ContentHistoryManager.h */,
+				E2264F5D23F30F2500392D89 /* ContentHistoryManager.cpp */,
+			);
+			path = ContentDataManagers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1099,6 +1145,7 @@
 			files = (
 				4349C85A1EA8ADEF00FE964B /* UIColor+MPColor.m in Sources */,
 				9220E9C11FFE549500BD7A90 /* AnalyticsProperties.cpp in Sources */,
+				E2264F5E23F30F2500392D89 /* ContentHistoryManager.cpp in Sources */,
 				4349C8541EA8ADEF00FE964B /* MPWebSocket.m in Sources */,
 				4349C8371EA8ADEF00FE964B /* MPNotificationViewController.m in Sources */,
 				4349C8331EA8ADEF00FE964B /* MPMiniNotification.m in Sources */,
@@ -1137,6 +1184,7 @@
 				3000FF761ED5AB7100E9717C /* AzoomeeViewController.mm in Sources */,
 				021B1FCB1F838A0A0044DCF7 /* HQDataObject.cpp in Sources */,
 				4349C8411EA8ADEF00FE964B /* MPResources.m in Sources */,
+				E2264F6723F45D7500392D89 /* GameDataManager.cpp in Sources */,
 				4349C85D1EA8ADEF00FE964B /* UIView+MPHelpers.m in Sources */,
 				3000FF751ED5AB7100E9717C /* AzoomeeAppController.mm in Sources */,
 				92EC0C732232C9F400B02F20 /* Shop.cpp in Sources */,
@@ -1162,6 +1210,7 @@
 				E230584B23E83C530057CFE7 /* AppConfig.cpp in Sources */,
 				022218CC1ECF203000AD167F /* SessionIdManager.cpp in Sources */,
 				02BEDF2E1FE1327500D4C9B3 /* ContentItemManager.cpp in Sources */,
+				E2264F6123F3FECD00392D89 /* RecentlyPlayedManager.cpp in Sources */,
 				301CCA9A1EB14280009ADA0C /* API.cpp in Sources */,
 				3012ED711E96A3140009027D /* LocaleManager.cpp in Sources */,
 				4349C8201EA8ADEF00FE964B /* MPABTestDesignerDisconnectMessage.m in Sources */,
@@ -1182,6 +1231,7 @@
 				4349C84E1EA8ADEF00FE964B /* MPUIControlBinding.m in Sources */,
 				3012EDA01E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.cpp in Sources */,
 				4349C83C1EA8ADEF00FE964B /* MPObjectSerializer.m in Sources */,
+				E2264F4823F1AFAD00392D89 /* WebGameAPIDataManager.cpp in Sources */,
 				4349C8181EA8ADEF00FE964B /* MPAbstractABTestDesignerMessage.m in Sources */,
 				4349C82C1EA8ADEF00FE964B /* MPCGSizeToNSDictionaryValueTransformer.m in Sources */,
 				4349C8261EA8ADEF00FE964B /* MPBOOLToNSNumberValueTransformer.m in Sources */,
@@ -1204,6 +1254,8 @@
 				4349C81F1EA8ADEF00FE964B /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
 				92D1B49622A8178400357513 /* ChildManager.cpp in Sources */,
 				924ACE0C20A4A073007A5550 /* HQStructureDownloadHandler.cpp in Sources */,
+				E2264F4923F1AFAD00392D89 /* VideoPlaylistManager.cpp in Sources */,
+				E2264F6423F4048000392D89 /* FavouritesManager.cpp in Sources */,
 				4349C84D1EA8ADEF00FE964B /* MPUIColorToNSStringValueTransformer.m in Sources */,
 				92D1B49322A7F7C000357513 /* CookieManager.cpp in Sources */,
 				3012ED481E969A180009027D /* AudioMixer.cpp in Sources */,

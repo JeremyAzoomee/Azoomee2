@@ -5,11 +5,11 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include "WebGameAPIDataManager.h"
-#include "VideoPlaylistManager.h"
-#include "FavouritesManager.h"
-#include "ContentHistoryManager.h"
-#include "RecentlyPlayedManager.h"
+#include <AzoomeeCommon/WebGameAPI/WebGameAPIDataManager.h>
+#include <AzoomeeCommon/WebGameAPI/VideoPlaylistManager.h>
+#include <AzoomeeCommon/ContentDataManagers/FavouritesManager.h>
+#include <AzoomeeCommon/ContentDataManagers/ContentHistoryManager.h>
+#include <AzoomeeCommon/ContentDataManagers/RecentlyPlayedManager.h>
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
@@ -17,6 +17,7 @@
 #include "ChatDelegate.h"
 #include "BackEndCaller.h"
 #include "WebViewSelector.h"
+#include "RewardManager.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -402,6 +403,8 @@ extern "C"
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendProgressMetaDataGame(JNIEnv* env, jobject thiz)
 {
 	ContentHistoryManager::getInstance()->onGameContentClosed();
+    // Notify RewardManager to calculate reward
+    RewardManager::getInstance()->calculateRewardForContent(ContentHistoryManager::getInstance()->getLastOpenedContent(), ContentHistoryManager::getInstance()->getTimeInContentSec());
 }
 
 #endif

@@ -9,8 +9,8 @@
 #define FavouritesManager_h
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
+#include "../Azoomee.h"
+#include "../Data/HQDataObject/HQContentItemObject.h"
 
 NS_AZOOMEE_BEGIN
 

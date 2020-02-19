@@ -5,7 +5,6 @@
 #include "HQHistoryManager.h"
 #include "FlowDataSingleton.h"
 #include "LoginController.h"
-#include "HQDataProvider.h"
 #include "ContentOpener.h"
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -34,7 +33,7 @@ void ChatDelegate::shareContentInChat()
     if(_sharedContentId != "")
     {
         AnalyticsSingleton::getInstance()->shareContentItemButtonPressed(_sharedContentId);
-        const std::string& fileurl = HQDataProvider::getInstance()->getThumbnailUrlForItem(_sharedContentId);
+        const std::string& fileurl = ContentItemManager::getInstance()->getThumbnailUrlForItem(_sharedContentId);
         ImageDownloaderRef imgDownloader = ImageDownloader::create(ImageDownloader::kImageCachePath, ImageDownloader::CacheMode::File);
         imgDownloader->downloadImage(this, fileurl);
     }
@@ -74,7 +73,7 @@ void ChatDelegate::onChatNavigateToContent(const std::string &contentId)
     if(contentItem)
     {
         AnalyticsSingleton::getInstance()->chatOpenSharedContentEvent(contentId);
-        AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, 0, 0, "", HQConsts::kChatHQName);
+        AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, 0, 0, HQConsts::kChatHQName);
         ContentOpener::getInstance()->openContentById(contentId);
     }
 }
@@ -110,7 +109,7 @@ void ChatDelegate::onImageDownloadFailed()
 {
     if(_sharedContentId != "")
     {
-        const auto& item = HQDataProvider::getInstance()->getContentItemFromID(_sharedContentId);
+        const auto& item = ContentItemManager::getInstance()->getContentItemForId(_sharedContentId);
         if(item)
         {
             std::string filename = "res/contentPlaceholders/Games1X1.png";

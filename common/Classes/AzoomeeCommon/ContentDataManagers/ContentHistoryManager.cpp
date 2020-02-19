@@ -6,10 +6,9 @@
 //
 
 #include "ContentHistoryManager.h"
-#include <AzoomeeCommon/Utils/SessionIdManager.h>
-#include <AzoomeeCommon/Utils//TimeUtils.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include "RewardManager.h"
+#include "../Utils/SessionIdManager.h"
+#include "../Utils//TimeUtils.h"
+#include "../Data/Child/ChildManager.h"
 
 using namespace cocos2d;
 
@@ -86,8 +85,6 @@ void ContentHistoryManager::onGameContentClosed()
     HttpRequestCreator* request = API::UpdateContentProgressMeta(loggedInChild->getId(), data, this);
     request->execute();
     
-    // Notify RewardManager to calculate reward
-    RewardManager::getInstance()->calculateRewardForContent(_lastOpenedContent, _timeInContent);
 }
 
 void ContentHistoryManager::onVideoContentClosed(int videoProgressSeconds, int videoDuration)
@@ -107,9 +104,6 @@ void ContentHistoryManager::onVideoContentClosed(int videoProgressSeconds, int v
     const ChildRef& loggedInChild = ChildManager::getInstance()->getLoggedInChild();
     HttpRequestCreator* request = API::UpdateContentProgressMeta(loggedInChild->getId(), data, this);
     request->execute();
-    
-    // Notify RewardManager to calculate reward
-    RewardManager::getInstance()->calculateRewardForContent(_lastOpenedContent, _timeInContent);
 }
 
 void ContentHistoryManager::recordContentClosedTime()
@@ -154,7 +148,9 @@ std::string ContentHistoryManager::getContentClosedTimeMs() const
 
 void ContentHistoryManager::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
-    RewardManager::getInstance()->checkResponseForNewRewards(requestTag, headers);
+    std::string headerCopy = headers;
+    Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(API::kRewardHeaderCheckEventName, &headerCopy);
+    //RewardManager::getInstance()->checkResponseForNewRewards(requestTag, headers);
 }
 
 void ContentHistoryManager::onHttpRequestFailed(const std::string& requestTag, long errorCode)

@@ -9,7 +9,8 @@
 #include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloaderCacheCleanerLogic.h>
-#include "HQDataProvider.h"
+#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
+#include "HQConstants.h"
 
 using namespace cocos2d;
 
@@ -107,7 +108,7 @@ void CircleTile::elementAppeared(cocos2d::Node *sender)
 {
     if(_contentItem)
     {
-        _imageDownloader->downloadImage(this, HQDataProvider::getInstance()->getThumbnailUrlForItem(_contentItem, TILESIZE_3X3));
+        _imageDownloader->downloadImage(this, ContentItemManager::getInstance()->getThumbnailUrlForItem(_contentItem, TILESIZE_3X3));
     }
     else
     {
@@ -132,9 +133,9 @@ void CircleTile::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 }
 void CircleTile::onImageDownloadFailed()
 {
-    if(_imageDownloader->getUrl() == HQDataProvider::getInstance()->getThumbnailUrlForItem(_contentItem, TILESIZE_3X3))
+    if(_imageDownloader->getUrl() == ContentItemManager::getInstance()->getThumbnailUrlForItem(_contentItem, TILESIZE_3X3))
     {
-        _imageDownloader->downloadImage(this, HQDataProvider::getInstance()->getThumbnailUrlForItem(_contentItem, TILESIZE_1X1));
+        _imageDownloader->downloadImage(this, ContentItemManager::getInstance()->getThumbnailUrlForItem(_contentItem, TILESIZE_1X1));
     }
 }
 

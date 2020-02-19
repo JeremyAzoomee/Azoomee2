@@ -9,7 +9,7 @@
 #include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloaderCacheCleanerLogic.h>
-#include "HQDataProvider.h"
+#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 
 using namespace cocos2d;
 
@@ -126,7 +126,7 @@ void RoundedRectTile::elementAppeared(cocos2d::Node *sender)
 {
     if(_contentItem && isVisible())
     {
-        _imageDownloader->downloadImage(this, HQDataProvider::getInstance()->getThumbnailUrlForItem(_contentItem, _imageShape));
+        _imageDownloader->downloadImage(this, ContentItemManager::getInstance()->getThumbnailUrlForItem(_contentItem, _imageShape));
     }
     else
     {

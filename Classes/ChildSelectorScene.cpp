@@ -9,7 +9,7 @@
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include "SceneManagerScene.h"
 #include "FlowDataSingleton.h"
-#include "ContentHistoryManager.h"
+#include <AzoomeeCommon/ContentDataManagers/ContentHistoryManager.h>
 #include "ForceUpdateAppLockScene.h"
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include <AzoomeeCommon/Utils/ActionBuilder.h>

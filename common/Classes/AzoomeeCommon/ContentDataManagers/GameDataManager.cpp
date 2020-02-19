@@ -1,34 +1,13 @@
 #include "GameDataManager.h"
-
-#include "external/json/document.h"
-#include "external/json/writer.h"
-#include "external/json/stringbuffer.h"
-#include "external/json/document.h"
-#include "external/json/writer.h"
-#include "external/json/stringbuffer.h"
-#include "external/json/prettywriter.h"
-#include <AzoomeeCommon/Utils/FileZipUtil.h>
-
-#include "BackEndCaller.h"
-#include "ModalMessages.h"
-#include "LoginController.h"
-#include "HQHistoryManager.h"
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include "WebGameAPIDataManager.h"
-#include <AzoomeeCommon/Data/AppConfig.h>
-#include "FlowDataSingleton.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Utils/StringFunctions.h>
-#include "ErrorCodes.h"
-#include "WebViewSelector.h"
-#include "HQDataProvider.h"
-#include <AzoomeeCommon/Utils/DirUtil.h>
-#include <ctime>
-#include <cstdlib>
-
-#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
-
-#include "PopupMessageBox.h"
+#include "../Data/Json.h"
+#include "../Utils/FileZipUtil.h"
+#include "../Utils/LocaleManager.h"
+#include "../WebGameAPI/WebGameAPIDataManager.h"
+#include "../Data/AppConfig.h"
+#include "../Analytics/AnalyticsSingleton.h"
+#include "../Utils/StringFunctions.h"
+#include "../Utils/DirUtil.h"
+#include "../Data/HQDataObject/ContentItemManager.h"
 
 using namespace cocos2d;
 using namespace cocos2d::network;
@@ -37,6 +16,12 @@ NS_AZOOMEE_BEGIN
 
 const char* const GameDataManager::kManualGameId = "MANUAL_GAME";
 const std::string GameDataManager::kGameCacheFolder = "gameCache/";
+
+const std::string GameDataManager::kZipDownloadError = "zipDownloadError";
+const std::string GameDataManager::kJsonDownloadError = "jsonDownloadError";
+const std::string GameDataManager::kVersionIncompatibleError = "versionIncompatibleError";
+const std::string GameDataManager::kUnzipError = "unzipError";
+const std::string GameDataManager::kStartFileUnavailableError = "startFileUnavailableError";
 
 const std::map<std::string, Vec2> GameDataManager::kCloseAnchorKeyToVec2Map = {
     {"TOP_LEFT",Vec2(0,0)},
@@ -76,6 +61,9 @@ bool GameDataManager::init(void)
     FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/load.png"), cacheFolder + "load.png");
     FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/style.css"), cacheFolder + "style.css");
 #endif
+    
+    _imageDownloader = ImageDownloader::create(ImageDownloader::kImageCachePath, ImageDownloader::CacheMode::File);
+    
     return true;
 }
 
@@ -107,14 +95,16 @@ std::vector<std::string> GameDataManager::getJsonFileListFromDir() const
     return DirUtil::getFoldersInDirectory(getGameCachePath());
 }
 
-void GameDataManager::startProcessingGame(const HQContentItemObjectRef &itemData)
+void GameDataManager::startProcessingGame(const HQContentItemObjectRef &itemData, const OnSuccessCallback& successCallback, const OnFailedCallback& failedCallback, bool offline)
 {
+    _successCallback = successCallback;
+    _failedCallback = failedCallback;
+    
+    _offline = offline;
+    
     AnalyticsSingleton::getInstance()->contentItemProcessingStartedEvent();
     
-    processCancelled = false;
     _gameIsBeingStreamed = false;
-    
-    displayLoadingScreen();
     
     performGameCleanup();
     
@@ -132,7 +122,7 @@ void GameDataManager::startProcessingGame(const HQContentItemObjectRef &itemData
     
     if(checkIfFileExists(basePath + fileName))
     {
-        if(HQHistoryManager::getInstance()->isOffline())
+        if(_offline)
         {
             JSONFileIsPresent(itemId);
         }
@@ -149,7 +139,7 @@ void GameDataManager::startProcessingGame(const HQContentItemObjectRef &itemData
 
 void GameDataManager::saveFeedDataToFile(const HQContentItemObjectRef &itemData)
 {
-    if(HQHistoryManager::getInstance()->isOffline())
+    if(_offline)
     {
         return;
     }
@@ -171,16 +161,18 @@ void GameDataManager::JSONFileIsPresent(const std::string &itemId)
     
     if(!isGameCompatibleWithCurrentAppVersion(basePathWithFileName))
     {
-        hideLoadingScreen();
-        showIncompatibleMessage();
+        if(_failedCallback)
+        {
+            _failedCallback(kVersionIncompatibleError, 200);
+        }
         return;
     }
     
     if(checkIfFileExists(basePath + startFile))
     {
-        startGame(basePath, startFile);
+        finishGameProcessing(basePath, startFile);
     }
-    else if(!HQHistoryManager::getInstance()->isOffline())
+    else if(!_offline)
     {
         streamGameIfPossible(basePathWithFileName);
         
@@ -188,8 +180,10 @@ void GameDataManager::JSONFileIsPresent(const std::string &itemId)
     }
     else
     {
-        hideLoadingScreen();
-        return;
+        if(_failedCallback)
+        {
+            _failedCallback(kStartFileUnavailableError, 200);
+        }
     }
 }
 
@@ -336,7 +330,10 @@ void GameDataManager::streamGameIfPossible(const std::string &jsonFileName)
         std::string uri = getDownloadUrlForGameFromJSONFile(jsonFileName);
         uri = uri.substr(0, uri.find_last_of("/"));
         const std::string& startFileNameWithPath = getStartFileFromJSONFile(jsonFileName);
-        Director::getInstance()->replaceScene(SceneManagerScene::createWebview(getGameOrientation(jsonFileName), uri + "/" + startFileNameWithPath, getCloseButtonAnchorPointFromJSONFile(jsonFileName)));
+        if(_successCallback)
+        {
+            _successCallback(getGameOrientation(jsonFileName), uri + "/" + startFileNameWithPath, getCloseButtonAnchorPointFromJSONFile(jsonFileName));
+        }
         _gameIsBeingStreamed = true;
     }
 }
@@ -347,7 +344,7 @@ void GameDataManager::downloadGameIfPossible(const std::string &jsonFileName, co
     if(getIsGameDownloadableFromJSONFile(jsonFileName))
     {
         const std::string &downloadUrl = getDownloadUrlForGameFromJSONFile(jsonFileName);
-        getGameZipFile(downloadUrl, itemId); //getGameZipFile callback will call unzipGame and startGame
+        getGameZipFile(downloadUrl, itemId); //getGameZipFile callback will call unzipGame and finishGameProcessing
     }
     else
 #else
@@ -358,12 +355,14 @@ void GameDataManager::downloadGameIfPossible(const std::string &jsonFileName, co
         if(itemId == kManualGameId)
         {
             const std::string &downloadUrl = getDownloadUrlForGameFromJSONFile(jsonFileName);
-            getGameZipFile(downloadUrl, itemId); //getGameZipFile callback will call unzipGame and startGame
+            getGameZipFile(downloadUrl, itemId); //getGameZipFile callback will call unzipGame and finishGameProcessing
         }
         else if(!_gameIsBeingStreamed)
         {
-            hideLoadingScreen();
-            showErrorMessage();
+            if(_failedCallback)
+            {
+                _failedCallback(kZipDownloadError, 404);
+            }
         }
     }
 }
@@ -380,8 +379,10 @@ void GameDataManager::getGameZipFile(const std::string &url, const std::string &
     if(!FileUtils::getInstance()->isFileExist(zipPath))
     {
         AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
-        hideLoadingScreen();
-        showErrorMessage();
+        if(_failedCallback)
+        {
+            _failedCallback(kUnzipError, 200);
+        }
         return false;
     }
     
@@ -395,29 +396,32 @@ bool GameDataManager::removeGameZip(const std::string &fileNameWithPath)
     return FileUtils::getInstance()->removeFile(fileNameWithPath);
 }
 
-void GameDataManager::startGame(const std::string &basePath, const std::string &fileName)
+void GameDataManager::finishGameProcessing(const std::string &basePath, const std::string &fileName)
 {
-	
-    if(processCancelled)
-    {
-        return;
-    }
-    hideLoadingScreen();
     if(!FileUtils::getInstance()->isFileExist(basePath + fileName))
     {
         AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
-        showErrorMessage();
+        if(_failedCallback)
+        {
+            _failedCallback(kStartFileUnavailableError, 200);
+        }
         return;
     }
     
     if(!isGameCompatibleWithCurrentAppVersion(basePath + "package.json"))
     {
         AnalyticsSingleton::getInstance()->contentItemIncompatibleEvent();
-        showIncompatibleMessage();
+        if(_failedCallback)
+        {
+            _failedCallback(kVersionIncompatibleError, 200);
+        }
         return;
     }
     addTimestampFile(basePath + "lastUsedTimestamp.txt");
-    Director::getInstance()->replaceScene(SceneManagerScene::createWebview(getGameOrientation(basePath + "package.json"), basePath + fileName, getCloseButtonAnchorPointFromJSONFile(basePath + "package.json")));
+    if(_successCallback)
+    {
+        _successCallback(getGameOrientation(basePath + "package.json"), basePath + fileName, getCloseButtonAnchorPointFromJSONFile(basePath + "package.json"));
+    }
 }
 
 std::string GameDataManager::getGameIdPath(const std::string &gameId)
@@ -443,70 +447,6 @@ Orientation GameDataManager::getGameOrientation(const std::string& jsonFileName)
     return Orientation::Landscape;
 }
 
-//---------------------LOADING SCREEN----------------------------------
-void GameDataManager::displayLoadingScreen()
-{
-    ModalMessages::getInstance()->startLoading();
-    
-    ui::Button* cancelButton = ui::Button::create("res/buttons/windowCloseButton.png");
-    cancelButton->setAnchorPoint(Vec2(2.0f, 2.0f));
-    cancelButton->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
-    cancelButton->setName("cancelButton");
-    cancelButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
-        if(eType == ui::Widget::TouchEventType::ENDED)
-        {
-            AnalyticsSingleton::getInstance()->genericButtonPressEvent("CancelGameLoading");
-            processCancelled = true;
-            
-            if(_fileDownloader)
-            {
-                _fileDownloader->setDelegate(nullptr);
-            }
-            
-            this->hideLoadingScreen();
-        }
-    });
-    Director::getInstance()->getRunningScene()->addChild(cancelButton, 9999);
-}
-void GameDataManager::hideLoadingScreen()
-{
-    Director::getInstance()->getRunningScene()->removeChild(Director::getInstance()->getRunningScene()->getChildByName("cancelButton"));
-    ModalMessages::getInstance()->stopLoading();
-}
-
-void GameDataManager::showErrorMessage()
-{
-    const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(ERROR_CODE_SOMETHING_WENT_WRONG);
-    
-    PopupMessageBox* messageBox = PopupMessageBox::create();
-    messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
-    messageBox->setBody(errorMessageText.at(ERROR_BODY));
-    messageBox->setButtonText(_("Back"));
-    messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
-    messageBox->setPatternColour(Colours::Color_3B::azure);
-    messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
-        pSender->removeFromParent();
-    });
-    Director::getInstance()->getRunningScene()->addChild(messageBox, 1000);
-}
-
-void GameDataManager::showIncompatibleMessage()
-{
-    const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(ERROR_CODE_GAME_INCOMPATIBLE);
-    
-    PopupMessageBox* messageBox = PopupMessageBox::create();
-    messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
-    messageBox->setBody(errorMessageText.at(ERROR_BODY));
-    messageBox->setButtonText(_("Back"));
-    messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
-    messageBox->setPatternColour(Colours::Color_3B::azure);
-    messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
-        pSender->removeFromParent();
-    });
-    Director::getInstance()->getRunningScene()->addChild(messageBox, 1000);
-    
-}
-
 void GameDataManager::removeGameFolderOnError(const std::string &dirPath)
 {
     FileUtils::getInstance()->removeDirectory(dirPath);
@@ -525,13 +465,7 @@ bool GameDataManager::isGameCompatibleWithCurrentAppVersion(const std::string &j
 
 void GameDataManager::getContentItemImageForOfflineUsage(const std::string &gameId)
 {
-    if(imageDownloader)
-    {
-        imageDownloader.reset();
-    }
-    
-    imageDownloader = ImageDownloader::create(ImageDownloader::kImageCachePath, ImageDownloader::CacheMode::File);
-    imageDownloader->downloadImage(nullptr, HQDataProvider::getInstance()->getThumbnailUrlForItem(gameId));
+    _imageDownloader->downloadImage(nullptr, ContentItemManager::getInstance()->getThumbnailUrlForItem(gameId));
 }
 
 void GameDataManager::performGameCleanup()
@@ -603,15 +537,17 @@ void GameDataManager::onAsyncUnzipComplete(bool success, const std::string& zipP
         {
             const std::string &basePathWithFileName = dirpath + "package.json";
             const std::string &startFile = getStartFileFromJSONFile(basePathWithFileName);
-            startGame(dirpath, startFile);
+            finishGameProcessing(dirpath, startFile);
         }
     }
     else
     {
         AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
         removeGameFolderOnError(dirpath);
-        hideLoadingScreen();
-        showErrorMessage();
+        if(_failedCallback)
+        {
+            _failedCallback(kUnzipError, 200);
+        }
     }
 }
 
@@ -620,8 +556,10 @@ void GameDataManager::onFileDownloadComplete(const std::string &fileString,const
     if(responseCode != 200)
     {
         AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
-        FlowDataSingleton::getInstance()->setErrorCode(ERROR_CODE_SOMETHING_WENT_WRONG);
-        LoginController::getInstance()->doLoginLogic();
+        if(_failedCallback)
+        {
+            _failedCallback(tag == _kJsonTag ? kJsonDownloadError : kZipDownloadError, responseCode);
+        }
         return;
     }
     if(tag == _kJsonTag)

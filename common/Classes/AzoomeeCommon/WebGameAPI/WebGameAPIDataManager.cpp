@@ -1,9 +1,9 @@
 #include "WebGameAPIDataManager.h"
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include "../Data/Child/ChildManager.h"
 #include "VideoPlaylistManager.h"
-#include <AzoomeeCommon/Utils/TimeUtils.h>
-#include <AzoomeeCommon/Utils/DirUtil.h>
-#include <AzoomeeCommon/Data/AppConfig.h>
+#include "../Utils/TimeUtils.h"
+#include "../Utils/DirUtil.h"
+#include "../Data/AppConfig.h"
 
 using namespace cocos2d;
 
@@ -16,19 +16,13 @@ WebGameAPIDataManager* WebGameAPIDataManager::getInstance()
     if (! _sharedWebGameAPIDataManager)
     {
         _sharedWebGameAPIDataManager = new WebGameAPIDataManager();
-        _sharedWebGameAPIDataManager->init();
     }
     
     return _sharedWebGameAPIDataManager;
 }
 
-WebGameAPIDataManager::~WebGameAPIDataManager(void)
+WebGameAPIDataManager::~WebGameAPIDataManager()
 {
-}
-
-bool WebGameAPIDataManager::init(void)
-{
-    return true;
 }
 
 char* WebGameAPIDataManager::handleAPIRequest(const char* method, const char* responseId, const char* sendData)

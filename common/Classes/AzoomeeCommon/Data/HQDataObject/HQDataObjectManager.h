@@ -23,6 +23,8 @@ public:
 	void parseNavigationData(const std::string& data);
 	void parseHQStructureData(const std::string& hqStuctureData, const std::string& hqName);
 	
+    
+    
 private:
     HQDataObjectManager();
     std::map<std::string, MutableHQDataObjectRef> _hqDataObjects;

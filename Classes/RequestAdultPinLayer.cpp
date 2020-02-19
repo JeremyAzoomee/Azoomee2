@@ -49,7 +49,7 @@ bool RequestAdultPinLayer::init()
         messageBox->setBody(_("Please authenticate yourself to access parents area"));
         messageBox->setButtonText(_("Cancel"));
         messageBox->setButtonColour(Colours::Color_3B::strongPink);
-        messageBox->setButtonPressedCallback([](PopupMessageBox* pSender){
+        messageBox->setButtonPressedCallback([](MessagePopupBase* pSender){
             pSender->removeFromParent();
             BiometricAuthenticationHandler::getInstance()->stopBiometricAuthentication();
         });

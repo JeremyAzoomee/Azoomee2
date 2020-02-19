@@ -14,7 +14,7 @@
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include "FlowDataSingleton.h"
-#include "ContentHistoryManager.h"
+#include <AzoomeeCommon/ContentDataManagers/ContentHistoryManager.h>
 #include "RewardDisplayHandler.h"
 #include "SceneManagerScene.h"
 #include "AgeGate.h"

@@ -353,17 +353,17 @@ void AnalyticsSingleton::contentItemSelectedEvent(const std::string& Type)
 {
     MutableHQContentItemObjectRef contentItem = MutableHQContentItemObject::create();
     contentItem->setType(Type);
-    contentItemSelectedEvent(contentItem, -1, -1, "", "");
+    contentItemSelectedEvent(contentItem, -1, -1, "");
 }
     
 void AnalyticsSingleton::contentItemSelectedEvent(const std::string& Type, const std::string& elementShape)
 {
     MutableHQContentItemObjectRef contentItem = MutableHQContentItemObject::create();
     contentItem->setType(Type);
-    contentItemSelectedEvent(contentItem, -1, -1, elementShape, "");
+    contentItemSelectedEvent(contentItem, -1, -1, "");
 }
     
-void AnalyticsSingleton::contentItemSelectedEvent(const HQContentItemObjectRef &contentItem, int rowNumber, int elementNumber, const std::string& elementShape, const std::string& location)
+void AnalyticsSingleton::contentItemSelectedEvent(const HQContentItemObjectRef &contentItem, int rowNumber, int elementNumber, const std::string& location)
 {
     SessionIdManager::getInstance()->resetBackgroundTimeInContent();
     
@@ -378,7 +378,6 @@ void AnalyticsSingleton::contentItemSelectedEvent(const HQContentItemObjectRef &
     mixPanelProperties["ContentID"] = contentItem->getContentItemId();
     mixPanelProperties["rowNumber"] = cocos2d::StringUtils::format("%d", rowNumber);
     mixPanelProperties["elementNumber"] = cocos2d::StringUtils::format("%d", elementNumber);
-    mixPanelProperties["elementShape"] = elementShape;
     mixPanelProperties["tileLocation"] = location;
     
     // is this piece of content part of a group? If so, set the series title property
@@ -395,7 +394,7 @@ void AnalyticsSingleton::contentItemSelectedEvent(const HQContentItemObjectRef &
 
 void AnalyticsSingleton::contentItemSelectedOutsideCarouselEvent(const HQContentItemObjectRef &contentItem)
 {
-    contentItemSelectedEvent(contentItem, -1, -1, "0,0", "");
+    contentItemSelectedEvent(contentItem, -1, -1, "");
 }
     
 void AnalyticsSingleton::updateContentItemDetails(const HQContentItemObjectRef &contentItem)

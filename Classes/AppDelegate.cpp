@@ -7,13 +7,13 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "FlowDataSingleton.h"
 #include "ErrorCodes.h"
-#include "ContentHistoryManager.h"
+#include <AzoomeeCommon/ContentDataManagers/ContentHistoryManager.h>
 #include "IAPProductDataHandler.h"
 #include "ChatDelegate.h"
 #include "SceneManagerScene.h"
 #include "OfflineScene.h"
 #include "../artapp/Classes/AzoomeeArt/MainScene.h"
-#include "GameDataManager.h"
+#include <AzoomeeCommon/ContentDataManagers/GameDataManager.h>
 #include <AzoomeeCommon/Device.h>
 #include "WebViewSelector.h"
 

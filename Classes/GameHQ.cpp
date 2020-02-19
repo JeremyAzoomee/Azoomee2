@@ -10,9 +10,8 @@
 #include <AzoomeeCommon/UI/Colour.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
-#include "RecentlyPlayedManager.h"
-#include "HQDataProvider.h"
-#include "GameDataManager.h"
+#include <AzoomeeCommon/ContentDataManagers/RecentlyPlayedManager.h>
+#include <AzoomeeCommon/ContentDataManagers/GameDataManager.h>
 #include "Style.h"
 
 using namespace cocos2d;
