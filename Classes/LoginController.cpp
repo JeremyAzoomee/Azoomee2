@@ -3,7 +3,6 @@
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "BackEndCaller.h"
-#include "DeepLinkingSingleton.h"
 #include "SceneManagerScene.h"
 #include "MarketingAssetManager.h"
 #include "HQHistoryManager.h"
@@ -63,10 +62,6 @@ void LoginController::doLoginLogic()
                 } 
             });
         });
-    }
-    else if(DeepLinkingSingleton::getInstance()->actionDeepLink())
-    {
-        return;
     }
     else
     {
