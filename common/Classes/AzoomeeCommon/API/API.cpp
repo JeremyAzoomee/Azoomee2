@@ -508,7 +508,7 @@ HttpRequestCreator* API::DeleteChild(const std::string& childId,
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->_requestPath = StringUtils::format("/api/user/child/%s", childId.c_str());
-    request->_requestBody = StringUtils::format("{\"profileName\":\"%s%s\",\"sex\":\"%s\",\"status\":\"DELETED\"}", childProfileName.c_str(),childId.c_str(), childGender.c_str());
+    request->_requestBody = StringUtils::format("{\"profileName\":\"%s%s\",\"sex\":\"%s\",\"status\":\"DELETED\"}", childProfileName.c_str(),childId.c_str(), childGender.c_str()); // append child id to current child name to make it unique so old name can be used for child again
     request->_requestTag = TagDeleteChild;
     request->_method = "PATCH";
     request->_encrypted = true;
