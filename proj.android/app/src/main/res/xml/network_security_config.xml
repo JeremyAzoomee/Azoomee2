@@ -4,5 +4,9 @@
         <domain includeSubdomains="true">al-media.azoomee.com</domain>
         <domain includeSubdomains="true">al-video.azoomee.com</domain>
         <domain includeSubdomains="true">albaniagames.azoomee.com</domain>
+        <domain includeSubdomains="true">api.azoomee.ninja</domain>
+        <domain includeSubdomains="true">versions.azoomee.ninja</domain>
+        <domain includeSubdomains="true">az-content-lists.azoomee.ninja</domain>
+        <domain includeSubdomains="true">media.azoomee.ninja</domain>
     </domain-config>
 </network-security-config>
