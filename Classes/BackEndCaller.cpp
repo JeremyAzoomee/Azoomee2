@@ -9,7 +9,7 @@
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Net/Utils.h>
 #include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Utils/SessionIdManager.h>
+#include <AzoomeeCommon/Utils/AppBackgroundManager.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
 #include "ErrorCodes.h"
 #include "HQHistoryManager.h"

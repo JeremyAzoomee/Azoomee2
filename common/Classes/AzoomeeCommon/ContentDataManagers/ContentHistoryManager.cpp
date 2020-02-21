@@ -6,7 +6,7 @@
 //
 
 #include "ContentHistoryManager.h"
-#include "../Utils/SessionIdManager.h"
+#include "../Utils/AppBackgroundManager.h"
 #include "../Utils//TimeUtils.h"
 #include "../Data/Child/ChildManager.h"
 
@@ -59,7 +59,7 @@ void ContentHistoryManager::onContentOpened()
 	_contentClosedTime = _contentOpenedTime;
 	_contentOpenedTimeMs = TimeUtils::getMillisecondTimestampString();
 	_contentClosedTimeMs = _contentOpenedTimeMs;
-	SessionIdManager::getInstance()->resetBackgroundTimeInContent();
+	AppBackgroundManager::getInstance()->resetBackgroundTimeInContent();
 	_timeInContent = 0;
 }
 
@@ -110,7 +110,7 @@ void ContentHistoryManager::recordContentClosedTime()
 {
     _contentClosedTime = time(NULL);
     _contentClosedTimeMs = TimeUtils::getMillisecondTimestampString();
-    _timeInContent = difftime(_contentClosedTime, _contentOpenedTime) - SessionIdManager::getInstance()->getBackgroundTimeInContent();
+    _timeInContent = difftime(_contentClosedTime, _contentOpenedTime) - AppBackgroundManager::getInstance()->getBackgroundTimeInContent();
 }
 
 long ContentHistoryManager::getTimeInContentSec() const

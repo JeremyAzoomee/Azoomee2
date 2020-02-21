@@ -52,7 +52,6 @@ public:
     void registerBillingStatus(std::string Status);
     void registerIAPOS(std::string OS_String);
     void registerBillingProvider(std::string provider);
-    void registerSessionId(std::string sessionId);
     void registerCurrentScene(const std::string& currentScene);
     void setLandscapeOrientation();
     void setPortraitOrientation();
