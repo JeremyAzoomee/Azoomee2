@@ -3,7 +3,7 @@
 #include "HQHistoryManager.h"
 #include "LoginController.h"
 #include "NativeContentInterface_ios.h"
-#include <AzoomeeCommon/Utils/SessionIdManager.h>
+#include <AzoomeeCommon/Utils/AppBackgroundManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "FlowDataSingleton.h"
 #include "ErrorCodes.h"
@@ -44,7 +44,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     #endif
     LocaleManager::getInstance()->downloadRemoteStringsFiles(url);
     
-    SessionIdManager::getInstance();
+    AppBackgroundManager::getInstance();
     AnalyticsSingleton::getInstance()->setLandscapeOrientation();
     AnalyticsSingleton::getInstance()->firstLaunchEvent();
 	
@@ -87,7 +87,7 @@ void AppDelegate::applicationDidEnterBackground()
 	}
 	
 #endif
-    SessionIdManager::getInstance()->registerAppWentBackgroundEvent();
+    AppBackgroundManager::getInstance()->registerAppWentBackgroundEvent();
     AnalyticsSingleton::getInstance()->enteredBackgroundEvent();
     
     Super::applicationDidEnterBackground();
@@ -99,7 +99,7 @@ void AppDelegate::applicationWillEnterForeground()
     Super::applicationWillEnterForeground();
     
     AnalyticsSingleton::getInstance()->enteredForegroundEvent();
-    SessionIdManager::getInstance()->registerAppCameForegroundEvent();
+    AppBackgroundManager::getInstance()->registerAppCameForegroundEvent();
 
 	
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)

@@ -6,15 +6,14 @@
 
 NS_TZ_BEGIN
     
-class SessionIdManager
+class AppBackgroundManager
 {
     
 public:
-    SessionIdManager();
-    static SessionIdManager* getInstance();
-    virtual ~SessionIdManager();
-    
-    std::string getCurrentSessionId();
+    AppBackgroundManager();
+    static AppBackgroundManager* getInstance();
+    virtual ~AppBackgroundManager();
+
     void registerAppWentBackgroundEvent();
     void registerAppCameForegroundEvent();
     void registerAndroidSceneChangeEvent();
@@ -22,14 +21,11 @@ public:
     long getBackgroundTimeInContent();
     
 private:
-    std::string sessionId;
-    long timeStampGoingBackground;
-    long timeStampAndroidSceneChange;
-    long backgroundTimeInContent;
+    long _timeStampGoingBackground;
+    long _timeStampAndroidSceneChange;
+    long _backgroundTimeInContent;
     
-    bool generatingNewSessionIdRequired();
     bool eventHappenedDuringAndroidSceneChange();
-    void generateSessionId();
     void increaseBackgroundTimeInContent();
 };
 

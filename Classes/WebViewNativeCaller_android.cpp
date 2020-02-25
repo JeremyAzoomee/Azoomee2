@@ -10,7 +10,7 @@
 #include <AzoomeeCommon/ContentDataManagers/FavouritesManager.h>
 #include <AzoomeeCommon/ContentDataManagers/ContentHistoryManager.h>
 #include <AzoomeeCommon/ContentDataManagers/RecentlyPlayedManager.h>
-#include <AzoomeeCommon/Utils/SessionIdManager.h>
+#include <AzoomeeCommon/Utils/AppBackgroundManager.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 #include <AzoomeeCommon/Data/AppConfig.h>
@@ -130,7 +130,7 @@ void WebViewNativeCaller_android::onEnterTransitionDidFinish()
     this->setName(WebViewSelector::kAndroidWebviewName);
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    SessionIdManager::getInstance()->registerAndroidSceneChangeEvent();
+    AppBackgroundManager::getInstance()->registerAndroidSceneChangeEvent();
     JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "startWebView", loadUrl,ChildManager::getInstance()->getLoggedInChild()->getId(),(int)_orientation, _closeButtonAnchor.x, _closeButtonAnchor.y, _videoProgressSeconds);
         
 #endif

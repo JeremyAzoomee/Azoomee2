@@ -3,7 +3,7 @@
 #include "../Input/TextInputChecker.h"
 #include "../Utils/StringFunctions.h"
 #include "../Utils/LocaleManager.h"
-#include "../Utils/SessionIdManager.h"
+#include "../Utils/AppBackgroundManager.h"
 #include "../Crashlytics/CrashlyticsConfig.h"
 #include "../JWTSigner/HMACSHA256/HMACSHA256.h"
 #include "../Data/HQDataObject/ContentItemManager.h"
@@ -122,12 +122,6 @@ void AnalyticsSingleton::registerChildGenderAndAge(const ChildRef& child)
     
     	mixPanelRegisterSuperProperties("age",cocos2d::StringUtils::format("%s%d",NUMBER_IDENTIFIER, childAge));
 	}
-}
-    
-void AnalyticsSingleton::registerSessionId(std::string sessionId)
-{
-    mixPanelRegisterSuperProperties("sessionId", sessionId);
-	setCrashlyticsKeyWithString(CrashlyticsConsts::kSessionIdKey, sessionId);
 }
     
 void AnalyticsSingleton::registerCurrentScene(const std::string &currentScene)
@@ -365,7 +359,7 @@ void AnalyticsSingleton::contentItemSelectedEvent(const std::string& Type, const
     
 void AnalyticsSingleton::contentItemSelectedEvent(const HQContentItemObjectRef &contentItem, int rowNumber, int elementNumber, const std::string& location)
 {
-    SessionIdManager::getInstance()->resetBackgroundTimeInContent();
+    AppBackgroundManager::getInstance()->resetBackgroundTimeInContent();
     
     //Set here for Chat to count how long in a conversation
     //for other content this is reset when contentItemWebviewStartedEvent() is called
@@ -438,7 +432,7 @@ void AnalyticsSingleton::contentItemClosedEvent()
     time(&now);
     double secondsOpened = difftime(now,_analyticsProperties->getTimeOpenedContent());
     
-    secondsOpened -= SessionIdManager::getInstance()->getBackgroundTimeInContent();
+    secondsOpened -= AppBackgroundManager::getInstance()->getBackgroundTimeInContent();
 	
 	
     _analyticsProperties->addPropertyToStoredContentItemProperties(AnalyticsProperties::kSecondsInContentKey, cocos2d::StringUtils::format("%s%.f",NUMBER_IDENTIFIER, secondsOpened));
