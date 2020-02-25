@@ -73,7 +73,7 @@ void SettingsYourAccountPage::onEnter()
     privacyButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            ModalWebview::createWithURL(Url::PrivacyPolicyNoLinks);
+            ModalWebview::createWithURL(Url::PrivacyPolicyNoLinks, "res/buttons/windowCloseButton.png");
         }
     });
     
@@ -106,7 +106,7 @@ void SettingsYourAccountPage::onEnter()
     termsButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            ModalWebview::createWithURL(Url::TermsOfUse);
+            ModalWebview::createWithURL(Url::TermsOfUse, "res/buttons/windowCloseButton.png");
         }
     });
     
