@@ -24,7 +24,7 @@ bool SettingsButton::init()
 	addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			AudioMixer::getInstance()->playEffect(SETTINGS_BUTTON_AUDIO_EFFECT);
+			AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_07_v1.mp3");
 			AnalyticsSingleton::getInstance()->genericButtonPressEvent("Settings");
 			if(UserAccountManager::getInstance()->isLoggedInParentAnonymous())
 			{

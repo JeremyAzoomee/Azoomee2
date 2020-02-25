@@ -6,7 +6,7 @@
 //
 
 #include "OomeeCarouselButton.h"
-#include "SimpleAudioEngine.h"
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "../DataObjects/OomeeMakerDataHandler.h"
 #include "OomeeSelectScene.h"
 #include <AzoomeeCommon/UI/Colour.h>
@@ -216,7 +216,7 @@ void OomeeCarouselButton::setDelegate(OomeeCarouselButtonDelegate *delegate)
 
 void OomeeCarouselButton::animateButtonsIn(float duration)
 {
-    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Homescreen_Buttons_Appear.mp3");
+    AudioMixer::getInstance()->playEffect("res/oomeeMaker/Audio/Homescreen_Buttons_Appear.mp3");
     const float centerWidth = this->getContentSize().width / 2.0f;
     const float centerHeight = this->getContentSize().height / 2.0f;
     const float durationMod = 1 - _deleteButton->getScale();
@@ -247,7 +247,7 @@ void OomeeCarouselButton::animateButtonsIn(float duration)
 
 void OomeeCarouselButton::animateButtonsOut(float duration)
 {
-    CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
+    AudioMixer::getInstance()->stopAllEffects();
     const float durationMod = _deleteButton->getScale();
     duration *= durationMod;
     Action* moveAction = EaseBackIn::create(MoveTo::create(duration, Vec2(this->getContentSize()/2)));

@@ -40,7 +40,7 @@ bool ShopItemPurchasePopup::init()
 	_closeButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
+			AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_01_v1.mp3");
 			if(_purchaseCallback)
 			{
 				_purchaseCallback(_itemData, false);

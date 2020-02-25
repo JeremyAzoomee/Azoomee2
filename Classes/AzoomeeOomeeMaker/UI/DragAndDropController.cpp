@@ -6,7 +6,7 @@
 //
 
 #include "DragAndDropController.h"
-#include "SimpleAudioEngine.h"
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "../DataObjects/OomeeMakerDataHandler.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
@@ -85,7 +85,7 @@ void DragAndDropController::init()
             if(absRange.x > absDist.x && absRange.y > absDist.y)
             {
                 AnalyticsSingleton::getInstance()->accessorySelectedEvent("DRAG_N_DROP");
-                CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Item_Drop.wav");
+                AudioMixer::getInstance()->playEffect("res/oomeeMaker/Audio/Item_Drop.wav");
                 _oomeeFigure->addAccessory(_itemData);
             }
             _itemData = nullptr;

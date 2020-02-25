@@ -821,7 +821,7 @@ void MessageComposer::createTabButtonsUI(cocos2d::ui::Layout* parent)
     _stickersTab->setContentSize(Size(buttonHeight, buttonHeight));
     _stickersTab->setLayoutParameter(CreateLeftLinearLayoutParam(ui::Margin(leftMarginX, (_topLayout->getContentSize().height - buttonHeight) / 2, 0, 0)));
     _stickersTab->addClickEventListener([this](Ref* button){
-        AudioMixer::getInstance()->playEffect(OK_BUTTON_AUDIO_EFFECT);
+        AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_06_v1.mp3");
         AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - OpenStickers");
         
         setMode(MessageComposer::Mode::StickersEntry);
@@ -868,7 +868,7 @@ void MessageComposer::createCancelButton(cocos2d::ui::Layout* parent)
     _cancelButton->setContentSize(Size(buttonHeight, buttonHeight));
     _cancelButton->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(contentMarginX, 0, 0, 0)));
     _cancelButton->addClickEventListener([this](Ref* button){
-        AudioMixer::getInstance()->playEffect(CANCEL_BUTTON_AUDIO_EFFECT);
+        AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_01_v1.mp3");
         AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - CancelInput");
         // Clear the message before we set to idle
         _messageEntryField->setString("");
