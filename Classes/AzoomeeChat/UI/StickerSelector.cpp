@@ -53,7 +53,7 @@ bool StickerSelector::init()
     _categoryListView->setSizeType(ui::Widget::SizeType::PERCENT);
     _categoryListView->setSizePercent(Vec2(1.0f, 1.0f));
     _categoryListView->addItemSelectedEventListener([this](const StickerCategoryRef& category){
-        AudioMixer::getInstance()->playEffect(OK_BUTTON_AUDIO_EFFECT);
+        AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_06_v1.mp3");
         AnalyticsSingleton::getInstance()->chatSelectedStickerTab(category->categoryID());
         selectCategory(category);
     });

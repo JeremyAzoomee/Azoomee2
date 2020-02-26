@@ -524,7 +524,7 @@ void DrawingCanvasUILayer::onUndoButtonPressed(Ref *pSender, ui::Widget::TouchEv
 {
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
-        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+        AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_08_v1.mp3");
     }
     if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
@@ -543,7 +543,7 @@ void DrawingCanvasUILayer::onColourChangePressed(Ref *pSender, ui::Widget::Touch
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
-        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+        AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_08_v1.mp3");
     }
     else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
@@ -603,7 +603,7 @@ void DrawingCanvasUILayer::onColourSelectPressed(Ref *pSender, ui::Widget::Touch
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
-        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+        AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_08_v1.mp3");
     }
     else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
@@ -627,7 +627,7 @@ void DrawingCanvasUILayer::onCloseColourSelectPressed(Ref *pSender, ui::Widget::
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
-        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+        AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_08_v1.mp3");
     }
     else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
@@ -652,7 +652,7 @@ void DrawingCanvasUILayer::onAddStickerPressed(Ref *pSender, ui::Widget::TouchEv
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
-        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+        AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_08_v1.mp3");
     }
     else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
@@ -677,7 +677,7 @@ void DrawingCanvasUILayer::onAddStickerButtonPressed(Ref *pSender, ui::Widget::T
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
-        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+        AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_08_v1.mp3");
     }
     else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
@@ -702,7 +702,7 @@ void DrawingCanvasUILayer::onCloseStickerSelectPressed(Ref *pSender, ui::Widget:
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
-        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+        AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_08_v1.mp3");
     }
     else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
@@ -727,7 +727,7 @@ void DrawingCanvasUILayer::onConfirmStickerPressed(Ref *pSender, ui::Widget::Tou
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
-        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+        AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_08_v1.mp3");
     }
     else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
@@ -754,7 +754,7 @@ void DrawingCanvasUILayer::onCancelStickerPressed(Ref *pSender, ui::Widget::Touc
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
-        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+        AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_08_v1.mp3");
     }
     else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
@@ -779,7 +779,7 @@ void DrawingCanvasUILayer::onToolChanged(Ref *pSender, ui::Widget::TouchEventTyp
         if(pressedButton != _selectedToolButton)
         {
             pressedButton->setScale(baseScale * 1.15f);
-            AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+            AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_08_v1.mp3");
         }
     }
     else if(eEventType == ui::Widget::TouchEventType::ENDED)
@@ -832,7 +832,7 @@ void DrawingCanvasUILayer::onStickerCategoryChangePressed(Ref *pSender, ui::Widg
     
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
-        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+        AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_08_v1.mp3");
     }
     else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {

@@ -252,7 +252,7 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
 
 void FriendListScene::onBackButtonPressed()
 {
-    AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
+    AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_01_v1.mp3");
     AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatScene - BackButton");
     
     // Reset the polling time
@@ -269,7 +269,7 @@ void FriendListScene::onFriendListItemSelected(const FriendRef& friendData)
     
     AnalyticsSingleton::getInstance()->contentItemSelectedEvent("CHAT");
     
-    AudioMixer::getInstance()->playEffect(OK_BUTTON_AUDIO_EFFECT);
+    AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_06_v1.mp3");
     
     FriendList participants = { _currentUser, friendData };
     auto messageScene = MessageScene::create(participants);

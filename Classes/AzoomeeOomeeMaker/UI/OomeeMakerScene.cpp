@@ -6,7 +6,7 @@
 //
 
 #include "OomeeMakerScene.h"
-#include "SimpleAudioEngine.h"
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "../DataObjects/OomeeMakerDataHandler.h"
 #include "OomeeItemList.h"
 #include "ItemCategoryList.h"
@@ -146,7 +146,7 @@ void OomeeMakerScene::onEnter()
     _categoryList->setPosition(Vec2(0,contentSize.height * 0.425f));
     _categoryList->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     _categoryList->setItemSelectedCallback([this](const ItemCategoryRef& data) {
-        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/CategorySelection_Button.mp3");
+        AudioMixer::getInstance()->playEffect("res/oomeeMaker/Audio/CategorySelection_Button.mp3");
         _categoryList->setSelectedButton(data);
         this->setItemsListForCategory(data);
 		_itemSlider->setPercent(0);
@@ -171,7 +171,7 @@ void OomeeMakerScene::onEnter()
         this->addAccessoryToOomee(data);
     });
     _itemList->setColourSelectedCallback([this](const OomeeColourRef& colour){
-		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Item_Drop.wav");
+		AudioMixer::getInstance()->playEffect("res/oomeeMaker/Audio/Item_Drop.wav");
         const OomeeRef& oomee = OomeeMakerDataStorage::getInstance()->getOomeeForKey(colour->getId());
         if(oomee)
         {
@@ -385,7 +385,7 @@ void OomeeMakerScene::undo()
 {
     if(_oomee)
     {
-        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Undo_Exit_Buttons.mp3");
+        AudioMixer::getInstance()->playEffect("res/oomeeMaker/Audio/Undo_Exit_Buttons.mp3");
         _oomee->undoLastAction();
     }
 }
@@ -393,7 +393,7 @@ void OomeeMakerScene::undo()
 void OomeeMakerScene::saveAndExit()
 {
     ModalMessages::getInstance()->startSaving();
-    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Undo_Exit_Buttons.mp3");
+    AudioMixer::getInstance()->playEffect("res/oomeeMaker/Audio/Undo_Exit_Buttons.mp3");
     const std::string scheduleKey = "saveAndExit";
     Director::getInstance()->getScheduler()->schedule([&](float dt){
         saveOomeeFiles();
@@ -432,7 +432,7 @@ void OomeeMakerScene::resetOomee()
 
 void OomeeMakerScene::displayMadeAvatarNotification()
 {
-    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Avatar_Messagedrop.mp3");
+    AudioMixer::getInstance()->playEffect("res/oomeeMaker/Audio/Avatar_Messagedrop.mp3");
     Texture2D* particleTex = Director::getInstance()->getTextureCache()->addImage("res/oomeeMaker/confetti_particle.png");
     
     std::vector<Color4F> colours = {

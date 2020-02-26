@@ -307,7 +307,7 @@ void MessageScene::createContentUI(cocos2d::ui::Layout* parent)
 
 void MessageScene::onBackButtonPressed()
 {
-    AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
+    AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_01_v1.mp3");
     AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - BackButton");
     AnalyticsSingleton::getInstance()->contentItemClosedEvent();
     // Back to friend list
@@ -323,7 +323,7 @@ void MessageScene::onBackButtonPressed()
 
 void MessageScene::onReportButtonPressed()
 {
-    AudioMixer::getInstance()->playEffect(SETTINGS_BUTTON_AUDIO_EFFECT);
+    AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_07_v1.mp3");
     AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - ReportButton");
     
     PopupMessageBox* messageBox = PopupMessageBox::create();
@@ -347,7 +347,7 @@ void MessageScene::onReportButtonPressed()
 
 void MessageScene::onReportResetButtonPressed()
 {
-    AudioMixer::getInstance()->playEffect(SETTINGS_BUTTON_AUDIO_EFFECT);
+    AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_07_v1.mp3");
     RequestAdultPinLayer::create()->setDelegate(this);
 }
 

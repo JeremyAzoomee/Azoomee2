@@ -51,7 +51,7 @@ bool ArtAppConfirmCancelMessageBox::init()
     _confirmButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-			AudioMixer::getInstance()->playEffect(NEXT_BUTTON_AUDIO_EFFECT);
+			AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_06_v1.mp3");
             if(_confirmCallback)
             {
                 _confirmCallback(this);
@@ -66,7 +66,7 @@ bool ArtAppConfirmCancelMessageBox::init()
     _cancelButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-			AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
+			AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_01_v1.mp3");
             if(_cancelCallback)
             {
                 _cancelCallback(this);

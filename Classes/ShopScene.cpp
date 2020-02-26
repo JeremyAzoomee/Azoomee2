@@ -92,7 +92,7 @@ bool ShopScene::init()
 	_backButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
+			AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_01_v1.mp3");
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 		}
 	});

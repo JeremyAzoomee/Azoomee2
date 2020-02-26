@@ -281,7 +281,7 @@ cocos2d::ui::Layout* ChildSelectorScene::createChildButton(const ChildRef& child
     childButton->addTouchEventListener([childNum](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            AudioMixer::getInstance()->playEffect(SELECT_OOMEE_AUDIO_EFFECT);
+            AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_08_v1.mp3");
             AnalyticsSingleton::getInstance()->registerChildGenderAndAge(UserAccountManager::getInstance()->getChild(childNum));
             LoginController::getInstance()->childLogin(UserAccountManager::getInstance()->getChild(childNum)->getProfileName());
         }
