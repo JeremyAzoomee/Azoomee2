@@ -41,8 +41,7 @@
 		<array>
 			<dict>
 				<key>KitInfo</key>
-				<dict>
-				</dict>
+				<dict/>
 				<key>KitName</key>
 				<string>Crashlytics</string>
 			</dict>
@@ -61,6 +60,8 @@
 	<string>We need this to serve localised content in the app</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>We need this to serve localised content in the app</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>To save images to the photo library.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>fonts/Sofia Pro Soft Bold.otf</string>
