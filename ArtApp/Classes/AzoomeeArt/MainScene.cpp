@@ -19,7 +19,7 @@ USING_NS_CC;
 
 USING_NS_TZ
 
-NS_AZ_AA_BEGIN
+NS_AZ_ART_BEGIN
 
 Scene* MainScene::createScene()
 {
@@ -211,4 +211,4 @@ void MainScene::reloadRenderTextureObject()
 	_drawingCanvas->reloadRenderTextureObject();
 }
 
-NS_AZ_AA_END
+NS_AZ_ART_END

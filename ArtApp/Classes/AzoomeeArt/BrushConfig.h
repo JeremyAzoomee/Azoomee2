@@ -12,7 +12,7 @@
 #include "AzoomeeArtApp.h"
 
 USING_NS_TZ
-NS_AZ_AA_BEGIN
+NS_AZ_ART_BEGIN
 
 class BrushConfig;
 
@@ -44,7 +44,7 @@ public:
     
 };
 
-NS_AZ_AA_END
+NS_AZ_ART_END
 
 #endif /* BrushConfig_h */
 

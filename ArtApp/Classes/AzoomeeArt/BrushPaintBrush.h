@@ -14,7 +14,7 @@
 
 USING_NS_TZ
 
-NS_AZ_AA_BEGIN
+NS_AZ_ART_BEGIN
 
 class BrushPaintBrush: public Brush
 {
@@ -35,6 +35,6 @@ public:
     void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) override;
 };
 
-NS_AZ_AA_END
+NS_AZ_ART_END
 
 #endif /* BrushPaintBrush_h */

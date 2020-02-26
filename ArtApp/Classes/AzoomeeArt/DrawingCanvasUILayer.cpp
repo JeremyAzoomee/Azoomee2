@@ -18,7 +18,7 @@
 using namespace cocos2d;
 
 USING_NS_TZ
-NS_AZ_AA_BEGIN
+NS_AZ_ART_BEGIN
 
 const std::vector<Color3B> DrawingCanvasUILayer::_kColours = { // top left
     Color3B(Colours::Color_4F::grey), //row 1
@@ -1067,4 +1067,4 @@ void DrawingCanvasUILayer::getStickerFilesFromJSON()
 
 
 
-NS_AZ_AA_END
+NS_AZ_ART_END
