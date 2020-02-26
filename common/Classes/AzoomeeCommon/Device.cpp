@@ -9,12 +9,6 @@
 #include "Net/Utils.h"
 #include "Analytics/AnalyticsSingleton.h"
 #include "Utils/StringFunctions.h"
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#include "platform/android/jni/JniHelper.h"
-static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppActivity";
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-#include "Utils/IosNativeFunctionsSingleton.h"
-#endif
 
 using namespace cocos2d;
 
@@ -44,81 +38,6 @@ Device::~Device()
 }
 
 //----------------------------- Device specific information -----------------------------
-
-std::string Device::getDeviceInformation()
-{
-    std::string sourceDeviceString1 = "NA";
-    std::string sourceDeviceString2 = "NA";
-    
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    sourceDeviceString1 = IosNativeFunctionsSingleton::getInstance()->getIosSystemVersion();
-    sourceDeviceString2 = IosNativeFunctionsSingleton::getInstance()->getIosDeviceType();
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    sourceDeviceString1 = JniHelper::callStaticStringMethod(kAzoomeeActivityJavaClassName, "getAndroidDeviceModel");
-    sourceDeviceString2 = JniHelper::callStaticStringMethod(kAzoomeeActivityJavaClassName, "getOSBuildManufacturer");
-#endif
-    
-    std::string sourceDevice = Net::urlEncode(sourceDeviceString1) + "|" + Net::urlEncode(sourceDeviceString2);
-    
-    return sourceDevice;
-}
-
-std::string Device::getDeviceAdvertisingId()
-{
-    std::string deviceId = "";
-    
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    deviceId = IosNativeFunctionsSingleton::getInstance()->getIosDeviceIDFA();
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    deviceId = JniHelper::callStaticStringMethod(kAzoomeeActivityJavaClassName, "getAndroidDeviceAdvertisingId");
-#endif
-    
-    return deviceId;
-}
-    
-std::string Device::getOSManufacturer()
-{
-    if(_osManufacturer != "")
-    {
-        return _osManufacturer;
-    }
-    
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    std::string resultStr = JniHelper::callStaticStringMethod(kAzoomeeActivityJavaClassName, "getOSBuildManufacturer");
-    
-    if (resultStr == "Amazon")
-    {
-        AnalyticsSingleton::getInstance()->registerIAPOS("Amazon");
-        _osManufacturer = "Amazon";
-    }
-    else
-    {
-        AnalyticsSingleton::getInstance()->registerIAPOS("Google");
-        _osManufacturer = "Google";
-    }
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    AnalyticsSingleton::getInstance()->registerIAPOS("iOS");
-    _osManufacturer = "Apple";
-#else
-    _osManufacturer = "Unknown";
-#endif
-    
-    return _osManufacturer;
-}
-    
-std::string Device::getDeviceLanguage()
-{
-    std::string languageCode = "";
-    
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    languageCode = IosNativeFunctionsSingleton::getInstance()->getIosDeviceLanguage();
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    languageCode = JniHelper::callStaticStringMethod(kAzoomeeActivityJavaClassName, "getDeviceLanguage");
-#endif
-    
-    return languageCode;
-}
     
 void Device::setIsDeviceIphoneX(bool isDeviceIphoneX)
 {

@@ -9,13 +9,7 @@
 #include "LanguageSelectScene.h"
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 #include "PopupMessageBox.h"
-
-#if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    #include <AzoomeeCommon/Utils/IosNativeFunctionsSingleton.h>
-#elif(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    #include "platform/android/jni/JniHelper.h"
-    static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppActivity";
-#endif
+#include <AzoomeeCommon/Device.h>
 
 using namespace cocos2d;
 using namespace cocos2d::experimental::ui;
@@ -166,11 +160,7 @@ void IntroVideoScene::navigateToNextScene()
     this->stopActionByTag(3);
     this->stopActionByTag(4);
     
-#if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    IosNativeFunctionsSingleton::getInstance()->identifyMixpanel();
-#elif(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "identifyMixpanel");
-#endif
+    Device::getInstance()->identifyMixpanel();
     
     if(_videoPlayer)
     {

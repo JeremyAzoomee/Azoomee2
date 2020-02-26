@@ -31,12 +31,9 @@
 #include <AzoomeeCommon/Device.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
-#include <AzoomeeCommon/Utils/IosNativeFunctionsSingleton.h>
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "GooglePaymentSingleton.h"
 #include "AmazonPaymentSingleton.h"
-#include "platform/android/jni/JniHelper.h"
-static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppActivity";
 #endif
 
 using namespace cocos2d;
@@ -314,9 +311,7 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
 
 void BackEndCaller::getSessionCookies()
 {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    IosNativeFunctionsSingleton::getInstance()->deleteHttpCookies(); //ios handles cookies on OS level. Removal of earlier cookies is important to avoid watching premium content with a free user.
-#endif
+    Device::getInstance()->deleteHttpCookies();
     
     const std::string& userId = ChildManager::getInstance()->getLoggedInChild()->getId();
     const std::string& sessionId = ChildManager::getInstance()->getLoggedInChild()->getCDNSessionId();

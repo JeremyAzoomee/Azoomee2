@@ -5,11 +5,6 @@
 #include "UI/NotificationNodeDisplayManager.h"
 #include "Device.h"
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-
-static const std::string kAzoomeeActivityJavaClassName = "com/tinizine/azoomee/common/AzoomeeActivity";
-#endif
-
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #import "Platform/iOS/AzoomeeViewController.h"
 #endif
@@ -180,42 +175,14 @@ void Application::setOrientation(Orientation orientation)
     const auto& frameSize = glView->getFrameSize();
     // Immediate frame change
     if(orientation == Orientation::Portrait && (int)frameSize.width > (int)frameSize.height)
+    {
         cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) frameSize.height, (int) frameSize.width);
+    }
     else if(orientation == Orientation::Landscape && (int)frameSize.height > (int)frameSize.width)
+    {
         cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) frameSize.height, (int) frameSize.width);
-    
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    
-    AzoomeeViewController* rootViewController = [AzoomeeViewController sharedInstance];
-    switch(orientation)
-    {
-        case Orientation::Portrait:
-            [rootViewController setOrientationToPortrait];
-            break;
-        case Orientation::Landscape:
-            [rootViewController setOrientationToLandscape];
-            break;
-        case Orientation::Any:
-            [rootViewController setOrientationToAny];
-            break;
     }
-    
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    switch(orientation)
-    {
-        case Orientation::Portrait:
-            JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "setOrientationPortrait");
-            break;
-        case Orientation::Landscape:
-            JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "setOrientationLandscape");
-            break;
-        case Orientation::Any:
-            JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "setOrientationAny");
-            break;
-    }
-    
-#endif
+    Device::getInstance()->setOrientation(orientation);
 }
 
 

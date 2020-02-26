@@ -10,6 +10,7 @@
 
 #include "Azoomee.h"
 #include <cocos/cocos2d.h>
+#include "Application.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -46,6 +47,17 @@ public:
     //Client IP setting
     void setClientAnonymousIp(const std::string& publicIp);
     std::string getClientAnonymousIp() const;
+    
+    std::string getAppVersion() const;
+    
+    void identifyMixpanel();
+    void deleteHttpCookies();
+    
+    bool biometricAuthenticationAvailable();
+    void startBiometricAuthentication();
+    void stopBiometricAuthentication();
+    
+    void setOrientation(Application::Orientation orientation);
     
 private:
     

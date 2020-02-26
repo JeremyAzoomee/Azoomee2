@@ -13,7 +13,6 @@
 		021B1FCC1F838A0A0044DCF7 /* HQDataObjectManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021B1FC71F838A0A0044DCF7 /* HQDataObjectManager.cpp */; };
 		022218CC1ECF203000AD167F /* AppBackgroundManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022218CA1ECF203000AD167F /* AppBackgroundManager.cpp */; };
 		0240FC952016538C00E88157 /* BiometricAuthenticationHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0240FC942016538B00E88157 /* BiometricAuthenticationHandler.cpp */; };
-		02AE88E01F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02AE88DF1F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm */; };
 		02AE88E31F83CBC3005C0FC8 /* AutomaticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 02AE88E21F83CBC3005C0FC8 /* AutomaticEvents.m */; };
 		02BEDF2E1FE1327500D4C9B3 /* ContentItemManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02BEDF2C1FE1327500D4C9B3 /* ContentItemManager.cpp */; };
 		02BF05E01F97828E00E7D086 /* AirshipKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02BF05DF1F97828D00E7D086 /* AirshipKit.framework */; };
@@ -150,6 +149,7 @@
 		92EC0C59223177D500B02F20 /* ShopDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C58223177D500B02F20 /* ShopDisplay.cpp */; };
 		92EC0C5B223177E700B02F20 /* ShopDisplayItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C5A223177E700B02F20 /* ShopDisplayItem.cpp */; };
 		92EC0C732232C9F400B02F20 /* Shop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C712232C9F300B02F20 /* Shop.cpp */; };
+		E213BFB023FAEC3500BBB1FA /* Device_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = E213BFAF23FAEC3500BBB1FA /* Device_ios.mm */; };
 		E21F700C23E47F670007EFF9 /* Device.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21F700B23E47F670007EFF9 /* Device.cpp */; };
 		E2264F4823F1AFAD00392D89 /* WebGameAPIDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2264F4623F1AFAD00392D89 /* WebGameAPIDataManager.cpp */; };
 		E2264F4923F1AFAD00392D89 /* VideoPlaylistManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2264F4723F1AFAD00392D89 /* VideoPlaylistManager.cpp */; };
@@ -175,8 +175,6 @@
 		022218CB1ECF203000AD167F /* AppBackgroundManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppBackgroundManager.h; sourceTree = "<group>"; };
 		0240FC932016538A00E88157 /* BiometricAuthenticationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BiometricAuthenticationHandler.h; sourceTree = "<group>"; };
 		0240FC942016538B00E88157 /* BiometricAuthenticationHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BiometricAuthenticationHandler.cpp; sourceTree = "<group>"; };
-		02AE88DE1F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IosNativeFunctionsSingleton.h; sourceTree = "<group>"; };
-		02AE88DF1F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IosNativeFunctionsSingleton.mm; sourceTree = "<group>"; };
 		02AE88E11F83CBC3005C0FC8 /* AutomaticEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutomaticEvents.h; sourceTree = "<group>"; };
 		02AE88E21F83CBC3005C0FC8 /* AutomaticEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutomaticEvents.m; sourceTree = "<group>"; };
 		02BEDF2C1FE1327500D4C9B3 /* ContentItemManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContentItemManager.cpp; path = HQDataObject/ContentItemManager.cpp; sourceTree = "<group>"; };
@@ -451,6 +449,8 @@
 		92EC0C5A223177E700B02F20 /* ShopDisplayItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShopDisplayItem.cpp; sourceTree = "<group>"; };
 		92EC0C712232C9F300B02F20 /* Shop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shop.cpp; sourceTree = "<group>"; };
 		92EC0C722232C9F400B02F20 /* Shop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shop.h; sourceTree = "<group>"; };
+		E213BFAF23FAEC3500BBB1FA /* Device_ios.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = Device_ios.mm; sourceTree = "<group>"; };
+		E213BFB123FAEF9C00BBB1FA /* Device_android.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Device_android.cpp; sourceTree = "<group>"; };
 		E21F700A23E47E2F0007EFF9 /* Device.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Device.h; sourceTree = "<group>"; };
 		E21F700B23E47F670007EFF9 /* Device.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Device.cpp; sourceTree = "<group>"; };
 		E2264F4423F1AFAC00392D89 /* WebGameAPIDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebGameAPIDataManager.h; sourceTree = "<group>"; };
@@ -625,8 +625,6 @@
 			isa = PBXGroup;
 			children = (
 				304A6EEA1EC9A96F000D52B5 /* CocosSharedPtr.h */,
-				02AE88DE1F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.h */,
-				02AE88DF1F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm */,
 				022218CA1ECF203000AD167F /* AppBackgroundManager.cpp */,
 				022218CB1ECF203000AD167F /* AppBackgroundManager.h */,
 				3012ED6B1E96A3140009027D /* StringFunctions.cpp */,
@@ -757,6 +755,8 @@
 				3000FF7A1ED5BBB700E9717C /* Application.h */,
 				E21F700A23E47E2F0007EFF9 /* Device.h */,
 				E21F700B23E47F670007EFF9 /* Device.cpp */,
+				E213BFAF23FAEC3500BBB1FA /* Device_ios.mm */,
+				E213BFB123FAEF9C00BBB1FA /* Device_android.cpp */,
 				301CCA9B1EB14473009ADA0C /* Azoomee.h */,
 				30DD5EBD1E96571F0084305B /* Analytics */,
 				3092BCED1EB10524006D6F4C /* API */,
@@ -1192,6 +1192,7 @@
 				4349C8441EA8ADEF00FE964B /* MPSwizzler.m in Sources */,
 				4349C8241EA8ADEF00FE964B /* MPABTestDesignerTweakResponseMessage.m in Sources */,
 				30DD5ED71E965E060084305B /* AnalyticsSingleton.cpp in Sources */,
+				E213BFB023FAEC3500BBB1FA /* Device_ios.mm in Sources */,
 				021B1FCA1F838A0A0044DCF7 /* HQContentItemObject.cpp in Sources */,
 				30E094BF1EDF0F2B00555891 /* URI.cpp in Sources */,
 				92759E9E1FE410BB00639190 /* FileDownloader.cpp in Sources */,
@@ -1214,7 +1215,6 @@
 				301CCA9A1EB14280009ADA0C /* API.cpp in Sources */,
 				3012ED711E96A3140009027D /* LocaleManager.cpp in Sources */,
 				4349C8201EA8ADEF00FE964B /* MPABTestDesignerDisconnectMessage.m in Sources */,
-				02AE88E01F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm in Sources */,
 				3012ED6F1E96A3140009027D /* TextInputChecker.cpp in Sources */,
 				9271D88B2051725C00370120 /* CCSpriteWithHue.cpp in Sources */,
 				4349C8391EA8ADEF00FE964B /* MPNSNumberToCGFloatValueTransformer.m in Sources */,

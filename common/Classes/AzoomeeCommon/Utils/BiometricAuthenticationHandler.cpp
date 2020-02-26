@@ -1,14 +1,6 @@
 #include "BiometricAuthenticationHandler.h"
 #include "../Utils/LocaleManager.h"
-
-#if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-#include "IosNativeFunctionsSingleton.h"
-#endif
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#include "platform/android/jni/JniHelper.h"
-static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppActivity";
-#endif
+#include "../Device.h"
 
 using namespace cocos2d;
 
@@ -18,14 +10,6 @@ const char* const BiometricAuthenticationHandler::kBiometricValidationSuccess = 
 const char* const BiometricAuthenticationHandler::kBiometricValidationFailure = "biometricValidationFailure";
 const char* const BiometricAuthenticationHandler::kBiometricValidation = "biometricValidation";
 const char* const BiometricAuthenticationHandler::kBiometricValidationError = "biometricValidationError";
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-const char* const kFingerPrintAuthenticationAvailableJavaMethodName = "fingerPrintAuthenticationAvailable";
-const char* const kBiometricStartJavaMethodName = "startFingerprintAuthentication";
-const char* const kBiometricStopJavaMethodName = "stopFingerprintAuthentication";
-
-const char* const kBiometricDialogImage = "res/settings/fingerprint.png";
-#endif
 
 static std::auto_ptr<BiometricAuthenticationHandler> _sharedBiometricAuthenticationHandler;
 
@@ -49,12 +33,7 @@ BiometricAuthenticationHandler::BiometricAuthenticationHandler()
 
 bool BiometricAuthenticationHandler::biometricAuthenticationAvailable() const
 {
-#if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    return IosNativeFunctionsSingleton::getInstance()->doBiometricValidation(true);
-#elif(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    return JniHelper::callStaticBooleanMethod(kAzoomeeActivityJavaClassName, kFingerPrintAuthenticationAvailableJavaMethodName);
-#endif
-    return false;
+    return Device::getInstance()->biometricAuthenticationAvailable();
 }
 
 bool BiometricAuthenticationHandler::biometricAuthenticationSet() const
@@ -64,12 +43,7 @@ bool BiometricAuthenticationHandler::biometricAuthenticationSet() const
 
 void BiometricAuthenticationHandler::startBiometricAuthentication()
 {
-#if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    IosNativeFunctionsSingleton::getInstance()->doBiometricValidation(false);
-#elif(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    //_waitingForFingerPrint = MessageBox::createWith(_("Waiting for authentication"), kBiometricDialogImage, _("Please authenticate yourself to access parents area"), _("Cancel"), this);
-    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, kBiometricStartJavaMethodName);
-#endif
+    Device::getInstance()->startBiometricAuthentication();
 }
 
 void BiometricAuthenticationHandler::biometricAuthenticationSuccess()
@@ -98,9 +72,7 @@ void BiometricAuthenticationHandler::biometricAuthenticationNotNeeded()
 
 void BiometricAuthenticationHandler::stopBiometricAuthentication()
 {
-#if(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, kBiometricStopJavaMethodName);
-#endif
+    Device::getInstance()->stopBiometricAuthentication();
 }
 
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
