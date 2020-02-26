@@ -67,9 +67,10 @@ GameDataManager::~GameDataManager(void)
 
 bool GameDataManager::init(void)
 {
-    if(!FileUtils::getInstance()->isDirectoryExist(getGameCachePath()))
+    const std::string& gameCachePath = getGameCachePath();
+    if(!FileUtils::getInstance()->isDirectoryExist(gameCachePath))
     {
-        FileUtils::getInstance()->createDirectory(getGameCachePath());
+        FileUtils::getInstance()->createDirectory(gameCachePath);
     }
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     createBundledGamesMap();
@@ -708,15 +709,16 @@ bool GameDataManager::isGameLaunchFilesInCache()
 
 void GameDataManager::copyGameLaunchFilesToCache()
 {
-    if(!FileUtils::getInstance()->isDirectoryExist(getGameCachePath()))
+    const std::string& gameCachePath = getGameCachePath();
+    if(!FileUtils::getInstance()->isDirectoryExist(gameCachePath))
     {
-           FileUtils::getInstance()->createDirectory(getGameCachePath());
+           FileUtils::getInstance()->createDirectory(gameCachePath);
     }
     
-    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/index_ios.html"), getGameCachePath() + "index_ios.html");
-    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/circle_1.png"), getGameCachePath() + "circle_1.png");
-    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/load.png"), getGameCachePath() + "load.png");
-    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/style.css"), getGameCachePath() + "style.css");
+    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/index_ios.html"), gameCachePath + "index_ios.html");
+    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/circle_1.png"), gameCachePath + "circle_1.png");
+    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/load.png"), gameCachePath + "load.png");
+    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/style.css"), gameCachePath + "style.css");
 }
 
 #endif
