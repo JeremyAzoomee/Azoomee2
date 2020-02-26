@@ -4,7 +4,7 @@
 #include <functional>
 #include <cctype>
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 std::vector<std::string> StringFunctions::splitStringToVector(std::string inputString, std::string separator)
 {
@@ -270,4 +270,4 @@ void StringFunctions::reduceLabelTextToFitWidth(cocos2d::ui::Text* label,float m
 }
 
 
-NS_AZOOMEE_END
+NS_TZ_END

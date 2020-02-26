@@ -1,7 +1,7 @@
 #ifndef AzoomeeCommon_Json_h
 #define AzoomeeCommon_Json_h
 
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 
 // Include some common use headers for using rapidjson library
 #include <external/json/document.h>
@@ -14,7 +14,7 @@
 #include <cocos2d.h>
 
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 /**
  * Defines a class that can be exported to Json
@@ -383,6 +383,6 @@ inline std::map<std::string, std::pair<std::string,int>> getAssetMapFromJson(con
     return returnValue;
 }
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif

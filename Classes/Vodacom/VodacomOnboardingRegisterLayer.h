@@ -11,8 +11,11 @@
 #include "VodacomOnboardingLayer.h"
 #include "../TextInputLayer.h"
 #include "../SettingsMessageBox.h"
+#include "../Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class VodacomOnboardingRegisterLayer : public VodacomOnboardingLayer, TextInputLayerDelegate, SettingsMessageBoxDelegate
 {
@@ -43,7 +46,7 @@ public:
 	virtual void onButtonPressed(SettingsMessageBox* pSender, SettingsMessageBoxButtonType type) override;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* VodacomOnboardingRegisterLayer_h */
 #endif

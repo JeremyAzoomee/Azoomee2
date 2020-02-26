@@ -12,7 +12,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool SignupConfirmEmail::init()
 {
@@ -57,4 +59,4 @@ void SignupConfirmEmail::setEmail(const std::string &email)
 	_email->setString(email);
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

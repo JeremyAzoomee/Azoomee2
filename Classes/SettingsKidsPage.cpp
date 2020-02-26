@@ -20,7 +20,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool SettingsKidsPage::init()
 {
@@ -45,7 +47,7 @@ void SettingsKidsPage::onEnter()
     _kidList = ui::ListView::create();
     _kidList->setDirection(ui::ScrollView::Direction::VERTICAL);
     _kidList->setBounceEnabled(true);
-	_kidList->setContentSize(Size(this->getContentSize().width - 100, this->getContentSize().height - 316 - (Device::getInstance()->isDeviceIphoneX() ? 200 : 150)));
+	_kidList->setContentSize(Size(this->getContentSize().width - 100, this->getContentSize().height - 316 - (TZ::Device::getInstance()->isDeviceIphoneX() ? 200 : 150)));
     _kidList->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _kidList->setItemsMargin(50);
     _kidList->setTopPadding(50);
@@ -123,4 +125,4 @@ void SettingsKidsPage::onHttpRequestFailed(const std::string& requestTag, long e
     ModalMessages::getInstance()->stopLoading();
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

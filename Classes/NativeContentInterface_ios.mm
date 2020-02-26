@@ -7,7 +7,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 //#define REMOVE_WEBVIEW_ON_BG YES
 
@@ -134,4 +136,4 @@ void NativeContentInterface_ios::addWebViewToScreen(const std::string &url, cons
 #endif
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

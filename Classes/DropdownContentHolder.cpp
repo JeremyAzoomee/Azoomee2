@@ -12,7 +12,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const cocos2d::Rect DropdownContentHolder::kBgCapInsetsSmall = Rect(130, 130, 82, 80);
 const cocos2d::Rect DropdownContentHolder::kBgCapInsetsBig = Rect(162, 162, 103, 100);
@@ -382,4 +384,4 @@ void DropdownContentHolder::onImageDownloadFailed()
     
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

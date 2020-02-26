@@ -8,11 +8,14 @@
 #ifndef Style_h
 #define Style_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <string>
 #include <map>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 namespace Style
 {
@@ -82,6 +85,6 @@ namespace Style
     }
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* Style_h */

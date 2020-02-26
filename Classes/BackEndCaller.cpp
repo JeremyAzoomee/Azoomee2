@@ -38,7 +38,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 
 static BackEndCaller *_sharedBackEndCaller = NULL;
@@ -94,7 +96,7 @@ void BackEndCaller::offlineCheck()
 
 void BackEndCaller::ipCheck()
 {
-    if(Device::getInstance()->getClientAnonymousIp() != "0.0.0.0")
+    if(TZ::Device::getInstance()->getClientAnonymousIp() != "0.0.0.0")
     {
         return;
     }
@@ -311,7 +313,7 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
 
 void BackEndCaller::getSessionCookies()
 {
-    Device::getInstance()->deleteHttpCookies();
+    TZ::Device::getInstance()->deleteHttpCookies();
     
     const std::string& userId = ChildManager::getInstance()->getLoggedInChild()->getId();
     const std::string& sessionId = ChildManager::getInstance()->getLoggedInChild()->getCDNSessionId();
@@ -364,7 +366,7 @@ void BackEndCaller::onSessionCookiesAnswerReceived(const std::string& responseSt
 void BackEndCaller::registerParent(const std::string& emailAddress, const std::string& password, const std::string& pinNumber, const std::string& marketingAccepted)
 {
     FlowDataSingleton::getInstance()->setFlowToSignup(emailAddress, password);
-    const std::string &sourceDevice = Device::getInstance()->getDeviceInformation();
+    const std::string &sourceDevice = TZ::Device::getInstance()->getDeviceInformation();
     
     std::string source = "OTHER";
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -459,8 +461,8 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
 {
     if(requestTag == API::TagIpCheck)
     {
-        Device::getInstance()->setClientAnonymousIp(body);
-        AnalyticsSingleton::getInstance()->registerAnonymousIp(Device::getInstance()->getClientAnonymousIp());
+        TZ::Device::getInstance()->setClientAnonymousIp(body);
+        AnalyticsSingleton::getInstance()->registerAnonymousIp(TZ::Device::getInstance()->getClientAnonymousIp());
     }
     else if(requestTag == API::TagGetSessionCookies)
     {
@@ -544,8 +546,8 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
 {
     if(requestTag == API::TagIpCheck)
     {
-        Device::getInstance()->setClientAnonymousIp("0.0.0.0");
-        AnalyticsSingleton::getInstance()->registerAnonymousIp(Device::getInstance()->getClientAnonymousIp());
+        TZ::Device::getInstance()->setClientAnonymousIp("0.0.0.0");
+        AnalyticsSingleton::getInstance()->registerAnonymousIp(TZ::Device::getInstance()->getClientAnonymousIp());
     }
     else if(requestTag == API::TagOfflineCheck)
     {
@@ -613,4 +615,4 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     }
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

@@ -34,7 +34,7 @@
     
     if([UIScreen mainScreen].bounds.size.width == 812)
     {
-        Azoomee::Device::getInstance()->setIsDeviceIphoneX(true);
+        TZ::Device::getInstance()->setIsDeviceIphoneX(true);
     }
     
     // Initialize the CCEAGLView
@@ -122,7 +122,7 @@
         if(eaglview)
         {
             CGSize s = CGSizeMake([eaglview getWidth], [eaglview getHeight]);
-            Azoomee::Application* app = (Azoomee::Application*) cocos2d::Application::getInstance();
+            TZ::Application* app = (TZ::Application*) cocos2d::Application::getInstance();
             if(app)
             {
                 app->applicationScreenSizeWillChange((int) s.width, (int) s.height, (float)duration);
@@ -141,7 +141,7 @@
         if(eaglview)
         {
             CGSize s = CGSizeMake([eaglview getWidth], [eaglview getHeight]);
-            Azoomee::Application* app = (Azoomee::Application*) cocos2d::Application::getInstance();
+            TZ::Application* app = (TZ::Application*) cocos2d::Application::getInstance();
             if(app)
             {
                 app->applicationScreenSizeChanged((int) s.width, (int) s.height);

@@ -16,7 +16,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const std::string LanguageSelectScene::kGreekLangID = "gre";
 const cocos2d::Size LanguageSelectScene::kBaseButtonSize = Size(255,410);
@@ -212,4 +214,4 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
 	
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

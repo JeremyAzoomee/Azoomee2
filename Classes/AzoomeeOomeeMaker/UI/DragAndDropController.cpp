@@ -14,7 +14,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 static std::auto_ptr<DragAndDropController> sDragAndDropControllerSharedInstance;
 
@@ -163,4 +165,4 @@ void DragAndDropController::setRemoveItemFromOomee()
     _removeItemFromOomee = true;
 }
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END

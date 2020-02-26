@@ -11,7 +11,7 @@
 #include "../../Crashlytics/CrashlyticsConfig.h"
 #include "../../API/API.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 using namespace cocos2d;
 
@@ -187,4 +187,4 @@ void ChildManager::loginChildOffline(const std::string &childId)
 }
 
 
-NS_AZOOMEE_END
+NS_TZ_END

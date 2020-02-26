@@ -11,8 +11,7 @@
 
 using namespace cocos2d;
 
-namespace Azoomee {
-
+NS_TZ_BEGIN
 
     static std::auto_ptr<FileZipUtil> sFileZipUtilSharedInstance;
 
@@ -162,4 +161,4 @@ namespace Azoomee {
         unzipThread.detach();
     }
 
-}
+NS_TZ_END

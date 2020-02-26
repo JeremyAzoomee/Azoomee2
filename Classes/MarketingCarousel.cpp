@@ -15,7 +15,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const float MarketingCarousel::ktimeBetweenScrolls = 5.0f;
 
@@ -147,4 +149,4 @@ void MarketingCarousel::addPage(const MarketingAssetRef &data)
 	titleText->addChild(subHeadingText);
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

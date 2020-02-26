@@ -8,7 +8,7 @@
 #include "AnalyticsProperties.h"
 #include "../Utils/TimeUtils.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 using namespace cocos2d;
 
@@ -136,4 +136,4 @@ void AnalyticsProperties::updateEpochTime()
     _storedGeneralProperties["epochTime"] = TimeUtils::getMillisecondTimestampString();
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

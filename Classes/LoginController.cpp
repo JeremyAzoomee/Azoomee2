@@ -14,7 +14,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 static LoginController *_sharedLoginController = NULL;
 
@@ -71,7 +73,7 @@ void LoginController::doLoginLogic()
 
 void LoginController::forceNewLogin(const LoginOrigin& origin)
 {
-    Azoomee::UserAccountManager::getInstance()->logoutParent();
+    TZ::UserAccountManager::getInstance()->logoutParent();
     setLoginOrigin(origin);
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
 }
@@ -210,4 +212,4 @@ void LoginController::handleChildLoginSuccess()
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(nextScene));
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

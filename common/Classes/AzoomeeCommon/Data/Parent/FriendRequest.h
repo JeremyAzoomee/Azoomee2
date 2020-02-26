@@ -8,12 +8,12 @@
 #ifndef FriendRequest_h
 #define FriendRequest_h
 
-#include "../../Azoomee.h"
+#include "../../Tinizine.h"
 #include <string>
 #include <memory>
 #include "../Json.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class FriendRequest;
 typedef std::shared_ptr<FriendRequest> FriendRequestRef;
@@ -42,6 +42,6 @@ public:
 	std::string getRespondentId() const;
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif /* FriendRequest_h */

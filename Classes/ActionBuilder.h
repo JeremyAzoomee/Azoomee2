@@ -8,16 +8,19 @@
 #ifndef ActionBuilder_h
 #define ActionBuilder_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 namespace ActionBuilder
 {
     cocos2d::Sequence* createFadeInAndOutEffect(float totalDuration, int fadeInOpacity, int fadeOutOpacity);
     cocos2d::Sequence* createFlickerEffect(int flickerCount, float delayBetweenFlickers);
     cocos2d::Sequence* createBlinkEffect(float startDelay, float blinkDelay);
 }
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* ActionBuilder_h */

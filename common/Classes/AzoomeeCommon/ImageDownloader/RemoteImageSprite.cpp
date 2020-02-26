@@ -6,7 +6,7 @@ using namespace cocos2d::network;
 using namespace cocos2d;
 
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 RemoteImageSprite::RemoteImageSprite()
 {
@@ -151,4 +151,4 @@ void RemoteImageSprite::onImageDownloadFailed()
     // do nothing
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

@@ -8,11 +8,14 @@
 #ifndef TutorialGuide_h
 #define TutorialGuide_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
+#include "../Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class TutorialGuide : public cocos2d::Node
 {
@@ -34,6 +37,6 @@ public:
 	CREATE_FUNC(TutorialGuide);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* TutorialGuide_h */

@@ -8,7 +8,8 @@
 #ifndef HQConstants_h
 #define HQConstants_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
+#include "Azoomee.h"
 
 #define TILESIZE_1X1 cocos2d::Vec2(1,1)
 #define TILESIZE_1X2 cocos2d::Vec2(1,2)
@@ -19,6 +20,9 @@
 #define CONTENT_PLACEHOLDER_VIDEO_1X1 "res/contentPlaceholders/Video1X1.png"
 #define CONTENT_PLACEHOLDER_VIDEO_1X2 "res/contentPlaceholders/Video1X2.png"
 
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 namespace HQConsts
 {
@@ -50,5 +54,7 @@ namespace HQConsts
     const std::string DeleteArtButtonAnalyticsName = "artsAppDeleteButton";
     const std::string OpenArtAnalyticsContentName = "Art";
 }
+
+NS_AZ_END
 
 #endif /* HQConstants_h */

@@ -15,7 +15,9 @@
 #include <AzoomeeCommon/Utils/FileZipUtil.h>
 #include <AzoomeeCommon/Data/DataDownloadHandler.h>
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 class OomeeMakerDataHandler : public DataDownloadHandler, public FileZipDelegate
 {
@@ -81,6 +83,6 @@ public:
     
 };
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END
 
 #endif /* OomeeMakerDataHandler_h */

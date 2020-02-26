@@ -6,8 +6,7 @@
 using namespace cocos2d;
 
 
-namespace Azoomee
-{
+NS_TZ_BEGIN
 
 std::string HMACSHA256::getHMACSHA256Hash(const std::string& message, const std::string& secret)
 {
@@ -24,4 +23,4 @@ std::string HMACSHA256::getHMACSHA256Hash(const std::string& message, const std:
     return result;
 }
   
-}
+NS_TZ_END

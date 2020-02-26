@@ -27,9 +27,11 @@ static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppAc
 #endif
 
 using namespace cocos2d;
-using namespace Azoomee;
+using namespace AZ;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 cocos2d::Scene* WebViewNativeCaller_android::createSceneWithUrl(const std::string& url, Orientation orientation, Vec2 closeButtonAnchor, int videoProgressSeconds)
 {
@@ -145,7 +147,7 @@ bool WebViewNativeCaller_android::init()
     return true;
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

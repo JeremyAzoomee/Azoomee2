@@ -16,7 +16,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool FriendRequestLayer::init()
 {
@@ -162,7 +164,7 @@ void FriendRequestLayer::setChildDetails(const FriendRequestRef& friendRequest)
 	_friendRequest = friendRequest;
 }
 
-void FriendRequestLayer::changeToState(Azoomee::InviteState state)
+void FriendRequestLayer::changeToState(AZ::InviteState state)
 {
     _state = state;
 	
@@ -226,4 +228,4 @@ void FriendRequestLayer::onButtonPressed(SettingsMessageBox* pSender, SettingsMe
     }
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

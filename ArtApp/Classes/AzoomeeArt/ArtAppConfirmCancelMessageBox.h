@@ -13,7 +13,9 @@
 #include "AzoomeeArtApp.h"
 #include <AzoomeeCommon/UI/MessagePopupBase.h>
 
-NS_AZOOMEE_AA_BEGIN
+USING_NS_TZ
+
+NS_AZ_AA_BEGIN
 
 class ArtAppConfirmCancelMessageBox : public MessagePopupBase
 {
@@ -41,7 +43,7 @@ public:
     CREATE_FUNC(ArtAppConfirmCancelMessageBox);
 };
 
-NS_AZOOMEE_AA_END
+NS_AZ_AA_END
 
 
 #endif /* ArtAppConfirmCancelMessageBox_h */

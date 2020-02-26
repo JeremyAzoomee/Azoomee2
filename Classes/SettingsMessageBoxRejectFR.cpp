@@ -12,7 +12,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 void SettingsMessageBoxRejectFR::onEnter()
 {
@@ -58,4 +60,4 @@ void SettingsMessageBoxRejectFR::onEnter()
     
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

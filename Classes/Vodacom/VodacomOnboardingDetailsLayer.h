@@ -10,8 +10,11 @@
 
 #include "VodacomOnboardingLayer.h"
 #include <cocos/ui/CocosGUI.h>
+#include "../Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class VodacomOnboardingDetailsLayer : public VodacomOnboardingLayer
 {
@@ -32,7 +35,7 @@ public:
 	CREATE_FUNC(VodacomOnboardingDetailsLayer);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 
 #endif /* VodacomOnboardingDetailsLayer_h */

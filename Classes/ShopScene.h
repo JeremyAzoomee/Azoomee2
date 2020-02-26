@@ -8,7 +8,7 @@
 #ifndef ShopScene_h
 #define ShopScene_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/UI/Scene.h>
@@ -17,12 +17,15 @@
 #include "ShopItemPurchasePopup.h"
 #include "CoinDisplay.h"
 #include "ShopItemPurchasedAnimation.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
 
-class ShopScene : public Azoomee::Scene, HttpRequestCreatorResponseDelegate
+NS_AZ_BEGIN
+
+class ShopScene : public TZ::Scene, HttpRequestCreatorResponseDelegate
 {
-	typedef Azoomee::Scene Super;
+	typedef TZ::Scene Super;
 private:
     enum GetInvContext {PRE_PURCHSE, POST_PURCAHSE, REFRESH};
     
@@ -56,6 +59,6 @@ public:
 	void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* ShopScene_h */

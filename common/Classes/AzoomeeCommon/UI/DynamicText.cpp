@@ -7,7 +7,7 @@
 
 #include "DynamicText.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 DynamicText* DynamicText::create(const std::string& text, const std::string& font, int fontSize)
 {
@@ -39,4 +39,4 @@ void DynamicText::enableUnderline(bool underline)
     }
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

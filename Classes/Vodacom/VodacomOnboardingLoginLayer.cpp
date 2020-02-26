@@ -17,7 +17,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool VodacomOnboardingLoginLayer::init()
 {
@@ -382,5 +384,5 @@ void VodacomOnboardingLoginLayer::editBoxEditingDidEnd(TextInputLayer* inputLaye
 	
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 #endif

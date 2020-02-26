@@ -8,11 +8,11 @@
 #ifndef AppConfig_h
 #define AppConfig_h
 
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include "Json.h"
 #include <cocos/cocos2d.h>
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class AppConfig
 {
@@ -46,6 +46,6 @@ public:
     
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif /* AppConfig_h */

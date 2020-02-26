@@ -17,7 +17,9 @@
 
 USING_NS_CC;
 
-NS_AZOOMEE_AA_BEGIN
+USING_NS_TZ
+
+NS_AZ_AA_BEGIN
 
 Scene* MainScene::createScene()
 {
@@ -191,7 +193,7 @@ void MainScene::saveFile()
     {
         const std::string& fileNameStr = TimeUtils::getTimeStringForFileName();
         
-        saveFileName = AppConfig::kArtCacheFolder + Azoomee::ChildManager::getInstance()->getLoggedInChild()->getId() + "/" + fileNameStr + ".png";
+        saveFileName = AppConfig::kArtCacheFolder + TZ::ChildManager::getInstance()->getLoggedInChild()->getId() + "/" + fileNameStr + ".png";
         this->_fileName = DirUtil::getCachesPath() + "/" + saveFileName;
     }
     else
@@ -209,4 +211,4 @@ void MainScene::reloadRenderTextureObject()
 	_drawingCanvas->reloadRenderTextureObject();
 }
 
-NS_AZOOMEE_AA_END
+NS_AZ_AA_END

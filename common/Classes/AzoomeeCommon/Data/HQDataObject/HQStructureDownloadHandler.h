@@ -8,11 +8,11 @@
 #ifndef HQStructureDownloadHandler_h
 #define HQStructureDownloadHandler_h
 
-#include "../../Azoomee.h"
+#include "../../Tinizine.h"
 #include "../../Utils/FileZipUtil.h"
 #include "../DataDownloadHandler.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class HQStructureDownloadHandler : public DataDownloadHandler, FileZipDelegate
 {
@@ -40,6 +40,6 @@ public:
     virtual void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode) override;
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif /* HQStructureDownloadHandler_h */

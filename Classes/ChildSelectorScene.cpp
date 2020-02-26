@@ -12,7 +12,7 @@
 #include <AzoomeeCommon/ContentDataManagers/ContentHistoryManager.h>
 #include "ForceUpdateAppLockScene.h"
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
-#include <AzoomeeCommon/Utils/ActionBuilder.h>
+#include "ActionBuilder.h"
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/UI/Colour.h>
 #include "HQHistoryManager.h"
@@ -21,7 +21,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const Size ChildSelectorScene::kBaseButtonSize = Size(560,710);
 
@@ -346,4 +348,4 @@ void ChildSelectorScene::onForceUpdateCheckFinished(const ForceUpdateResult& res
 			break;
 	}
 }
-NS_AZOOMEE_END
+NS_AZ_END

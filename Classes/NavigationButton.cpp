@@ -9,7 +9,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const float NavigationButton::kFadeAnimDuration = 0.5f;
 
@@ -69,4 +71,4 @@ void NavigationButton::setActive(bool active)
     _circle->runAction(active ? (FiniteTimeAction*)FadeOut::create(kFadeAnimDuration) : (FiniteTimeAction*)FadeIn::create(kFadeAnimDuration));
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

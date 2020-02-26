@@ -8,7 +8,9 @@
 #include "Style.h"
 #include <AzoomeeCommon/Utils/LocaleManager.h>
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 namespace Style
 {
@@ -61,4 +63,4 @@ namespace Style
     }
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

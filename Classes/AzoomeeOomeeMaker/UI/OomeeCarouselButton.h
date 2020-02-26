@@ -14,7 +14,9 @@
 #include <AzoomeeCommon/UI/LazyLoadingButton.h>
 #include "../DataObjects/OomeeFigureData.h"
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 class OomeeCarouselButtonDelegate
 {
@@ -74,7 +76,7 @@ public:
     CREATE_FUNC(OomeeCarouselButton);
 };
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END
 
 
 #endif /* OomeeCarouselButton_h */

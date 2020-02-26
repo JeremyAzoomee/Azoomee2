@@ -9,7 +9,7 @@
 #include <cocos/cocos2d.h>
 
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
     
 std::string DirUtil::getDocumentsPath()
 {
@@ -24,4 +24,4 @@ std::string DirUtil::getCachesPath()
     return cocos2d::FileUtils::getInstance()->getWritablePath();
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

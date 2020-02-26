@@ -9,7 +9,7 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 void LazyLoadingButton::onEnter()
 {
@@ -50,4 +50,4 @@ void LazyLoadingButton::loadPlaceholderImage()
     loadTextureNormal(_placeholderImageFile);
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

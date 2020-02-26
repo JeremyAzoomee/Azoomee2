@@ -1,10 +1,10 @@
 #ifndef AzoomeeCommon_SessionIdManager_h
 #define AzoomeeCommon_SessionIdManager_h
 
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include <cocos/cocos2d.h>
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
     
 class AppBackgroundManager
 {
@@ -29,6 +29,6 @@ private:
     void increaseBackgroundTimeInContent();
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif

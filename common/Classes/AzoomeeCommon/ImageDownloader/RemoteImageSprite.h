@@ -4,12 +4,12 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include <cocos/network/HttpClient.h>
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include "ImageDownloader.h"
 #include "ImageDownloaderOnScreenChecker.h"
 
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class RemoteImageSprite : public cocos2d::ui::ImageView, public ImageDownloaderDelegate, OnScreenChecker
 {
@@ -52,6 +52,6 @@ private:
     bool _keepAspectRatio = false;
 };
   
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif

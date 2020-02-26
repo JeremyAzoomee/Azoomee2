@@ -16,9 +16,11 @@ static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppAc
 #endif
 
 using namespace cocos2d;
-using namespace Azoomee;
+using namespace AZ;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 static AmazonPaymentSingleton *_sharedAmazonPaymentSingleton = NULL;
 
@@ -145,7 +147,7 @@ void purchaseFailureErrorMessageWithDelay()
     Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from amazon window, otherwise the app will crash
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

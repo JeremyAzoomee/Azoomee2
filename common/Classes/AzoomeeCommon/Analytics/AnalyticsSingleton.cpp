@@ -9,7 +9,7 @@
 #include "../Data/HQDataObject/ContentItemManager.h"
 #include "../Data/AppConfig.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 static AnalyticsSingleton *_sharedAnalyticsSingleton = NULL;
 
@@ -1056,4 +1056,4 @@ void AnalyticsSingleton::debugEvent(const std::string& eventName, const std::map
 	mixPanelSendEventWithStoredProperties("DEBUG_" + eventName, params);
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

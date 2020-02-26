@@ -1,10 +1,10 @@
 #ifndef Azoomee_HQContentItemObject_h
 #define Azoomee_HQContentItemObject_h
 
-#include "../../Azoomee.h"
+#include "../../Tinizine.h"
 #include <cocos/cocos2d.h>
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class HQContentItemObject;
 typedef std::shared_ptr<HQContentItemObject> HQContentItemObjectRef;
@@ -91,6 +91,6 @@ public:
 	void setElementShape(const cocos2d::Vec2 &inputElementShape);
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif

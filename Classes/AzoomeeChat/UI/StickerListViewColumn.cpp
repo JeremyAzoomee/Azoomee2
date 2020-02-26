@@ -7,7 +7,9 @@ using namespace cocos2d;
 
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 bool StickerListViewColumn::init()
 {
@@ -147,4 +149,4 @@ void StickerListViewColumn::addItemSelectedEventListener(const ItemSelectedCallb
     _selectedEventCallback = callback;
 }
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

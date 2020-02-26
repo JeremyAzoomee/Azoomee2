@@ -8,13 +8,16 @@
 #ifndef ProductLayout_h
 #define ProductLayout_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/UI/DynamicText.h>
 #include <AzoomeeCommon/UI/TextButton.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 enum class ProductLayoutType {PASS, SUBSCRIPTION, MULI_PASS};
 enum class IAPAction {PURCHASE, RESTORE};
@@ -51,6 +54,6 @@ public:
 	CREATE_FUNC(ProductLayout);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* ProductLayout_h */

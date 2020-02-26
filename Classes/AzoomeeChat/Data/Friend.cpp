@@ -2,7 +2,9 @@
 #include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 FriendRef Friend::createFromJson(const rapidjson::Value& json)
 {
@@ -109,4 +111,4 @@ void Friend::markFriendInModeration(bool status)
     _inModeration = status;
 }
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

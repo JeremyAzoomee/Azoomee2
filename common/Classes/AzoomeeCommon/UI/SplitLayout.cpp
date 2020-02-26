@@ -6,7 +6,7 @@ using namespace cocos2d;
 
 
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 const float SplitLayout::FixedSize = -1.0f;
 const float SplitLayout::FillSize = 0.0f;
@@ -180,4 +180,4 @@ void SplitLayout::setSplitBehaviour(float firstLayoutSize, float secondLayoutSiz
     resizeLayouts();
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

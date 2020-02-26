@@ -12,7 +12,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const float FeaturedVideosHolder::kTileSpacing = 16.0f;
 const int FeaturedVideosHolder::kColumns = 3;
@@ -139,4 +141,4 @@ void FeaturedVideosHolder::enableFixedHeight(bool enable)
     _useFixedHeight = enable;
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

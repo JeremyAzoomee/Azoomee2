@@ -2,9 +2,12 @@
 #define __PAYMENT_SINGLETON_IOS_H__
 
 #include "cocos2d.h"
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class ApplePaymentSingleton : public cocos2d::Ref
 {
@@ -27,6 +30,6 @@ private:
     int _requestAttempts;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif

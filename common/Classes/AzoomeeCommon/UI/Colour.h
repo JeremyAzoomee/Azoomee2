@@ -1,10 +1,10 @@
 #ifndef AzoomeeCommon_Colour_h
 #define AzoomeeCommon_Colour_h
 
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include <cocos/cocos2d.h>
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 namespace Colours
 {
@@ -146,6 +146,6 @@ namespace Color_4F
     
 }
   
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif /*AzoomeeCommon_Colour_h*/

@@ -11,9 +11,12 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
+#include "../Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 enum class PurchaseType {UNKNOWN, VOUCHER, DCB};
 enum class UserType {ANON, FREE, ANON_FREE, REGISTERED, PAID}; //ANON = anonymous, FREE = logged in w/o premium, ANON_FREE = anonymous user who has account to log into
@@ -100,7 +103,7 @@ public:
 	FlowState getCurrentState() const;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* VodacomOnboardingFlowData_h */
 #endif

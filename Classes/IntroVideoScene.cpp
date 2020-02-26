@@ -16,7 +16,9 @@ using namespace cocos2d::experimental::ui;
 
 //#define novideo
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 //ATTENTION! FRAMEWORK MODIFICATION REQUIRED IN ORDER TO HAVE THE VIDEO PLAYED WITHOUT CONTROL BAR!
 //cocos2d/cocos/platform/android/java/src/org/cocos2dx/lib/Cocos2dxVideoView.java row 204-206 if(isPlaying()) to be commented out
@@ -160,7 +162,7 @@ void IntroVideoScene::navigateToNextScene()
     this->stopActionByTag(3);
     this->stopActionByTag(4);
     
-    Device::getInstance()->identifyMixpanel();
+    TZ::Device::getInstance()->identifyMixpanel();
     
     if(_videoPlayer)
     {
@@ -236,5 +238,5 @@ void IntroVideoScene::onForceUpdateCheckFinished(const ForceUpdateResult& result
 	}
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 

@@ -10,8 +10,11 @@
 
 #include "ArtContentTile.h"
 #include <AzoomeeCommon/UI/RoundedRectSprite.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class ArtTileHolder : public cocos2d::ui::Layout
 {
@@ -81,6 +84,6 @@ public:
     
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* ArtTileHolder_h */

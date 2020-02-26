@@ -3,8 +3,7 @@
 using namespace cocos2d;
 
 
-namespace Azoomee
-{
+NS_TZ_BEGIN
 
 static ImageDownloaderCacheCleanerLogic *_sharedImageDownloaderCacheCleanerLogic = NULL;
 
@@ -45,4 +44,4 @@ void ImageDownloaderCacheCleanerLogic::imageRemoved()
     }
 }
   
-}
+NS_TZ_END

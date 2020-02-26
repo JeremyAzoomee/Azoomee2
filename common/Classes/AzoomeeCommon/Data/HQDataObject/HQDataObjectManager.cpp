@@ -6,7 +6,7 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 static std::auto_ptr<HQDataObjectManager> _sharedHQDataObjectManager;
 
@@ -217,4 +217,4 @@ void HQDataObjectManager::parseHQStructureData(const std::string& hqStuctureData
 	
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

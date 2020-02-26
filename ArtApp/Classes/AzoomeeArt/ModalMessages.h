@@ -5,7 +5,9 @@
 #include <cocos/ui/CocosGUI.h>
 #include "AzoomeeArtApp.h"
 
-NS_AZOOMEE_AA_BEGIN
+USING_NS_TZ
+
+NS_AZ_AA_BEGIN
 
 class ModalMessages
 {
@@ -31,6 +33,6 @@ public:
     void stopSaving();
 };
   
-NS_AZOOMEE_AA_END
+NS_AZ_AA_END
 
 #endif

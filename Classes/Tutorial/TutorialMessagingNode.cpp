@@ -10,7 +10,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 TutorialMessagingNode* TutorialMessagingNode::create(const std::string& message, const MessageLocation& location)
 {
@@ -49,7 +51,7 @@ void TutorialMessagingNode::onSizeChanged()
 {
 	this->setContentSize(Director::getInstance()->getVisibleSize());
 	
-	if(Device::getInstance()->isDevice18x9())
+	if(TZ::Device::getInstance()->isDevice18x9())
 	{
 		_bubble->setMaxWidth((this->getContentSize().width - _guide->getContentSize().width) * 1.1f);
 	}
@@ -66,7 +68,7 @@ void TutorialMessagingNode::setMessage(const std::string &message)
 
 void TutorialMessagingNode::setLocation(const MessageLocation &location)
 {
-	bool is18x9 = Device::getInstance()->isDevice18x9();
+	bool is18x9 = TZ::Device::getInstance()->isDevice18x9();
 	
 	switch(location)
 	{
@@ -138,4 +140,4 @@ bool TutorialMessagingNode::isAnimatingOut() const
 	return _animatingOut;
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

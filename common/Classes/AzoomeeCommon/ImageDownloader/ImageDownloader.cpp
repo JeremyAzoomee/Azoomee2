@@ -4,7 +4,7 @@ using namespace cocos2d;
 using namespace network;
 
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 #pragma mark - Public
 
@@ -254,4 +254,4 @@ void ImageDownloader::onFileDownloadComplete(const std::string& fileString, cons
     }
 }
   
-NS_AZOOMEE_END
+NS_TZ_END

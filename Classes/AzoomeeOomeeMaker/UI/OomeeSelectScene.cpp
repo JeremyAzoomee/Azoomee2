@@ -19,7 +19,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 void OomeeSelectScene::newOomee()
 {
@@ -258,7 +260,7 @@ void OomeeSelectScene::deleteOomee(const std::string &oomeeFilename)
 
 void OomeeSelectScene::makeAvatar(const std::string &oomeeFilename)
 {
-    if(Azoomee::OomeeMaker::delegate)
+    if(AZ::OomeeMaker::delegate)
     {
         CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/oomeeMaker/Audio/Make_Avatar_Button.mp3");
         rapidjson::Document data;
@@ -286,4 +288,4 @@ void OomeeSelectScene::shareOomee(const std::string &oomeeFilename)
     }
 }
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END

@@ -8,7 +8,7 @@
 #ifndef ResizeNode_h
 #define ResizeNode_h
 
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include <cocos/cocos2d.h>
 
 class ResizeNode : public cocos2d::Node

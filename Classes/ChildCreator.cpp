@@ -17,7 +17,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const std::string ChildCreator::kDefaultOomeeImgUrl = "https://media.azoomee.com/static/thumbs/oomee_11.png";
 
@@ -66,7 +68,7 @@ std::string ChildCreator::getCreatedChildId() const
     return _createdChildId;
 }
 
-void ChildCreator::setHttpRespnseDelegate(Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+void ChildCreator::setHttpRespnseDelegate(TZ::HttpRequestCreatorResponseDelegate *delegate)
 {
     _delegate = delegate;
 }
@@ -122,4 +124,4 @@ bool ChildCreator::updateChild(const ChildRef &child)
 	return true;
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

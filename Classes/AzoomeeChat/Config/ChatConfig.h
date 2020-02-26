@@ -4,9 +4,11 @@
 #include "../AzoomeeChat.h"
 #include <cocos/cocos2d.h>
 #include <map>
+#include <AzoomeeCommon/Tinizine.h>
 
+USING_NS_TZ
 
-NS_AZOOMEE_CHAT_BEGIN
+NS_AZ_CHAT_BEGIN
 
 class ChatConfig
 {
@@ -25,6 +27,6 @@ public:
         
 };
   
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END
 
 #endif

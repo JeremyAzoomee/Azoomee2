@@ -13,7 +13,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const std::vector<cocos2d::Color4F> AwesomeLayer::kColours = {
 	cocos2d::Color4F(1, 0.81, 0.06, 1),
@@ -176,4 +178,4 @@ void AwesomeLayer::addStars()
 	}
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

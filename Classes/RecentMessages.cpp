@@ -13,7 +13,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const float RecentMessages::kListViewPadding = 45.0f;
 const float RecentMessages::kHeaderHeight = 300.0f;
@@ -199,4 +201,4 @@ void RecentMessages::setupMessageBars()
     _messageListView->scrollToTop(0, false);
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

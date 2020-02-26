@@ -12,7 +12,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 ConfirmCancelMessageBox* ConfirmCancelMessageBox::createWithParams(const std::string &title, const std::string &confirmButtonFilename, const std::string &cancelButtonFilename, const cocos2d::Color3B &backgroundColour, const cocos2d::Color4B &textColour)
 {
@@ -100,4 +102,4 @@ void ConfirmCancelMessageBox::setOnCancelCallback(const ButtonPressedCallback& c
     _cancelCallback = callback;
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

@@ -8,10 +8,10 @@
 #ifndef DynamicText_h
 #define DynamicText_h
 
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include <cocos/ui/CocosGUI.h>
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class DynamicText : public cocos2d::ui::Text
 {
@@ -28,6 +28,6 @@ public:
 	CREATE_FUNC(DynamicText);
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif /* DynamicText_h */

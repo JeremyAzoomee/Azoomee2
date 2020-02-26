@@ -17,7 +17,9 @@
 #define AZOOMEE_CHAT_GALLERY_SHARE
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
     
 class MessageComposer : public ObservableLayout, public cocos2d::IMEDelegate, public cocos2d::TextFieldDelegate
 {
@@ -163,6 +165,6 @@ public:
     CREATE_FUNC(MessageComposer);
 };
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END
 
 #endif

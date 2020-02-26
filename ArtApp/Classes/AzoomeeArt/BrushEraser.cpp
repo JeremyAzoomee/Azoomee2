@@ -11,7 +11,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_AA_BEGIN
+USING_NS_TZ
+
+NS_AZ_AA_BEGIN
 
 BrushEraser::BrushEraser():Brush()
 {
@@ -62,4 +64,4 @@ void BrushEraser::onTouchEnded(Touch *touch, Event *event)
     
 }
 
-NS_AZOOMEE_AA_END
+NS_AZ_AA_END

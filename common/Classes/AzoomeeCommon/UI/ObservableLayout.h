@@ -1,12 +1,12 @@
 #ifndef AzoomeeCommon_ObservableLayout_h
 #define AzoomeeCommon_ObservableLayout_h
 
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 /**
  * Like a normal Layout, but you can observe changes to it's size.
@@ -33,6 +33,6 @@ public:
     
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif

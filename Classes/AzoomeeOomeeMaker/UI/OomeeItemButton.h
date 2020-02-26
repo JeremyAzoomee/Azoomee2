@@ -14,7 +14,9 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 class OomeeItemButton : public LazyLoadingButton
 {
@@ -34,6 +36,6 @@ public:
     CREATE_FUNC(OomeeItemButton);
 };
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END
 
 #endif /* OomeeItemButton_h */

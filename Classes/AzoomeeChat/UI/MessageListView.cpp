@@ -7,7 +7,9 @@
 using namespace cocos2d;
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 #pragma mark - Constants
 
@@ -435,4 +437,4 @@ void MessageListView::addMessage(const MessageRef& message)
     setScrollPosition(1.0f);
 }
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

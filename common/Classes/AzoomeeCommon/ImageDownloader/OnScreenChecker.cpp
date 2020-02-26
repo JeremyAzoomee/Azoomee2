@@ -11,8 +11,7 @@
 using namespace cocos2d;
 
 
-namespace Azoomee
-{
+NS_TZ_BEGIN
 
 bool OnScreenChecker::kUseStrictBoundry = false;
 	
@@ -85,4 +84,4 @@ bool OnScreenChecker::kUseStrictBoundry = false;
     {
         
     }
-}
+NS_TZ_END

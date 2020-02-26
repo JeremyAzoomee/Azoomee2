@@ -3,8 +3,7 @@
 using namespace cocos2d;
 
 
-namespace Azoomee
-{
+NS_TZ_BEGIN
 
 static HMACSHA256 *_sharedHMACSHA256 = NULL;
 
@@ -28,4 +27,4 @@ bool HMACSHA256::init(void)
   return true;
 }
   
-}
+NS_TZ_END

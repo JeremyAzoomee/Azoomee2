@@ -7,7 +7,9 @@
 #ifdef AZOOMEE_VODACOM_BUILD
 #include "VodacomOnboardingFlowData.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 VodacomOnboardingFlowDataRef VodacomOnboardingFlowData::create()
 {
@@ -180,5 +182,5 @@ FlowState VodacomOnboardingFlowData::getCurrentState() const
 	return _stateStack.back();
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 #endif

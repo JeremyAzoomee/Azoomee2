@@ -8,15 +8,17 @@
 #ifndef OomeeDisplay_h
 #define OomeeDisplay_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
 #include <AzoomeeCommon/UI/DynamicText.h>
 #include <AzoomeeCommon/UI/RoundedRectSprite.h>
+#include "Azoomee.h"
 
+USING_NS_TZ
 
-NS_AZOOMEE_BEGIN
+NS_AZ_BEGIN
 
 class OomeeDisplay : public cocos2d::ui::Layout, ImageDownloaderDelegate
 {
@@ -60,6 +62,6 @@ public:
     void onImageDownloadFailed() override;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* OomeeDisplay_h */

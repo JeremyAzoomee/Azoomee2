@@ -18,7 +18,7 @@
 #include "WebViewSelector.h"
 
 using namespace cocos2d;
-using namespace Azoomee;
+using namespace AZ;
 
 
 // if you want to use the package manager to install more packages,  
@@ -55,7 +55,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     if(visibleSize.width / visibleSize.height > 1.95)
     {
-        Azoomee::Device::getInstance()->setIsDevice18x9(true);
+        TZ::Device::getInstance()->setIsDevice18x9(true);
     }
     
 #ifdef AZOOMEE_ENVIRONMENT_CI
@@ -147,7 +147,7 @@ void AppDelegate::applicationWillEnterForeground()
     }
 	else
 	{
-		Azoomee::ArtApp::MainScene* artAppScene = dynamic_cast<Azoomee::ArtApp::MainScene*>(Director::getInstance()->getRunningScene()->getChildByName("ArtAppMainScene"));
+		AZ::ArtApp::MainScene* artAppScene = dynamic_cast<TZ::ArtApp::MainScene*>(Director::getInstance()->getRunningScene()->getChildByName("ArtAppMainScene"));
 		if(artAppScene)
 		{
 			artAppScene->runAction(Sequence::create(DelayTime::create(0.25f), CallFunc::create([artAppScene](){

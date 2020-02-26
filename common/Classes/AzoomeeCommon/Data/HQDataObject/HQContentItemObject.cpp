@@ -1,7 +1,7 @@
 #include "HQContentItemObject.h"
 #include "../../Utils/StringFunctions.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 const std::string& HQContentItemObject::kTagNew = "NEW";
 const char* const HQContentItemObject::kContentTypeVideo = "VIDEO";
@@ -247,4 +247,4 @@ MutableHQContentItemObjectRef MutableHQContentItemObject::createFromMap(const st
     return returnObject;
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

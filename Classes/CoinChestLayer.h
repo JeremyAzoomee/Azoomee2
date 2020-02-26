@@ -8,13 +8,16 @@
 #ifndef CoinChestLayer_h
 #define CoinChestLayer_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include "RewardScreen.h"
 #include <AzoomeeCommon/UI/RoundedRectSprite.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class CoinChestLayer : public RewardScreen
 {
@@ -43,6 +46,6 @@ public:
 	CREATE_FUNC(CoinChestLayer);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* CoinChestLayer_h */

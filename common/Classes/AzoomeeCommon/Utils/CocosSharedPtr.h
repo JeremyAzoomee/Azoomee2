@@ -3,10 +3,9 @@
 
 #include <cocos/base/CCRef.h>
 #include <memory>
+#include "../Tinizine.h"
 
-
-namespace Azoomee
-{
+NS_TZ_BEGIN
 
 /**
  * A cocos2d::Ref which holds a shared_ptr.
@@ -27,6 +26,6 @@ public:
     }
 };
   
-}
+NS_TZ_END
 
 #endif

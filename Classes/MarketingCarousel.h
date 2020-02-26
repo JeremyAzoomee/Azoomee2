@@ -8,12 +8,15 @@
 #ifndef MarketingCarousel_h
 #define MarketingCarousel_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include "MarketingAssetManager.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class MarketingCarousel : public cocos2d::ui::Layout
 {
@@ -40,6 +43,6 @@ public:
 	CREATE_FUNC(MarketingCarousel);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* MarketingCarousel_h */

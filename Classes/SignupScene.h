@@ -8,15 +8,18 @@
 #ifndef SignupScene_h
 #define SignupScene_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <AzoomeeCommon/UI/Scene.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
 #include "SignupPage.h"
 #include "SignupTermsPage.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 struct SignupData
 {
@@ -26,9 +29,9 @@ struct SignupData
 	bool _acceptMarketing;
 };
 
-class SignupScene : public Azoomee::Scene, cocos2d::IMEDelegate, HttpRequestCreatorResponseDelegate
+class SignupScene : public TZ::Scene, cocos2d::IMEDelegate, HttpRequestCreatorResponseDelegate
 {
-	typedef Azoomee::Scene Super;
+	typedef TZ::Scene Super;
 private:
 	static const std::string kEnterEmailPageKey;
 	static const std::string kConfirmEmailPageKey;
@@ -72,6 +75,6 @@ public:
 	
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* SignupScene_h */

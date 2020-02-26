@@ -8,12 +8,12 @@
 #include "../Data/Parent/BillingData.h"
 #include "../Data/Child/Child.h"
 #include "../Data/Shop/ShopDisplayItem.h"
+#include "../Tinizine.h"
 
 #define NUMBER_IDENTIFIER "NUMBER|"
 
 
-namespace Azoomee
-{
+NS_TZ_BEGIN
   
 class AnalyticsSingleton : public cocos2d::Ref
 {
@@ -231,6 +231,6 @@ public:
 	
 };
   
-}
+NS_TZ_END
 
 #endif

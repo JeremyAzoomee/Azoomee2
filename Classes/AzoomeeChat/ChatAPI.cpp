@@ -11,11 +11,13 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 #pragma mark - constants
 
-const char* const kPollScheduleKey = "Azoomee::ChatAPI::requestFriendList";
+const char* const kPollScheduleKey = "AZ::ChatAPI::requestFriendList";
 const char* const kChatStatusActive = "ACTIVE";
 const char* const kChatStatusInModeration = "IN_MODERATION";
 const float ChatAPI::kScheduleRateLow = 30.0f;
@@ -397,16 +399,16 @@ void ChatAPI::onHttpRequestFailed(const std::string& requestTag, long errorCode)
     // appropriate action.
     if(errorCode == 401)
     {
-        if(Azoomee::Chat::delegate)
+        if(AZ::Chat::delegate)
         {
-            Azoomee::Chat::delegate->onChatAuthorizationError(requestTag, errorCode);
+            AZ::Chat::delegate->onChatAuthorizationError(requestTag, errorCode);
         }
     }
 	else if(errorCode == ERROR_CODE_OFFLINE)
 	{
-		if(Azoomee::Chat::delegate)
+		if(AZ::Chat::delegate)
 		{
-			Azoomee::Chat::delegate->onChatOfflineError(requestTag);
+			AZ::Chat::delegate->onChatOfflineError(requestTag);
 		}
 	}
     else
@@ -473,4 +475,4 @@ void ChatAPI::onModerationStatusResponseSuccess(const std::string& requestTag, c
     }
 }
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

@@ -8,11 +8,11 @@
 #ifndef ContentItemPoolDownloadHandler_h
 #define ContentItemPoolDownloadHandler_h
 
-#include "../../Azoomee.h"
+#include "../../Tinizine.h"
 #include "../../Utils/FileZipUtil.h"
 #include "../DataDownloadHandler.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class ContentItemPoolDownloadHandler : public DataDownloadHandler, FileZipDelegate
 {
@@ -36,6 +36,6 @@ public:
     virtual void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode) override;
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif /* ContentItemPoolDownloadHandler_h */

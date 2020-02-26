@@ -4,8 +4,7 @@
 using namespace cocos2d;
 
 
-namespace Azoomee
-{
+NS_TZ_BEGIN
 //------------------------------------All methods are private below this line------------------
 
 void ImageDownloaderOnScreenChecker::elementAppeared(Node* sender)
@@ -20,4 +19,4 @@ void ImageDownloaderOnScreenChecker::elementDisappeared(Node* sender)
     owner->removeLoadedImage();
 }
   
-}
+NS_TZ_END

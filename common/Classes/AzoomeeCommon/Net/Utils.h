@@ -1,10 +1,10 @@
 #ifndef AzoomeeCommon_Net_Utils_h
 #define AzoomeeCommon_Net_Utils_h
 
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include <string>
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 namespace Net
 {
 
@@ -16,7 +16,7 @@ std::string charToHex(unsigned char c);
 unsigned char hexToChar(const std::string &str);
 
 }
-NS_AZOOMEE_END
+NS_TZ_END
 
 
 #endif

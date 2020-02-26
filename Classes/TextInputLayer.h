@@ -3,10 +3,12 @@
 
 #include <cocos/cocos2d.h>
 #include <cocos/ui/UIEditBox/UIEditBox.h>
+#include "Azoomee.h"
+#include <AzoomeeCommon/Tinizine.h>
 
+USING_NS_TZ
 
-namespace Azoomee
-{
+NS_AZ_BEGIN
 
 #define INPUT_IS_EMAIL 0
 #define INPUT_IS_PASSWORD 1
@@ -114,6 +116,6 @@ public:
     
 };
   
-}
+NS_AZ_END
 
 #endif

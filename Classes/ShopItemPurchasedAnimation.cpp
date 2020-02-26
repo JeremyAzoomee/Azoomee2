@@ -15,7 +15,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool ShopItemPurchasedAnimation::init()
 {
@@ -109,4 +111,4 @@ void ShopItemPurchasedAnimation::setOnCompleteCallback(const OnCompleteCallback&
 	_onCompleteCallback = callback;
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

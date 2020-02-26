@@ -29,7 +29,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const std::string SignupScene::kEnterEmailPageKey = "enterEmail";
 const std::string SignupScene::kConfirmEmailPageKey = "confirmEmail";
@@ -191,7 +193,7 @@ bool SignupScene::init()
 		{
 			_signupData._acceptMarketing = acceptMarketing;
 			ModalMessages::getInstance()->startLoading();
-            HttpRequestCreator* request = API::RegisterParentRequest(UserAccountManager::getInstance()->getLoggedInParentId(), _signupData._email, _signupData._password, _signupData._pin,kSignupPlatformSource, Device::getInstance()->getDeviceInformation(), _signupData._acceptMarketing ? "true" : "false", this);
+            HttpRequestCreator* request = API::RegisterParentRequest(UserAccountManager::getInstance()->getLoggedInParentId(), _signupData._email, _signupData._password, _signupData._pin,kSignupPlatformSource, TZ::Device::getInstance()->getDeviceInformation(), _signupData._acceptMarketing ? "true" : "false", this);
 			request->execute();
 		}
 		else
@@ -483,4 +485,4 @@ void SignupScene::onHttpRequestFailed(const std::string& requestTag, long errorC
     }
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

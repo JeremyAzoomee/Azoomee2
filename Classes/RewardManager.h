@@ -8,14 +8,17 @@
 #ifndef RewardManager_h
 #define RewardManager_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <AzoomeeCommon/API/API.h>
 #include <memory>
 #include <AzoomeeCommon/Data/Json.h>
 #include "RewardItem.h"
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class RewardManager : private HttpRequestCreatorResponseDelegate
 {
@@ -91,6 +94,6 @@ private:
     cocos2d::EventListenerCustom* _rewardHeaderCheckEventListener = nullptr;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif

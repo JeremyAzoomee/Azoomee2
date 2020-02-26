@@ -8,7 +8,7 @@
 #ifndef WelcomeScene_h
 #define WelcomeScene_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/UI/Scene.h>
@@ -16,12 +16,15 @@
 #include <AzoomeeCommon/UI/TextButton.h>
 #include <AzoomeeCommon/UI/DynamicText.h>
 #include <AzoomeeCommon/UI/RoundedRectSprite.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
 
-class WelcomeScene : public Azoomee::Scene
+NS_AZ_BEGIN
+
+class WelcomeScene : public TZ::Scene
 {
-	typedef Azoomee::Scene Super;
+	typedef TZ::Scene Super;
 private:
 	
 	cocos2d::ui::Layout* _bgColour = nullptr;
@@ -56,6 +59,6 @@ public:
 	CREATE_FUNC(WelcomeScene);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* WelcomeScene_h */

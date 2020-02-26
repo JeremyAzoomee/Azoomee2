@@ -8,18 +8,21 @@
 #ifndef VodacomOnboardingScene_h
 #define VodacomOnboardingScene_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <AzoomeeCommon/UI/Scene.h>
 #include <cocos/cocos2d.h>
 #include "VodacomOnboardingFlowData.h"
 #include "VodacomOnboardingLayer.h"
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
+#include "../Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
 
-class VodacomOnboardingScene : public Azoomee::Scene, VodacomOnboardingLayerDelegate, HttpRequestCreatorResponseDelegate
+NS_AZ_BEGIN
+
+class VodacomOnboardingScene : public TZ::Scene, VodacomOnboardingLayerDelegate, HttpRequestCreatorResponseDelegate
 {
-	typedef Azoomee::Scene Super;
+	typedef TZ::Scene Super;
 private:
 	VodacomOnboardingFlowDataRef _flowData = nullptr;
 	VodacomOnboardingLayer* _currentLayer = nullptr;
@@ -44,7 +47,7 @@ public:
 	void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* VodacomOnboardingScene_h */
 #endif

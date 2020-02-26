@@ -10,7 +10,7 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 void LazyLoadButtonOnScreenChecker::elementAppeared(Node* sender)
 {
@@ -31,4 +31,4 @@ void LazyLoadButtonOnScreenChecker::elementDisappeared(Node* sender)
     Director::getInstance()->getTextureCache()->removeUnusedTextures();
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

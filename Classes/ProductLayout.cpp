@@ -19,7 +19,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool ProductLayout::init()
 {
@@ -110,7 +112,7 @@ bool ProductLayout::init()
 }
 void ProductLayout::onEnter()
 {
-    if(Device::getInstance()->getOSManufacturer() == Device::kOSManufacturerAmazon)
+    if(TZ::Device::getInstance()->getOSManufacturer() == TZ::Device::kOSManufacturerAmazon)
     {
         _restoreButton->setVisible(false);
     }
@@ -252,4 +254,4 @@ void ProductLayout::setupProductBanner()
 }
 
 
-NS_AZOOMEE_END
+NS_AZ_END

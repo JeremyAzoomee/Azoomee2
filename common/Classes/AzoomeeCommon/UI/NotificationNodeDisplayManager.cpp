@@ -10,7 +10,7 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 static std::auto_ptr<NotificationNodeDisplayManager> sNotificationNodeDisplayManagerSharedInstance;
 
@@ -87,4 +87,4 @@ void NotificationNodeDisplayManager::clearMessagingLayer()
 	_messagingLayer->removeAllChildren();
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

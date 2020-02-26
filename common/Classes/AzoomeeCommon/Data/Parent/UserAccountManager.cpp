@@ -19,7 +19,7 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 const std::string UserAccountManager::kAnonLoginPW = "ToBeDecided";
 const char* const UserAccountManager::kAnonEmailKey = "anonEmail";
@@ -728,7 +728,7 @@ void UserAccountManager::loginChild(const std::string& profileName, const OnComp
             }
         }
         setLoggedInParentCountryCode(StringFunctions::getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headers));
-        Device::getInstance()->deleteHttpCookies();
+        TZ::Device::getInstance()->deleteHttpCookies();
                 
         const std::string& userId = ChildManager::getInstance()->getLoggedInChild()->getId();
         const std::string& sessionId = ChildManager::getInstance()->getLoggedInChild()->getCDNSessionId();
@@ -797,4 +797,4 @@ bool UserAccountManager::userHasLoggedInOnDevice()
 {
     return UserDefault::getInstance()->getBoolForKey(kUserHasLoggedInOnDeviceKey.c_str(), false);
 }
-NS_AZOOMEE_END
+NS_TZ_END

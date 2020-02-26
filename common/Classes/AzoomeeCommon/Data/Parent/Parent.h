@@ -8,12 +8,12 @@
 #ifndef Parent_h
 #define Parent_h
 
-#include "../../Azoomee.h"
+#include "../../Tinizine.h"
 #include <string>
 #include <memory>
 #include "../Json.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class Parent;
 class MutableParent;
@@ -81,6 +81,6 @@ public:
 	void setAnonymous(bool anonymous);
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif /* Parent_h */

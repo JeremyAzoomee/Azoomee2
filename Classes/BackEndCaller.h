@@ -4,17 +4,20 @@
 #include <cocos/cocos2d.h>
 #include <cocos/network/HttpClient.h>
 #include <external/json/document.h>
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemPoolDownloadHandler.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQStructureDownloadHandler.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 // forward ref
 class AwaitingAdultPinLayer;
 
-class BackEndCaller : public cocos2d::Ref, public Azoomee::HttpRequestCreatorResponseDelegate
+class BackEndCaller : public cocos2d::Ref, public TZ::HttpRequestCreatorResponseDelegate
 {
 private:
     
@@ -97,6 +100,6 @@ public:
 	void getChildInventory();
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif

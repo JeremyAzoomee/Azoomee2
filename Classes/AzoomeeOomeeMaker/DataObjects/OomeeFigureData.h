@@ -11,7 +11,9 @@
 #include "../AzoomeeOomeeMaker.h"
 #include <AzoomeeCommon/Data/Json.h>
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 class OomeeFigureData;
 typedef std::shared_ptr<OomeeFigureData> OomeeFigureDataRef;
@@ -44,6 +46,6 @@ public:
 	bool isEqual(const OomeeFigureDataRef& comparable);
 };
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END
 
 #endif /* OomeeFigureData_h */

@@ -2,12 +2,15 @@
 #define Azoomee_HQHistoryManager_h
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <AzoomeeCommon/UI/UIConsts.h>
 #include "HQScene.h"
 #include "HQConstants.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class HQHistoryManager
 {
@@ -75,6 +78,6 @@ public:
     
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif

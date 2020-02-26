@@ -12,7 +12,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool ShareInChatScene::init()
 {
@@ -73,4 +75,4 @@ void ShareInChatScene::setShareType(const ShareInChatLayer::ShareType& type)
     _shareLayer->setShareType(type);
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

@@ -12,12 +12,15 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include "ShareInChatLayer.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
 
-class ShareInChatScene : public Azoomee::Scene
+NS_AZ_BEGIN
+
+class ShareInChatScene : public TZ::Scene
 {
-    typedef Azoomee::Scene Super;
+    typedef TZ::Scene Super;
 private:
     
     ShareInChatLayer* _shareLayer = nullptr;
@@ -35,6 +38,6 @@ public:
     CREATE_FUNC(ShareInChatScene);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* ShareInChatScene_h */

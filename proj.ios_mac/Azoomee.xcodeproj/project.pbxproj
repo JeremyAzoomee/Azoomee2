@@ -157,7 +157,6 @@
 		92E58564220DC7580015A4FA /* RewardDisplayHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E58563220DC7580015A4FA /* RewardDisplayHandler.cpp */; };
 		92EC0C4F22312EA800B02F20 /* ShopScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C4E22312EA800B02F20 /* ShopScene.cpp */; };
 		92EC0C5D2232805D00B02F20 /* ShopCarousel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EC0C5C2232805D00B02F20 /* ShopCarousel.cpp */; };
-		A154CC521DFEE7440008A626 /* GameDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A154CC501DFEE7440008A626 /* GameDataManager.cpp */; };
 		A15B2F991DE74F6400D25334 /* WebViewSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15B2F971DE74F6400D25334 /* WebViewSelector.cpp */; };
 		A15B2FAF1DEDD1D500D25334 /* BackEndCaller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15B2FAD1DEDD1D500D25334 /* BackEndCaller.cpp */; };
 		A19862221DD3836D0090F053 /* ChildSelectorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862131DD3836D0090F053 /* ChildSelectorScene.cpp */; };
@@ -175,6 +174,7 @@
 		E212CC75231D75E7009D4A63 /* ContentTileHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E212CC74231D75E7009D4A63 /* ContentTileHolder.cpp */; };
 		E212CCA1231E71DB009D4A63 /* FeaturedTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E212CCA0231E71DB009D4A63 /* FeaturedTile.cpp */; };
 		E212CCA4231EB07B009D4A63 /* FeaturedGamesHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E212CCA3231EB07B009D4A63 /* FeaturedGamesHolder.cpp */; };
+		E213BFCA23FD949500BBB1FA /* ActionBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E213BFC923FD949500BBB1FA /* ActionBuilder.cpp */; };
 		E2157B12238D95D6009CAAC0 /* ChildNameEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2157B11238D95D6009CAAC0 /* ChildNameEntry.cpp */; };
 		E21592F523267D2F003CBB50 /* DropdownContentHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21592F423267D2F003CBB50 /* DropdownContentHolder.cpp */; };
 		E21A4F272317CC5300E1D3FB /* OomeeHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21A4F262317CC5300E1D3FB /* OomeeHQ.cpp */; };
@@ -257,7 +257,6 @@
 		E23058B023E9BCAC0057CFE7 /* RewardManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23058AE23E9BCAC0057CFE7 /* RewardManager.cpp */; };
 		E23058B123E9BCAC0057CFE7 /* RewardItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23058AF23E9BCAC0057CFE7 /* RewardItem.cpp */; };
 		E23058B623E9C52E0057CFE7 /* RequestAdultPinLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23058B523E9C52E0057CFE7 /* RequestAdultPinLayer.cpp */; };
-		E23058C223E9DDCE0057CFE7 /* ActionBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23058C023E9DDCE0057CFE7 /* ActionBuilder.cpp */; };
 		E23058C523EAF68C0057CFE7 /* TextInputLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23058C423EAF68B0057CFE7 /* TextInputLayer.cpp */; };
 		E231C1DD238C3BF000B41129 /* ChildOnboardingScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E231C1DC238C3BF000B41129 /* ChildOnboardingScene.cpp */; };
 		E23EC8F62331172600DB6ED7 /* PurchaseCapsule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23EC8F52331172600DB6ED7 /* PurchaseCapsule.cpp */; };
@@ -624,11 +623,8 @@
 		92EC0C4A22302AE400B02F20 /* ShopItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopItem.h; sourceTree = "<group>"; };
 		92EC0C4B22302B3400B02F20 /* ShopItemPurchasePopup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopItemPurchasePopup.h; sourceTree = "<group>"; };
 		92EC0C4C22302B4F00B02F20 /* ShopItemPurchasedAnimation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopItemPurchasedAnimation.h; sourceTree = "<group>"; };
-		92EC0C4D22302B7100B02F20 /* ShopOomeeItemPreview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopOomeeItemPreview.h; sourceTree = "<group>"; };
 		92EC0C4E22312EA800B02F20 /* ShopScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShopScene.cpp; sourceTree = "<group>"; };
 		92EC0C5C2232805D00B02F20 /* ShopCarousel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShopCarousel.cpp; sourceTree = "<group>"; };
-		A154CC501DFEE7440008A626 /* GameDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameDataManager.cpp; path = ../common/Classes/AzoomeeCommon/ContentDataManagers/GameDataManager.cpp; sourceTree = "<group>"; };
-		A154CC511DFEE7440008A626 /* GameDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameDataManager.h; path = ../common/Classes/AzoomeeCommon/ContentDataManagers/GameDataManager.h; sourceTree = "<group>"; };
 		A15B2F971DE74F6400D25334 /* WebViewSelector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WebViewSelector.cpp; sourceTree = "<group>"; };
 		A15B2F981DE74F6400D25334 /* WebViewSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewSelector.h; sourceTree = "<group>"; };
 		A15B2FAD1DEDD1D500D25334 /* BackEndCaller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BackEndCaller.cpp; sourceTree = "<group>"; };
@@ -656,6 +652,9 @@
 		E212CCA0231E71DB009D4A63 /* FeaturedTile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FeaturedTile.cpp; sourceTree = "<group>"; };
 		E212CCA2231EA818009D4A63 /* FeaturedGamesHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeaturedGamesHolder.h; sourceTree = "<group>"; };
 		E212CCA3231EB07B009D4A63 /* FeaturedGamesHolder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FeaturedGamesHolder.cpp; sourceTree = "<group>"; };
+		E213BFC423FD44C700BBB1FA /* Azoomee.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Azoomee.h; sourceTree = "<group>"; };
+		E213BFC823FD949500BBB1FA /* ActionBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionBuilder.h; sourceTree = "<group>"; };
+		E213BFC923FD949500BBB1FA /* ActionBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ActionBuilder.cpp; sourceTree = "<group>"; };
 		E2157B0B238D3906009CAAC0 /* ChildNameEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChildNameEntry.h; sourceTree = "<group>"; };
 		E2157B0C238D3915009CAAC0 /* ChildAgeEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChildAgeEntry.h; sourceTree = "<group>"; };
 		E2157B11238D95D6009CAAC0 /* ChildNameEntry.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChildNameEntry.cpp; sourceTree = "<group>"; };
@@ -820,8 +819,6 @@
 		E23058BC23E9D4670057CFE7 /* TutorialSpeechBubble.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TutorialSpeechBubble.cpp; sourceTree = "<group>"; };
 		E23058BD23E9D4670057CFE7 /* TutorialMessagingNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TutorialMessagingNode.h; sourceTree = "<group>"; };
 		E23058BE23E9D4670057CFE7 /* TutorialMessagingNode.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TutorialMessagingNode.cpp; sourceTree = "<group>"; };
-		E23058C023E9DDCE0057CFE7 /* ActionBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ActionBuilder.cpp; path = ../common/Classes/AzoomeeCommon/Utils/ActionBuilder.cpp; sourceTree = "<group>"; };
-		E23058C123E9DDCE0057CFE7 /* ActionBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActionBuilder.h; path = ../common/Classes/AzoomeeCommon/Utils/ActionBuilder.h; sourceTree = "<group>"; };
 		E23058C323EAF68B0057CFE7 /* TextInputLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextInputLayer.h; sourceTree = "<group>"; };
 		E23058C423EAF68B0057CFE7 /* TextInputLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextInputLayer.cpp; sourceTree = "<group>"; };
 		E23058C623EAF7830057CFE7 /* ErrorCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorCodes.h; sourceTree = "<group>"; };
@@ -1143,12 +1140,12 @@
 		4323120D1E1D4DC500C8606D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				E213BFC923FD949500BBB1FA /* ActionBuilder.cpp */,
+				E213BFC823FD949500BBB1FA /* ActionBuilder.h */,
 				E2264F2A23F1688B00392D89 /* Style.h */,
 				E2264F2E23F1699D00392D89 /* Style.cpp */,
 				E23058C623EAF7830057CFE7 /* ErrorCodes.h */,
 				E23058B323E9C1F70057CFE7 /* Urls.h */,
-				E23058C123E9DDCE0057CFE7 /* ActionBuilder.h */,
-				E23058C023E9DDCE0057CFE7 /* ActionBuilder.cpp */,
 				020ACCFB1E70561F002490CE /* PaymentSingleton */,
 				A15D58921E028C940099CDEE /* HistoryManager */,
 				4327D9251E1F98AC00F912C5 /* uiObjects */,
@@ -1259,6 +1256,7 @@
 				A198622A1DD383BD0090F053 /* AppDelegate.h */,
 				43BCD71C1EC9FD4E00A07737 /* SceneManagerScene.cpp */,
 				43BCD71D1EC9FD4E00A07737 /* SceneManagerScene.h */,
+				E213BFC423FD44C700BBB1FA /* Azoomee.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -1419,7 +1417,6 @@
 				92BDD4CB22380D4700DA56F3 /* ShopItemPurchasePopup.cpp */,
 				92EC0C4C22302B4F00B02F20 /* ShopItemPurchasedAnimation.h */,
 				92BDD4CE223926CD00DA56F3 /* ShopItemPurchasedAnimation.cpp */,
-				92EC0C4D22302B7100B02F20 /* ShopOomeeItemPreview.h */,
 			);
 			name = Shop;
 			sourceTree = "<group>";
@@ -1462,7 +1459,6 @@
 			isa = PBXGroup;
 			children = (
 				A1CC0C281E15694C008B469E /* BackEndCaller */,
-				A1CC0C2A1E15695B008B469E /* GameDownloader */,
 			);
 			name = BackEndCommunication;
 			sourceTree = "<group>";
@@ -1535,15 +1531,6 @@
 				A15B2FAE1DEDD1D500D25334 /* BackEndCaller.h */,
 			);
 			name = BackEndCaller;
-			sourceTree = "<group>";
-		};
-		A1CC0C2A1E15695B008B469E /* GameDownloader */ = {
-			isa = PBXGroup;
-			children = (
-				A154CC501DFEE7440008A626 /* GameDataManager.cpp */,
-				A154CC511DFEE7440008A626 /* GameDataManager.h */,
-			);
-			name = GameDownloader;
 			sourceTree = "<group>";
 		};
 		E212CC11231D3E9C009D4A63 /* ContentTiles */ = {
@@ -2215,9 +2202,9 @@
 				921C75AD219464A100EB93D6 /* VodacomOnboardingTnCLayer.cpp in Sources */,
 				9229EE6322E07808009732B0 /* SignupTermsPage.cpp in Sources */,
 				924E8450214117D9004590FD /* SettingsMessageBoxRejectFR.cpp in Sources */,
+				E213BFCA23FD949500BBB1FA /* ActionBuilder.cpp in Sources */,
 				92EC0C5D2232805D00B02F20 /* ShopCarousel.cpp in Sources */,
 				E21E659423605186000BC90F /* Sticker.cpp in Sources */,
-				E23058C223E9DDCE0057CFE7 /* ActionBuilder.cpp in Sources */,
 				02A11FF61EA6375D007EDD95 /* AmazonPaymentSingleton.cpp in Sources */,
 				9229EE6022DF6935009732B0 /* SignupEnterPin.cpp in Sources */,
 				43BCD71E1EC9FD4E00A07737 /* SceneManagerScene.cpp in Sources */,
@@ -2254,7 +2241,6 @@
 				921A25FA2164D08B005C8C41 /* SettingsMessageBoxNotification.cpp in Sources */,
 				E212CCA1231E71DB009D4A63 /* FeaturedTile.cpp in Sources */,
 				921A26BD217E0A91005C8C41 /* VodacomMessageBoxNotification.cpp in Sources */,
-				A154CC521DFEE7440008A626 /* GameDataManager.cpp in Sources */,
 				E2DCF5E9230442FF0032946D /* ImportantMessageForParents.cpp in Sources */,
 				921A266F216F9F6A005C8C41 /* VodacomOnboardingRegisterLayer.cpp in Sources */,
 			);

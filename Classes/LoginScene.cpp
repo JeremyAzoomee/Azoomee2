@@ -18,7 +18,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool LoginScene::init()
 {
@@ -244,7 +246,7 @@ void LoginScene::keyboardWillShow(cocos2d::IMEKeyboardNotificationInfo& info)
 	const Vec2& targetPos = isPortrait ? Vec2(contentSize.width * 0.5f,contentSize.height * 0.85f) : Vec2(contentSize.width * 0.25f,contentSize.height * 0.5f);
 	
 	int keyboardHeight = info.end.size.height - Director::getInstance()->getVisibleOrigin().y;
-	Device::getInstance()->setEstimatedKeyboardHeight(keyboardHeight);
+	TZ::Device::getInstance()->setEstimatedKeyboardHeight(keyboardHeight);
 	if((targetPos.y - (_titleText->getContentSize().height * 0.5f)) < keyboardHeight)
 	{
 		float offset = keyboardHeight - (targetPos.y - (_titleText->getContentSize().height * 0.5f));
@@ -299,4 +301,4 @@ void LoginScene::onSizeChanged()
 
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

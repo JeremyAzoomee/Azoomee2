@@ -4,8 +4,7 @@
 
 USING_NS_CC;
 
-namespace Azoomee
-{
+NS_TZ_BEGIN
 
 void nativeShareScreenString(const std::string& shareString)
 {
@@ -39,4 +38,4 @@ void nativeShareScreenString(const std::string& shareString)
         [rootViewController presentViewController:activityVC animated:YES completion:nil];
     }
 }
-}
+NS_TZ_END

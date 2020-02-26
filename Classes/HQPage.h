@@ -8,14 +8,17 @@
 #ifndef HQPage_h
 #define HQPage_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObject.h>
 #include "DropdownContentHolder.h"
 #include "HQConstants.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class HQPage : public cocos2d::ui::Layout
 {
@@ -60,6 +63,6 @@ public:
     CREATE_FUNC(HQPage);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* HQPage_h */

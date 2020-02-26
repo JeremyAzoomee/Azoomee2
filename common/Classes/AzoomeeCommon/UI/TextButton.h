@@ -8,10 +8,10 @@
 #ifndef CTAButton_h
 #define CTAButton_h
 
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include <cocos/ui/CocosGUI.h>
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class TextButton : public cocos2d::ui::Button
 {
@@ -36,6 +36,6 @@ public:
 	CREATE_FUNC(TextButton);
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif /* CTAButton_h */

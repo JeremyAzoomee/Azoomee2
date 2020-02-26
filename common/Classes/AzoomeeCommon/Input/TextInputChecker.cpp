@@ -3,7 +3,7 @@
 #include "../Utils/StringFunctions.h"
 
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 const int TextInputChecker::kMaxAge = 99;
 const int TextInputChecker::kMinNewPasswordLength = 6;
@@ -236,4 +236,4 @@ bool TextInputChecker::isValidAge(const std::string& ageString)
 	return false;
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

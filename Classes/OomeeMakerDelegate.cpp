@@ -19,7 +19,9 @@
 
 USING_NS_CC;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 static std::auto_ptr<OomeeMakerDelegate> sOomeeMakerDelegateSharedInstance;
 
@@ -111,4 +113,4 @@ void OomeeMakerDelegate::onHttpRequestFailed(const std::string& requestTag, long
     ModalMessages::getInstance()->stopLoading();
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

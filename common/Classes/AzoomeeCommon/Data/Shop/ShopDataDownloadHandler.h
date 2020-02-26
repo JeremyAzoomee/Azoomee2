@@ -8,7 +8,7 @@
 #ifndef ShopDataDownloadHandler_h
 #define ShopDataDownloadHandler_h
 
-#include "../../Azoomee.h"
+#include "../../Tinizine.h"
 #include "../../API/API.h"
 #include <memory>
 #include "../Json.h"
@@ -16,7 +16,7 @@
 #include "../../Utils/FileDownloader.h"
 #include "../DataDownloadHandler.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class ShopDataDownloadHandler : public DataDownloadHandler
 {
@@ -45,6 +45,6 @@ public:
 	void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode) override;
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif /* ShopDataDownloadHandler_h */

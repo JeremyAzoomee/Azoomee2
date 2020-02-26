@@ -4,10 +4,12 @@
 #include "../AzoomeeChat.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
+#include <AzoomeeCommon/Tinizine.h>
 
 
+USING_NS_TZ
 
-NS_AZOOMEE_CHAT_BEGIN
+NS_AZ_CHAT_BEGIN
     
 class ChatTextField : public cocos2d::ui::TextField
 {
@@ -24,6 +26,6 @@ public:
 //    virtual void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* unusedEvent) override;
 };
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END
 
 #endif

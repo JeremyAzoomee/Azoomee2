@@ -7,7 +7,9 @@
 
 #include "AssetData.h"
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 AssetSet AssetData::createAssetSet(const rapidjson::Value &assetSetData)
 {
@@ -57,4 +59,4 @@ int AssetData::getZOrder() const
 	return _zOrder;
 }
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END

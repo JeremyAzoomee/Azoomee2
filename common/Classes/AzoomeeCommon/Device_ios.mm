@@ -18,7 +18,7 @@
 #import "Utils/LocaleManager.h"
 #import "Platform/iOS/AzoomeeViewController.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 std::string Device::getDeviceInformation()
 {
@@ -156,4 +156,4 @@ void Device::setOrientation(Application::Orientation orientation)
     }
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

@@ -8,7 +8,7 @@
 using namespace cocos2d;
 
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 #pragma mark - Constants
 
@@ -263,7 +263,7 @@ HttpRequestCreator* API::UpdateBillingDataRequest(const std::string& parentId,
     return request;
 }
 
-HttpRequestCreator* API::GetForceUpdateInformationRequest(Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+HttpRequestCreator* API::GetForceUpdateInformationRequest(TZ::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->_requestTag = TagGetForceUpdateInformation;
@@ -395,7 +395,7 @@ HttpRequestCreator* API::GetSessionCookiesRequest(const std::string& userId,
     return request;
 }
 
-HttpRequestCreator* API::RefreshParentCookiesRequest(Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+HttpRequestCreator* API::RefreshParentCookiesRequest(TZ::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->_requestPath = "/api/cookie/refresh/adult";
@@ -408,7 +408,7 @@ HttpRequestCreator* API::RefreshParentCookiesRequest(Azoomee::HttpRequestCreator
     return request;
 }
 
-HttpRequestCreator* API::RefreshChildCookiesRequest(Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+HttpRequestCreator* API::RefreshChildCookiesRequest(TZ::HttpRequestCreatorResponseDelegate *delegate)
 {
 	HttpRequestCreator* request = new HttpRequestCreator(delegate);
 	request->_requestTag = TagChildCookieRefresh;
@@ -521,7 +521,7 @@ HttpRequestCreator* API::DeleteChild(const std::string& childId,
 
 HttpRequestCreator* API::UpdateChildAvatar(const std::string &childId,
                                            const std::string &imageData,
-                                           Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+                                           TZ::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->_requestTag = TagUpdateChildAvatar;
@@ -649,7 +649,7 @@ HttpRequestCreator* API::ResetPaswordRequest(const std::string& forEmailAddress,
     return request;
 }
 
-HttpRequestCreator* API::GetContentPoolRequest(const std::string& childId, Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+HttpRequestCreator* API::GetContentPoolRequest(const std::string& childId, TZ::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->_requestTag = TagGetContentPoolRequest;
@@ -677,7 +677,7 @@ HttpRequestCreator* API::GetContentPoolRequest(const std::string& childId,
     return request;
 }
 
-HttpRequestCreator* API::GetHQStructureDataRequest(const std::string& childId, Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+HttpRequestCreator* API::GetHQStructureDataRequest(const std::string& childId, TZ::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->_requestTag = TagGetHqStructureDataRequest;
@@ -706,7 +706,7 @@ HttpRequestCreator* API::GetHQStructureDataRequest(const std::string& childId,
 HttpRequestCreator* API::UpdateParentDetailsRequest(const std::string &parentId,
                                                     const std::string &displayName,
                                                     const std::string &pinNumber,
-                                                    Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+                                                    TZ::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->_requestBody = StringUtils::format("{\"displayName\":\"%s\",\"pinNumber\":\"%s\"}", displayName.c_str(), pinNumber.c_str());
@@ -724,7 +724,7 @@ HttpRequestCreator* API::UpdateParentDetailsRequest(const std::string &parentId,
 HttpRequestCreator* API::UpdateParentPasswordRequest(const std::string &parentId,
                                                      const std::string &oldPassword,
                                                      const std::string &newPassword,
-                                                     Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+                                                     TZ::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->_requestBody = StringUtils::format("{\"oldPassword\":\"%s\",\"newPassword\":\"%s\"}", oldPassword.c_str(), newPassword.c_str());
@@ -739,7 +739,7 @@ HttpRequestCreator* API::UpdateParentPasswordRequest(const std::string &parentId
     return request;
 };
 
-HttpRequestCreator* API::getParentDetailsRequest(const std::string &parentId, Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+HttpRequestCreator* API::getParentDetailsRequest(const std::string &parentId, TZ::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->_requestTag = TagGetParentDetails;
@@ -1021,7 +1021,7 @@ HttpRequestCreator* API::MarkReadMessageRequest(const std::string& userId,
     return request;
 }
 
-HttpRequestCreator* API::SendChatReportRequest(const std::string &userId, const std::string &friendId, Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+HttpRequestCreator* API::SendChatReportRequest(const std::string &userId, const std::string &friendId, TZ::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->_requestTag = TagReportChat;
@@ -1036,7 +1036,7 @@ HttpRequestCreator* API::SendChatReportRequest(const std::string &userId, const 
     return request;
 }
 
-HttpRequestCreator* API::ResetReportedChatRequest(const std::string &userId, const std::string &friendId, Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+HttpRequestCreator* API::ResetReportedChatRequest(const std::string &userId, const std::string &friendId, TZ::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->_requestTag = TagResetReportedChat;
@@ -1052,7 +1052,7 @@ HttpRequestCreator* API::ResetReportedChatRequest(const std::string &userId, con
     return request;
 }
 
-HttpRequestCreator* API::GetTimelineSummary(const std::string &userId, Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+HttpRequestCreator* API::GetTimelineSummary(const std::string &userId, TZ::HttpRequestCreatorResponseDelegate *delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->_requestTag = TagGetTimelineSummary;
@@ -1230,4 +1230,4 @@ HttpRequestCreator* API::GetVodacomTransactionId(const std::string& userId,
 }
 
 
-NS_AZOOMEE_END
+NS_TZ_END

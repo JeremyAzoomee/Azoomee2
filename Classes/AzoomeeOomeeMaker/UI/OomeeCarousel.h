@@ -14,7 +14,9 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 class OomeeCarousel : public cocos2d::Node
 {
@@ -65,6 +67,6 @@ public:
     CREATE_FUNC(OomeeCarousel);
 };
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END
 
 #endif /* OomeeCarousel_h */

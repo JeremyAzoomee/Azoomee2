@@ -12,7 +12,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool SignupEnterPassword::init()
 {
@@ -55,5 +57,5 @@ void SignupEnterPassword::editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox)
 	setContinueButtonEnabled(TextInputChecker::isValidPassword(editBox->getText(), TextInputChecker::kMinNewPasswordLength));
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 

@@ -8,18 +8,21 @@
 #ifndef FriendRequestLayer_h
 #define FriendRequestLayer_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
 #include <AzoomeeCommon/Data/Parent/FriendRequest.h>
 #include <cocos/cocos2d.h>
 #include <ui/CocosGUI.h>
 #include "SettingsMessageBoxRejectFR.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 enum class InviteState {PENDING, CONFIRMED, REJECTED};
 
-class FriendRequestLayer : public cocos2d::ui::Layout, public Azoomee::HttpRequestCreatorResponseDelegate, public SettingsMessageBoxDelegate
+class FriendRequestLayer : public cocos2d::ui::Layout, public TZ::HttpRequestCreatorResponseDelegate, public SettingsMessageBoxDelegate
 {
     typedef cocos2d::ui::Layout Super;
 private:
@@ -54,7 +57,7 @@ public:
     void onButtonPressed(SettingsMessageBox* pSender, SettingsMessageBoxButtonType type) override;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 
 #endif /* FriendRequestLayer_h */

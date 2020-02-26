@@ -1,7 +1,7 @@
 #ifndef AzoomeeCommon_Scene_h
 #define AzoomeeCommon_Scene_h
 
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 
@@ -10,7 +10,7 @@
 #include "LayoutParams.h"
 
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 /**
  * Can be used instead of cocos2d::Scene to ensure the scene content size 
@@ -61,6 +61,6 @@ public:
     
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif

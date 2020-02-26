@@ -1,14 +1,14 @@
 #ifndef AzoomeeCommon_ImageDownloader_h
 #define AzoomeeCommon_ImageDownloader_h
 
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include <cocos/cocos2d.h>
 #include <cocos/network/HttpClient.h>
 #include "../Utils/FileDownloader.h"
 #include <memory>
 
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
     
 class ImageDownloader;
 typedef std::shared_ptr<ImageDownloader> ImageDownloaderRef;
@@ -103,6 +103,6 @@ public:
     void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode);
 };
   
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif

@@ -8,12 +8,12 @@
 #ifndef LazyLoadingButton_h
 #define LazyLoadingButton_h
 
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include "LazyLoadButtonOnScreenChecker.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class LazyLoadingButton : public cocos2d::ui::Button
 {
@@ -37,7 +37,7 @@ public:
     
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 
 

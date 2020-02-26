@@ -3,10 +3,9 @@
 
 #include "OnScreenChecker.h"
 #include <cocos/cocos2d.h>
+#include "../Tinizine.h"
 
-
-namespace Azoomee
-{
+NS_TZ_BEGIN
 
 class ImageDownloaderOnScreenChecker : public OnScreenChecker
 {
@@ -16,6 +15,6 @@ protected:
     virtual void elementAppeared(cocos2d::Node *sender) override;
 };
   
-}
+NS_TZ_END
 
 #endif

@@ -12,7 +12,9 @@
 #include "Brush.h"
 #include "AzoomeeArtApp.h"
 
-NS_AZOOMEE_AA_BEGIN
+USING_NS_TZ
+
+NS_AZ_AA_BEGIN
 
 class BrushEraser : public Brush
 {
@@ -30,6 +32,6 @@ public:
     
 };
 
-NS_AZOOMEE_AA_END
+NS_AZ_AA_END
 
 #endif /* BrushEraser_h */

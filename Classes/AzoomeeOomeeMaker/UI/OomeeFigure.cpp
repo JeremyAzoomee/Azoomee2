@@ -13,7 +13,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 bool OomeeFigure::init()
 {
@@ -462,4 +464,4 @@ bool OomeeFigure::touchOnSpritePixelPerfect(Touch* touch, Sprite* targetSprite)
     return result;
 }
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END

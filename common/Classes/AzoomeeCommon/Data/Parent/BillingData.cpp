@@ -7,7 +7,7 @@
 
 #include "BillingData.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 const std::string BillingData::kBillingProviderApple = "APPLE";
 const std::string BillingData::kBillingProviderGoogle = "GOOGLE";
@@ -149,4 +149,4 @@ std::string BillingData::getOrganisation() const
 	return _organisation;
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

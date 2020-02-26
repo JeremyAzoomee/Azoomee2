@@ -10,8 +10,9 @@
 #define OnScreenChecker_h
 
 #include <cocos/cocos2d.h>
+#include "../Tinizine.h"
 
-namespace Azoomee {
+NS_TZ_BEGIN
 
 class OnScreenChecker
 {
@@ -30,5 +31,5 @@ protected:
     bool elementOnScreen;
 };
 
-}
+NS_TZ_END
 #endif /* OnScreenChecker_h */

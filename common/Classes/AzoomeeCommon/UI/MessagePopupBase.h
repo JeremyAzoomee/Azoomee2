@@ -8,11 +8,11 @@
 #ifndef MessagePopupBase_h
 #define MessagePopupBase_h
 
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class MessagePopupBase : public cocos2d::ui::Layout
 {
@@ -26,6 +26,6 @@ public:
     bool init() override;
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif /* MessagePopupBase_h */

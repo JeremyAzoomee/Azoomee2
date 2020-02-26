@@ -12,10 +12,10 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
-const char* const Device::kEstimatedKeyboardHeightPortrait = "Azoomee::MessageComposer::EstimatedKeyboardHeight/Portrait";
-const char* const Device::kEstimatedKeyboardHeightLandscape = "Azoomee::MessageComposer::EstimatedKeyboardHeight/Landscape";
+const char* const Device::kEstimatedKeyboardHeightPortrait = "TZ::MessageComposer::EstimatedKeyboardHeight/Portrait";
+const char* const Device::kEstimatedKeyboardHeightLandscape = "TZ::MessageComposer::EstimatedKeyboardHeight/Landscape";
 
 const std::string Device::kOSManufacturerApple = "Apple";
 const std::string Device::kOSManufacturerGoogle = "Google";
@@ -124,4 +124,4 @@ std::string Device::getClientAnonymousIp() const
     return _clientIp.empty() ? "0.0.0.0" : _clientIp;
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

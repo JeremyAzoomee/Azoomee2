@@ -13,7 +13,7 @@
 #include "ContentItemManager.h"
 #include "../../Utils/DirUtil.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 const std::string ContentItemPoolDownloadHandler::kCachePath = "contentCache/";
 
@@ -114,4 +114,4 @@ void ContentItemPoolDownloadHandler::onAsyncUnzipComplete(bool success, const st
     }
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

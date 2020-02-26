@@ -28,7 +28,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const std::string& RoutePaymentSingleton::kReceiptCacheFolder = "receiptCache/";
 const std::string& RoutePaymentSingleton::kReceiptDataFileName = "receiptData.dat";
@@ -113,17 +115,17 @@ bool RoutePaymentSingleton::showIAPContent()
 
 bool RoutePaymentSingleton::osIsIos()
 {
-    return (Device::getInstance()->getOSManufacturer() == Device::kOSManufacturerApple);
+    return (TZ::Device::getInstance()->getOSManufacturer() == TZ::Device::kOSManufacturerApple);
 }
 
 bool RoutePaymentSingleton::osIsAndroid()
 {
-    return (Device::getInstance()->getOSManufacturer() == Device::kOSManufacturerGoogle);
+    return (TZ::Device::getInstance()->getOSManufacturer() == TZ::Device::kOSManufacturerGoogle);
 }
 
 bool RoutePaymentSingleton::osIsAmazon()
 {
-    return (Device::getInstance()->getOSManufacturer() == Device::kOSManufacturerAmazon);
+    return (TZ::Device::getInstance()->getOSManufacturer() == TZ::Device::kOSManufacturerAmazon);
 }
 
 void RoutePaymentSingleton::restorePayment()
@@ -186,7 +188,7 @@ void RoutePaymentSingleton::purchaseFailureErrorMessage(const std::string& failu
 void RoutePaymentSingleton::doublePurchaseMessage()
 {
     AnalyticsSingleton::getInstance()->iapSubscriptionDoublePurchaseEvent();
-    Azoomee::ModalMessages::getInstance()->stopLoading();
+    AZ::ModalMessages::getInstance()->stopLoading();
     const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(ERROR_CODE_PURCHASE_DOUBLE);
            
     PopupMessageBox* messageBox = PopupMessageBox::create();
@@ -204,7 +206,7 @@ void RoutePaymentSingleton::doublePurchaseMessage()
 void RoutePaymentSingleton::failedRestoreMessage()
 {
 	AnalyticsSingleton::getInstance()->iapSubscriptionErrorEvent("failed restore - no purchase");
-	Azoomee::ModalMessages::getInstance()->stopLoading();
+	AZ::ModalMessages::getInstance()->stopLoading();
     const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(ERROR_CODE_APPLE_NO_PREVIOUS_PURCHASE);
            
     PopupMessageBox* messageBox = PopupMessageBox::create();
@@ -221,7 +223,7 @@ void RoutePaymentSingleton::failedRestoreMessage()
 
 void RoutePaymentSingleton::canceledAction()
 {
-    Azoomee::ModalMessages::getInstance()->stopLoading();
+    AZ::ModalMessages::getInstance()->stopLoading();
 }
 
 void RoutePaymentSingleton::inAppPaymentSuccess()
@@ -363,4 +365,4 @@ std::string RoutePaymentSingleton::getIapSkuForProvider(const std::string& provi
     return getStringFromJson(provider, _iapConfiguration);
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

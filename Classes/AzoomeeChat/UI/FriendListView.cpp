@@ -9,7 +9,9 @@ using namespace cocos2d;
 
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 bool FriendListView::init()
 {
@@ -199,7 +201,7 @@ void FriendListView::setItems(const FriendList& friendList)
             addFriendButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType event){
                 if(event == ui::Widget::TouchEventType::ENDED)
                 {
-                    Azoomee::Chat::delegate->onChatAddFriend();
+                    AZ::Chat::delegate->onChatAddFriend();
                 }
             });
             addFriendButton->setContentSize(itemSize);
@@ -325,4 +327,4 @@ ui::Layout* FriendListView::createAddFriendButton()
     return addFriendButton;
 }
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

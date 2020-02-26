@@ -5,7 +5,7 @@
 #include "FileDownloader.h"
 #include "FileZipUtil.h"
 #include "StringFunctions.h"
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 
 #include "cocos-ext.h"
 using namespace rapidjson;
@@ -17,7 +17,7 @@ using namespace rapidjson;
 
 #define _(string) LocaleManager::getInstance()->getStringForKey(string)
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 	
 class LanguageParams
 {
@@ -77,6 +77,6 @@ private:
 	
 };
   
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif

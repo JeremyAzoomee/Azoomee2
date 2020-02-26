@@ -13,7 +13,9 @@ const float kTitleButtonsEdgePadding = 55.0f;
 
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 bool TitleBarWidget::init()
 {
@@ -311,4 +313,4 @@ void TitleBarWidget::onChatActivityHappened()
     if(!_reportedChatTitleBar->isVisible()) setChatToActive();
 }
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

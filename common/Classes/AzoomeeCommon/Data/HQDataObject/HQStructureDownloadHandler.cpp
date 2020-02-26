@@ -18,7 +18,7 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 const std::string HQStructureDownloadHandler::kCachePath = "feedsCache/";
 const std::string HQStructureDownloadHandler::kZipName = "feeds.zip";
@@ -152,4 +152,4 @@ void HQStructureDownloadHandler::onAsyncUnzipComplete(bool success, const std::s
     }
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

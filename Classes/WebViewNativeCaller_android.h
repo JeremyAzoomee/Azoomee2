@@ -2,10 +2,13 @@
 #define __WEBVIEWNATIVECALLER_ANDROID_H__
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <AzoomeeCommon/UI/UIConsts.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class WebViewNativeCaller_android : public cocos2d::Layer
 {
@@ -26,6 +29,6 @@ private:
 	int _videoProgressSeconds;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif // __WEBVIEWNATIVECALLER_ANDROID_H__

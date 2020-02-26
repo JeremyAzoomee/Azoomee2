@@ -8,11 +8,14 @@
 #ifndef RewardScene_h
 #define RewardScene_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <AzoomeeCommon/UI/Scene.h>
 #include "RewardScreen.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class RewardScene : public RewardScreen, RewardScreenDelegate
 {
@@ -32,6 +35,6 @@ public:
 	void onAnimationComplete(const RewardItemRef& reward) override;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* RewardScene_h */

@@ -13,11 +13,12 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 
 // Some convenience macros for namespace
-#define NS_AZOOMEE_AA_BEGIN namespace Azoomee { namespace ArtApp {
-#define NS_AZOOMEE_AA_END }}
+#define NS_AZ_AA_BEGIN namespace AZ { namespace ArtApp {
+#define NS_AZ_AA_END }}
 
+USING_NS_TZ
 
-NS_AZOOMEE_AA_BEGIN
+NS_AZ_AA_BEGIN
 
 // Burnt in version number for the AzoomeeArtApp static library
 const char* const Version = "1.0";
@@ -41,6 +42,6 @@ struct Delegate {
 // Delegate instance in namespace
 extern Delegate* delegate;
 
-NS_AZOOMEE_AA_END
+NS_AZ_AA_END
 
 #endif /* AzoomeeArtApp_h */

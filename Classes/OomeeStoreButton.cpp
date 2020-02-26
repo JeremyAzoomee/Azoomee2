@@ -12,7 +12,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const cocos2d::Size OomeeStoreButton::kOverflowPadding = Size(0, 30);
 const cocos2d::Size OomeeStoreButton::kFramePadding = Size(10,10);
@@ -63,4 +65,4 @@ void OomeeStoreButton::onSizeChanged()
 }
 
 
-NS_AZOOMEE_END
+NS_AZ_END

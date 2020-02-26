@@ -12,7 +12,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 void SettingsMessageBoxTryAgain::onEnter()
 {
@@ -75,4 +77,4 @@ void SettingsMessageBoxTryAgain::setSubHeading(const std::string &subHeading)
 }
 
 
-NS_AZOOMEE_END
+NS_AZ_END

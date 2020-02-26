@@ -13,7 +13,9 @@ USING_NS_CC;
 
 #define LOADING_Z_ORDER 5000
 
-NS_AZOOMEE_AA_BEGIN
+USING_NS_TZ
+
+NS_AZ_AA_BEGIN
 
 const std::string ModalMessages::kLoadingLayerName = "loadingLayer";
 
@@ -113,5 +115,5 @@ void ModalMessages::stopSaving()
     this->removeLayer();
 }
   
-NS_AZOOMEE_AA_END
+NS_AZ_AA_END
 

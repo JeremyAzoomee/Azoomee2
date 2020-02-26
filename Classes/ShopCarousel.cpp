@@ -11,7 +11,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool ShopCarousel::init()
 {
@@ -155,4 +157,4 @@ void ShopCarousel::refreshUI()
 	_pageIndicator->setPosition(Vec2((visibleSize / 2) - Size(0,_shopWindow->getContentSize().height * scale) / 2));
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

@@ -2,10 +2,10 @@
 #define AzoomeeCommon_Application_h
 
 #include <cocos/cocos2d.h>
-#include "Azoomee.h"
+#include "Tinizine.h"
 
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 
 /**
@@ -58,7 +58,7 @@ public:
     static void setOrientation(Orientation orientation);
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif
 

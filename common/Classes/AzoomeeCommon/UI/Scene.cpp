@@ -5,7 +5,7 @@ using namespace cocos2d;
 
 
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 bool Scene::init()
 {
@@ -194,4 +194,4 @@ void Scene::reorderChild(cocos2d::Node* child, int localZOrder)
     _contentLayer->reorderChild(child, localZOrder);
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

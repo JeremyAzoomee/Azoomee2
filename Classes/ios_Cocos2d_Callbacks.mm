@@ -20,7 +20,9 @@
 #include "RewardManager.h"
 
 using namespace cocos2d;
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 void navigateToBaseScene()
 {
@@ -125,7 +127,7 @@ NSString* getRemoteWebGameAPIPath()
 
 bool isDeviceIphoneX()
 {
-    return Device::getInstance()->isDeviceIphoneX();
+    return TZ::Device::getInstance()->isDeviceIphoneX();
 }
 
 void favContent()
@@ -199,4 +201,4 @@ NSString* getNSStringForKey(const char* key)
     return [NSString stringWithUTF8String:LocaleManager::getInstance()->getStringForKey(key).c_str()];
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

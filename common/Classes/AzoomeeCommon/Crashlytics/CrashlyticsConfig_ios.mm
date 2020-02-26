@@ -6,8 +6,7 @@
 #endif
 
 
-namespace Azoomee
-{
+NS_TZ_BEGIN
   
 void createCrashlyticsException(const std::string& exceptionDomain, int exceptionCode, const std::string& exceptionMessage)
 {
@@ -32,4 +31,4 @@ void setCrashlyticsKeyWithString(const std::string& key, const std::string& data
 #endif
 }
   
-}
+NS_TZ_END

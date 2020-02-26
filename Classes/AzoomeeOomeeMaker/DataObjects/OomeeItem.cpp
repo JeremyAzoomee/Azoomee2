@@ -7,7 +7,9 @@
 
 #include "OomeeItem.h"
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 OomeeItemRef OomeeItem::create()
 {
@@ -181,4 +183,4 @@ bool OomeeItem::isDefaultItem() const
 	return _defaultItem;
 }
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END

@@ -27,7 +27,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool SettingsHub::init()
 {
@@ -51,7 +53,7 @@ bool SettingsHub::init()
     _contentLayout->setLayoutType(ui::Layout::Type::VERTICAL);
     this->addChild(_contentLayout);
     
-    bool isIphoneX = Device::getInstance()->isDeviceIphoneX();
+    bool isIphoneX = TZ::Device::getInstance()->isDeviceIphoneX();
     
     _titleLayout = ui::Layout::create();
     _titleLayout->setContentSize(Size(visibleSize.width, isIphoneX ? 250 : 150));
@@ -421,4 +423,4 @@ void SettingsHub::onHttpRequestFailed(const std::string& requestTag, long errorC
 	ModalMessages::getInstance()->stopLoading();
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

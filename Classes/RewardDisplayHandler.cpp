@@ -18,7 +18,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 static std::auto_ptr<RewardDisplayHandler> sRewardDisplayHandlerSharedInstance;
 
@@ -102,4 +104,4 @@ void RewardDisplayHandler::onAnimationComplete(const RewardItemRef& reward)
     }
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

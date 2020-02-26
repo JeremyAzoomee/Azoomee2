@@ -8,7 +8,7 @@
 #include "ShopDataDownloadHandler.h"
 #include "../../Utils/DirUtil.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 
 
@@ -123,4 +123,4 @@ void ShopDataDownloadHandler::onFileDownloadComplete(const std::string& fileStri
 }
 
 
-NS_AZOOMEE_END
+NS_TZ_END

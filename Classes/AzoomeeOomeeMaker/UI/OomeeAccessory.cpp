@@ -10,7 +10,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 bool OomeeAccessory::init()
 {
@@ -113,4 +115,4 @@ Sprite* OomeeAccessory::getBaseSprite() const
     return baseSprite;
 }
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END

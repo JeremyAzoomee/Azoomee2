@@ -21,7 +21,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool ShopScene::init()
 {
@@ -32,7 +34,7 @@ bool ShopScene::init()
 	
 	const Size& visibleSize = this->getContentSize();
 	bool isPortrait = visibleSize.width < visibleSize.height;
-	bool isIphoneX = Device::getInstance()->isDeviceIphoneX();
+	bool isIphoneX = TZ::Device::getInstance()->isDeviceIphoneX();
 	
 	_bgColour = LayerColor::create(Color4B(3, 36, 78,60));
 	this->addChild(_bgColour);
@@ -179,7 +181,7 @@ void ShopScene::onSizeChanged()
 	Super::onSizeChanged();
 	const Size& visibleSize = this->getContentSize();
 	bool isPortrait = visibleSize.width < visibleSize.height;
-	bool isIphoneX = Device::getInstance()->isDeviceIphoneX();
+	bool isIphoneX = TZ::Device::getInstance()->isDeviceIphoneX();
 	if(_shopCarousel)
 	{
 		_shopCarousel->refreshUI();
@@ -264,4 +266,4 @@ void ShopScene::onHttpRequestFailed(const std::string& requestTag, long errorCod
     }
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

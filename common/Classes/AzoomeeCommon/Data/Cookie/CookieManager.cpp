@@ -8,7 +8,7 @@
 #include "CookieManager.h"
 #include "../../Utils/StringFunctions.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 const std::string CookieManager::kMediaCookiePrefix = "https://media";
 
@@ -175,4 +175,4 @@ bool CookieManager::parseDownloadCookies(const std::string& responseString)
 }
 
 
-NS_AZOOMEE_END
+NS_TZ_END

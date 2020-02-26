@@ -24,7 +24,8 @@
 #include "AzoomeeArtApp.h"
 #include <AzoomeeCommon/Data/Json.h>
 
-NS_AZOOMEE_AA_BEGIN
+USING_NS_TZ
+NS_AZ_AA_BEGIN
 
 class DrawingCanvas : public cocos2d::Node{
     typedef cocos2d::Node Super;
@@ -86,6 +87,6 @@ protected:
     
 };
 
-NS_AZOOMEE_AA_END
+NS_AZ_AA_END
 
 #endif /* DrawingCanvas_h */

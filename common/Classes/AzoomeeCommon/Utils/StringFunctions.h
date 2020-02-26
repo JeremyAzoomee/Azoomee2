@@ -5,9 +5,9 @@
 #include <cocos/ui/CocosGUI.h>
 #include <string>
 #include <vector>
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class StringFunctions
 {
@@ -48,7 +48,7 @@ public:
     static void reduceLabelTextToFitWidth(cocos2d::ui::Text* label,float maxWidth);
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif
 

@@ -4,8 +4,7 @@
 #import <AppsFlyerLib/AppsFlyerTracker.h>
 
 
-namespace Azoomee
-{
+NS_TZ_BEGIN
   
 //----------------- CONVERSION FUNCTIONS -------------------
 
@@ -91,4 +90,4 @@ void AnalyticsSingleton::appsFlyerSendEvent(const std::string& eventID)
 #endif
 }
   
-}
+NS_TZ_END

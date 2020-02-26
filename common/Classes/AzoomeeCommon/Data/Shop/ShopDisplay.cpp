@@ -7,7 +7,7 @@
 
 #include "ShopDisplay.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 ShopDisplayRef ShopDisplay::createWithJson(const rapidjson::Value& shopDisplayData)
 {
@@ -53,4 +53,4 @@ std::vector<ShopDisplayItemRef> ShopDisplay::getDisplayItems() const
 	return _shopDisplayItems;
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

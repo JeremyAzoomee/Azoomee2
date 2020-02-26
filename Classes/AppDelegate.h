@@ -2,7 +2,7 @@
 #define  _APP_DELEGATE_H_
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <AzoomeeCommon/Application.h>
 
 /**
@@ -10,9 +10,9 @@
 
 Private inheritance here hides part of interface from Director.
 */
-class  AppDelegate : private Azoomee::Application
+class  AppDelegate : private TZ::Application
 {
-    typedef Azoomee::Application Super;
+    typedef TZ::Application Super;
 public:
 
     /**

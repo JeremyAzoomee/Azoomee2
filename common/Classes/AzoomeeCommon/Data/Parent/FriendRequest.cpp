@@ -7,7 +7,7 @@
 
 #include "FriendRequest.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 FriendRequestRef FriendRequest::createWithJson(const rapidjson::Value& friendRequestData)
 {
@@ -57,4 +57,4 @@ std::string FriendRequest::getRespondentId() const
 	return _respondentId;
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

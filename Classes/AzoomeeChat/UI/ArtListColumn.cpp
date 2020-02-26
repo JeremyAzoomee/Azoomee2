@@ -11,7 +11,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 const std::string ArtListColumn::_kPlaceholderAssetLoc = "res/contentPlaceholders/Create1X1.png";
 
@@ -194,5 +196,5 @@ void ArtListColumn::loadImageTex()
     }
 }
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END
 

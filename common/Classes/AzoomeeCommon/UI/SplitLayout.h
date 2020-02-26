@@ -1,13 +1,13 @@
 #ifndef AzoomeeCommon_SplitLayout_h
 #define AzoomeeCommon_SplitLayout_h
 
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include "ObservableLayout.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include "UIConsts.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 /**
  * A custom Layout which displays two columns or rows.
@@ -77,6 +77,6 @@ public:
     CREATE_FUNC(SplitLayout);
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif

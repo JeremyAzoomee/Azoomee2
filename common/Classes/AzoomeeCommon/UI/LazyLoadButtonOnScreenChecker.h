@@ -8,10 +8,10 @@
 #ifndef LazyLoadButtonOnScreenChecker_h
 #define LazyLoadButtonOnScreenChecker_h
 
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 #include "../ImageDownloader/OnScreenChecker.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class LazyLoadButtonOnScreenChecker : public OnScreenChecker
 {
@@ -24,7 +24,7 @@ protected:
 };
 
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 
 #endif /* LazyLoadButtonOnScreenChecker_h */

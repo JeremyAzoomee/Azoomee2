@@ -8,11 +8,14 @@
 #ifndef SettingsMessageBox_h
 #define SettingsMessageBox_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <ui/CocosGUI.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class SettingsMessageBox;
 
@@ -60,6 +63,6 @@ public:
     CREATE_FUNC(SettingsMessageBox);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* SettingsMessageBox_h */

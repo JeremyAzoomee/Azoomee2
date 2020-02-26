@@ -13,7 +13,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const Size ArtContentTile::kDropshadowPadding = Size(78,78);
 
@@ -173,4 +175,4 @@ void ArtContentTile::elementAppeared(cocos2d::Node *sender)
     resizeContentImage();
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

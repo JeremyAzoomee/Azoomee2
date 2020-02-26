@@ -13,7 +13,9 @@
 #include "../DataObjects/OomeeColour.h"
 #include <cocos/cocos2d.h>
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 class OomeeBody : public cocos2d::Node
 {
@@ -37,7 +39,7 @@ public:
     CREATE_FUNC(OomeeBody);
 };
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END
 
 
 #endif /* OomeeBody_h */

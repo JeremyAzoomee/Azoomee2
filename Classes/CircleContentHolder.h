@@ -11,8 +11,11 @@
 #include "ContentTileHolder.h"
 #include "CircleTile.h"
 #include <AzoomeeCommon/UI/DynamicText.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class CircleContentHolder : public ContentTileHolder
 {
@@ -48,6 +51,6 @@ public:
     CREATE_FUNC(CircleContentHolder);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* CircleContentHolder_h */

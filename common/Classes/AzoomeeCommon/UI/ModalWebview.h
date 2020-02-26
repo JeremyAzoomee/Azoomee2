@@ -4,9 +4,9 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include "ui/UIWebView.h"
-#include "../Azoomee.h"
+#include "../Tinizine.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class ModalWebview : public cocos2d::Layer
 {
@@ -40,6 +40,6 @@ public:
 
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif

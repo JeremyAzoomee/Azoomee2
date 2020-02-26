@@ -8,13 +8,13 @@
 #ifndef ShopDisplayItem_h
 #define ShopDisplayItem_h
 
-#include "../../Azoomee.h"
+#include "../../Tinizine.h"
 #include <string>
 #include <memory>
 #include "../Json.h"
 #include "../Child/InventoryItem.h"
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 class ShopDisplayItem;
 typedef std::shared_ptr<ShopDisplayItem> ShopDisplayItemRef;
@@ -55,6 +55,6 @@ public:
 	
 };
 
-NS_AZOOMEE_END
+NS_TZ_END
 
 #endif /* ShopDisplayItem_h */

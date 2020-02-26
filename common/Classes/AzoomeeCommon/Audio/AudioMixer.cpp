@@ -4,8 +4,7 @@
 using namespace cocos2d;
 
 
-namespace Azoomee
-{
+NS_TZ_BEGIN
 
 static AudioMixer *_sharedConfigStorage = NULL;
 
@@ -83,4 +82,5 @@ void AudioMixer::stopEffect(int effectId)
 {
 	CocosDenshion::SimpleAudioEngine::getInstance()->stopEffect(effectId);
 }
-}
+
+NS_TZ_END

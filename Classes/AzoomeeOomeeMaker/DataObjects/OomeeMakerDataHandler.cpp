@@ -15,7 +15,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 const std::string OomeeMakerDataHandler::kSaveNewOomeeEventName = "azoomee.oomeemaker.savenewoomee";
 const std::string OomeeMakerDataHandler::kOomeeFileExtension = ".oomee";
@@ -703,4 +705,4 @@ void OomeeMakerDataHandler::onHttpRequestFailed(const std::string& requestTag, l
 	}
 }
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END

@@ -12,7 +12,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const cocos2d::Size HQPage::kCircleTileSizeLandscape = Size(256,256);
 const cocos2d::Size HQPage::kCircleTileSizePortrait = Size(300,300);
@@ -142,4 +144,4 @@ void HQPage::setScrolledPos(float pos)
     })));
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

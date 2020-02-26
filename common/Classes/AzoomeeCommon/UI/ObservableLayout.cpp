@@ -5,7 +5,7 @@ using namespace cocos2d;
 
 
 
-NS_AZOOMEE_BEGIN
+NS_TZ_BEGIN
 
 void ObservableLayout::onSizeChanged()
 {
@@ -24,4 +24,4 @@ void ObservableLayout::addSizeChangedEventListener(const SizeChangedCallback& ca
     _sizeChangedCallback = callback;
 }
 
-NS_AZOOMEE_END
+NS_TZ_END

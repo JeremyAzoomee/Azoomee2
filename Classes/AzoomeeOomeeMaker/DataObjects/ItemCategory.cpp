@@ -7,7 +7,9 @@
 
 #include "ItemCategory.h"
 
-NS_AZOOMEE_OM_BEGIN
+USING_NS_TZ
+
+NS_AZ_OM_BEGIN
 
 ItemCategoryRef ItemCategory::create()
 {
@@ -145,4 +147,4 @@ HolidayCalenderID getHolidayCalenderIDFromString(const std::string& holidayStr)
     }
 }
 
-NS_AZOOMEE_OM_END
+NS_AZ_OM_END
