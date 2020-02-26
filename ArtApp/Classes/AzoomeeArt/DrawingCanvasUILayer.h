@@ -15,7 +15,7 @@
 #include "ArtAppConfirmCancelMessageBox.h"
 
 USING_NS_TZ
-NS_AZ_AA_BEGIN
+NS_AZ_ART_BEGIN
 
 typedef std::pair<std::string,std::vector<std::pair<std::string,std::string>>> StickerSet;
 typedef std::shared_ptr<StickerSet> StickerSetRef;
@@ -113,6 +113,6 @@ public:
     
 };
 
-NS_AZ_AA_END
+NS_AZ_ART_END
 
 #endif /* DrawingCanvasUILayer_h */

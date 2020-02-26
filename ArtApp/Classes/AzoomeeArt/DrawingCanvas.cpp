@@ -16,7 +16,7 @@
 using namespace cocos2d;
 
 USING_NS_TZ
-NS_AZ_AA_BEGIN
+NS_AZ_ART_BEGIN
 
 bool DrawingCanvas::init()
 {
@@ -342,4 +342,4 @@ void DrawingCanvas::reloadRenderTextureObject()
 	this->addChild(_drawing, -1);
 }
 
-NS_AZ_AA_END
+NS_AZ_ART_END

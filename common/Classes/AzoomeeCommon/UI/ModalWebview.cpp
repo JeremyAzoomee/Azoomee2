@@ -7,14 +7,11 @@ using namespace cocos2d;
 
 NS_TZ_BEGIN
 
-Layer* ModalWebview::createWithURL(std::string url)
+ModalWebview* ModalWebview::createWithURL(const std::string& url, const std::string& closeButtonFilename)
 {
     auto layer = ModalWebview::create();
-    layer->createBackgroundLayer();
-    layer->addListenerToBackgroundLayer();
-    layer->createCloseButton();
+    layer->createCloseButton(closeButtonFilename);
     layer->createWebView(url);
-    layer->onSizeChanged();
     layer->addLoadingCircles();
     
     Director::getInstance()->getRunningScene()->addChild(layer, WEBVIEW_Z_ORDER);
@@ -23,56 +20,50 @@ Layer* ModalWebview::createWithURL(std::string url)
 
 bool ModalWebview::init()
 {
-    if ( !Layer::init() )
+    if ( !Super::init() )
     {
         return false;
     }
     
+    setSizeType(SizeType::PERCENT);
+    setSizePercent(Vec2(1.0, 1.0));
+    setBackGroundColor(Color3B::WHITE);
+    setBackGroundColorType(BackGroundColorType::SOLID);
+    setBackGroundColorOpacity(255);
+    setSwallowTouches(true);
+    setTouchEnabled(true);
+    
     this->setName("ModalWebview");
-    _visibleSize = Director::getInstance()->getVisibleSize();
-    _runningSceneSize = Director::getInstance()->getRunningScene()->getContentSize();
     
     return true;
 }
 
 //---------------------- Create Background Layer -----------------------------
 
-void ModalWebview::createBackgroundLayer()
+void ModalWebview::createCloseButton(const std::string& closeButtonFilename)
 {
-    _backgroundLayer = LayerColor::create(Color4B::WHITE,_runningSceneSize.width, _runningSceneSize.height);
-    this->addChild(_backgroundLayer);
-}
-
-void ModalWebview::addListenerToBackgroundLayer()
-{
-    auto listener = EventListenerTouchOneByOne::create();
-    listener->setSwallowTouches(true);
-    listener->onTouchBegan = [=](Touch *touch, Event *event)
-    {
-        return true;
-    };
-    
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), _backgroundLayer);
-}
-
-void ModalWebview::createCloseButton()
-{
-    _closeButton = cocos2d::ui::Button::create("res/buttons/windowCloseButton.png");
-    _closeButton->setAnchorPoint(Vec2(2.0,2.0));
+    const Size& contentSize = Director::getInstance()->getVisibleSize();
+    float size = MAX(contentSize.width, contentSize.height) * 0.05f;
+    _closeButton = cocos2d::ui::Button::create(closeButtonFilename);
+    _closeButton->setAnchorPoint(Vec2(1.5,1.5));
     _closeButton->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
+    _closeButton->ignoreContentAdaptWithSize(false);
+    _closeButton->setContentSize(Size(size, size));
     _closeButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            this->removeSelf();
+            this->removeFromParent();
         }
     });
-    _backgroundLayer->addChild(_closeButton);
+    addChild(_closeButton);
 }
 
-void ModalWebview::createWebView(std::string url)
+void ModalWebview::createWebView(const std::string& url)
 {
     _modalWebview = experimental::ui::WebView::create();
     _modalWebview->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _modalWebview->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _modalWebview->setContentSize(getContentSize() * 0.8f); // use abs size as percentage sizing doesnt seem to work on webview
     _modalWebview->setJavascriptInterfaceScheme("");
     _modalWebview->loadURL(url);
     // WebView does not have callback on Amazon
@@ -85,7 +76,7 @@ void ModalWebview::createWebView(std::string url)
         _modalWebview->setVisible(true);
     #endif
     
-    _backgroundLayer->addChild(_modalWebview);
+    addChild(_modalWebview);
 }
 
 void ModalWebview::addLoadingCircles()
@@ -93,12 +84,12 @@ void ModalWebview::addLoadingCircles()
     for(int i = 0; i < 3; i++)
     {
         auto loadingCircle = Sprite::create("res/modal/loading.png");
-        loadingCircle->setPosition(_runningSceneSize.width / 2.0f, _runningSceneSize.height / 2);
+        loadingCircle->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
         loadingCircle->setRotation(RandomHelper::random_int(0, 360));
         loadingCircle->setScale(0.6f + i * 0.2f);
         loadingCircle->setTag(CIRCLE_TAG);
         
-        _backgroundLayer->addChild(loadingCircle);
+        addChild(loadingCircle);
         
         int direction = 1;
         if(CCRANDOM_0_1() < 0.5f)
@@ -112,39 +103,18 @@ void ModalWebview::addLoadingCircles()
     
 void ModalWebview::callbackFromJS(cocos2d::experimental::ui::WebView* webview, const std::string &answer)
 {
-    while(_backgroundLayer->getChildByTag(CIRCLE_TAG))
+    while(getChildByTag(CIRCLE_TAG))
     {
-        _backgroundLayer->removeChildByTag(CIRCLE_TAG);
+       removeChildByTag(CIRCLE_TAG);
     }
     
     _modalWebview->setVisible(true);
 }
 
-//---------------------- Actions -----------------
-
-void ModalWebview::removeSelf()
-{
-    this->removeChild(_backgroundLayer);
-    this->removeFromParent();
-}
-
 void ModalWebview::onSizeChanged()
 {
-    //reset Size variables to new Orientation size
-    _visibleSize = Director::getInstance()->getVisibleSize();
-    _runningSceneSize = Director::getInstance()->getRunningScene()->getContentSize();
-
-    _backgroundLayer->setContentSize(_runningSceneSize);
-    for(auto node : _backgroundLayer->getChildren())
-    {
-        if(node->getTag() == CIRCLE_TAG)
-        {
-            node->setPosition(_runningSceneSize.width / 2.0f, _runningSceneSize.height / 2);
-        }
-    }
-    
-    _modalWebview->setContentSize(Size(_visibleSize.width*0.8f,_visibleSize.height*0.8f));
-    _modalWebview->setPosition(Vec2(_runningSceneSize.width/2.0f,_runningSceneSize.height/2.0f));
+    Super::onSizeChanged();
+    _modalWebview->setContentSize(getContentSize() * 0.8f);
 }
 
-}
+NS_TZ_END

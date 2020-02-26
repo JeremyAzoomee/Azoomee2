@@ -12,7 +12,7 @@ using namespace cocos2d;
 
 USING_NS_TZ
 
-NS_AZ_AA_BEGIN
+NS_AZ_ART_BEGIN
 
 float BrushHighlighter::_alphaLevel = 0.25f;
 
@@ -111,4 +111,4 @@ void BrushHighlighter::onTouchEnded(Touch *touch, Event *event)
     _lineStarted = false;
 }
 
-NS_AZ_AA_END
+NS_AZ_ART_END

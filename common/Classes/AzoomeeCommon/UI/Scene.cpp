@@ -119,12 +119,6 @@ void Scene::onSizeChanged()
 		return;
 	}
     
-    ModalWebview* modalWebview = dynamic_cast<ModalWebview*>(this->getChildByName("ModalWebview"));
-    if(modalWebview)
-    {
-        modalWebview->onSizeChanged();
-    }
-    
 }
 
 void Scene::setLayoutType(cocos2d::ui::Layout::Type type)

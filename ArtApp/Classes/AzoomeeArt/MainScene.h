@@ -9,7 +9,7 @@
 
 USING_NS_TZ
 
-NS_AZ_AA_BEGIN
+NS_AZ_ART_BEGIN
 
 class MainScene : public cocos2d::Layer
 {
@@ -43,6 +43,6 @@ public:
     CREATE_FUNC(MainScene);
 };
 
-NS_AZ_AA_END
+NS_AZ_ART_END
 
 #endif // __ARTAPP_MAIN_SCENE_H__

@@ -15,7 +15,7 @@
 
 USING_NS_TZ
 
-NS_AZ_AA_BEGIN
+NS_AZ_ART_BEGIN
 
 class PatternFileStorage
 {
@@ -32,5 +32,5 @@ public:
     std::string getNormalFileByName(const std::string& name) const;
 };
 
-NS_AZ_AA_END
+NS_AZ_ART_END
 #endif /* PatternFileStorage_h */

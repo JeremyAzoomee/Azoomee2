@@ -218,7 +218,7 @@ DynamicText* SignupPage::createTermsLinkWithURL(const std::string& title, const 
             {
                 link->setTextColor(Color4B(Colours::Color_3B::brownGrey));
                 link->setScale(1.0f);
-                ModalWebview::createWithURL(url);
+                ModalWebview::createWithURL(url, "res/buttons/windowCloseButton.png");
                 break;
             }
             case cocos2d::ui::Widget::TouchEventType::CANCELED:

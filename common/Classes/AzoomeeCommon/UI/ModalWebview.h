@@ -8,35 +8,28 @@
 
 NS_TZ_BEGIN
 
-class ModalWebview : public cocos2d::Layer
+class ModalWebview : public cocos2d::ui::Layout
 {
+    typedef cocos2d::ui::Layout Super;
 private:
-    cocos2d::Size _visibleSize;
-    cocos2d::Size _runningSceneSize;
-    
-    cocos2d::LayerColor *_backgroundLayer = nullptr;
+
     cocos2d::experimental::ui::WebView *_modalWebview = nullptr;
     
     cocos2d::ui::Button *_closeButton = nullptr;
     
-    void createBackgroundLayer();
-    void addListenerToBackgroundLayer();
-    void createCloseButton();
-    void createWebView(std::string url);
+    void createCloseButton(const std::string& closeButtonFilename);
+    void createWebView(const std::string& url);
     void addLoadingCircles();
     void callbackFromJS(cocos2d::experimental::ui::WebView* webview, const std::string &answer);
-
-    void removeSelf();
     
 public:
-    static cocos2d::Layer* createWithURL(std::string url);
+    static ModalWebview* createWithURL(const std::string& url, const std::string& closeButtonFilename);
     
-    virtual bool init();
+    virtual bool init() override;
+    
+    void onSizeChanged() override;
     
     CREATE_FUNC(ModalWebview);
-    
-    /// Called when the content size of the scene has changed
-    void onSizeChanged();
 
 };
 
