@@ -51,15 +51,16 @@ GameDataManager::~GameDataManager(void)
 
 bool GameDataManager::init(void)
 {
+    const std::string& gameCachePath = getGameCachePath();
+    if(!FileUtils::getInstance()->isDirectoryExist(gameCachePath))
+    {
+        FileUtils::getInstance()->createDirectory(gameCachePath);
+    }
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     createBundledGamesMap();
     
     // copy games loading pages from bundle to games cache so game data can be accessed in the new WKWebView
-    const std::string& cacheFolder = TZ::DirUtil::getCachesPath() + kGameCacheFolder;
-    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/index_ios.html"), cacheFolder + "index_ios.html");
-    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/circle_1.png"), cacheFolder + "circle_1.png");
-    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/load.png"), cacheFolder + "load.png");
-    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/style.css"), cacheFolder + "style.css");
+    copyGameLaunchFilesToCache();
 #endif
     
     _imageDownloader = ImageDownloader::create(ImageDownloader::kImageCachePath, ImageDownloader::CacheMode::File);
@@ -119,7 +120,13 @@ void GameDataManager::startProcessingGame(const HQContentItemObjectRef &itemData
     _contentId = itemId;
     
     saveFeedDataToFile(itemData);
-    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    //check game launch files are in cache, copy them across if not
+    if(!isGameLaunchFilesInCache())
+    {
+        copyGameLaunchFilesToCache();
+    }
+#endif
     if(checkIfFileExists(basePath + fileName))
     {
         if(_offline)
@@ -631,6 +638,26 @@ bool GameDataManager::copyBundledGameToCache(const std::string& gameId)
     unzipGame(targetPath, basePath, "");
     return true;
 }
+
+bool GameDataManager::isGameLaunchFilesInCache()
+{
+    return FileUtils::getInstance()->isFileExist(getGameCachePath() + "index_ios.html");
+}
+
+void GameDataManager::copyGameLaunchFilesToCache()
+{
+    const std::string& gameCachePath = getGameCachePath();
+    if(!FileUtils::getInstance()->isDirectoryExist(gameCachePath))
+    {
+           FileUtils::getInstance()->createDirectory(gameCachePath);
+    }
+    
+    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/index_ios.html"), gameCachePath + "index_ios.html");
+    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/circle_1.png"), gameCachePath + "circle_1.png");
+    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/load.png"), gameCachePath + "load.png");
+    FileUtils::getInstance()->writeStringToFile(FileUtils::getInstance()->getStringFromFile("res/webcommApi/style.css"), gameCachePath + "style.css");
+}
+
 #endif
 
 NS_TZ_END

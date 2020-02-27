@@ -50,6 +50,8 @@ public:
     HQCarouselObjectRef createFilteredCarouselForBundledGames(const HQCarouselObjectRef& carousel);
 private:
     bool copyBundledGameToCache(const std::string& gameId);
+    bool isGameLaunchFilesInCache();
+    void copyGameLaunchFilesToCache();
     std::unordered_map<std::string, std::string> _bundedGamesMap;
 #endif
     

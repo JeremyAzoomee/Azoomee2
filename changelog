@@ -1,3 +1,11 @@
+Version 4.10.4
+fix whitescreen bug on webview.
+add saving to photo lib to plist
+updated bundled strings for turkish
+
+Version 4.10.3
+fix ci trusted domains for android 8+ using http
+
 Version 4.10.2
 fix for turkish chars on reward screen
 updated games bundle
