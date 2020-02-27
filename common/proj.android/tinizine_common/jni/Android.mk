@@ -7,8 +7,8 @@ $(call import-add-path, $(LOCAL_PATH)/../../../../cocos2d)
 
 
 # Name and filename of this module
-LOCAL_MODULE := azoomee_common
-LOCAL_MODULE_FILENAME := libazoomee_common
+LOCAL_MODULE := tinizine_common
+LOCAL_MODULE_FILENAME := libtinizine_common
 
 # Find all files of type cpp which are not named _ios.*
 define find-src-files

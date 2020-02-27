@@ -32,7 +32,7 @@ LOCAL_SRC_FILES += main.cpp
 
 
 LOCAL_STATIC_LIBRARIES := cc_static
-LOCAL_STATIC_LIBRARIES += azoomee_common
+LOCAL_STATIC_LIBRARIES += tinizine_common
 LOCAL_STATIC_LIBRARIES += azoomee_art
 
 # _COCOS_LIB_ANDROID_BEGIN
@@ -41,7 +41,7 @@ LOCAL_STATIC_LIBRARIES += azoomee_art
 include $(BUILD_SHARED_LIBRARY)
 
 $(call import-module, cocos)
-$(call import-module, azoomee_common/jni)
+$(call import-module, tinizine_common/jni)
 $(call import-module, azoomee_artapp/jni)
 
 # _COCOS_LIB_IMPORT_ANDROID_BEGIN

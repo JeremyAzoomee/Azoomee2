@@ -4,5 +4,5 @@ project(':libcocos2dx').projectDir = new File(settingsDir, '../cocos2d/cocos/pla
 include ':Azoomee'
 project(':Azoomee').projectDir = new File(settingsDir, 'app')
 
-include ':azoomee_common'
-project(':azoomee_common').projectDir = new File(settingsDir, '../common/proj.android/azoomee_common')
+include ':tinizine_common'
+project(':tinizine_common').projectDir = new File(settingsDir, '../common/proj.android/tinizine_common')
