@@ -11,9 +11,9 @@
 #include "../AzoomeeOomeeMaker.h"
 #include "OomeeMakerDataStorage.h"
 #include "OomeeFigureData.h"
-#include <AzoomeeCommon/Utils/FileDownloader.h>
-#include <AzoomeeCommon/Utils/FileZipUtil.h>
-#include <AzoomeeCommon/Data/DataDownloadHandler.h>
+#include <TinizineCommon/Utils/FileDownloader.h>
+#include <TinizineCommon/Utils/FileZipUtil.h>
+#include <TinizineCommon/Data/DataDownloadHandler.h>
 
 USING_NS_TZ
 

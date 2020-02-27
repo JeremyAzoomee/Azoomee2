@@ -3,8 +3,8 @@
 
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/Tinizine.h>
-#include <AzoomeeCommon/UI/Scene.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/UI/Scene.h>
 #include "TextInputLayer.h"
 #include "ui/CocosGUI.h"
 #include "Azoomee.h"

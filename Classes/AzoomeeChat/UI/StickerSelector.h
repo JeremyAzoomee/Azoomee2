@@ -4,7 +4,7 @@
 #include "../AzoomeeChat.h"
 #include "StickerCategoryListView.h"
 #include "StickerListView.h"
-#include <AzoomeeCommon/UI/SplitLayout.h>
+#include <TinizineCommon/UI/SplitLayout.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 

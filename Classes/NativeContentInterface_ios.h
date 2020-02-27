@@ -2,7 +2,7 @@
 #define __NATIVECONTENTINTERFACE_SCENE_H__
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

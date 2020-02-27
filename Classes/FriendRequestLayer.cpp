@@ -6,11 +6,11 @@
 //
 
 #include "FriendRequestLayer.h"
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/API/API.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 #include "PopupMessageBox.h"
 #include "Style.h"
 

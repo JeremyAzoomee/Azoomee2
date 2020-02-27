@@ -6,10 +6,10 @@
 //
 
 #include "SettingsLanguagePage.h"
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 #include "ModalMessages.h"
 #include "LanguageListItem.h"
 #include "HQHistoryManager.h"

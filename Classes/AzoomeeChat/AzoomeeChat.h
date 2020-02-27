@@ -2,7 +2,7 @@
 #define AzoomeeChat_AzoomeeChat_h
 
 #include <string>
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 
 // Some convenience macros for namespace
 #define NS_AZ_CHAT_BEGIN namespace AZ { namespace Chat {

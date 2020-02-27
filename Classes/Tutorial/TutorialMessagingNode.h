@@ -1,6 +1,6 @@
 //
 //  TutorialMessagingNode.h
-//  AzoomeeCommon
+//  TinizineCommon
 //
 //  Created by Macauley on 29/04/2019.
 //
@@ -8,12 +8,12 @@
 #ifndef TutorialMessagingNode_h
 #define TutorialMessagingNode_h
 
-#include <AzoomeeCommon/Tinizine.h>
-#include <AzoomeeCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
 #include <cocos/cocos2d.h>
 #include "TutorialGuide.h"
 #include "TutorialSpeechBubble.h"
-#include <AzoomeeCommon/UI/ResizeNode.h>
+#include <TinizineCommon/UI/ResizeNode.h>
 #include "../Azoomee.h"
 
 USING_NS_TZ

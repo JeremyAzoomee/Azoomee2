@@ -9,7 +9,7 @@
 #define AssetData_h
 
 #include "../AzoomeeOomeeMaker.h"
-#include <AzoomeeCommon/Data/Json.h>
+#include <TinizineCommon/Data/Json.h>
 #include <string>
 
 USING_NS_TZ

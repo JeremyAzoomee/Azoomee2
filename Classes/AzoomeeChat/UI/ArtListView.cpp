@@ -8,7 +8,7 @@
 
 #include "ArtListView.h"
 #include "ArtListColumn.h"
-#include <AzoomeeCommon/UI/Colour.h>
+#include <TinizineCommon/UI/Colour.h>
 
 using namespace cocos2d;
 

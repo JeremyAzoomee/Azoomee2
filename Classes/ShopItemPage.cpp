@@ -6,8 +6,8 @@
 //
 
 #include "ShopItemPage.h"
-#include <AzoomeeCommon/Audio/AudioMixer.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 #include "SceneManagerScene.h"
 #include "AgeGate.h"
 

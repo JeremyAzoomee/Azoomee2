@@ -4,7 +4,7 @@
 #include "../AzoomeeChat.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
+#include <TinizineCommon/ImageDownloader/ImageDownloader.h>
 #include "../Data/Friend.h"
 
 

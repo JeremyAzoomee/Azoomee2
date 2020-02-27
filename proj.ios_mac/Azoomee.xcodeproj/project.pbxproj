@@ -57,7 +57,6 @@
 		304D9EC41EA8F849008CED52 /* MPLogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EB01EA8F849008CED52 /* MPLogo@2x.png */; };
 		304D9EC51EA8F849008CED52 /* placeholder-image.png in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EB11EA8F849008CED52 /* placeholder-image.png */; };
 		304D9EC91EA8F89B008CED52 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304D9EC81EA8F89B008CED52 /* GameController.framework */; };
-		3077F4561E8D51F7006DA465 /* libAzoomeeCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3077F4521E8D51D7006DA465 /* libAzoomeeCommon.a */; };
 		3EACC98F19EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		43069CE91E3B492600D6A631 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43069CE81E3B492600D6A631 /* Images.xcassets */; };
 		4306ABA31EAE2C3E001E586A /* PaymentViewController_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4306ABA21EAE2C3E001E586A /* PaymentViewController_ios.mm */; };
@@ -268,6 +267,7 @@
 		E2A5142023214B45007B93BC /* CircleContentHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2A5141F23214B45007B93BC /* CircleContentHolder.cpp */; };
 		E2D3B50E234B4B8100074881 /* OomeeDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2D3B50D234B4B8100074881 /* OomeeDisplay.cpp */; };
 		E2DCF5E9230442FF0032946D /* ImportantMessageForParents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2DCF5E8230442FF0032946D /* ImportantMessageForParents.cpp */; };
+		E2E348F82407FAC300EAB256 /* libTinizineCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2E347C52407DE2F00EAB256 /* libTinizineCommon.a */; };
 		ED545A7C1B68A1F400C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7B1B68A1F400C3958E /* libiconv.dylib */; };
 /* End PBXBuildFile section */
 
@@ -300,20 +300,6 @@
 			remoteGlobalIDString = A07A4C241783777C0073F6A7;
 			remoteInfo = "cocos2dx iOS";
 		};
-		3077F4511E8D51D7006DA465 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3077F4411E8D5048006DA465;
-			remoteInfo = AzoomeeCommon;
-		};
-		3077F4541E8D51ED006DA465 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 3077F4401E8D5048006DA465;
-			remoteInfo = AzoomeeCommon;
-		};
 		9246EDD51F0403A9008CD359 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */;
@@ -341,6 +327,20 @@
 			proxyType = 2;
 			remoteGlobalIDString = 507B40FD1C31BDD30067B53E;
 			remoteInfo = "libcocos2d tvOS";
+		};
+		E2E347C42407DE2F00EAB256 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3077F44D1E8D51D7006DA465 /* TinizineCommon.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3077F4411E8D5048006DA465;
+			remoteInfo = TinizineCommon;
+		};
+		E2E347DE2407E3D200EAB256 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3077F44D1E8D51D7006DA465 /* TinizineCommon.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 3077F4401E8D5048006DA465;
+			remoteInfo = TinizineCommon;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -432,7 +432,7 @@
 		304D9EB01EA8F849008CED52 /* MPLogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MPLogo@2x.png"; sourceTree = "<group>"; };
 		304D9EB11EA8F849008CED52 /* placeholder-image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-image.png"; sourceTree = "<group>"; };
 		304D9EC81EA8F89B008CED52 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
-		3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AzoomeeCommon.xcodeproj; path = ../common/proj.ios_mac/AzoomeeCommon.xcodeproj; sourceTree = "<group>"; };
+		3077F44D1E8D51D7006DA465 /* TinizineCommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TinizineCommon.xcodeproj; path = ../common/proj.ios_mac/TinizineCommon.xcodeproj; sourceTree = "<group>"; };
 		3EACC98E19EE6D4300EB3C5E /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
 		43069CE81E3B492600D6A631 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ios/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		4306ABA11EAE2C3E001E586A /* PaymentViewController_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentViewController_ios.h; sourceTree = "<group>"; };
@@ -852,6 +852,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2E348F82407FAC300EAB256 /* libTinizineCommon.a in Frameworks */,
 				02D6446F2089EBF200FF17B4 /* CoreMedia.framework in Frameworks */,
 				02D6446D2088AAA700FF17B4 /* AVKit.framework in Frameworks */,
 				026FA3FF200E03460045C305 /* LocalAuthentication.framework in Frameworks */,
@@ -864,7 +865,6 @@
 				43A90CDF1EA755F000606099 /* SystemConfiguration.framework in Frameworks */,
 				43A90CDD1EA755E200606099 /* Foundation.framework in Frameworks */,
 				43A90CDB1EA755D600606099 /* UIKit.framework in Frameworks */,
-				3077F4561E8D51F7006DA465 /* libAzoomeeCommon.a in Frameworks */,
 				435EBBE21E55BB2400E55610 /* iAd.framework in Frameworks */,
 				435EBBE01E55BB1600E55610 /* AdSupport.framework in Frameworks */,
 				430B21551E4487E5004ACB10 /* SystemConfiguration.framework in Frameworks */,
@@ -980,7 +980,7 @@
 				46880B8319C43A87006E1F66 /* Classes */,
 				46880B7519C43A67006E1F66 /* Resources */,
 				1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */,
-				3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */,
+				3077F44D1E8D51D7006DA465 /* TinizineCommon.xcodeproj */,
 				9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */,
 				0240FC46201224AC00E88157 /* stickers */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
@@ -1094,14 +1094,6 @@
 			);
 			name = Images;
 			path = ../common/proj.ios_mac/libs/Mixpanel/Images;
-			sourceTree = "<group>";
-		};
-		3077F44E1E8D51D7006DA465 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				3077F4521E8D51D7006DA465 /* libAzoomeeCommon.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		4315CD001EEEC91600B4F22C /* SettingsSubLayers */ = {
@@ -1787,6 +1779,14 @@
 			name = OomeeHQComponents;
 			sourceTree = "<group>";
 		};
+		E2E347BE2407DE2F00EAB256 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E2E347C52407DE2F00EAB256 /* libTinizineCommon.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1821,8 +1821,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				E2E347DF2407E3D200EAB256 /* PBXTargetDependency */,
 				92A9A0661F068A7B008A19EB /* PBXTargetDependency */,
-				3077F4551E8D51ED006DA465 /* PBXTargetDependency */,
 				1AC6FB25180E99E1004C840B /* PBXTargetDependency */,
 				0240FC4B201224AC00E88157 /* PBXTargetDependency */,
 			);
@@ -1870,12 +1870,12 @@
 					ProjectRef = 9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */;
 				},
 				{
-					ProductGroup = 3077F44E1E8D51D7006DA465 /* Products */;
-					ProjectRef = 3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */;
-				},
-				{
 					ProductGroup = 1AC6FAE6180E9839004C840B /* Products */;
 					ProjectRef = 1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */;
+				},
+				{
+					ProductGroup = E2E347BE2407DE2F00EAB256 /* Products */;
+					ProjectRef = 3077F44D1E8D51D7006DA465 /* TinizineCommon.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1901,13 +1901,6 @@
 			remoteRef = 1AC6FB06180E9839004C840B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		3077F4521E8D51D7006DA465 /* libAzoomeeCommon.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libAzoomeeCommon.a;
-			remoteRef = 3077F4511E8D51D7006DA465 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		9246EDD61F0403A9008CD359 /* AzoomeeArt-app.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
@@ -1927,6 +1920,13 @@
 			fileType = archive.ar;
 			path = "libcocos2d tvOS.a";
 			remoteRef = A198620F1DD3834E0090F053 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E2E347C52407DE2F00EAB256 /* libTinizineCommon.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libTinizineCommon.a;
+			remoteRef = E2E347C42407DE2F00EAB256 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -2259,15 +2259,15 @@
 			name = "cocos2dx iOS";
 			targetProxy = 1AC6FB24180E99E1004C840B /* PBXContainerItemProxy */;
 		};
-		3077F4551E8D51ED006DA465 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AzoomeeCommon;
-			targetProxy = 3077F4541E8D51ED006DA465 /* PBXContainerItemProxy */;
-		};
 		92A9A0661F068A7B008A19EB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = ArtApp;
 			targetProxy = 92A9A0651F068A7B008A19EB /* PBXContainerItemProxy */;
+		};
+		E2E347DF2407E3D200EAB256 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = TinizineCommon;
+			targetProxy = E2E347DE2407E3D200EAB256 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

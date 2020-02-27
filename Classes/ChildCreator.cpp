@@ -7,12 +7,12 @@
 
 #include "ChildCreator.h"
 #include "FlowDataSingleton.h"
-#include <AzoomeeCommon/Input/TextInputChecker.h>
-#include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Utils/TimeUtils.h>
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/API/API.h>
+#include <TinizineCommon/Input/TextInputChecker.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
+#include <TinizineCommon/Utils/TimeUtils.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/API/API.h>
 
 
 using namespace cocos2d;

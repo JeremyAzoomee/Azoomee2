@@ -8,11 +8,11 @@
 #ifndef ShopScene_h
 #define ShopScene_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/Scene.h>
-#include <AzoomeeCommon/API/API.h>
+#include <TinizineCommon/UI/Scene.h>
+#include <TinizineCommon/API/API.h>
 #include "ShopCarousel.h"
 #include "ShopItemPurchasePopup.h"
 #include "CoinDisplay.h"

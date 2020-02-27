@@ -6,9 +6,9 @@
 //
 
 #include "HQPage.h"
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 

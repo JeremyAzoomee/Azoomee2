@@ -11,9 +11,9 @@
 #include "RoutePaymentSingleton.h"
 #include "PaymentSuccessScreen.h"
 #include "PopupMessageBox.h"
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
 #include "MarketingAssetManager.h"
 #include "Style.h"
 

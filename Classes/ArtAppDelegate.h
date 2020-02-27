@@ -9,7 +9,7 @@
 #ifndef ArtAppDelegate_h
 #define ArtAppDelegate_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include "../ArtApp/Classes/AzoomeeArt/AzoomeeArtApp.h"
 #include <string>
 #include <memory>

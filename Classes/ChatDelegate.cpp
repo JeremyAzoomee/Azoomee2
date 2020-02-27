@@ -6,11 +6,11 @@
 #include "FlowDataSingleton.h"
 #include "LoginController.h"
 #include "ContentOpener.h"
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 #include "ErrorCodes.h"
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Data/HQDataObject/ContentItemManager.h>
 #include "PopupMessageBox.h"
 
 using namespace cocos2d;

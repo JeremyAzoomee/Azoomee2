@@ -6,10 +6,10 @@
 //
 
 #include "OomeeCarouselButton.h"
-#include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
 #include "../DataObjects/OomeeMakerDataHandler.h"
 #include "OomeeSelectScene.h"
-#include <AzoomeeCommon/UI/Colour.h>
+#include <TinizineCommon/UI/Colour.h>
 
 using namespace cocos2d;
 

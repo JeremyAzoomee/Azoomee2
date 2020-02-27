@@ -1,15 +1,15 @@
 #include "IntroVideoScene.h"
 #include "HQHistoryManager.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
 #include "LoginController.h"
 #include "SceneManagerScene.h"
 #include "BackEndCaller.h"
 #include "ForceUpdateAppLockScene.h"
 #include "LanguageSelectScene.h"
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
 #include "PopupMessageBox.h"
-#include <AzoomeeCommon/Device.h>
+#include <TinizineCommon/Device.h>
 
 using namespace cocos2d;
 using namespace cocos2d::experimental::ui;

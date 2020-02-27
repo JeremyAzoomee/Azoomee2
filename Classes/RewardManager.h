@@ -1,6 +1,6 @@
 //
 //  RewardManager.h
-//  AzoomeeCommon
+//  TinizineCommon
 //
 //  Created by David Mitchell on 20/11/2019.
 //
@@ -8,12 +8,12 @@
 #ifndef RewardManager_h
 #define RewardManager_h
 
-#include <AzoomeeCommon/Tinizine.h>
-#include <AzoomeeCommon/API/API.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/API/API.h>
 #include <memory>
-#include <AzoomeeCommon/Data/Json.h>
+#include <TinizineCommon/Data/Json.h>
 #include "RewardItem.h"
-#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
+#include <TinizineCommon/Data/HQDataObject/HQContentItemObject.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

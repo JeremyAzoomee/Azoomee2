@@ -2,9 +2,9 @@
 #define __WEBVIEWSELECTOR_SCENE_H__
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Tinizine.h>
-#include <AzoomeeCommon/UI/UIConsts.h>
-#include <AzoomeeCommon/API/HttpRequestCreator.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/UI/UIConsts.h>
+#include <TinizineCommon/API/HttpRequestCreator.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

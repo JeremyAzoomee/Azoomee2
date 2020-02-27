@@ -6,7 +6,7 @@
 //
 
 #include "CircleContentHolder.h"
-#include <AzoomeeCommon/UI/LayoutParams.h>
+#include <TinizineCommon/UI/LayoutParams.h>
 
 using namespace cocos2d;
 

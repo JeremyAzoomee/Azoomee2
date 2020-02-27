@@ -1,8 +1,8 @@
 #include "SettingsButton.h"
-#include <AzoomeeCommon/Audio/AudioMixer.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 #include "SceneManagerScene.h"
 #include "LanguageSelectScene.h"
 

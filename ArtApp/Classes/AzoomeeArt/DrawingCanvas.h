@@ -22,7 +22,7 @@
 #include "BrushConfig.h"
 #include <vector>
 #include "AzoomeeArtApp.h"
-#include <AzoomeeCommon/Data/Json.h>
+#include <TinizineCommon/Data/Json.h>
 
 USING_NS_TZ
 NS_AZ_ART_BEGIN

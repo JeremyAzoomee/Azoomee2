@@ -6,11 +6,11 @@
 //
 
 #include "PaymentSuccessScreen.h"
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
-#include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
 #include "LoginController.h"
 #include "Style.h"
 

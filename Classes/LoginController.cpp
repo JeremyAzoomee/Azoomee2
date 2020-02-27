@@ -1,7 +1,7 @@
 #include "LoginController.h"
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 #include "BackEndCaller.h"
 #include "SceneManagerScene.h"
 #include "MarketingAssetManager.h"

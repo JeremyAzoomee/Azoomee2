@@ -8,7 +8,7 @@
 #ifndef ShareInChatScene_h
 #define ShareInChatScene_h
 
-#include <AzoomeeCommon/UI/Scene.h>
+#include <TinizineCommon/UI/Scene.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include "ShareInChatLayer.h"

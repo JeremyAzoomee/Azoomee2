@@ -1,13 +1,13 @@
 //
 //  TutorialSpeechBubble.cpp
-//  AzoomeeCommon
+//  TinizineCommon
 //
 //  Created by Macauley on 30/04/2019.
 //
 
 #include "TutorialSpeechBubble.h"
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/Colour.h>
+#include <TinizineCommon/UI/Colour.h>
 #include "../Style.h"
 
 using namespace cocos2d;

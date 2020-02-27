@@ -2,11 +2,11 @@
 #define __Azoomee_ForceUpdateAppLockScene_H__
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Tinizine.h>
-#include <AzoomeeCommon/UI/Scene.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
-#include <AzoomeeCommon/UI/TextButton.h>
-#include <AzoomeeCommon/UI/RoundedRectSprite.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/UI/Scene.h>
+#include <TinizineCommon/UI/DynamicText.h>
+#include <TinizineCommon/UI/TextButton.h>
+#include <TinizineCommon/UI/RoundedRectSprite.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

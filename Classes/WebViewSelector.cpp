@@ -1,12 +1,12 @@
 #include "WebViewSelector.h"
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Audio/AudioMixer.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/API/API.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
+#include <TinizineCommon/API/API.h>
 #include "ErrorCodes.h"
 #include "SceneManagerScene.h"
-#include <AzoomeeCommon/ContentDataManagers/ContentHistoryManager.h>
+#include <TinizineCommon/ContentDataManagers/ContentHistoryManager.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "NativeContentInterface_ios.h"
 #endif

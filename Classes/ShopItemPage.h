@@ -9,10 +9,10 @@
 #define ShopItemPage_h
 
 // 4x2 grid of shop items, exists as page in Shop carousel. takes ShopDisplayRef
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/Data/Shop/ShopDisplay.h>
+#include <TinizineCommon/Data/Shop/ShopDisplay.h>
 #include "ShopItem.h"
 #include "Azoomee.h"
 

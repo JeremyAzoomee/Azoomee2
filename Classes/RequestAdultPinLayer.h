@@ -3,9 +3,9 @@
 
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include "TextInputLayer.h"
-#include <AzoomeeCommon/API/HttpRequestCreator.h>
+#include <TinizineCommon/API/HttpRequestCreator.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

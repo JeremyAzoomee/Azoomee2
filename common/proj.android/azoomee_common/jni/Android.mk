@@ -21,7 +21,7 @@ endef
 
 
 # Which files to exclude from compile?
-EXCLUDE_FILES := ../../../Classes/AzoomeeCommon/Platform/iOS
+EXCLUDE_FILES := ../../../Classes/TinizineCommon/Platform/iOS
 
 # Collect all source files to compile
 LOCAL_SRC_FILES := $(call find-src-files, ../../../Classes, $(EXCLUDE_FILES))

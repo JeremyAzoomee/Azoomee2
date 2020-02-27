@@ -7,17 +7,17 @@
 
 #include "ShopScene.h"
 #include "SceneManagerScene.h"
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/Data/Shop/ShopDisplayItem.h>
-#include <AzoomeeCommon/Data/Shop/ShopDataDownloadHandler.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Data/Shop/ShopDisplayItem.h>
+#include <TinizineCommon/Data/Shop/ShopDataDownloadHandler.h>
 #include "ModalMessages.h"
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Audio/AudioMixer.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
 #include "PopupMessageBox.h"
 #include "RewardManager.h"
-#include <AzoomeeCommon/Device.h>
+#include <TinizineCommon/Device.h>
 
 using namespace cocos2d;
 

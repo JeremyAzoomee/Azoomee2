@@ -10,8 +10,8 @@
 
 #include "ContentTileHolder.h"
 #include "RoundedRectTile.h"
-#include <AzoomeeCommon/UI/DynamicText.h>
-#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
+#include <TinizineCommon/UI/DynamicText.h>
+#include <TinizineCommon/ImageDownloader/ImageDownloader.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

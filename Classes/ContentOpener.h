@@ -8,10 +8,10 @@
 #ifndef ContentOpener_h
 #define ContentOpener_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include "cocos2d.h"
-#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
-#include <AzoomeeCommon/API/API.h>
+#include <TinizineCommon/Data/HQDataObject/HQContentItemObject.h>
+#include <TinizineCommon/API/API.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

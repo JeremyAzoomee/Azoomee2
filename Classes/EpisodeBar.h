@@ -8,10 +8,10 @@
 #ifndef EpisodeBar_h
 #define EpisodeBar_h
 
-#include <AzoomeeCommon/Tinizine.h>
-#include <AzoomeeCommon/ImageDownloader/OnScreenChecker.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
-#include <AzoomeeCommon/UI/RoundedRectSprite.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/ImageDownloader/OnScreenChecker.h>
+#include <TinizineCommon/UI/DynamicText.h>
+#include <TinizineCommon/UI/RoundedRectSprite.h>
 #include "ContentTile.h"
 #include "Azoomee.h"
 

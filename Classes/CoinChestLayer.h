@@ -8,11 +8,11 @@
 #ifndef CoinChestLayer_h
 #define CoinChestLayer_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include "RewardScreen.h"
-#include <AzoomeeCommon/UI/RoundedRectSprite.h>
+#include <TinizineCommon/UI/RoundedRectSprite.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

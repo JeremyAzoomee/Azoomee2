@@ -8,7 +8,7 @@
 #ifndef HQConstants_h
 #define HQConstants_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include "Azoomee.h"
 
 #define TILESIZE_1X1 cocos2d::Vec2(1,1)

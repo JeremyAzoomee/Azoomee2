@@ -4,10 +4,10 @@
 #include <cocos/cocos2d.h>
 #include <cocos/network/HttpClient.h>
 #include <external/json/document.h>
-#include <AzoomeeCommon/Tinizine.h>
-#include <AzoomeeCommon/API/HttpRequestCreator.h>
-#include <AzoomeeCommon/Data/HQDataObject/ContentItemPoolDownloadHandler.h>
-#include <AzoomeeCommon/Data/HQDataObject/HQStructureDownloadHandler.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/API/HttpRequestCreator.h>
+#include <TinizineCommon/Data/HQDataObject/ContentItemPoolDownloadHandler.h>
+#include <TinizineCommon/Data/HQDataObject/HQStructureDownloadHandler.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

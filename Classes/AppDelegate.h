@@ -2,8 +2,8 @@
 #define  _APP_DELEGATE_H_
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Tinizine.h>
-#include <AzoomeeCommon/Application.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/Application.h>
 
 /**
 @brief    The cocos2d Application.

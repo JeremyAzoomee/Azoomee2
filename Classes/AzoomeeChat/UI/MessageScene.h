@@ -6,7 +6,7 @@
 #include "MessageListView.h"
 #include "TitleBarWidget.h"
 #include "MessageComposer.h"
-#include <AzoomeeCommon/UI/Scene.h>
+#include <TinizineCommon/UI/Scene.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include "../../RequestAdultPinLayer.h"

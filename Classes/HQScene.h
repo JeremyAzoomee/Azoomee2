@@ -8,12 +8,12 @@
 #ifndef HQScene_h
 #define HQScene_h
 
-#include <AzoomeeCommon/Tinizine.h>
-#include <AzoomeeCommon/UI/Scene.h>
-#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
-#include <AzoomeeCommon/UI/RoundedRectSprite.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/UI/Scene.h>
+#include <TinizineCommon/Data/HQDataObject/HQContentItemObject.h>
+#include <TinizineCommon/UI/RoundedRectSprite.h>
 #include "NavigationBar.h"
-#include <AzoomeeCommon/UI/DynamicText.h>
+#include <TinizineCommon/UI/DynamicText.h>
 #include "SettingsButton.h"
 #include "PurchaseCapsule.h"
 #include "CoinDisplay.h"

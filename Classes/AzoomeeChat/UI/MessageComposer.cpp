@@ -1,13 +1,13 @@
 #include "MessageComposer.h"
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/Audio/AudioMixer.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Utils/DirUtil.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Device.h>
-#include <AzoomeeCommon/Data/AppConfig.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Utils/DirUtil.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Device.h>
+#include <TinizineCommon/Data/AppConfig.h>
 #include "../../Style.h"
 
 using namespace cocos2d;

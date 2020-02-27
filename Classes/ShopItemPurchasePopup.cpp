@@ -6,9 +6,9 @@
 //
 
 #include "ShopItemPurchasePopup.h"
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
 #include "Style.h"
 
 using namespace cocos2d;

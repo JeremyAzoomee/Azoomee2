@@ -1,9 +1,9 @@
 #ifndef Azoomee_ChatDelegate_h
 #define Azoomee_ChatDelegate_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include "AzoomeeChat/AzoomeeChat.h"
-#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
+#include <TinizineCommon/ImageDownloader/ImageDownloader.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

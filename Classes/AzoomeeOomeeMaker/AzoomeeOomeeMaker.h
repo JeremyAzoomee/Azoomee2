@@ -14,7 +14,7 @@
 #define NS_AZ_OM_END }}
 
 #include <string>
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 
 USING_NS_TZ
 

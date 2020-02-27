@@ -7,9 +7,9 @@
 
 #include "TutorialController.h"
 #include <algorithm>
-#include <AzoomeeCommon/UI/NotificationNodeDisplayManager.h>
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/UI/NotificationNodeDisplayManager.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
 
 USING_NS_TZ
 

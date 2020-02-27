@@ -8,10 +8,10 @@
 #ifndef CoinCollectLayer_h
 #define CoinCollectLayer_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include "RewardScreen.h"
-#include <AzoomeeCommon/UI/RoundedRectSprite.h>
+#include <TinizineCommon/UI/RoundedRectSprite.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

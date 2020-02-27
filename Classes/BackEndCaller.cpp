@@ -1,16 +1,16 @@
 #include "BackEndCaller.h"
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
 #include "RewardManager.h"
-#include <AzoomeeCommon/Data/Cookie/CookieManager.h>
+#include <TinizineCommon/Data/Cookie/CookieManager.h>
 #include "ModalMessages.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Net/Utils.h>
-#include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Utils/AppBackgroundManager.h>
-#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
+#include <TinizineCommon/Net/Utils.h>
+#include <TinizineCommon/API/API.h>
+#include <TinizineCommon/Utils/AppBackgroundManager.h>
+#include <TinizineCommon/ImageDownloader/ImageDownloader.h>
 #include "ErrorCodes.h"
 #include "HQHistoryManager.h"
 #include "LoginController.h"
@@ -28,7 +28,7 @@
 #include "MarketingAssetManager.h"
 
 #include "AzoomeeOomeeMaker/DataObjects/OomeeMakerDataHandler.h"
-#include <AzoomeeCommon/Device.h>
+#include <TinizineCommon/Device.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

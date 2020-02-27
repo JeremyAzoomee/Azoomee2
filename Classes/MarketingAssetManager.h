@@ -8,10 +8,10 @@
 #ifndef MarketingAssetManager_h
 #define MarketingAssetManager_h
 
-#include <AzoomeeCommon/Tinizine.h>
-#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
-#include <AzoomeeCommon/API/HttpRequestCreator.h>
-#include <AzoomeeCommon/Data/Json.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/ImageDownloader/ImageDownloader.h>
+#include <TinizineCommon/API/HttpRequestCreator.h>
+#include <TinizineCommon/Data/Json.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

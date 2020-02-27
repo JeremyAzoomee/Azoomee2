@@ -1,14 +1,14 @@
 //
 //  RewardManager.cpp
-//  AzoomeeCommon
+//  TinizineCommon
 //
 //  Created by David Mitchell on 20/11/2019.
 //
 
 #include "RewardManager.h"
-#include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 
 USING_NS_TZ
 

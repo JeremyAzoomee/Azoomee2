@@ -1,9 +1,9 @@
 #include "ModalMessages.h"
 #include <ui/UIEditBox/UIEditBox.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/UI/Scene.h>
-#include <AzoomeeCommon//Utils/LocaleManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/Scene.h>
+#include <TinizineCommon//Utils/LocaleManager.h>
 #include "Style.h"
 
 USING_NS_CC;

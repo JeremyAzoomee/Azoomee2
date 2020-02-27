@@ -6,18 +6,18 @@
 //
 
 #include "OomeeMakerScene.h"
-#include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
 #include "../DataObjects/OomeeMakerDataHandler.h"
 #include "OomeeItemList.h"
 #include "ItemCategoryList.h"
 #include "OomeeFigure.h"
 #include "DragAndDropController.h"
 #include "OomeeSelectScene.h"
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/Colour.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/Colour.h>
 #include "../../ModalMessages.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
 #include "../../Style.h"
 
 using namespace cocos2d;

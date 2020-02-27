@@ -7,9 +7,9 @@
 //
 
 #include "DrawingCanvas.h"
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Utils/DirUtil.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Utils/DirUtil.h>
 #include <dirent.h>
 #include <math.h>
 

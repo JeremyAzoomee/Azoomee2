@@ -1,10 +1,10 @@
-#ifndef AzoomeeCommon_TextInputLayer_h
-#define AzoomeeCommon_TextInputLayer_h
+#ifndef TinizineCommon_TextInputLayer_h
+#define TinizineCommon_TextInputLayer_h
 
 #include <cocos/cocos2d.h>
 #include <cocos/ui/UIEditBox/UIEditBox.h>
 #include "Azoomee.h"
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 
 USING_NS_TZ
 

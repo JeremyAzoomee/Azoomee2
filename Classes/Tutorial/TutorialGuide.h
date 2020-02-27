@@ -1,6 +1,6 @@
 //
 //  TutorialGuide.h
-//  AzoomeeCommon
+//  TinizineCommon
 //
 //  Created by Macauley on 29/04/2019.
 //
@@ -8,7 +8,7 @@
 #ifndef TutorialGuide_h
 #define TutorialGuide_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include "../Azoomee.h"

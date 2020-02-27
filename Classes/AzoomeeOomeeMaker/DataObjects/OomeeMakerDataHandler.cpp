@@ -6,11 +6,11 @@
 //
 
 #include "OomeeMakerDataHandler.h"
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
 #include "../../ModalMessages.h"
-#include <AzoomeeCommon/Utils/DirUtil.h>
-#include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <TinizineCommon/Utils/DirUtil.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
 #include "../UI/OomeeSelectScene.h"
 
 using namespace cocos2d;

@@ -6,9 +6,9 @@
 //
 
 #include "MarketingAssetManager.h"
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/API/API.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
 
 USING_NS_TZ
 

@@ -1,4 +1,4 @@
-#import <AzoomeeCommon/Platform/iOS/AzoomeeAppController.h>
+#import <TinizineCommon/Platform/iOS/AzoomeeAppController.h>
 
 @interface AppController : AzoomeeAppController {
 

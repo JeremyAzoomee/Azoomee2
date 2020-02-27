@@ -6,10 +6,10 @@
 //
 
 #include "FeaturedTile.h"
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/ImageDownloader/ImageDownloaderCacheCleanerLogic.h>
-#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/ImageDownloader/ImageDownloaderCacheCleanerLogic.h>
+#include <TinizineCommon/Data/HQDataObject/ContentItemManager.h>
 #include "HQConstants.h"
 
 using namespace cocos2d;

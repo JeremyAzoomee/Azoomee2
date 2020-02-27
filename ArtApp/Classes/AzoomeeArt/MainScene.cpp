@@ -1,14 +1,14 @@
 #include "MainScene.h"
 #include "SimpleAudioEngine.h"
 #include "AzoomeeArtApp.h"
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 #include "ModalMessages.h"
-#include <AzoomeeCommon/Utils/TimeUtils.h>
-#include <AzoomeeCommon/Utils/DirUtil.h>
-#include <AzoomeeCommon/Data/AppConfig.h>
+#include <TinizineCommon/Utils/TimeUtils.h>
+#include <TinizineCommon/Utils/DirUtil.h>
+#include <TinizineCommon/Data/AppConfig.h>
 
 #include <iostream>
 #include <iomanip>

@@ -6,11 +6,11 @@
 //
 
 #include "RewardDisplayHandler.h"
-#include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/UI/NotificationNodeDisplayManager.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/API/API.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
+#include <TinizineCommon/UI/NotificationNodeDisplayManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 #include "RewardManager.h"
 #include "CoinCollectLayer.h"
 #include "RewardScene.h"

@@ -8,14 +8,14 @@
 #ifndef OfflineScene_h
 #define OfflineScene_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/Scene.h>
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
-#include <AzoomeeCommon/UI/TextButton.h>
-#include <AzoomeeCommon/UI/RoundedRectSprite.h>
+#include <TinizineCommon/UI/Scene.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/DynamicText.h>
+#include <TinizineCommon/UI/TextButton.h>
+#include <TinizineCommon/UI/RoundedRectSprite.h>
 #include "FeaturedTile.h"
 #include "OfflineChecker.h"
 #include "Azoomee.h"

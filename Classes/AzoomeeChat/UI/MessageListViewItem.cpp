@@ -1,9 +1,9 @@
 #include "MessageListViewItem.h"
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
-#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Data/HQDataObject/ContentItemManager.h>
 #include "../Data/StickerCache.h"
 #include "../../Style.h"
 

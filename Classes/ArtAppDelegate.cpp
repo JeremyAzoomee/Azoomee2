@@ -9,8 +9,8 @@
 #include "ArtAppDelegate.h"
 #include "HQHistoryManager.h"
 #include "SceneManagerScene.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
 #include "ChatDelegate.h"
 #include "ShareInChatLayer.h"
 

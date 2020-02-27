@@ -6,13 +6,13 @@
 //
 
 #include "WelcomeScene.h"
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 #include "SceneManagerScene.h"
 #include "BackEndCaller.h"
 #include "LoginController.h"
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
 #include "Style.h"
 
 using namespace cocos2d;

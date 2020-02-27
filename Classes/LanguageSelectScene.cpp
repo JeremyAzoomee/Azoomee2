@@ -6,8 +6,8 @@
 //
 
 #include "LanguageSelectScene.h"
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
 #include "SceneManagerScene.h"
 #include "BackEndCaller.h"
 #include "LoginController.h"

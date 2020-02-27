@@ -1,18 +1,18 @@
 #include "LoginScene.h"
-#include <AzoomeeCommon/Audio/AudioMixer.h>
-#include <AzoomeeCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
 #include "BackEndCaller.h"
-#include <AzoomeeCommon/Input/TextInputChecker.h>
+#include <TinizineCommon/Input/TextInputChecker.h>
 #include "HQHistoryManager.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 #include "FlowDataSingleton.h"
 #include "SceneManagerScene.h"
 #include "ChatNotificationsSingleton.h"
-#include <AzoomeeCommon/ContentDataManagers/ContentHistoryManager.h>
+#include <TinizineCommon/ContentDataManagers/ContentHistoryManager.h>
 #include "PopupMessageBox.h"
-#include <AzoomeeCommon/Device.h>
+#include <TinizineCommon/Device.h>
 #include "LoginController.h"
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
 #include "ErrorCodes.h"
 #include "Style.h"
 

@@ -1,7 +1,7 @@
 #ifndef Azoomee_ios_Cocos2d_Callbacks_h
 #define Azoomee_ios_Cocos2d_Callbacks_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <Foundation/Foundation.h>
 #include "Azoomee.h"

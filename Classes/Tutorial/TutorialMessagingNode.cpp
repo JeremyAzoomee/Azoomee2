@@ -1,12 +1,12 @@
 //
 //  TutorialMessagingNode.cpp
-//  AzoomeeCommon
+//  TinizineCommon
 //
 //  Created by Macauley on 30/04/2019.
 //
 
 #include "TutorialMessagingNode.h"
-#include <AzoomeeCommon/Device.h>
+#include <TinizineCommon/Device.h>
 
 using namespace cocos2d;
 

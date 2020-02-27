@@ -1,5 +1,5 @@
 #include "Friend.h"
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
 
 
 USING_NS_TZ

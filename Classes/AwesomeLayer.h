@@ -8,7 +8,7 @@
 #ifndef AwesomeLayer_h
 #define AwesomeLayer_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include "RewardScreen.h"
 #include "Azoomee.h"

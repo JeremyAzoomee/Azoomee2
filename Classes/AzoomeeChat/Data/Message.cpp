@@ -2,8 +2,8 @@
 #include <cocos/cocos2d.h>
 #include "../ChatAPI.h"
 #include "Sticker.h"
-#include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Net/Utils.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
+#include <TinizineCommon/Net/Utils.h>
 
 using namespace cocos2d;
 

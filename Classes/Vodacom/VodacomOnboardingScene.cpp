@@ -17,12 +17,12 @@
 #include "VodacomOnboardingTnCLayer.h"
 #include "VodacomOnboardingDCBWebview.h"
 #include "../SceneManagerScene.h"
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/API/API.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/API/API.h>
 #include "ModalMessages.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 

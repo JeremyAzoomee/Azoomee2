@@ -9,8 +9,8 @@
 #define FeaturedTile_h
 
 #include "ContentTile.h"
-#include <AzoomeeCommon/ImageDownloader/OnScreenChecker.h>
-#include <AzoomeeCommon/UI/RoundedRectSprite.h>
+#include <TinizineCommon/ImageDownloader/OnScreenChecker.h>
+#include <TinizineCommon/UI/RoundedRectSprite.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

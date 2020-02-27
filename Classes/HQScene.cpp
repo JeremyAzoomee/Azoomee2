@@ -7,14 +7,14 @@
 
 #include "HQScene.h"
 #include "HQHistoryManager.h"
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
-#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
-#include <AzoomeeCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Data/HQDataObject/HQDataObjectManager.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
 #include "FlowDataSingleton.h"
-#include <AzoomeeCommon/ContentDataManagers/ContentHistoryManager.h>
+#include <TinizineCommon/ContentDataManagers/ContentHistoryManager.h>
 #include "RewardDisplayHandler.h"
 #include "SceneManagerScene.h"
 #include "AgeGate.h"

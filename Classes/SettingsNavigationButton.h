@@ -8,7 +8,7 @@
 #ifndef SettingsNavigationButton_h
 #define SettingsNavigationButton_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <ui/CocosGUI.h>
 #include "Azoomee.h"

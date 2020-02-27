@@ -9,13 +9,13 @@
 #define ShareInChatLayer_h
 
 #include "AzoomeeChat/ChatAPI.h"
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/RoundedRectSprite.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
-#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
-#include <AzoomeeCommon/UI/Scene.h>
+#include <TinizineCommon/UI/RoundedRectSprite.h>
+#include <TinizineCommon/UI/DynamicText.h>
+#include <TinizineCommon/ImageDownloader/ImageDownloader.h>
+#include <TinizineCommon/UI/Scene.h>
 #include "FriendsList.h"
 #include "Azoomee.h"
 

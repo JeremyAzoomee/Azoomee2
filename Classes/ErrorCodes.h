@@ -1,5 +1,5 @@
-#ifndef AzoomeeCommon_ErrorCodes_h
-#define AzoomeeCommon_ErrorCodes_h
+#ifndef TinizineCommon_ErrorCodes_h
+#define TinizineCommon_ErrorCodes_h
 
 //------------- ERROR MESSAGE CODES --------------
 // For use in createWith(ErrorCode)

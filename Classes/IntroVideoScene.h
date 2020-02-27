@@ -2,8 +2,8 @@
 #define __INTRO_VIDEO_SCENE_H__
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Tinizine.h>
-#include <AzoomeeCommon/UI/Scene.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/UI/Scene.h>
 #include "ForceUpdateSingleton.h"
 #include "ui/UIVideoPlayer.h"
 #include "Azoomee.h"

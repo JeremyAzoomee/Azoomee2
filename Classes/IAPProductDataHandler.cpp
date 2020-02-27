@@ -1,5 +1,5 @@
 #include "IAPProductDataHandler.h"
-#include <AzoomeeCommon/UI/Colour.h>
+#include <TinizineCommon/UI/Colour.h>
 #include "Style.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

@@ -2,7 +2,7 @@
 #define __OFFLINECHECKER_H__
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include "network/HttpClient.h"
 #include "Azoomee.h"
 

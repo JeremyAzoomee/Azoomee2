@@ -3,8 +3,8 @@
 #include "ChildSelectorScene.h"
 #include "LoginScene.h"
 #include "OfflineScene.h"
-#include <AzoomeeCommon/Application.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Application.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 #include "FlowDataSingleton.h"
 #include "AzoomeeChat/UI/FriendListScene.h"
 #include "ChatDelegate.h"
@@ -15,10 +15,10 @@
 #include "ArtAppDelegate.h"
 #include "WebViewSelector.h"
 #include "IntroVideoScene.h"
-#include <AzoomeeCommon/ContentDataManagers/ContentHistoryManager.h>
+#include <TinizineCommon/ContentDataManagers/ContentHistoryManager.h>
 #include "WelcomeScene.h"
 #include "RewardDisplayHandler.h"
-#include <AzoomeeCommon/Device.h>
+#include <TinizineCommon/Device.h>
 #include "SettingsHub.h"
 #include "ShopScene.h"
 
@@ -27,10 +27,10 @@
 
 #include "HQScene.h"
 
-#include <AzoomeeCommon/UI/RoundedRectSprite.h>
+#include <TinizineCommon/UI/RoundedRectSprite.h>
 
 #include "CoinCollectLayer.h"
-#include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
+#include <TinizineCommon/Crashlytics/CrashlyticsConfig.h>
 
 #include "ShareInChatScene.h"
 

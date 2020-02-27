@@ -2,8 +2,8 @@
 #define AzoomeeChat_MessageComposer_h
 
 #include "../AzoomeeChat.h"
-#include <AzoomeeCommon/UI/SplitLayout.h>
-#include <AzoomeeCommon/UI/ObservableLayout.h>
+#include <TinizineCommon/UI/SplitLayout.h>
+#include <TinizineCommon/UI/ObservableLayout.h>
 #include "StickerSelector.h"
 #include "ChatTextField.h"
 #include "../Data/Message.h"

@@ -2,8 +2,8 @@
 #define Azoomee_ForceUpdateSingleton_h
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Tinizine.h>
-#include <AzoomeeCommon/Utils/FileDownloader.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/Utils/FileDownloader.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

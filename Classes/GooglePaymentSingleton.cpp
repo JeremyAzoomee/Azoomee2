@@ -2,8 +2,8 @@
 #include "external/json/document.h"
 #include "BackEndCaller.h"
 #include "ModalMessages.h"
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 #include "LoginController.h"
 #include "RoutePaymentSingleton.h"
 #include "FlowDataSingleton.h"

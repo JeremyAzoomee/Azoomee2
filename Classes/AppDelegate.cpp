@@ -3,18 +3,18 @@
 #include "HQHistoryManager.h"
 #include "LoginController.h"
 #include "NativeContentInterface_ios.h"
-#include <AzoomeeCommon/Utils/AppBackgroundManager.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Utils/AppBackgroundManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 #include "FlowDataSingleton.h"
 #include "ErrorCodes.h"
-#include <AzoomeeCommon/ContentDataManagers/ContentHistoryManager.h>
+#include <TinizineCommon/ContentDataManagers/ContentHistoryManager.h>
 #include "IAPProductDataHandler.h"
 #include "ChatDelegate.h"
 #include "SceneManagerScene.h"
 #include "OfflineScene.h"
 #include "../artapp/Classes/AzoomeeArt/MainScene.h"
-#include <AzoomeeCommon/ContentDataManagers/GameDataManager.h>
-#include <AzoomeeCommon/Device.h>
+#include <TinizineCommon/ContentDataManagers/GameDataManager.h>
+#include <TinizineCommon/Device.h>
 #include "WebViewSelector.h"
 
 using namespace cocos2d;
@@ -147,7 +147,7 @@ void AppDelegate::applicationWillEnterForeground()
     }
 	else
 	{
-		AZ::ArtApp::MainScene* artAppScene = dynamic_cast<TZ::ArtApp::MainScene*>(Director::getInstance()->getRunningScene()->getChildByName("ArtAppMainScene"));
+		AZ::ArtApp::MainScene* artAppScene = dynamic_cast<AZ::ArtApp::MainScene*>(Director::getInstance()->getRunningScene()->getChildByName("ArtAppMainScene"));
 		if(artAppScene)
 		{
 			artAppScene->runAction(Sequence::create(DelayTime::create(0.25f), CallFunc::create([artAppScene](){

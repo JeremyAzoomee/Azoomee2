@@ -8,7 +8,7 @@
 #ifndef RewardDisplayHandler_h
 #define RewardDisplayHandler_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include "RewardScreen.h"
 #include "Azoomee.h"

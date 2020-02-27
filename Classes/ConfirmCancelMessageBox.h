@@ -1,6 +1,6 @@
 //
 //  ConfirmCancelMessageBox.h
-//  AzoomeeCommon
+//  TinizineCommon
 //
 //  Created by Macauley on 20/09/2018.
 //
@@ -10,8 +10,8 @@
 
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/Tinizine.h>
-#include <AzoomeeCommon/UI/MessagePopupBase.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/UI/MessagePopupBase.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

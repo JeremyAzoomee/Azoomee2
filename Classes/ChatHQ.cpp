@@ -6,12 +6,12 @@
 //
 
 #include "ChatHQ.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
 #include "AzoomeeChat/UI/MessageScene.h"
 #include "ChatDelegate.h"
 #include "SceneManagerScene.h"

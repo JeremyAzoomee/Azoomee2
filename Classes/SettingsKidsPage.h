@@ -8,8 +8,8 @@
 #ifndef SettingsKidsPage_h
 #define SettingsKidsPage_h
 
-#include <AzoomeeCommon/Tinizine.h>
-#include <AzoomeeCommon/API/HttpRequestCreator.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/API/HttpRequestCreator.h>
 #include <cocos/cocos2d.h>
 #include <ui/CocosGUI.h>
 #include "SettingsPageHeader.h"

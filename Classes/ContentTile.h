@@ -8,11 +8,11 @@
 #ifndef ContentTile_h
 #define ContentTile_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
-#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
+#include <TinizineCommon/Data/HQDataObject/HQContentItemObject.h>
+#include <TinizineCommon/ImageDownloader/ImageDownloader.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

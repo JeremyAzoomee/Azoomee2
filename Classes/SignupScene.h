@@ -8,11 +8,11 @@
 #ifndef SignupScene_h
 #define SignupScene_h
 
-#include <AzoomeeCommon/Tinizine.h>
-#include <AzoomeeCommon/UI/Scene.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/UI/Scene.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/API/HttpRequestCreator.h>
+#include <TinizineCommon/API/HttpRequestCreator.h>
 #include "SignupPage.h"
 #include "SignupTermsPage.h"
 #include "Azoomee.h"

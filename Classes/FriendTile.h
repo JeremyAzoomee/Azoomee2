@@ -8,11 +8,11 @@
 #ifndef FriendTile_h
 #define FriendTile_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
-#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
+#include <TinizineCommon/UI/DynamicText.h>
+#include <TinizineCommon/ImageDownloader/ImageDownloader.h>
 #include "AzoomeeChat/Data/Friend.h"
 #include "Azoomee.h"
 

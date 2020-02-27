@@ -9,7 +9,7 @@
 #define OomeeFigureData_h
 
 #include "../AzoomeeOomeeMaker.h"
-#include <AzoomeeCommon/Data/Json.h>
+#include <TinizineCommon/Data/Json.h>
 
 USING_NS_TZ
 

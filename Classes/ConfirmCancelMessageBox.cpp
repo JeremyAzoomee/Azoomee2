@@ -1,13 +1,13 @@
 //
 //  ConfirmCancelMessageBox.cpp
-//  AzoomeeCommon
+//  TinizineCommon
 //
 //  Created by Macauley on 20/09/2018.
 //
 
 #include "ConfirmCancelMessageBox.h"
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
 #include "Style.h"
 
 using namespace cocos2d;

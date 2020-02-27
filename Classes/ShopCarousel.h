@@ -9,10 +9,10 @@
 #define ShopCarousel_h
 
 // horizontal page view with left and right scroll buttons and page indicator at bottom.  takes ShopRef
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/Data/Shop/Shop.h>
+#include <TinizineCommon/Data/Shop/Shop.h>
 #include "ShopItemPage.h"
 #include "Azoomee.h"
 

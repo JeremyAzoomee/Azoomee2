@@ -6,12 +6,12 @@
 //
 #ifdef AZOOMEE_VODACOM_BUILD
 #include "VodacomOnboardingAddChildLayer.h"
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/API/API.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/API/API.h>
 #include "ModalMessages.h"
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
 #include "../ChildCreator.h"
 #include "VodacomMessageBoxInfo.h"
 #include "VodacomMessageBoxNotification.h"
