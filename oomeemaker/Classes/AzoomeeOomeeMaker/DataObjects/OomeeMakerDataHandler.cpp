@@ -494,7 +494,7 @@ void OomeeMakerDataHandler::writeOomeeFiles(const rapidjson::Value& data)
                 if(!oldData.HasParseError())
                 {
                     OomeeFigureDataRef oldFigure = OomeeFigureData::createWithData(oldData);
-                    if(figure->isEqual(oldFigure))
+                    if(figure->isEqual(oldFigure)  && FileUtils::getInstance()->isFileExist(getAssetDir() + childId + "/" + figure->getId() + ".png"))
                     {
                         continue;
                     }
