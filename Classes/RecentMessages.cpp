@@ -6,9 +6,9 @@
 //
 
 #include "RecentMessages.h"
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
 #include "Style.h"
 
 using namespace cocos2d;

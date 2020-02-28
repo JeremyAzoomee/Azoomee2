@@ -9,7 +9,7 @@
 #define CircleTile_h
 
 #include "ContentTile.h"
-#include <AzoomeeCommon/ImageDownloader/OnScreenChecker.h>
+#include <TinizineCommon/ImageDownloader/OnScreenChecker.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

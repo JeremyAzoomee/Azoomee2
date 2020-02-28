@@ -7,9 +7,9 @@
 
 #include "OomeeItemButton.h"
 #include "DragAndDropController.h"
-#include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
 #include "../DataObjects/OomeeMakerDataHandler.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 

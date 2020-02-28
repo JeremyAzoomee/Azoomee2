@@ -5,7 +5,7 @@
 #include "../Data/Message.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
+#include <TinizineCommon/ImageDownloader/RemoteImageSprite.h>
 
 USING_NS_TZ
 

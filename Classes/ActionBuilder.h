@@ -1,6 +1,6 @@
 //
 //  ActionBuilder.h
-//  AzoomeeCommon
+//  TinizineCommon
 //
 //  Created by Macauley on 13/02/2018.
 //
@@ -8,7 +8,7 @@
 #ifndef ActionBuilder_h
 #define ActionBuilder_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include "Azoomee.h"
 

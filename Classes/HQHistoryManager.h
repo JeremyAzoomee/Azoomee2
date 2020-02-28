@@ -2,8 +2,8 @@
 #define Azoomee_HQHistoryManager_h
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Tinizine.h>
-#include <AzoomeeCommon/UI/UIConsts.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/UI/UIConsts.h>
 #include "HQScene.h"
 #include "HQConstants.h"
 #include "Azoomee.h"

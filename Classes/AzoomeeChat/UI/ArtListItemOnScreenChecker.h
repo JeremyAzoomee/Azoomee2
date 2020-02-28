@@ -10,7 +10,7 @@
 #define ArtListItemOnScreenChecker_h
 
 #include "../AzoomeeChat.h"
-#include <AzoomeeCommon/ImageDownloader/OnScreenChecker.h>
+#include <TinizineCommon/ImageDownloader/OnScreenChecker.h>
 
 USING_NS_TZ
 

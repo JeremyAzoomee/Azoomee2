@@ -6,7 +6,7 @@
 #include "FriendListView.h"
 #include "AvatarWidget.h"
 #include "TitleBarWidget.h"
-#include <AzoomeeCommon/UI/Scene.h>
+#include <TinizineCommon/UI/Scene.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 

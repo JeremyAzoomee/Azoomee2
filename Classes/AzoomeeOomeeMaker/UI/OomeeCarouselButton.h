@@ -11,7 +11,7 @@
 #include "../AzoomeeOomeeMaker.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/LazyLoadingButton.h>
+#include <TinizineCommon/UI/LazyLoadingButton.h>
 #include "../DataObjects/OomeeFigureData.h"
 
 USING_NS_TZ

@@ -10,7 +10,7 @@
 #define AzoomeeArtApp_h
 
 #include <string>
-#include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
 
 // Some convenience macros for namespace
 #define NS_AZ_ART_BEGIN namespace AZ { namespace ArtApp {

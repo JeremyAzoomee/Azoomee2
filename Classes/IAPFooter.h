@@ -8,10 +8,10 @@
 #ifndef IAPFooter_h
 #define IAPFooter_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
+#include <TinizineCommon/UI/DynamicText.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

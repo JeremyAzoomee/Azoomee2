@@ -1,6 +1,6 @@
 #include "FriendListViewItem.h"
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
 #include "../../Style.h"
 
 using namespace cocos2d;

@@ -8,7 +8,7 @@
 #ifndef TutorialController_h
 #define TutorialController_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <string>
 #include <memory>
 #include <vector>

@@ -1,6 +1,6 @@
 #include "StickerCategory.h"
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
 #include "StickerCache.h"
 
 using namespace cocos2d;

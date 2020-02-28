@@ -1,6 +1,6 @@
 #include "NativeContentInterface_ios.h"
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
 #include "WebViewController_ios.h"
 #include "MediaPlayer_ios.h"
 #include "WebViewSelector.h"

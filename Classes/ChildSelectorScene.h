@@ -2,15 +2,15 @@
 #define __CHILDSELECTOR_SCENE_H__
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/ui/CocosGUI.h>
 #include "OfflineChecker.h"
-#include <AzoomeeCommon/API/HttpRequestCreator.h>
-#include <AzoomeeCommon/UI/Scene.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
-#include <AzoomeeCommon/UI/RoundedRectSprite.h>
-#include <AzoomeeCommon/UI/TextButton.h>
-#include <AzoomeeCommon/Data/Child/Child.h>
+#include <TinizineCommon/API/HttpRequestCreator.h>
+#include <TinizineCommon/UI/Scene.h>
+#include <TinizineCommon/UI/DynamicText.h>
+#include <TinizineCommon/UI/RoundedRectSprite.h>
+#include <TinizineCommon/UI/TextButton.h>
+#include <TinizineCommon/Data/Child/Child.h>
 #include "ForceUpdateSingleton.h"
 #include "Azoomee.h"
 

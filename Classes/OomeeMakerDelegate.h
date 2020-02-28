@@ -8,9 +8,9 @@
 #ifndef OomeeMakerDelegate_h
 #define OomeeMakerDelegate_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include "AzoomeeOomeeMaker/AzoomeeOomeeMaker.h"
-#include <AzoomeeCommon/API/HttpRequestCreator.h>
+#include <TinizineCommon/API/HttpRequestCreator.h>
 #include <string>
 #include <memory>
 #include "Azoomee.h"

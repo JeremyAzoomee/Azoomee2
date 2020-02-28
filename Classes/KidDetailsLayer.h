@@ -8,11 +8,11 @@
 #ifndef KidDetailsLayer_h
 #define KidDetailsLayer_h
 
-#include <AzoomeeCommon/Tinizine.h>
-#include <AzoomeeCommon/API/HttpRequestCreator.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/API/HttpRequestCreator.h>
 #include "TextInputLayer.h"
-#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
-#include <AzoomeeCommon/Data/Child/Child.h>
+#include <TinizineCommon/ImageDownloader/RemoteImageSprite.h>
+#include <TinizineCommon/Data/Child/Child.h>
 #include <cocos/cocos2d.h>
 #include <ui/CocosGUI.h>
 #include "SettingsMessageBox.h"

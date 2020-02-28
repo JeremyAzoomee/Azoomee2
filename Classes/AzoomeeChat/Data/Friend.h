@@ -2,7 +2,7 @@
 #define AzoomeeChat_Friend_h
 
 #include "../AzoomeeChat.h"
-#include <AzoomeeCommon/Data/Json.h>
+#include <TinizineCommon/Data/Json.h>
 #include <string>
 #include <memory>
 

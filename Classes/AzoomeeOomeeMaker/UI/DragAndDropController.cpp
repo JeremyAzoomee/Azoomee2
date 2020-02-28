@@ -6,9 +6,9 @@
 //
 
 #include "DragAndDropController.h"
-#include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
 #include "../DataObjects/OomeeMakerDataHandler.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 
 //#define DEBUG_DNDC YES
 

@@ -1,6 +1,6 @@
 #include "ForceUpdateAppLockScene.h"
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/LayoutParams.h>
 #include "ForceUpdateSingleton.h"
 #include "Style.h"
 

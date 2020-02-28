@@ -8,9 +8,9 @@
 #include "OomeeItemList.h"
 #include "OomeeItemButton.h"
 #include "../DataObjects/OomeeMakerDataStorage.h"
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/CCSpriteWithHue.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/UI/CCSpriteWithHue.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
 
 using namespace cocos2d;
 

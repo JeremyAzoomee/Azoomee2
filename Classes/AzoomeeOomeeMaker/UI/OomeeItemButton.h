@@ -10,7 +10,7 @@
 
 #include "../AzoomeeOomeeMaker.h"
 #include "../DataObjects/OomeeItem.h"
-#include <AzoomeeCommon/UI/LazyLoadingButton.h>
+#include <TinizineCommon/UI/LazyLoadingButton.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 

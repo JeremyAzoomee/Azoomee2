@@ -10,9 +10,9 @@
 
 #include <memory>
 #include <string>
-#include <AzoomeeCommon/Tinizine.h>
-#include <AzoomeeCommon/API/HttpRequestCreator.h>
-#include <AzoomeeCommon/Data/Child/Child.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/API/HttpRequestCreator.h>
+#include <TinizineCommon/Data/Child/Child.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

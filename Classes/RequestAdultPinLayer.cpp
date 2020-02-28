@@ -1,13 +1,13 @@
 #include "RequestAdultPinLayer.h"
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
-#include <AzoomeeCommon/Audio/AudioMixer.h>
-#include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/API/API.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
 #include "ModalMessages.h"
 #include "ErrorCodes.h"
-#include <AzoomeeCommon/Utils/BiometricAuthenticationHandler.h>
-#include <AzoomeeCommon/UI/Scene.h>
+#include <TinizineCommon/Utils/BiometricAuthenticationHandler.h>
+#include <TinizineCommon/UI/Scene.h>
 #include "PopupMessageBox.h"
 #include "Style.h"
 

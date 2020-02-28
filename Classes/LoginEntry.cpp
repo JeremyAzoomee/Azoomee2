@@ -6,12 +6,12 @@
 //
 
 #include "LoginEntry.h"
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/Input/TextInputChecker.h>
-#include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Data/AppConfig.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Input/TextInputChecker.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
+#include <TinizineCommon/Data/AppConfig.h>
 #include "Style.h"
 
 using namespace cocos2d;

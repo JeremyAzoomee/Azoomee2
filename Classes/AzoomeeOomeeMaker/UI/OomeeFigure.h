@@ -15,7 +15,7 @@
 #include "../DataObjects/OomeeFigureData.h"
 #include "OomeeBody.h"
 #include "OomeeAccessory.h"
-#include <AzoomeeCommon/UI/CCSpriteWithHue.h>
+#include <TinizineCommon/UI/CCSpriteWithHue.h>
 #include <cocos/cocos2d.h>
 
 USING_NS_TZ

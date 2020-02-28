@@ -1,9 +1,9 @@
 #include "TextInputLayer.h"
-#include <AzoomeeCommon/Input/TextInputChecker.h>
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Device.h>
-#include <AzoomeeCommon/UI/Colour.h>
+#include <TinizineCommon/Input/TextInputChecker.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Device.h>
+#include <TinizineCommon/UI/Colour.h>
 #include "Style.h"
 
 using namespace cocos2d;

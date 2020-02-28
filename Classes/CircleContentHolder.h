@@ -10,7 +10,7 @@
 
 #include "ContentTileHolder.h"
 #include "CircleTile.h"
-#include <AzoomeeCommon/UI/DynamicText.h>
+#include <TinizineCommon/UI/DynamicText.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

@@ -2,8 +2,8 @@
 #define __CHATNOTIFICATIONSSINGLETON_H__
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Tinizine.h>
-#include <AzoomeeCommon/API/API.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/API/API.h>
 #include "AzoomeeChat/ChatAPI.h"
 #include "AzoomeeChat/Data/Message.h"
 #include "Azoomee.h"

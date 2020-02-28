@@ -8,13 +8,13 @@
 #ifndef ChildOnboardingScene_h
 #define ChildOnboardingScene_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/Scene.h>
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/RoundedRectSprite.h>
-#include <AzoomeeCommon/API//API.h>
+#include <TinizineCommon/UI/Scene.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/RoundedRectSprite.h>
+#include <TinizineCommon/API//API.h>
 #include "ChildNameEntry.h"
 #include "ChildAgeEntry.h"
 #include "ChildCreator.h"

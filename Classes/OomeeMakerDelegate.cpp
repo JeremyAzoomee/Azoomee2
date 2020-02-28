@@ -9,13 +9,13 @@
 #include "ChatDelegate.h"
 #include "SceneManagerScene.h"
 #include "HQHistoryManager.h"
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
 #include "AzoomeeOomeeMaker/UI/OomeeMakerScene.h"
 #include "AzoomeeOomeeMaker/UI/OomeeSelectScene.h"
-#include <AzoomeeCommon/API/API.h>
+#include <TinizineCommon/API/API.h>
 #include "ModalMessages.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 
 USING_NS_CC;
 

@@ -8,12 +8,12 @@
 #ifndef EpisodeSelector_h
 #define EpisodeSelector_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/Data/HQDataObject/HQDataObject.h>
-#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
-#include <AzoomeeCommon/UI/RoundedRectSprite.h>
+#include <TinizineCommon/Data/HQDataObject/HQDataObject.h>
+#include <TinizineCommon/ImageDownloader/ImageDownloader.h>
+#include <TinizineCommon/UI/RoundedRectSprite.h>
 #include "EpisodeBar.h"
 #include "Azoomee.h"
 

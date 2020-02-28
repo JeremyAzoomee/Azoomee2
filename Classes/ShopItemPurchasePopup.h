@@ -8,11 +8,11 @@
 #ifndef ShopItemPurchasePopup_h
 #define ShopItemPurchasePopup_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/Data/Shop/ShopDisplayItem.h>
-#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
+#include <TinizineCommon/Data/Shop/ShopDisplayItem.h>
+#include <TinizineCommon/ImageDownloader/RemoteImageSprite.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

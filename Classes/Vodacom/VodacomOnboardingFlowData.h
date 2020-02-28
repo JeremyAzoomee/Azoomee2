@@ -11,7 +11,7 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include "../Azoomee.h"
 
 USING_NS_TZ

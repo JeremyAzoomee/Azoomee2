@@ -1,6 +1,6 @@
 //
 //  RewardItem.h
-//  AzoomeeCommon
+//  TinizineCommon
 //
 //  Created by Macauley on 08/02/2019.
 //
@@ -8,11 +8,11 @@
 #ifndef RewardItem_h
 #define RewardItem_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <string>
 #include <memory>
-#include <AzoomeeCommon/Data/Json.h>
-#include <AzoomeeCommon/Data/Child/InventoryItem.h>
+#include <TinizineCommon/Data/Json.h>
+#include <TinizineCommon/Data/Child/InventoryItem.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

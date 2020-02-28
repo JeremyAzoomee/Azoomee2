@@ -10,7 +10,7 @@
 #include "CoinCollectLayer.h"
 #include "AwesomeLayer.h"
 #include "CoinChestLayer.h"
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
 
 using namespace cocos2d;
 

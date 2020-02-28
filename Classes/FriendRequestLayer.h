@@ -8,9 +8,9 @@
 #ifndef FriendRequestLayer_h
 #define FriendRequestLayer_h
 
-#include <AzoomeeCommon/Tinizine.h>
-#include <AzoomeeCommon/API/HttpRequestCreator.h>
-#include <AzoomeeCommon/Data/Parent/FriendRequest.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/API/HttpRequestCreator.h>
+#include <TinizineCommon/Data/Parent/FriendRequest.h>
 #include <cocos/cocos2d.h>
 #include <ui/CocosGUI.h>
 #include "SettingsMessageBoxRejectFR.h"

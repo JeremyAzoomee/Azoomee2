@@ -6,9 +6,9 @@
 //
 
 #include "SignupEnterEmail.h"
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/Input/TextInputChecker.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Input/TextInputChecker.h>
 
 using namespace cocos2d;
 

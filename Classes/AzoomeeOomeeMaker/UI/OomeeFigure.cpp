@@ -9,7 +9,7 @@
 #include "DragAndDropController.h"
 #include "../DataObjects/OomeeMakerDataStorage.h"
 #include "../DataObjects/OomeeMakerDataHandler.h"
-#include <AzoomeeCommon/Utils/DirUtil.h>
+#include <TinizineCommon/Utils/DirUtil.h>
 
 using namespace cocos2d;
 

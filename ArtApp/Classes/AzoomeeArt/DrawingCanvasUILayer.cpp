@@ -7,13 +7,13 @@
 //
 
 #include "DrawingCanvasUILayer.h"
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/Utils/DirUtil.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Utils/DirUtil.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
 #include "ModalMessages.h"
-#include <AzoomeeCommon/Device.h>
-#include <AzoomeeCommon/Data/AppConfig.h>
+#include <TinizineCommon/Device.h>
+#include <TinizineCommon/Data/AppConfig.h>
 
 using namespace cocos2d;
 

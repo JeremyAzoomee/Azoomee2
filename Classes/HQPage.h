@@ -8,10 +8,10 @@
 #ifndef HQPage_h
 #define HQPage_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/Data/HQDataObject/HQDataObject.h>
+#include <TinizineCommon/Data/HQDataObject/HQDataObject.h>
 #include "DropdownContentHolder.h"
 #include "HQConstants.h"
 #include "Azoomee.h"

@@ -6,12 +6,12 @@
 //
 
 #include "GameHQ.h"
-#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/ContentDataManagers/RecentlyPlayedManager.h>
-#include <AzoomeeCommon/ContentDataManagers/GameDataManager.h>
+#include <TinizineCommon/Data/HQDataObject/HQDataObjectManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/ContentDataManagers/RecentlyPlayedManager.h>
+#include <TinizineCommon/ContentDataManagers/GameDataManager.h>
 #include "Style.h"
 
 using namespace cocos2d;

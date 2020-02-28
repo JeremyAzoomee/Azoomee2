@@ -1,5 +1,5 @@
-#ifndef AzoomeeCommon_ModalMessages_h
-#define AzoomeeCommon_ModalMessages_h
+#ifndef TinizineCommon_ModalMessages_h
+#define TinizineCommon_ModalMessages_h
 
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>

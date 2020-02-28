@@ -7,27 +7,27 @@
 
 #include "ContentOpener.h"
 #include "HQHistoryManager.h"
-#include <AzoomeeCommon/ContentDataManagers/ContentHistoryManager.h>
-#include <AzoomeeCommon/ContentDataManagers/GameDataManager.h>
-#include <AzoomeeCommon/WebGameAPI/VideoPlaylistManager.h>
+#include <TinizineCommon/ContentDataManagers/ContentHistoryManager.h>
+#include <TinizineCommon/ContentDataManagers/GameDataManager.h>
+#include <TinizineCommon/WebGameAPI/VideoPlaylistManager.h>
 #include "WebViewSelector.h"
-#include <AzoomeeCommon/ContentDataManagers/RecentlyPlayedManager.h>
+#include <TinizineCommon/ContentDataManagers/RecentlyPlayedManager.h>
 #include "ArtAppDelegate.h"
 #include "ManualGameInputLayer.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 #include "ModalMessages.h"
-#include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/Cookie/CookieManager.h>
-#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
-#include <AzoomeeCommon/Data/HQDataObject/HQStructureDownloadHandler.h>
-#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
+#include <TinizineCommon/Crashlytics/CrashlyticsConfig.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Data/Cookie/CookieManager.h>
+#include <TinizineCommon/Data/HQDataObject/ContentItemManager.h>
+#include <TinizineCommon/Data/HQDataObject/HQStructureDownloadHandler.h>
+#include <TinizineCommon/Data/HQDataObject/HQDataObjectManager.h>
 #include "ErrorCodes.h"
 #include "SceneManagerScene.h"
 #include "PopupMessageBox.h"
-#include <AzoomeeCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
 
 #include "AgeGate.h"
 

@@ -8,10 +8,10 @@
 #ifndef ArtStudioButton_h
 #define ArtStudioButton_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/RoundedRectSprite.h>
+#include <TinizineCommon/UI/RoundedRectSprite.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

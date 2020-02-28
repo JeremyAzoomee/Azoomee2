@@ -1,6 +1,6 @@
 //
 //  ActionBuilder.cpp
-//  AzoomeeCommon
+//  TinizineCommon
 //
 //  Created by Macauley on 13/02/2018.
 //

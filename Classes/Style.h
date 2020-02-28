@@ -8,7 +8,7 @@
 #ifndef Style_h
 #define Style_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <string>
 #include <map>
 #include "Azoomee.h"

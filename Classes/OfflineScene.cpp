@@ -6,10 +6,10 @@
 //
 
 #include "OfflineScene.h"
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/ContentDataManagers/GameDataManager.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/ContentDataManagers/GameDataManager.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
 #include "FlowDataSingleton.h"
 #include "LoginController.h"
 #include "HQHistoryManager.h"

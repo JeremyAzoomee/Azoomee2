@@ -10,7 +10,7 @@
 
 #include "../AzoomeeOomeeMaker.h"
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Data/Json.h>
+#include <TinizineCommon/Data/Json.h>
 #include "AssetData.h"
 
 USING_NS_TZ

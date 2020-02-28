@@ -1,6 +1,6 @@
 //
 //  RewardItem.cpp
-//  AzoomeeCommon
+//  TinizineCommon
 //
 //  Created by Macauley on 11/02/2019.
 //

@@ -2,8 +2,8 @@
 #define __WEBVIEWNATIVECALLER_ANDROID_H__
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Tinizine.h>
-#include <AzoomeeCommon/UI/UIConsts.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/UI/UIConsts.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

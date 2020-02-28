@@ -6,16 +6,16 @@
 //
 
 #include "SettingsKidsPage.h"
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
 #include "ModalMessages.h"
-#include <AzoomeeCommon/API/API.h>
+#include <TinizineCommon/API/API.h>
 #include "KidDetailsLayer.h"
 #include "SceneManagerScene.h"
-#include <AzoomeeCommon/Device.h>
+#include <TinizineCommon/Device.h>
 #include "Style.h"
 
 using namespace cocos2d;

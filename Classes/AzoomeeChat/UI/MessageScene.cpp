@@ -1,11 +1,11 @@
 #include "MessageScene.h"
-#include <AzoomeeCommon/UI/Colour.h>
+#include <TinizineCommon/UI/Colour.h>
 #include "../../ModalMessages.h"
-#include <AzoomeeCommon/UI/SplitLayout.h>
-#include <AzoomeeCommon/Audio/AudioMixer.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
-#include <AzoomeeCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/SplitLayout.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
 #include "../../ErrorCodes.h"
 #include "FriendListScene.h"
 #include "../../HQHistoryManager.h"

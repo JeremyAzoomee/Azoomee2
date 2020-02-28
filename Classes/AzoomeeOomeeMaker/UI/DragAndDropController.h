@@ -10,7 +10,7 @@
 
 #include "../AzoomeeOomeeMaker.h"
 #include "../DataObjects/OomeeItem.h"
-#include <AzoomeeCommon/UI/CCSpriteWithHue.h>
+#include <TinizineCommon/UI/CCSpriteWithHue.h>
 #include "OomeeFigure.h"
 #include "OomeeAccessory.h"
 

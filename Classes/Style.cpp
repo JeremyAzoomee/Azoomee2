@@ -6,7 +6,7 @@
 //
 
 #include "Style.h"
-#include <AzoomeeCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
 
 USING_NS_TZ
 

@@ -4,7 +4,7 @@
 #include "../AzoomeeChat.h"
 #include <cocos/cocos2d.h>
 #include <map>
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 
 USING_NS_TZ
 

@@ -9,7 +9,7 @@
 #define ArtTileHolder_h
 
 #include "ArtContentTile.h"
-#include <AzoomeeCommon/UI/RoundedRectSprite.h>
+#include <TinizineCommon/UI/RoundedRectSprite.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

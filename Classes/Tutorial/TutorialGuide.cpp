@@ -1,13 +1,13 @@
 //
 //  TutorialGuide.cpp
-//  AzoomeeCommon
+//  TinizineCommon
 //
 //  Created by Macauley on 30/04/2019.
 //
 
 #include "TutorialGuide.h"
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/ImageDownloader/RemoteImageSprite.h>
 
 using namespace cocos2d;
 

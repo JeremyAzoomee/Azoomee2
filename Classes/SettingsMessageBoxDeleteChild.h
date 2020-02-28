@@ -9,7 +9,7 @@
 #define SettingsMessageBoxDeleteChild_h
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include "SettingsMessageBox.h"
 #include "Azoomee.h"
 

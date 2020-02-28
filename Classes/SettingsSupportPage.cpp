@@ -6,11 +6,11 @@
 //
 
 #include "SettingsSupportPage.h"
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/NativeShare/NativeShare.h>
-#include <AzoomeeCommon/Data/AppConfig.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/NativeShare/NativeShare.h>
+#include <TinizineCommon/Data/AppConfig.h>
 #include "Style.h"
 
 using namespace cocos2d;

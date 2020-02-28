@@ -1,5 +1,5 @@
 #include "ChatConfig.h"
-#include <AzoomeeCommon/Data/Json.h>
+#include <TinizineCommon/Data/Json.h>
 
 using namespace cocos2d;
 

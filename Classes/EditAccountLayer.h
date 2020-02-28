@@ -8,9 +8,9 @@
 #ifndef EditAccountLayer_h
 #define EditAccountLayer_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include "TextInputLayer.h"
-#include <AzoomeeCommon/API/HttpRequestCreator.h>
+#include <TinizineCommon/API/HttpRequestCreator.h>
 #include <cocos/cocos2d.h>
 #include <ui/CocosGUI.h>
 #include "SettingsMessageBox.h"

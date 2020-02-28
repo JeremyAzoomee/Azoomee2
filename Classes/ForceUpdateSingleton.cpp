@@ -2,13 +2,13 @@
 #include "BackEndCaller.h"
 
 #include <external/json/document.h>
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Utils/DirUtil.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
+#include <TinizineCommon/Utils/DirUtil.h>
 #include "ModalMessages.h"
 #include "ForceUpdateAppLockScene.h"
-#include <AzoomeeCommon/Data/AppConfig.h>
-#include <AzoomeeCommon/Device.h>
+#include <TinizineCommon/Data/AppConfig.h>
+#include <TinizineCommon/Device.h>
 
 using namespace cocos2d;
 

@@ -8,8 +8,8 @@
 #ifndef RewardScene_h
 #define RewardScene_h
 
-#include <AzoomeeCommon/Tinizine.h>
-#include <AzoomeeCommon/UI/Scene.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/UI/Scene.h>
 #include "RewardScreen.h"
 #include "Azoomee.h"
 

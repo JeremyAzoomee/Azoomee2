@@ -6,8 +6,8 @@
 //
 
 #include "FeaturedVideosHolder.h"
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/UIConsts.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/UI/UIConsts.h>
 #include "HQConstants.h"
 
 using namespace cocos2d;

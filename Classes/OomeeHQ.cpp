@@ -6,19 +6,19 @@
 //
 
 #include "OomeeHQ.h"
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Utils/DirUtil.h>
-#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/AppConfig.h>
-#include <AzoomeeCommon/ContentDataManagers/FavouritesManager.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Utils/DirUtil.h>
+#include <TinizineCommon/Data/HQDataObject/ContentItemManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Data/AppConfig.h>
+#include <TinizineCommon/ContentDataManagers/FavouritesManager.h>
 #include "ArtAppDelegate.h"
 #include "SceneManagerScene.h"
-#include <AzoomeeCommon/ContentDataManagers/GameDataManager.h>
+#include <TinizineCommon/ContentDataManagers/GameDataManager.h>
 #include "Style.h"
 #include "ShareInChatLayer.h"
 

@@ -1,20 +1,20 @@
 #include "RoutePaymentSingleton.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
 #include "ModalMessages.h"
 #include "AmazonPaymentSingleton.h"
 #include "GooglePaymentSingleton.h"
-#include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Utils/DirUtil.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
+#include <TinizineCommon/Utils/DirUtil.h>
 #include "LoginController.h"
 #include "BackEndCaller.h"
 #include "FlowDataSingleton.h"
 #include "SceneManagerScene.h"
-#include "AzoomeeCommon/Data/Child/ChildManager.h"
-#include <AzoomeeCommon/Device.h>
+#include "TinizineCommon/Data/Child/ChildManager.h"
+#include <TinizineCommon/Device.h>
 #include "PopupMessageBox.h"
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/UI/Colour.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/Colour.h>
 #include "ErrorCodes.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

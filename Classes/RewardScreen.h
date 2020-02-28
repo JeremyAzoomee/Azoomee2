@@ -8,12 +8,12 @@
 #ifndef RewardScreen_h
 #define RewardScreen_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include "RewardItem.h"
-#include <AzoomeeCommon/UI/NotificationNode.h>
-#include <AzoomeeCommon/UI/ResizeNode.h>
+#include <TinizineCommon/UI/NotificationNode.h>
+#include <TinizineCommon/UI/ResizeNode.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

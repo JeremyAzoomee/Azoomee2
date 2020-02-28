@@ -4,7 +4,7 @@
 #include "AzoomeeChat.h"
 #include "Data/Friend.h"
 #include "Data/Message.h"
-#include <AzoomeeCommon/API/API.h>
+#include <TinizineCommon/API/API.h>
 #include <map>
 
 

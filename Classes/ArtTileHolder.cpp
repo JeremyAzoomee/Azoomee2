@@ -6,8 +6,8 @@
 //
 
 #include "ArtTileHolder.h"
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
 #include "HQConstants.h"
 
 using namespace cocos2d;

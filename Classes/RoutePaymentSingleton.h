@@ -2,8 +2,8 @@
 #define __ROUTE_PAYMENT_SINGLETON_H__
 
 #include "cocos2d.h"
-#include <AzoomeeCommon/Data/Json.h>
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Data/Json.h>
+#include <TinizineCommon/Tinizine.h>
 #include "Azoomee.h"
 
 USING_NS_TZ

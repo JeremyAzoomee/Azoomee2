@@ -8,7 +8,7 @@
 #include "OomeeCarousel.h"
 #include "../DataObjects/OomeeMakerDataHandler.h"
 #include "OomeeSelectScene.h"
-#include <AzoomeeCommon/Device.h>
+#include <TinizineCommon/Device.h>
 
 USING_NS_TZ
 

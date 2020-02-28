@@ -1,7 +1,7 @@
 #ifndef Azoomee_Urls_h
 #define Azoomee_Urls_h
 
-#include <AzoomeeCommon/Tinizine.h>
+#include <TinizineCommon/Tinizine.h>
 #include <string>
 #include "Azoomee.h"
 

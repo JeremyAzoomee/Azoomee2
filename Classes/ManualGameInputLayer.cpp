@@ -1,10 +1,10 @@
 #include "ManualGameInputLayer.h"
-#include <AzoomeeCommon/ContentDataManagers/GameDataManager.h>
+#include <TinizineCommon/ContentDataManagers/GameDataManager.h>
 #include "ModalMessages.h"
-#include <AzoomeeCommon/ContentDataManagers/ContentHistoryManager.h>
-#include <AzoomeeCommon/Utils/DirUtil.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
-#include <AzoomeeCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/ContentDataManagers/ContentHistoryManager.h>
+#include <TinizineCommon/Utils/DirUtil.h>
+#include <TinizineCommon/UI/DynamicText.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
 #include "ErrorCodes.h"
 #include "Style.h"
 #include "SceneManagerScene.h"

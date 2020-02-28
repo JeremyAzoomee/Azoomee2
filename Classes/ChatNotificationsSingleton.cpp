@@ -1,8 +1,8 @@
 #include "ChatNotificationsSingleton.h"
-#include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/API/HttpRequestCreator.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
+#include <TinizineCommon/API/HttpRequestCreator.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
 #include "AzoomeeChat/ChatAPI.h"
 #include <external/json/document.h>
 

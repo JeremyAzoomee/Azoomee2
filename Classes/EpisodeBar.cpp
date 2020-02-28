@@ -6,11 +6,11 @@
 //
 
 #include "EpisodeBar.h"
-#include <AzoomeeCommon/UI/Colour.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Utils/LocaleManager.h>
-#include <AzoomeeCommon/ImageDownloader/ImageDownloaderCacheCleanerLogic.h>
-#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/ImageDownloader/ImageDownloaderCacheCleanerLogic.h>
+#include <TinizineCommon/Data/HQDataObject/ContentItemManager.h>
 #include "Style.h"
 #include "HQConstants.h"
 
