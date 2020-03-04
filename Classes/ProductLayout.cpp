@@ -244,48 +244,6 @@ void ProductLayout::setupProductBanner()
             priceLayout->addChild(subText);
             
             textLayout->setContentSize(Size(0, 270 + price->getContentSize().height));
-            
-			/*ui::Text* freeTrial = ui::Text::create(_productData.at(0).first, Style::Font::PoppinsBold(), 50);
-			freeTrial->setTextColor(Color4B::BLACK);
-			freeTrial->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-			freeTrial->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-			freeTrial->setTextHorizontalAlignment(TextHAlignment::CENTER);
-			freeTrial->setTextVerticalAlignment(TextVAlignment::TOP);
-			Label* freeTrialLab = dynamic_cast<Label*>(freeTrial->getVirtualRenderer());
-			if(freeTrialLab)
-			{
-				freeTrialLab->setMaxLineWidth(_productBanner->getContentSize().width * 0.7f);
-			}
-			textLayout->addChild(freeTrial);
-			
-			ui::Text* startYour = ui::Text::create(_("Start your"), Style::Font::Regular(), 50);
-			startYour->setTextColor(Color4B(Style::Color::brownGrey));
-			startYour->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-			startYour->setNormalizedPosition(Vec2(0.5,1.1));
-			startYour->setTextHorizontalAlignment(TextHAlignment::CENTER);
-			startYour->setTextVerticalAlignment(TextVAlignment::BOTTOM);
-			Label* startYourLab = dynamic_cast<Label*>(startYour->getVirtualRenderer());
-			if(startYourLab)
-			{
-				startYourLab->setMaxLineWidth(_productBanner->getContentSize().width * 0.7f);
-				startYourLab->setOverflow(Label::Overflow::RESIZE_HEIGHT);
-			}
-			freeTrial->addChild(startYour);*/
-			
-			/*ui::Text* desc = ui::Text::create(StringUtils::format(_("Then %s per month. Cancel anytime.").c_str(),_productData.at(0).second.c_str()), Style::Font::PoppinsRegular(), 50);
-			desc->setTextColor(Color4B(Style::Color::brownGrey));
-			desc->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-			desc->setNormalizedPosition(Vec2(0.5,-0.1));
-			desc->setTextHorizontalAlignment(TextHAlignment::CENTER);
-			desc->setTextVerticalAlignment(TextVAlignment::BOTTOM);
-			Label* descLab = dynamic_cast<Label*>(desc->getVirtualRenderer());
-			if(descLab)
-			{
-				descLab->setMaxLineWidth(_productBanner->getContentSize().width * 0.7f);
-				descLab->setOverflow(Label::Overflow::RESIZE_HEIGHT);
-			}
-			//freeTrial->addChild(desc);
-            textLayout->addChild(desc);*/
 			
 			_purchaseButton->setText(_("Subscribe now"));
 			
