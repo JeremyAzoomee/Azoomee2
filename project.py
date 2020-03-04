@@ -3,6 +3,7 @@ import sys, os, re
 import argparse
 import shutil
 import plistlib
+import json
 
 try:
     import git
@@ -20,23 +21,10 @@ class AzoomeeApp:
     Builds the Azoomee app on various platforms.
     """
 
-    # Android project paths & settings
-    ANDROID_PROJECT_DIR = os.path.join( os.path.dirname( os.path.abspath( __file__ ) ), 'proj.android' )
-    ANDROID_REQUIRED_NDK_VERSION = '19.2'
-    ANDROID_BUILD_OUTPUTS_DIR = os.path.join( ANDROID_PROJECT_DIR, 'app', 'build', 'outputs' )
-
-    # iOS project paths & settings
-    IOS_PROJECT_DIR = os.path.join( os.path.dirname( os.path.abspath( __file__ ) ), 'proj.ios_mac' )
-    IOS_PROJECT_PATH = os.path.join( IOS_PROJECT_DIR, 'Azoomee.xcodeproj' )
-    IOS_PROJECT_TARGET = 'Azoomee'
-    IOS_PLIST_PATH = os.path.join( IOS_PROJECT_DIR, 'ios', 'Info.plist' )
-    IOS_ADDITIONAL_PLIST_PATHS = ( 
-        os.path.join( IOS_PROJECT_DIR, 'stickers', 'Info.plist' ),
-    )
-    IOS_EXPORT_OPTIONS_PATH = os.path.join( IOS_PROJECT_DIR, 'ExportOptions.plist' )
-
-    # Path to changelog file
-    CHANGE_LOG_PATH = os.path.join( os.path.dirname( os.path.abspath( __file__ ) ), 'changelog' )
+    # The root of the Git repo
+    GIT_ROOT = None
+    git_repo = None
+    auto_push = True
 
     # Fabric info
     FABRIC_INFO = {
@@ -47,56 +35,50 @@ class AzoomeeApp:
         # Comma seperated Beta group names to be used when uploading builds to Fabric
         'test_groups' : 'azoomee-internal',
         # Path to the iOS Framework
-        'ios_framework_path' : os.path.join( IOS_PROJECT_DIR, 'Crashlytics.framework' )
-    }
-
-    # Directory to place built binaries
-    BUILD_DIR = os.path.join( os.path.dirname( os.path.abspath( __file__ ) ), 'build' )
-
-    # The root of the Git repo
-    GIT_ROOT = None
-    git_repo = None
-    auto_push = True
-
-    # Android targets
-    # These should match the product flavours in the gradle build files
-    ANDROID_TARGETS = (
-        'googleplay',
-        'amazon',
-        'vodacom',
-        'huawei'
-    )
-
-    # Platforms
-    PLATFORMS = (
-        'ios',
-    ) + ANDROID_TARGETS
-
-    # Maps environment to the build config for iOS
-    IOS_ENVIRONMENT_BUILDCONFIG = {
-        'prod' : 'Release',
-        'test' : 'Test',
-        'ci' : 'CI'
-    }
-
-    # Maps environment to the scheme for iOS
-    IOS_ENVIRONMENT_SCHEME = {
-        'prod' : 'Prod',
-        'test' : 'Test',
-        'ci' : 'CI'
-    }
-
-    # Maps environment to the product flavor for Android
-    ANDROID_ENVIRONMENT_BUILDCONFIG = {
-        'prod' : 'prod',
-        'test' : 'xtest',
-        'ci' : 'ci'
+        'ios_framework_path' : os.path.join( '', 'Crashlytics.framework' )
     }
 
 
-    def __init__( self ):
-        self.GIT_ROOT = self._find_git_root( os.path.dirname( os.path.abspath( __file__ ) ) )
+    def __init__( self, root_dir, config_file ):
+        self.GIT_ROOT = self._find_git_root( root_dir )
         self.git_repo = git.Repo( self.GIT_ROOT )
+
+        # Load config
+        self.load_config( root_dir, config_file )
+    
+
+    def load_config( self, root_dir, config_file ):
+        """
+        Load configuration from file
+        """
+        config_data = {}
+        with open( config_file, 'r' ) as f:
+            plain_json = ''.join(line for line in f if not line.lstrip().startswith('//'))
+            config_data = json.loads( plain_json )
+        
+
+        self.BUILD_DIR = os.path.join( root_dir, config_data['BUILD_DIR'] )
+        self.PLATFORMS = config_data['PLATFORMS']
+        self.CHANGE_LOG_PATH = os.path.join( root_dir, config_data['CHANGE_LOG_PATH'] )
+
+        # Android project paths & settings
+        self.ANDROID_PROJECT_DIR = os.path.join( root_dir, config_data['ANDROID_PROJECT_DIR'] )
+        self.ANDROID_REQUIRED_NDK_VERSION = config_data['ANDROID_REQUIRED_NDK_VERSION']
+        self.ANDROID_BUILD_OUTPUTS_DIR = os.path.join( self.ANDROID_PROJECT_DIR, 'app', 'build', 'outputs' )
+        self.ANDROID_TARGETS = config_data['ANDROID_TARGETS']
+        self.ANDROID_ENVIRONMENT_BUILDCONFIG = config_data['ANDROID_ENVIRONMENT_BUILDCONFIG']
+
+        # iOS project paths & settings
+        self.IOS_PROJECT_PATH = os.path.join( root_dir, config_data['IOS_PROJECT_PATH'] )
+        self.IOS_PROJECT_TARGET = config_data['IOS_PROJECT_TARGET']
+        self.IOS_PLIST_PATH = os.path.join( root_dir, config_data['IOS_PLIST_PATH'] )
+        self.IOS_ADDITIONAL_PLIST_PATHS = [ os.path.join( root_dir, item ) for item in config_data['IOS_ADDITIONAL_PLIST_PATHS'] ]
+        self.IOS_EXPORT_OPTIONS_PATH = os.path.join( root_dir, config_data['IOS_EXPORT_OPTIONS_PATH'] )
+        self.IOS_ENVIRONMENT_BUILDCONFIG = config_data['IOS_ENVIRONMENT_BUILDCONFIG']
+        self.IOS_ENVIRONMENT_SCHEME = config_data['IOS_ENVIRONMENT_SCHEME']
+
+        
+        print config_data
 
 
     def main( self ):
@@ -561,7 +543,7 @@ class AzoomeeApp:
         subparsers = parser.add_subparsers( dest='action', title='action to perform', help='action to perform' )
         subparsers.required = True
 
-        platform_options = self.PLATFORMS + ( 'all', )
+        platform_options = self.PLATFORMS + [ 'all', ]
 
         # Build & package the app
         package_commands = subparsers.add_parser( 'package', help='package the app' )
@@ -719,5 +701,8 @@ class AzoomeeApp:
 
 
 if __name__ == '__main__':
-    project = AzoomeeApp()
+    root_dir = os.path.dirname( os.path.abspath( __file__ ) )
+    config_file = os.path.join( root_dir, 'build.properties' )
+    
+    project = AzoomeeApp( root_dir, config_file )
     project.main()
