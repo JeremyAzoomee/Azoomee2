@@ -1,3 +1,7 @@
+Version 4.10.5
+fix for iap screen text formatting to appease apple
+fix hidden oomees bug in oomee maker
+
 Version 4.10.4
 fix whitescreen bug on webview.
 add saving to photo lib to plist
