@@ -90,7 +90,6 @@ void EpisodeBar::onEnter()
 void EpisodeBar::onExit()
 {
     stopCheckingOnScreenPosition();
-    _imageDownloader->setDelegate(nullptr);
     Super::onExit();
 }
 

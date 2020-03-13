@@ -37,6 +37,7 @@ protected:
 public:
     
     virtual bool init() override;
+    void onExit() override;
     
     void setContentSelectedCallback(const ContentSelectedCallback& callback);
     virtual void setContentItemData(const HQContentItemObjectRef& contentItem);

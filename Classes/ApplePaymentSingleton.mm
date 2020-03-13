@@ -47,14 +47,6 @@ void ApplePaymentSingleton::refreshReceipt(bool usingButton)
     [[PaymentViewController sharedPayment_ios] restorePayment];
 }
 
-#if defined(AZOOMEE_ENVIRONMENT_CI)
-void ApplePaymentSingleton::startRecIAPPayment()
-{
-    _requestAttempts = 0;
-    [[PaymentViewController sharedPayment_ios] makeOneMonthRecurringPayment];
-}
-#endif
-
 void ApplePaymentSingleton::transactionStatePurchased(const std::string& receiptData, const std::string& transactionID)
 {
     _savedReceipt = receiptData;

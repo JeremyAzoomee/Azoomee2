@@ -8,5 +8,8 @@ Resources/res/cta_assets/CTAFiles.zip
 *.pyc
 .DS_Store
 
+# Ignore all game files
+bundledGames/*.zip
+
 # Version.json is generated at build time
 Resources/res/configuration/Version.json

@@ -509,7 +509,7 @@ void OomeeMakerDataHandler::writeOomeeFiles(const rapidjson::Value& data)
         std::string savedFileContent = "{";
         savedFileContent += StringUtils::format("\"id\":\"%s\",", figure->getId().c_str());
         savedFileContent += StringUtils::format("\"oomeeId\":\"%s\",", figure->getOomeeId().c_str());
-        savedFileContent += StringUtils::format("\"selected\":\"%s\",", figure->isSelected() ? "true" : "false");
+        savedFileContent += StringUtils::format("\"selected\":%s,", figure->isSelected() ? "true" : "false");
         savedFileContent += "\"oomeeItems\":[";
         const std::vector<std::string>& accIds = figure->getAccessoryIds();
         for(int i = 0; i < accIds.size(); i++)

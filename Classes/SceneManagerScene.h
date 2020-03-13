@@ -12,7 +12,6 @@ enum class SceneNameEnum {
     Base,
     ChildSelector,
     OfflineHub,
-    OfflineArtsAppHQ,
     ChatEntryPointScene,
     WebviewPortrait,
     WebviewLandscape,
@@ -24,14 +23,12 @@ enum class SceneNameEnum {
 	SettingsFromChildSelect,
     introVideo,
     AddChild,
-    AddChildFirstTime,
-	AddChildAnon,
 	VodacomOnboarding,
 	WelcomeScene,
-	ChildSettingsHub,
 	Shop,
 	IAP,
-	Signup
+	Signup,
+    ShareInChatScene
 };
 
 class SceneManagerScene : public cocos2d::Layer
@@ -50,7 +47,7 @@ private:
     void forceToLandscape();
     void acceptAnyOrientation();
 	
-	void showHoldingUI();
+	void checkForRewardsAndGotoBaseScene();
 	
 	cocos2d::Scene* getBaseScene();
 	

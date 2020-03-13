@@ -106,6 +106,8 @@ bool OomeeDisplay::init()
     _kidCode->setOverflow(Label::Overflow::SHRINK);
     _kidCodeBody->addChild(_kidCode);
     
+    _imgDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+    
     return true;
 }
 
@@ -116,6 +118,7 @@ void OomeeDisplay::onEnter()
 
 void OomeeDisplay::onExit()
 {
+    _imgDownloader->setDelegate(nullptr);
     Super::onExit();
 }
 
@@ -149,8 +152,7 @@ void OomeeDisplay::setBgPatternColour(const cocos2d::Color3B& colour)
 
 void OomeeDisplay::setOomeeImgUrl(const std::string& oomeeImageUrl)
 {
-    ImageDownloaderRef downloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
-    downloader->downloadImage(this, oomeeImageUrl);
+    _imgDownloader->downloadImage(this, oomeeImageUrl);
 }
 
 void OomeeDisplay::resizeOomee()

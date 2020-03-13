@@ -11,12 +11,20 @@
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
+#include <AzoomeeCommon/API/API.h>
 
 NS_AZOOMEE_BEGIN
 
-class ContentHistoryManager : public cocos2d::Ref
+class ContentHistoryManager : private HttpRequestCreatorResponseDelegate
 {
 private:
+    ContentHistoryManager();
+    void recordContentClosedTime();
+    
+    /// - HttpRequestCreatorResponseDelegate
+    void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
+    void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
+    
     HQContentItemObjectRef _lastOpenedContent = nullptr;
     bool _returnedFromContent = false;
 	
@@ -28,10 +36,8 @@ private:
 	std::string _contentClosedTimeMs;
     
 public:
-    static ContentHistoryManager* getInstance(void);
-    
+    static ContentHistoryManager* getInstance();
     virtual ~ContentHistoryManager();
-    bool init(void);
     
     void setLastOppenedContent(const HQContentItemObjectRef& contentItem);
     HQContentItemObjectRef getLastOpenedContent();
@@ -40,7 +46,9 @@ public:
     bool getReturnedFromContent();
 	
 	void onContentOpened();
-	void onContentClosed();
+    void onGameContentClosed();
+    void onVideoContentClosed(int videoProgressSeconds, int videoDuration);
+    
 	long getTimeInContentSec() const;
 	time_t getContentOpenedTimeSec() const;
 	time_t getContentClosedTimeSec() const;

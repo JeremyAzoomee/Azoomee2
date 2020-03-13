@@ -22,7 +22,7 @@ bool ContentTile::init()
     addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            if(_callback)
+            if(_callback && _contentItem)
             {
                 _callback(_contentItem);
             }
@@ -32,6 +32,12 @@ bool ContentTile::init()
     _imageDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
     
     return true;
+}
+
+void ContentTile::onExit()
+{
+    _imageDownloader->setDelegate(nullptr);
+    Super::onExit();
 }
 
 void ContentTile::setContentSelectedCallback(const ContentSelectedCallback& callback)

@@ -2,12 +2,11 @@
 #include "HQHistoryManager.h"
 #include "ChildSelectorScene.h"
 #include "LoginScene.h"
-#include "OfflineHubScene.h"
+#include "OfflineScene.h"
 #include <AzoomeeCommon/Application.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "FlowDataSingleton.h"
 #include "AzoomeeChat/UI/FriendListScene.h"
-#include "AzoomeeChat/UI/FriendListSceneArtPreview.h"
 #include "ChatDelegate.h"
 #include "../ArtApp/Classes/AzoomeeArt/MainScene.h"
 #include "../ArtApp/Classes/AzoomeeArt/AzoomeeArtApp.h"
@@ -17,15 +16,10 @@
 #include "WebViewSelector.h"
 #include "IntroVideoScene.h"
 #include "ContentHistoryManager.h"
-#include "AddChildScene.h"
 #include "WelcomeScene.h"
-#include "ContentFeedHQScene.h"
-#include "MeHQ.h"
 #include "RewardDisplayHandler.h"
-#include "HQSceneArtsApp.h"
 
 #include "SettingsHub.h"
-#include "ChildSettingsScene.h"
 #include "ShopScene.h"
 
 #include "IAPScene.h"
@@ -37,6 +31,10 @@
 
 #include "CoinCollectLayer.h"
 #include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
+
+#include "ShareInChatScene.h"
+
+#include "ChildOnboardingScene.h"
 
 #ifdef AZOOMEE_VODACOM_BUILD
 #include "Vodacom/VodacomOnboardingScene.h"
@@ -101,15 +99,17 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             FlowDataSingleton::getInstance()->clearData();
             returnToPrevOrientation();
             acceptAnyOrientation();
+            
 			if(ContentHistoryManager::getInstance()->getReturnedFromContent())
 			{
 				setCrashlyticsKeyWithString(CrashlyticsConsts::kContentIdKey, "");
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-				showHoldingUI();
+                
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+                this->runAction(Sequence::createWithTwoActions(DelayTime::create(0.5), CallFunc::create([this](){
+                    checkForRewardsAndGotoBaseScene();
+                })));
 #else
-				this->runAction(Sequence::createWithTwoActions(DelayTime::create(0.5), CallFunc::create([this](){
-					showHoldingUI();
-				})));
+				checkForRewardsAndGotoBaseScene();
 #endif
 			}
 			else
@@ -122,26 +122,18 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         {
             returnToPrevOrientation();
             acceptAnyOrientation();
-            cocos2d::Scene* goToScene = ChildSelectorScene::createScene();
+            cocos2d::Scene* goToScene = ChildSelectorScene::create();
             AnalyticsSingleton::getInstance()->registerCurrentScene("CHILD_SELECTOR");
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
         case SceneNameEnum::OfflineHub:
         {
-            forceToLandscape();
+            acceptAnyOrientation();
             OfflineChecker::getInstance()->setDelegate(nullptr);
-            cocos2d::Scene* goToScene = OfflineHubScene::createScene();
+            cocos2d::Scene* goToScene = OfflineScene::create();
             AnalyticsSingleton::getInstance()->registerCurrentScene("OFFLINE");
             Director::getInstance()->replaceScene(goToScene);
-            break;
-        }
-        case SceneNameEnum::OfflineArtsAppHQ:
-        {
-			forceToLandscape();
-			cocos2d::Scene* goToScene = HQSceneArtsApp::createScene();
-            AnalyticsSingleton::getInstance()->registerCurrentScene("OFFLINE_ARTS_APP");
-            Director::getInstance()->replaceScene(TransitionSlideInR::create(0.25f, goToScene));
             break;
         }
         case SceneNameEnum::ChatEntryPointScene:
@@ -150,15 +142,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             Azoomee::Chat::delegate = ChatDelegate::getInstance();
             returnToPrevOrientation();
             acceptAnyOrientation();
-            cocos2d::Scene* goToScene;
-            if(Azoomee::Chat::delegate->_imageFileName != "")
-            {
-                goToScene = Azoomee::Chat::FriendListSceneArtPreview::create();
-            }
-            else
-            {
-                goToScene = Azoomee::Chat::FriendListScene::create();
-            }
+            cocos2d::Scene* goToScene = Azoomee::Chat::FriendListScene::create();
             AnalyticsSingleton::getInstance()->registerCurrentScene("CHAT");
             Director::getInstance()->replaceScene(TransitionSlideInR::create(0.25f, goToScene));
             break;
@@ -271,38 +255,14 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             acceptAnyOrientation();
             HQHistoryManager::getInstance()->updatePrevOrientation();
 			AnalyticsSingleton::getInstance()->registerCurrentScene("ADD_CHILD");
-            Director::getInstance()->replaceScene(AddChildScene::createWithFlowStage(AddChildFlow::ADDITIONAL_NAME));
+            Director::getInstance()->replaceScene(ChildOnboardingScene::create());
             break;
         }
-        case SceneNameEnum::AddChildFirstTime:
-        {
-            acceptAnyOrientation();
-            HQHistoryManager::getInstance()->updatePrevOrientation();
-			AnalyticsSingleton::getInstance()->registerCurrentScene("ADD_CHILD");
-            Director::getInstance()->replaceScene(AddChildScene::createWithFlowStage(AddChildFlow::FIRST_TIME_SETUP_NAME));
-            break;
-        }
-		case SceneNameEnum::AddChildAnon:
-		{
-			acceptAnyOrientation();
-			HQHistoryManager::getInstance()->updatePrevOrientation();
-			AnalyticsSingleton::getInstance()->registerCurrentScene("ADD_CHILD");
-			Director::getInstance()->replaceScene(AddChildScene::createWithFlowStage(AddChildFlow::ANON_NAME));
-			break;
-		}
 		case SceneNameEnum::WelcomeScene:
 		{
 			acceptAnyOrientation();
 			HQHistoryManager::getInstance()->updatePrevOrientation();
 			Director::getInstance()->replaceScene(WelcomeScene::create());
-			break;
-		}
-		case SceneNameEnum::ChildSettingsHub:
-		{
-			acceptAnyOrientation();
-			HQHistoryManager::getInstance()->updatePrevOrientation();
-			AnalyticsSingleton::getInstance()->registerCurrentScene("CHILD_SETTINGS");
-			Director::getInstance()->replaceScene(ChildSettingsScene::create());
 			break;
 		}
 		case SceneNameEnum::Shop:
@@ -338,6 +298,23 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 			Director::getInstance()->replaceScene(SignupScene::create());
 			break;
 		}
+        case SceneNameEnum::ShareInChatScene:
+        {
+            Azoomee::Chat::delegate = ChatDelegate::getInstance();
+            returnToPrevOrientation();
+            acceptAnyOrientation();
+            ShareInChatScene* scene = ShareInChatScene::create();
+            if(Azoomee::Chat::delegate->_sharedContentId != "")
+            {
+                scene->setShareType(ShareInChatLayer::ShareType::CONTENT);
+            }
+            else
+            {
+                scene->setShareType(ChatDelegate::getInstance()->_sharingOomee ? ShareInChatLayer::ShareType::OOMEE : ShareInChatLayer::ShareType::ART);
+            }
+            Director::getInstance()->replaceScene(TransitionSlideInB::create(0.25f, scene));
+            break;
+        }
 #ifdef AZOOMEE_VODACOM_BUILD
 		case SceneNameEnum::VodacomOnboarding:
 		{
@@ -405,49 +382,46 @@ cocos2d::Scene* SceneManagerScene::getBaseScene()
     return scene;
 }
 
-void SceneManagerScene::showHoldingUI()
+void SceneManagerScene::checkForRewardsAndGotoBaseScene()
 {
-    LayerColor* bgColour = LayerColor::create(Color4B(Style::Color::darkIndigo));
-	this->addChild(bgColour, -1);
-	
-	this->setPosition(Director::getInstance()->getVisibleOrigin());
-	this->setContentSize(Director::getInstance()->getVisibleSize());
-	
-    RoundedRectSprite* pattern = RoundedRectSprite::create();
-    pattern->setTexture("res/decoration/pattern_stem_tile.png");
-    pattern->setCornerRadius(0);
-    pattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    pattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    pattern->setColor(Style::Color::white);
-    pattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
-    pattern->setContentSize(getContentSize());
-    pattern->setOpacity(100);
-    addChild(pattern);
-	
-	LayerColor* overlay = LayerColor::create(Color4B(7,4,34,80));
-	this->addChild(overlay);
-	
-	for(int i = 0; i < 3; i++)
-	{
-		auto loadingCircle = Sprite::create("res/modal/loading.png");
-		loadingCircle->setNormalizedPosition(Vec2(0.5,0.5));
-		loadingCircle->setOpacity(0);
-		loadingCircle->setRotation(RandomHelper::random_int(0, 360));
-		loadingCircle->setScale(0.6 + i * 0.2);
-		
-		this->addChild(loadingCircle);
-		
-		int direction = CCRANDOM_0_1() < 0.5 ? 1 : -1;
-		
-		loadingCircle->runAction(RepeatForever::create(RotateBy::create(CCRANDOM_0_1() + 1, 360 * direction)));
-		loadingCircle->runAction(FadeTo::create(0.5, 255));
-	}
+//    LayerColor* bgColour = LayerColor::create(Color4B(Style::Color::darkIndigo));
+//	this->addChild(bgColour, -1);
+//
+//	this->setPosition(Director::getInstance()->getVisibleOrigin());
+//	this->setContentSize(Director::getInstance()->getVisibleSize());
+//
+//    RoundedRectSprite* pattern = RoundedRectSprite::create();
+//    pattern->setTexture("res/decoration/pattern_stem_tile.png");
+//    pattern->setCornerRadius(0);
+//    pattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+//    pattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+//    pattern->setColor(Style::Color::white);
+//    pattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
+//    pattern->setContentSize(getContentSize());
+//    pattern->setOpacity(100);
+//    addChild(pattern);
+//
+//	LayerColor* overlay = LayerColor::create(Color4B(7,4,34,80));
+//	this->addChild(overlay);
+//
+//	for(int i = 0; i < 3; i++)
+//	{
+//		auto loadingCircle = Sprite::create("res/modal/loading.png");
+//		loadingCircle->setNormalizedPosition(Vec2(0.5,0.5));
+//		loadingCircle->setOpacity(0);
+//		loadingCircle->setRotation(RandomHelper::random_int(0, 360));
+//		loadingCircle->setScale(0.6 + i * 0.2);
+//
+//		this->addChild(loadingCircle);
+//
+//		int direction = CCRANDOM_0_1() < 0.5 ? 1 : -1;
+//
+//		loadingCircle->runAction(RepeatForever::create(RotateBy::create(CCRANDOM_0_1() + 1, 360 * direction)));
+//		loadingCircle->runAction(FadeTo::create(0.5, 255));
+//	}
 	
 	RewardDisplayHandler::getInstance()->showNextReward();
-	
-	this->runAction(Sequence::createWithTwoActions(DelayTime::create(2.5), CallFunc::create([this](){
-		Director::getInstance()->replaceScene(getBaseScene());
-	})));
+	Director::getInstance()->replaceScene(getBaseScene());
 }
 
 NS_AZOOMEE_END

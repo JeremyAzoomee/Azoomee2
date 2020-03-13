@@ -13,6 +13,7 @@
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
+#include <AzoomeeCommon/Strings.h>
 #include "FlowDataSingleton.h"
 #include "ContentHistoryManager.h"
 #include "RewardDisplayHandler.h"
@@ -54,21 +55,7 @@ void HQScene::onEnter()
 {
     _navBar->toggleHQSelected(_activePageName);
 
-	_rewardRedeemedListener = EventListenerCustom::create(RewardDisplayHandler::kRewardRedeemedEventKey, [this](EventCustom* event){
-		if(!_coinDisplay->isVisible())
-		{
-			_coinDisplay->setVisible(TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUShopID) || ChildManager::getInstance()->getLoggedInChild()->getInventory()->getCoins() > 0);
-		}
-	});
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(_rewardRedeemedListener, this);
-	
-	TutorialController::getInstance()->registerDelegate(this);
-	if(TutorialController::getInstance()->isTutorialActive())
-	{
-		onTutorialStateChanged(TutorialController::getInstance()->getCurrentState());
-	}
-    
-	ContentHistoryManager::getInstance()->setReturnedFromContent(false);
+    ContentHistoryManager::getInstance()->setReturnedFromContent(false);
     HQHistoryManager::getInstance()->addHQToHistoryManager(_activePageName);
     
     Super::onEnter();
@@ -157,9 +144,7 @@ void HQScene::createHeaderUI()
     _coinDisplay->setAnchorPoint(Vec2(1.1f,0.5f));
     _coinDisplay->setAnimate(false);
     _settingsButton->addChild(_coinDisplay);
-    //show coin counter if they have coins or have completed the shop tutorial
-    //_coinDisplay->setVisible(TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUShopID) || ChildManager::getInstance()->getLoggedInChild()->getInventory()->getCoins() > 0);
-    
+
     _HQPageTitle = DynamicText::create(_("Games"), Style::Font::PoppinsBold(), 107);
     _HQPageTitle->enableShadow(Color4B(0,0,0,125), Size(4,-8));
     _HQPageTitle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
@@ -316,12 +301,6 @@ void HQScene::changeToPage(const HQType& page)
             break;
     }
     HQHistoryManager::getInstance()->addHQToHistoryManager(_activePageName);
-}
-
-//delegate functions
-void HQScene::onTutorialStateChanged(const std::string& stateId)
-{
-    
 }
 
 NS_AZOOMEE_END

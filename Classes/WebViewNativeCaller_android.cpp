@@ -1,6 +1,6 @@
 #include "WebViewNativeCaller_android.h"
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Cookie/CookieManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "HQHistoryManager.h"
@@ -16,7 +16,6 @@
 #include <AzoomeeCommon/Strings.h>
 #include "ChatDelegate.h"
 #include "BackEndCaller.h"
-#include <AzoomeeCommon/API/API.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -387,11 +386,7 @@ extern "C"
 
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendProgressMetaDataVideo(JNIEnv* env, jobject thiz, int videoProgressSeconds, int videoDuration)
 {
-	ContentHistoryManager::getInstance()->onContentClosed();
-	const auto& contentItem = ContentHistoryManager::getInstance()->getLastOpenedContent();
-	const std::string& data = StringUtils::format("{\"contentId\":\"%s\", \"contentMeta\":{\"contentTitle\":\"%s\",\"contentType\":\"%s\", \"contentLength\":%d, \"unit\":\"SECONDS\", \"contentProgress\":%d, \"duration\":%ld, \"lastPlayedMeta\": [{\"start\":%s,\"end\":%s}]}}",contentItem->getContentItemId().c_str(), contentItem->getTitle().c_str(),contentItem->getType().c_str(), videoDuration, videoProgressSeconds ,ContentHistoryManager::getInstance()->getTimeInContentSec(), ContentHistoryManager::getInstance()->getContentOpenedTimeMs().c_str(), ContentHistoryManager::getInstance()->getContentClosedTimeMs().c_str());
-	HttpRequestCreator* request = API::UpdateContentProgressMeta(ChildManager::getInstance()->getLoggedInChild()->getId(), data, nullptr);
-	request->execute();
+	ContentHistoryManager::getInstance()->onVideoContentClosed(videoProgressSeconds, videoDuration);
 }
 
 #endif
@@ -405,11 +400,7 @@ extern "C"
 
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendProgressMetaDataGame(JNIEnv* env, jobject thiz)
 {
-	ContentHistoryManager::getInstance()->onContentClosed();
-	const auto& contentItem = ContentHistoryManager::getInstance()->getLastOpenedContent();
-	const std::string& data = StringUtils::format("{\"contentId\":\"%s\", \"contentMeta\":{\"contentTitle\":\"%s\",\"contentType\":\"%s\", \"unit\":\"SECONDS\", \"duration\":%ld, \"lastPlayedMeta\": [{\"start\":%s,\"end\":%s}]}}",contentItem->getContentItemId().c_str(), contentItem->getTitle().c_str(), contentItem->getType().c_str(), ContentHistoryManager::getInstance()->getTimeInContentSec(), ContentHistoryManager::getInstance()->getContentOpenedTimeMs().c_str(), ContentHistoryManager::getInstance()->getContentClosedTimeMs().c_str());
-	HttpRequestCreator* request = API::UpdateContentProgressMeta(ChildManager::getInstance()->getLoggedInChild()->getId(), data, nullptr);
-	request->execute();
+	ContentHistoryManager::getInstance()->onGameContentClosed();
 }
 
 #endif

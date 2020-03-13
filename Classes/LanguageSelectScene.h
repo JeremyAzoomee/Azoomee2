@@ -13,6 +13,8 @@
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/UI/Scene.h>
 #include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/UI/DynamicText.h>
+#include <AzoomeeCommon/UI/RoundedRectSprite.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -20,19 +22,22 @@ class LanguageSelectScene : public Azoomee::Scene
 {
 	typedef Azoomee::Scene Super;
 private:
-	static const std::vector<std::pair<cocos2d::Color4B, cocos2d::Color4B>> kGradientList;
 	static const std::string kGreekLangID;
-	
-	cocos2d::ui::Layout* _contentLayout = nullptr;
+    static const cocos2d::Size kBaseButtonSize;
+    
+    DynamicText* _titleText = nullptr;
+    RoundedRectSprite* _bgPattern = nullptr;
+    cocos2d::LayerGradient* _gradient = nullptr;
+    
+    cocos2d::ui::Layout* _titleLayout = nullptr;
+    cocos2d::ui::Layout* _languageLayout = nullptr;
+    
 	cocos2d::ui::ListView* _languageScrollView = nullptr;
-	cocos2d::ui::Button* _scrollButton = nullptr;
 	
-	void addBackground();
-	void addLanguageScrollView();
-	cocos2d::ui::Layout* createLanguageButton(const LanguageParams& params, int colourIndex);
+	cocos2d::ui::Layout* createLanguageButton(const LanguageParams& params);
 	
-	void createUI();
-	
+	void createLanguageButtons();
+    
 protected:
 	virtual void onSizeChanged() override;
 	

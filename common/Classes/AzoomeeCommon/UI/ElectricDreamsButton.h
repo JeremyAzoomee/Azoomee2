@@ -58,30 +58,10 @@ public:
     static ElectricDreamsButton* createTextAsButtonWithColor(std::string buttonText, float fontSize, bool underlined, cocos2d::Color3B color);
     static ElectricDreamsButton* createButtonWithText(std::string buttonText);
     static ElectricDreamsButton* createButtonWithWidth(std::string buttonText, float buttonWidth);
-    static ElectricDreamsButton* createGreenButtonWithWidth(std::string buttonText, float buttonWidth);
-    static ElectricDreamsButton* createSecondaryButtonWithWidth(std::string buttonText, float buttonWidth);
-    static ElectricDreamsButton* createSecondaryGreenButtonWithWidth(std::string buttonText, float buttonWidth);
     static ElectricDreamsButton* createButtonWithText(std::string buttonText, float textPadding);
-    static ElectricDreamsButton* createOutlineButtonWithText(std::string buttonText);
     static ElectricDreamsButton* createNextButton();
     static ElectricDreamsButton* createBackButton();
-    static ElectricDreamsButton* createNextButtonGreen();
-    static ElectricDreamsButton* createBackButtonGreen();
-    static ElectricDreamsButton* createAcceptButton();
-    static ElectricDreamsButton* createCancelButton();
     static ElectricDreamsButton* createWindowCloseButton();
-    static ElectricDreamsButton* createWindowCloseButtonGreen();
-    static ElectricDreamsButton* createWhiteWindowCloselButton();
-    static ElectricDreamsButton* createPlaceHolderGreenButton(float withWidth);
-    static ElectricDreamsButton* createChevronLeftButton();
-    static ElectricDreamsButton* createChevronRightButton();
-    
-    //----------- CHAT INVITE BUTTONS -------------------
-    
-    static ElectricDreamsButton* createKidCodeShareButton(std::string kidCode, float buttonWidth);
-    static ElectricDreamsButton* createGreenButton(std::string buttonText, float buttonWidth);
-    static ElectricDreamsButton* createRedOutlineButton(std::string buttonText, float buttonWidth);
-    static ElectricDreamsButton* createRedFilledButton(std::string buttonText, float buttonWidth);
     
     void setCenterPosition(cocos2d::Vec2 position);
     cocos2d::Vec2 getCenterPosition();

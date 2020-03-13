@@ -12,7 +12,6 @@
 #include "GameDataManager.h"
 #include "VideoPlaylistManager.h"
 #include "WebViewSelector.h"
-#include "NavigationLayer.h"
 #include "RecentlyPlayedManager.h"
 #include "ArtAppDelegate.h"
 #include "ManualGameInputLayer.h"
@@ -20,12 +19,12 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Tutorial/TutorialController.h>
 #include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
 #include <AzoomeeCommon/Data/Parent/ParentManager.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Data/Cookie/CookieManager.h>
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
+#include <AzoomeeCommon/ErrorCodes.h>
 
 #include "AgeGate.h"
 
@@ -77,7 +76,7 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
         RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(),ConfigStorage::kGameHQName);
         RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMeHQName);
         ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
-		TutorialController::getInstance()->setTutorialCompleted(TutorialController::kFTUPlayGameID);
+
         GameDataManager::getInstance()->startProcessingGame(contentItem);
     }
     else if(contentItem->getType()  == ConfigStorage::kContentTypeVideo || contentItem->getType()  == ConfigStorage::kContentTypeAudio)
@@ -85,7 +84,6 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
         RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kVideoHQName);
         RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMeHQName);
         ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
-		TutorialController::getInstance()->setTutorialCompleted(TutorialController::kFTUWatchVideoID);
         Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Orientation::Landscape, contentItem->getUri(),Vec2(0,0)));
     }
     else if(contentItem->getType()  == ConfigStorage::kContentTypeAudioGroup || contentItem->getType()  == ConfigStorage::kContentTypeGroup)
@@ -113,11 +111,6 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
 	{
 		ManualGameInputLayer::create();
 		return;
-	}
-	
-	if(TutorialController::getInstance()->isTutorialActive() && (TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUVideoHQContent || TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUGameHQContent || TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUGroupHQContent))
-	{
-		TutorialController::getInstance()->nextStep();
 	}
 	
 	if(!contentItem->isEntitled())
@@ -174,10 +167,10 @@ void ContentOpener::onHttpRequestSuccess(const std::string& requestTag, const st
 	if(requestTag == API::TagChildCookieRefresh)
 	{
 		ChildManager::getInstance()->parseChildSessionUpdate(body);
-		HttpRequestCreator* request = API::GetGordenRequest(ChildManager::getInstance()->getLoggedInChild()->getId(), ChildManager::getInstance()->getLoggedInChild()->getCDNSessionId(), this);
+		HttpRequestCreator* request = API::GetSessionCookiesRequest(ChildManager::getInstance()->getLoggedInChild()->getId(), ChildManager::getInstance()->getLoggedInChild()->getCDNSessionId(), this);
 		request->execute();
 	}
-	else if(requestTag == API::TagGetGorden)
+	else if(requestTag == API::TagGetSessionCookies)
 	{
 		ModalMessages::getInstance()->stopLoading();
 		CookieManager::getInstance()->parseDownloadCookies(headers);
@@ -191,6 +184,10 @@ void ContentOpener::onHttpRequestSuccess(const std::string& requestTag, const st
 void ContentOpener::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
 	ModalMessages::getInstance()->stopLoading();
+    if(errorCode == ERROR_CODE_OFFLINE)
+    {
+        openContentObject(_contentItemToOpen);
+    }
 }
 
 NS_AZOOMEE_END

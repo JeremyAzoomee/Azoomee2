@@ -39,6 +39,7 @@ public:
 	void setRequestCallback(const cocos2d::network::ccHttpRequestCallback& requestCallback);
 	
 	int getAmountOfFails() const;
+    std::string getRequestURL() const;
 	
     std::string requestBody = "";
     std::string urlParameters = "";
@@ -49,18 +50,21 @@ public:
     bool encrypted = false;
     
 private:
+    // The full request URL, populated after buildHttpRequest is called
+    std::string _requestURL;
+    
     // The delegate for callbacks on success/failure
     HttpRequestCreatorResponseDelegate* delegate = nullptr;
 	cocos2d::network::ccHttpRequestCallback _requestCallback = nullptr;
-    std::string getDateFormatString();
-    std::string addLeadingZeroToDateElement(int input);
+    std::string getDateFormatString() const;
+    std::string addLeadingZeroToDateElement(int input) const;
     
     void onHttpRequestAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
     
-    int findPositionOfNthString(std::string string, std::string whatToFind, int whichOne);
-    std::string getPathFromUrl(std::string url);
-    std::string getHostFromUrl(std::string url);
-    std::string getUrlParametersFromUrl(std::string url);
+    int findPositionOfNthString(const std::string& string, const std::string& whatToFind, int whichOne) const;
+    std::string getPathFromUrl(const std::string& url) const;
+    std::string getHostFromUrl(const std::string& url) const;
+    std::string getUrlParametersFromUrl(const std::string& url) const;
     
     void handleError(cocos2d::network::HttpResponse *response);   //std::string requestTag, long errorCode, std::string responseString);
     

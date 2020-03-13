@@ -6,14 +6,18 @@
 //
 
 #include "ShopScene.h"
-#include "SceneManagerScene.h"#include <AzoomeeCommon/UI/Style.h>
+#include "SceneManagerScene.h"
+#include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/Data/Shop/ShopDisplayItem.h>
 #include <AzoomeeCommon/Data/Shop/ShopDataDownloadHandler.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Tutorial/TutorialController.h>
+#include <AzoomeeCommon/Strings.h>
+#include "PopupMessageBox.h"
+#include <AzoomeeCommon/Data/Rewards/RewardManager.h>
+
 
 using namespace cocos2d;
 
@@ -46,11 +50,10 @@ bool ShopScene::init()
 	
 	_shopCarousel = ShopCarousel::create();
 	_shopCarousel->setItemSelectedCallback([this](const ShopDisplayItemRef& item){
-		//toggle purchase screen for item
-		_shopCarousel->setVisible(false);
-		_purchasePopup->setVisible(true);
 		_purchasePopup->setItemData(item);
-		
+        ModalMessages::getInstance()->startLoading();
+        _getInvContext = GetInvContext::PRE_PURCHSE;
+        ChildManager::getInstance()->updateInventory();
 	});
 	this->addChild(_shopCarousel);
 	
@@ -101,40 +104,76 @@ bool ShopScene::init()
 	
 	return true;
 }
+
 void ShopScene::onEnter()
 {
-	AnalyticsSingleton::getInstance()->contentItemSelectedEvent("SHOP");
+    _inventoryUpdateListener = EventListenerCustom::create(ChildManager::kInventoryUpdatedEvent, [this](EventCustom* event){
+        ModalMessages::getInstance()->stopLoading();
+        switch (_getInvContext)
+        {
+            case PRE_PURCHSE:
+            {
+                _shopCarousel->refreshUI();
+                const InventoryRef& inv = ChildManager::getInstance()->getLoggedInChild()->getInventory();
+                const auto& invItems = inv->getItems();
+                const auto& findFunc = [this](const InventoryItemRef& item){
+                    return item->getItemId() == _purchasePopup->getItemData()->getInventoryItem()->getItemId();
+                };
+                if(std::find_if(invItems.begin(), invItems.end(), findFunc) != invItems.end()) // check is item already owned
+                {
+                    _purchasePopup->setItemData(nullptr);
+                }
+                else if(_purchasePopup->getItemData()->getPrice() <= ChildManager::getInstance()->getLoggedInChild()->getInventory()->getCoins())
+                {
+                    //toggle purchase screen for item
+                    _shopCarousel->setVisible(false);
+                    _purchasePopup->setVisible(true);
+                }
+                else
+                {
+                    _purchasePopup->setItemData(nullptr);
+                    displayNotEnoughCoinsError();
+                }
+                break;
+            }
+            case POST_PURCAHSE:
+            {
+                onItemPurchaseCompleted();
+                break;
+            }
+            case REFRESH:
+            {
+                _shopCarousel->refreshUI();
+                break;
+            }
+        }
+    });
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(_inventoryUpdateListener, this);
+    AnalyticsSingleton::getInstance()->contentItemSelectedEvent("SHOP");
 	ShopDataDownloadHandler::getInstance()->getLatestData([this](bool success){
 		if(success)
 		{
 			_shopCarousel->setShopData(ShopDataDownloadHandler::getInstance()->getShop());
+            _getInvContext = GetInvContext::REFRESH;
+            ChildManager::getInstance()->updateInventory();
 		}
 	});
-	
-	if(TutorialController::getInstance()->isTutorialActive() && TutorialController::getInstance()->getCurrentState() == TutorialController::kFTUShopEarnMoreRewards)
-	{
-		runAction(Sequence::createWithTwoActions(DelayTime::create(8.0f), CallFunc::create([this](){
-			TutorialController::getInstance()->setTutorialCompleted(TutorialController::kFTUPostPurchaseID);
-			TutorialController::getInstance()->nextStep();
-			_displayingPostPurchaseTutorial = false;
-		})));
-		_displayingPostPurchaseTutorial = true;
-	}
+    // Make sure any rewards are redeemed on the server so we have the latest
+    RewardManager::getInstance()->checkForPendingRewards();
 	
 	Super::onEnter();
 }
+
 void ShopScene::onExit()
 {
 	AnalyticsSingleton::getInstance()->contentItemClosedEvent();
 	ShopDataDownloadHandler::getInstance()->setOnCompleteCallback(nullptr);
-	if(_displayingPostPurchaseTutorial)
-	{
-		TutorialController::getInstance()->setTutorialCompleted(TutorialController::kFTUPostPurchaseID);
-		TutorialController::getInstance()->nextStep();
-		stopAllActions();
-	}
+    
+    _eventDispatcher->removeEventListener(_inventoryUpdateListener);
+    
 	Super::onExit();
 }
+
 void ShopScene::onSizeChanged()
 {
 	Super::onSizeChanged();
@@ -161,47 +200,68 @@ void ShopScene::onSizeChanged()
 	_coinDisplay->setAnchorPoint(Vec2(1.2,(isIphoneX && isPortrait) ? 2.2f : 1.5));
 }
 
+void ShopScene::onItemPurchaseCompleted()
+{
+    ModalMessages::getInstance()->stopLoading();
+    
+    _purchasePopup->setVisible(false);
+    _shopCarousel->setVisible(false);
+    _backButton->setVisible(false);
+    
+    _purchasedAnim = ShopItemPurchasedAnimation::create();
+    _purchasedAnim->setItemData(_purchasePopup->getItemData());
+    _purchasedAnim->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _purchasedAnim->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
+    _purchasedAnim->setOnCompleteCallback([this](){
+        _purchasedAnim->setVisible(false);
+        this->runAction(Sequence::createWithTwoActions(DelayTime::create(0.25), CallFunc::create([this](){// delay removing to prevent crash on android
+            this->removeChild(_purchasedAnim);
+            _purchasedAnim = nullptr;
+        })));
+        
+        _backButton->setVisible(true);
+        _shopCarousel->setVisible(true);
+        _shopCarousel->refreshUI();
+        _purchasePopup->setItemData(nullptr);
+    });
+    this->addChild(_purchasedAnim);
+}
+
+void ShopScene::displayNotEnoughCoinsError()
+{
+    PopupMessageBox* messageBox = PopupMessageBox::create();
+    messageBox->setTitle(_("Oops! We can't find your coins."));
+    messageBox->setBody(_("Earn more by watching and playing!"));
+    messageBox->setButtonText(_("Back"));
+    messageBox->setButtonColour(Style::Color::darkIndigo);
+    messageBox->setPatternColour(Style::Color::azure);
+    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+        pSender->removeFromParent();
+    });
+    this->addChild(messageBox, 1);
+}
+
 void ShopScene::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
 	if(requestTag == API::TagBuyReward)
 	{
-		HttpRequestCreator* request = API::GetInventory(ChildManager::getInstance()->getParentOrChildId(), this);
-		request->execute();
-	}
-	else if(requestTag == API::TagGetInventory)
-	{
-		ModalMessages::getInstance()->stopLoading();
-		ChildManager::getInstance()->parseChildInventory(body);
-		_purchasePopup->setVisible(false);
-		_shopCarousel->setVisible(false);
-		_backButton->setVisible(false);
-		_purchasedAnim = ShopItemPurchasedAnimation::create();
-		_purchasedAnim->setItemData(_purchasePopup->getItemData());
-		_purchasedAnim->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-		_purchasedAnim->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-		_purchasedAnim->setOnCompleteCallback([this](){
-			_purchasedAnim->setVisible(false);
-			this->runAction(Sequence::createWithTwoActions(DelayTime::create(0.25), CallFunc::create([this](){// delay removing to prevent crash on android
-				this->removeChild(_purchasedAnim);
-				_purchasedAnim = nullptr;
-			})));
-			
-			_backButton->setVisible(true);
-			_shopCarousel->setVisible(true);
-			_shopCarousel->refreshUI();
-			_purchasePopup->setItemData(nullptr);
-		});
-		this->addChild(_purchasedAnim);
+        _getInvContext = GetInvContext::POST_PURCAHSE;
+        ChildManager::getInstance()->updateInventory();
 	}
 	else
 	{
 		ModalMessages::getInstance()->stopLoading();
 	}
 }
+
 void ShopScene::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
 	ModalMessages::getInstance()->stopLoading();
 	_shopCarousel->refreshUI();
+    if(errorCode == 402)
+    {
+        displayNotEnoughCoinsError();
+    }
 }
 
 NS_AZOOMEE_END

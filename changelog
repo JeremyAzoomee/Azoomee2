@@ -1,44 +1,25 @@
-Version 4.8.8
-update and fix localised strings
+Version 4.9.4
+No changes
 
-Version 4.8.7
-new app icon
-safezone for notch
-new oomee hq buttons
-asset clearout
-analytics
-fix parent chat flow
+Version 4.9.3
+updated ios iap capsule text
+updated games bundle
 
-Version 4.8.6
-general bugfixes
-better tile loading
-recently played and favourte videos show series img and open last episode watched
+Version 4.9.2
+local rewards
+extra balance checks in shop
+ios subs re-enabled
 
-Version 4.8.5
-Chat HQ
-updated chat messenger visuals
-updated visuals for reward animation
-
-Version 4.8.4
-oomee hq
-fixes for hq visuals
-oomees stored on backend
-testing auto opening first dropdown in hqs
-
-Version 4.8.3
-better dropdown handling
-dropdown colours reflected in episode selector
-coin counter update
-uniform dropdown tile spacing
-
-Version 4.8.2
-BE integration for hq colours and images
-better resize logic for featured and recently played sections
-new placeholders for recently played
-general sizing tweaks
-
-Version 4.8.1
-new HQs for games and video
-note: oomee HQ is not present/finished in this version
-TEST VERSION ONLY
+Version 4.9.1
+updated offline screen
+updated language select screen
+updated child select screen
+updated force update screen
+updated share in chat screen
+updated child onboarding
+disable delete button for selected oomee
+fix hidden coin balance for anon users
+old code and assets clear out
+game bundling for ios (big binary is big)
+content open analytics for open content in chat
 

@@ -30,7 +30,7 @@ bool SettingsButton::init()
 			}
 			else
 			{
-				Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildManager::getInstance()->isChildLoggedIn() ? SceneNameEnum::ChildSettingsHub : SceneNameEnum::SettingsFromChildSelect));
+				Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
 			}
 		}
 	});

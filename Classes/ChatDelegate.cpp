@@ -5,13 +5,13 @@
 #include "HQHistoryManager.h"
 #include "FlowDataSingleton.h"
 #include "LoginLogicHandler.h"
-#include "ContentHistoryManager.h"
 #include "HQDataProvider.h"
 #include "ContentOpener.h"
 #include <AzoomeeCommon/Data/Child/ChildManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/ErrorCodes.h>
 #include <AzoomeeCommon/Utils/StringMgr.h>
+#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 
 using namespace cocos2d;
 
@@ -69,8 +69,13 @@ void ChatDelegate::onChatAuthorizationError(const std::string& requestTag, long 
 
 void ChatDelegate::onChatNavigateToContent(const std::string &contentId)
 {
-    AnalyticsSingleton::getInstance()->chatOpenSharedContentEvent(contentId);
-    ContentOpener::getInstance()->openContentById(contentId);
+    const auto& contentItem = ContentItemManager::getInstance()->getContentItemForId(contentId);
+    if(contentItem)
+    {
+        AnalyticsSingleton::getInstance()->chatOpenSharedContentEvent(contentId);
+        AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, 0, 0, "", ConfigStorage::kChatHQName);
+        ContentOpener::getInstance()->openContentById(contentId);
+    }
 }
 
 void ChatDelegate::onChatOfflineError(const std::string &requestTag)
@@ -85,8 +90,7 @@ void ChatDelegate::onChatOfflineError(const std::string &requestTag)
 void ChatDelegate::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
     _imageFileName = downloader->getLocalImagePath();
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
-    
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ShareInChatScene));
 }
 
 void ChatDelegate::onImageDownloadFailed()
@@ -104,7 +108,7 @@ void ChatDelegate::onImageDownloadFailed()
             _imageFileName = filename;
         }
     }
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ShareInChatScene));
 }
 
 void ChatDelegate::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)

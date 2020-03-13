@@ -39,6 +39,8 @@ private:
     
     SelectedCallback _selectedCallback = nullptr;
     
+    ImageDownloaderRef _imgDownloader = nullptr;
+    
     void resizeContent();
     
 public:

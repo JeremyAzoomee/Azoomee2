@@ -30,6 +30,8 @@
 
 #include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
 
+#include "PopupMessageBox.h"
+
 using namespace cocos2d;
 using namespace cocos2d::network;
 
@@ -65,6 +67,9 @@ GameDataManager::~GameDataManager(void)
 
 bool GameDataManager::init(void)
 {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    createBundledGamesMap();
+#endif
     return true;
 }
 
@@ -332,12 +337,16 @@ void GameDataManager::streamGameIfPossible(const std::string &jsonFileName)
 
 void GameDataManager::downloadGameIfPossible(const std::string &jsonFileName, const std::string& itemId)
 {
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_IOS)
     if(getIsGameDownloadableFromJSONFile(jsonFileName))
     {
         const std::string &downloadUrl = getDownloadUrlForGameFromJSONFile(jsonFileName);
         getGameZipFile(downloadUrl, itemId); //getGameZipFile callback will call unzipGame and startGame
     }
     else
+#else
+    if(!copyBundledGameToCache(itemId))
+#endif
     {
         if(!_gameIsBeingStreamed)
         {
@@ -425,16 +434,26 @@ Orientation GameDataManager::getGameOrientation(const std::string& jsonFileName)
 //---------------------LOADING SCREEN----------------------------------
 void GameDataManager::displayLoadingScreen()
 {
-    const Size& size = Director::getInstance()->getVisibleSize();
-    const Point& origin = Vec2(0,0);
-    
     ModalMessages::getInstance()->startLoading();
     
-    ElectricDreamsButton *cancelButton = ElectricDreamsButton::createWindowCloseButton();
+    ui::Button* cancelButton = ui::Button::create("res/buttons/windowCloseButton.png");
+    cancelButton->setAnchorPoint(Vec2(2.0f, 2.0f));
+    cancelButton->setNormalizedPosition(Vec2::ANCHOR_TOP_RIGHT);
     cancelButton->setName("cancelButton");
-    cancelButton->setCenterPosition(Vec2(origin.x + size.width - cancelButton->getContentSize().width, origin.y + size.height - cancelButton->getContentSize().height));
-    cancelButton->setDelegate(this);
-    cancelButton->setMixPanelButtonName("CancelGameLoading");
+    cancelButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
+        {
+            AnalyticsSingleton::getInstance()->genericButtonPressEvent("CancelGameLoading");
+            processCancelled = true;
+            
+            if(_fileDownloader)
+            {
+                _fileDownloader->setDelegate(nullptr);
+            }
+            
+            this->hideLoadingScreen();
+        }
+    });
     Director::getInstance()->getRunningScene()->addChild(cancelButton, 9999);
 }
 void GameDataManager::hideLoadingScreen()
@@ -445,12 +464,35 @@ void GameDataManager::hideLoadingScreen()
 
 void GameDataManager::showErrorMessage()
 {
-    MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, this);
+    const auto& errorMessageText = StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_SOMETHING_WENT_WRONG);
+    
+    PopupMessageBox* messageBox = PopupMessageBox::create();
+    messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+    messageBox->setBody(errorMessageText.at(ERROR_BODY));
+    messageBox->setButtonText(_("Back"));
+    messageBox->setButtonColour(Style::Color::darkIndigo);
+    messageBox->setPatternColour(Style::Color::azure);
+    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+        pSender->removeFromParent();
+    });
+    Director::getInstance()->getRunningScene()->addChild(messageBox, 1000);
 }
 
 void GameDataManager::showIncompatibleMessage()
 {
-    MessageBox::createWith(ERROR_CODE_GAME_INCOMPATIBLE, this);
+    const auto& errorMessageText = StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_GAME_INCOMPATIBLE);
+    
+    PopupMessageBox* messageBox = PopupMessageBox::create();
+    messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+    messageBox->setBody(errorMessageText.at(ERROR_BODY));
+    messageBox->setButtonText(_("Back"));
+    messageBox->setButtonColour(Style::Color::darkIndigo);
+    messageBox->setPatternColour(Style::Color::azure);
+    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+        pSender->removeFromParent();
+    });
+    Director::getInstance()->getRunningScene()->addChild(messageBox, 1000);
+    
 }
 
 void GameDataManager::removeGameFolderOnError(const std::string &dirPath)
@@ -540,29 +582,6 @@ void GameDataManager::addTimestampFile(const std::string& filenameWithPath)
 
 //--------------- DELEGATE FUNCTIONS ------------------
 
-void GameDataManager::buttonPressed(ElectricDreamsButton *button)
-{
-    processCancelled = true;
-    
-    if(_fileDownloader)
-    {
-        _fileDownloader->setDelegate(nullptr);
-    }
-    
-    Director::getInstance()->getRunningScene()->removeChild(Director::getInstance()->getRunningScene()->getChildByName("cancelButton"));
-    ModalMessages::getInstance()->stopLoading();
-}
-
-void GameDataManager::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
-{
-    std::map<std::string, std::string> errorStringMap = StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_SOMETHING_WENT_WRONG);
-
-    if(messageBoxTitle == errorStringMap[ERROR_TITLE] && buttonTitle == errorStringMap[ERROR_BUTTON])
-    {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
-    }
-}
-
 void GameDataManager::onAsyncUnzipComplete(bool success, const std::string& zipPath, const std::string& dirpath)
 {
     if(success)
@@ -608,5 +627,60 @@ void GameDataManager::onFileDownloadComplete(const std::string &fileString,const
         unzipGame(targetPath, basePath, "");
     }
 }
+
+//IOS GAME BUNDLING FUNCS
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+void GameDataManager::createBundledGamesMap()
+{
+    _bundedGamesMap.clear();
+    const std::string& fileExt = ".zip";
+    const std::string& localDir = "bundledGames/";
+    const std::string& fullPath = FileUtils::getInstance()->fullPathForFilename(localDir + "dirLocator.png"); //use dummy file to get full path to res dir to use with DirUtil
+    const std::string& bundledGamesDir = fullPath.substr(0,fullPath.find(localDir)) + localDir;
+    const auto& filenames = DirUtil::getFilesInDirectoryWithExtention(bundledGamesDir, fileExt);
+    for(const std::string& filename : filenames)
+    {
+        const std::string& gameId = filename.substr(0, filename.length() - fileExt.length());
+        _bundedGamesMap[gameId] = bundledGamesDir + filename;
+    }
+}
+
+bool GameDataManager::isGameBundled(const std::string& gameId)
+{
+    return _bundedGamesMap.find(gameId) != _bundedGamesMap.end();
+}
+
+HQCarouselObjectRef GameDataManager::createFilteredCarouselForBundledGames(const HQCarouselObjectRef &carousel)
+{
+    MutableHQCarouselObjectRef output = MutableHQCarouselObject::create();
+    output->setColour(carousel->getColour());
+    output->setTitle(carousel->getTitle());
+    output->setIcon(carousel->getIcon());
+    const auto& items = carousel->getContentItems();
+    for(const auto& item : items)
+    {
+        if(isGameBundled(item->getContentItemId()))
+        {
+            output->addContentItemToCarousel(item);
+        }
+    }
+    return output;
+}
+
+bool GameDataManager::copyBundledGameToCache(const std::string& gameId)
+{
+    if(!isGameBundled(gameId))
+    {
+        return false;
+    }
+    const std::string& zipData = FileUtils::getInstance()->getStringFromFile(_bundedGamesMap.at(gameId));
+    const std::string& basePath = getGameIdPath(_contentId);
+    const std::string& targetPath = basePath + "game.zip";
+    FileUtils::getInstance()->writeStringToFile(zipData, targetPath);
+    
+    unzipGame(targetPath, basePath, "");
+    return true;
+}
+#endif
 
 NS_AZOOMEE_END

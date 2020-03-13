@@ -2,6 +2,7 @@
 #define AzoomeeCommon_ModalMessages_h
 
 #include <cocos/cocos2d.h>
+#include <cocos/ui/CocosGUI.h>
 #include "../Azoomee.h"
 
 NS_AZOOMEE_BEGIN
@@ -17,10 +18,7 @@ private:
     void addListenerToBackgroundLayer();
     void removeLayer();
     
-    cocos2d::LayerColor* loadingLayer = nullptr;
-    
-    cocos2d::Size visibleSize;
-    cocos2d::Vec2 origin;
+    cocos2d::ui::Layout* loadingLayer = nullptr;
     
 public:
     
@@ -35,8 +33,6 @@ public:
     
     void showMixpanelNotification();
     void showMixpanelNotificationWithID(int notificationID);
-    
-    void onSizeChanged();
 };
   
 NS_AZOOMEE_END

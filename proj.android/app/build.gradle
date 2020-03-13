@@ -37,8 +37,8 @@ android {
         applicationId "com.tinizine.azoomee"
         minSdkVersion PROP_MIN_SDK_VERSION
         targetSdkVersion PROP_TARGET_SDK_VERSION
-        versionCode 1004008008
-        versionName "4.8.8"
+        versionCode 1004009004
+        versionName "4.9.4"
         manifestPlaceholders = [applicationName:"Azoomee"]
 
         ndk {
@@ -315,13 +315,6 @@ task copyWebcommApi(type: Copy) {
     into '../../Resources/res/webcommApi'
 }
 preBuild.dependsOn copyWebcommApi
-
-task ctaZip(type: Zip) {
-    from fileTree(dir: '../../../app-content-dynamicnode/android/')
-    archiveName 'CTAFiles.zip'
-    destinationDir(file('../../Resources/res/cta_assets/'))
-}
-preBuild.dependsOn ctaZip
 
 
 def getCommitHash = { ->

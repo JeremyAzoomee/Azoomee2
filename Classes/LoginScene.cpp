@@ -5,7 +5,6 @@
 #include <AzoomeeCommon/Strings.h>
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Input/TextInputChecker.h>
-#include "OfflineHubScene.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>

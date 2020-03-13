@@ -16,7 +16,6 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Tutorial/TutorialController.h>
 
 USING_NS_CC;
 
@@ -41,10 +40,6 @@ void OomeeMakerDelegate::onOomeeMakerNavigationBack()
     {
 		if(_oomeeMakerFromShop)
 		{
-			if(!TutorialController::getInstance()->isTutorialCompleted(TutorialController::kFTUPostPurchaseID))
-			{
-				TutorialController::getInstance()->startTutorial(TutorialController::kFTUPostPurchaseID);
-			}
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Shop));
 		}
 		else
@@ -65,9 +60,10 @@ void OomeeMakerDelegate::onOomeeMakerShareOomee(const std::string& filename)
     {
 		if(!HQHistoryManager::getInstance()->isOffline() && ParentManager::getInstance()->isPaidUser())
         {
+            ChatDelegate::getInstance()->_sharingOomee = true;
             HQHistoryManager::getInstance()->setReturnedFromForcedOrientation(true);
             Director::getInstance()->getTextureCache()->reloadTexture(filename);
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChatEntryPointScene));
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ShareInChatScene));
             AnalyticsSingleton::getInstance()->shareOomee();
         }
     }
