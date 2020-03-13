@@ -1,13 +1,15 @@
 #include "StickerListView.h"
 #include "StickerListViewColumn.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <TinizineCommon/UI/Colour.h>
 
 
 using namespace cocos2d;
 
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 bool StickerListView::init()
 {
@@ -17,7 +19,7 @@ bool StickerListView::init()
     }
     
     setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::darkIndigoThree);
+    setBackGroundColor(Colours::Color_3B::darkIndigoThree);
     
     setDirection(ui::ScrollView::Direction::HORIZONTAL);
     setBounceEnabled(true);
@@ -96,4 +98,4 @@ void StickerListView::addItemSelectedEventListener(const ItemSelectedCallback& c
     _selectedEventCallback = callback;
 }
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

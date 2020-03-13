@@ -9,8 +9,11 @@
 #define VodacomOnboardingSuccessLayer_h
 
 #include "VodacomOnboardingLayer.h"
+#include "../Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class VodacomOnboardingSuccessLayer : public VodacomOnboardingLayer
 {
@@ -26,7 +29,7 @@ public:
 	CREATE_FUNC(VodacomOnboardingSuccessLayer);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 
 #endif /* VodacomOnboardingSuccessLayer_h */

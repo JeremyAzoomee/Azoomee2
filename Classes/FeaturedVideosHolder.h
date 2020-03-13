@@ -10,8 +10,11 @@
 
 #include "ContentTileHolder.h"
 #include "FeaturedTile.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class FeaturedVideosHolder : public ContentTileHolder
 {
@@ -39,6 +42,6 @@ public:
     CREATE_FUNC(FeaturedVideosHolder);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* FeaturedVideosHolder_h */

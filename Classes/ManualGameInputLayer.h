@@ -3,16 +3,19 @@
 
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/UI/Scene.h>
-#include <AzoomeeCommon/Input/TextInputLayer.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/UI/Scene.h>
+#include "TextInputLayer.h"
 #include "ui/CocosGUI.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
 
-class ManualGameInputLayer : public Azoomee::Scene
+NS_AZ_BEGIN
+
+class ManualGameInputLayer : public TZ::Scene
 {
-    typedef Azoomee::Scene Super;
+    typedef TZ::Scene Super;
 private:
     
     cocos2d::ui::Layout* _background = nullptr;
@@ -36,6 +39,6 @@ public:
 
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif

@@ -1,13 +1,15 @@
 #include "NativeContentInterface_ios.h"
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
 #include "WebViewController_ios.h"
 #include "MediaPlayer_ios.h"
+#include "WebViewSelector.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 //#define REMOVE_WEBVIEW_ON_BG YES
 
@@ -37,7 +39,7 @@ bool NativeContentInterface_ios::init()
 void NativeContentInterface_ios::onEnterTransitionDidFinish()
 {
     Director::getInstance()->purgeCachedData();
-    this->setName(ConfigStorage::kIosWebviewName);
+    this->setName(WebViewSelector::kIosWebviewName);
 }
 
 void NativeContentInterface_ios::onExit()
@@ -56,7 +58,7 @@ void NativeContentInterface_ios::onExit()
 
 void NativeContentInterface_ios::loadContentBasedOnUrl(const std::string &url, const Vec2& closeButtonAnchor, int videoProgressSeconds)
 {
-    if(stringEndsWith(url, "m3u8"))
+    if(StringFunctions::stringEndsWith(url, "m3u8"))
     {
         addMediaPlayerToScreen(url, videoProgressSeconds);
     }
@@ -109,7 +111,7 @@ void NativeContentInterface_ios::addWebViewToScreen(const std::string &url, cons
         NSLog(@"Cookies in storage: %@", each);
     }
     
-    const std::string& userid = ChildManager::getInstance()->getParentOrChildId();
+    const std::string& userid = ChildManager::getInstance()->getLoggedInChild()->getId();
     
     //If game is called, open the game directly, if video / audio, we open up jw player with the given url
     
@@ -134,4 +136,4 @@ void NativeContentInterface_ios::addWebViewToScreen(const std::string &url, cons
 #endif
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

@@ -2,12 +2,14 @@
 #define AzoomeeChat_Message_h
 
 #include "../AzoomeeChat.h"
-#include <AzoomeeCommon/Data/Json.h>
+#include <TinizineCommon/Data/Json.h>
 #include <string>
 #include <memory>
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 // forward decleration
 class Message;
@@ -76,6 +78,6 @@ public:
     rapidjson::Value toJson() const override;
 };
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END
 
 #endif

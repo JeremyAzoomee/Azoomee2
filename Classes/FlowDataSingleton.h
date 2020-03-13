@@ -2,9 +2,12 @@
 #define __FLOW_DATA_SINGLETON_H__
 
 #include "cocos2d.h"
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 enum FlowTypeEnum { flowType_None, flowType_Signup, flowType_SignupNewProfile,flowType_NewProfile};
 enum SuccessFailPath {SUCCESS_FAIL_NONE, IAP_SUCCESS, IAP_FAIL, SIGNUP_SUCCESS, SIGNUP_FAIL, ADDCHILD_SUCCESS, ADDCHILD_FAIL, PREMIUM_NEW_ACCOUNT, PREMIUM_EXISTING_ACCOUNT};
@@ -76,6 +79,6 @@ public:
     
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif

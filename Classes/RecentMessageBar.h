@@ -8,14 +8,17 @@
 #ifndef RecentMessageBar_h
 #define RecentMessageBar_h
 
-#include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
-#include <AzoomeeCommon/UI/RoundedRectSprite.h>
-#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/UI/DynamicText.h>
+#include <TinizineCommon/UI/RoundedRectSprite.h>
+#include <TinizineCommon/ImageDownloader/ImageDownloader.h>
 #include "AzoomeeChat/Data/Friend.h"
 #include "AzoomeeChat/Data/Message.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 typedef std::pair<Chat::FriendRef, Chat::MessageRef> RecentMessage;
 
@@ -66,5 +69,5 @@ public:
     virtual void onImageDownloadFailed() override;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 #endif /* RecentMessageBar_h */

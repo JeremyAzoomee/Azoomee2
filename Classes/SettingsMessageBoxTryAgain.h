@@ -9,10 +9,13 @@
 #define SettingsMessageBoxTryAgain_h
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include "SettingsMessageBox.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class SettingsMessageBoxTryAgain : public SettingsMessageBox
 {
@@ -35,6 +38,6 @@ public:
 	CREATE_FUNC(SettingsMessageBoxTryAgain);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* SettingsMessageBoxTryAgain_h */

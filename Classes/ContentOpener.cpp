@@ -6,31 +6,38 @@
 //
 
 #include "ContentOpener.h"
-#include "HQDataProvider.h"
 #include "HQHistoryManager.h"
-#include "ContentHistoryManager.h"
-#include "GameDataManager.h"
-#include "VideoPlaylistManager.h"
+#include <TinizineCommon/ContentDataManagers/ContentHistoryManager.h>
+#include <TinizineCommon/ContentDataManagers/GameDataManager.h>
+#include <TinizineCommon/WebGameAPI/VideoPlaylistManager.h>
 #include "WebViewSelector.h"
-#include "RecentlyPlayedManager.h"
+#include <TinizineCommon/ContentDataManagers/RecentlyPlayedManager.h>
 #include "ArtAppDelegate.h"
 #include "ManualGameInputLayer.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/Cookie/CookieManager.h>
-#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
-#include <AzoomeeCommon/ErrorCodes.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include "ModalMessages.h"
+#include <TinizineCommon/Utils/StringFunctions.h>
+#include <TinizineCommon/Crashlytics/CrashlyticsConfig.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Data/Cookie/CookieManager.h>
+#include <TinizineCommon/Data/HQDataObject/ContentItemManager.h>
+#include <TinizineCommon/Data/HQDataObject/HQStructureDownloadHandler.h>
+#include <TinizineCommon/Data/HQDataObject/HQDataObjectManager.h>
+#include "ErrorCodes.h"
+#include "SceneManagerScene.h"
+#include "PopupMessageBox.h"
+#include <TinizineCommon/Utils/LocaleManager.h>
 
 #include "AgeGate.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
+
+const std::string ContentOpener::kGroupRefreshEvent = "groupRefresh";
 
 static std::auto_ptr<ContentOpener> sContentOpenerSharedInstance;
 
@@ -45,7 +52,7 @@ ContentOpener* ContentOpener::getInstance()
 
 void ContentOpener::openContentById(const std::string &contentId)
 {
-    HQContentItemObjectRef contentItem = HQDataProvider::getInstance()->getContentItemFromID(contentId);
+    HQContentItemObjectRef contentItem = ContentItemManager::getInstance()->getContentItemForId(contentId);
     
     if(contentItem)
     {
@@ -71,32 +78,63 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
 	
 	setCrashlyticsKeyWithString(CrashlyticsConsts::kContentIdKey, contentItem->getContentItemId());
 	
-    if(contentItem->getType() == ConfigStorage::kContentTypeGame)
+    if(contentItem->getType() == HQContentItemObject::kContentTypeGame)
     {
-        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(),ConfigStorage::kGameHQName);
-        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMeHQName);
+        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(),HQConsts::kGameHQName);
+        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), HQConsts::kOomeeHQName);
         ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
+        
+        const auto& onSuccessCallback = [](Orientation orientation, const std::string& path, const cocos2d::Vec2& closeButtonAnchor){
+            ModalMessages::getInstance()->stopLoading();
+            Director::getInstance()->replaceScene(SceneManagerScene::createWebview(orientation, path, closeButtonAnchor));
+        };
+        
+        const auto& onFailedCallback = [](const std::string& errorType, long errorCode){
+            ModalMessages::getInstance()->stopLoading();
+            long messageCode = ERROR_CODE_SOMETHING_WENT_WRONG;
+            if(errorType == GameDataManager::kZipDownloadError || errorType == GameDataManager::kJsonDownloadError)
+            {
+                messageCode = errorCode;
+            }
+            else if (errorType == GameDataManager::kVersionIncompatibleError)
+            {
+                messageCode = ERROR_CODE_GAME_INCOMPATIBLE;
+            }
+            const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(messageCode);
+            
+            PopupMessageBox* messageBox = PopupMessageBox::create();
+            messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+            messageBox->setBody(errorMessageText.at(ERROR_BODY));
+            messageBox->setButtonText(_("Back"));
+            messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+            messageBox->setPatternColour(Colours::Color_3B::azure);
+            messageBox->setButtonPressedCallback([](MessagePopupBase* pSender){
+                pSender->removeFromParent();
+            });
+            Director::getInstance()->getRunningScene()->addChild(messageBox, 1000);
 
-        GameDataManager::getInstance()->startProcessingGame(contentItem);
+        };
+        ModalMessages::getInstance()->startLoading();
+        GameDataManager::getInstance()->startProcessingGame(contentItem, onSuccessCallback, onFailedCallback, HQHistoryManager::getInstance()->isOffline());
     }
-    else if(contentItem->getType()  == ConfigStorage::kContentTypeVideo || contentItem->getType()  == ConfigStorage::kContentTypeAudio)
+    else if(contentItem->getType()  == HQContentItemObject::kContentTypeVideo || contentItem->getType()  == HQContentItemObject::kContentTypeAudio)
     {
-        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kVideoHQName);
-        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMeHQName);
+        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), HQConsts::kVideoHQName);
+        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), HQConsts::kOomeeHQName);
         ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
         Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Orientation::Landscape, contentItem->getUri(),Vec2(0,0)));
     }
-    else if(contentItem->getType()  == ConfigStorage::kContentTypeAudioGroup || contentItem->getType()  == ConfigStorage::kContentTypeGroup)
+    else if(contentItem->getType()  == HQContentItemObject::kContentTypeAudioGroup || contentItem->getType()  == HQContentItemObject::kContentTypeGroup)
     {
-		HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri(), contentItem->getCarouselColour());
+		getDataForGroupHQ(contentItem->getUri(), contentItem->getCarouselColour());
     }
-    else if(contentItem->getType() == ConfigStorage::kContentTypeInternal)
+    else if(contentItem->getType() == HQContentItemObject::kContentTypeInternal)
     {
-        if(contentItem->getUri() == ConfigStorage::kOomeeMakerURI)
+        if(contentItem->getUri() == HQConsts::kOomeeMakerURI)
         {
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OomeeMakerEntryPointScene));
         }
-        else if(contentItem->getUri() == ConfigStorage::kArtAppURI)
+        else if(contentItem->getUri() == HQConsts::kArtAppURI)
         {
             ArtAppDelegate::getInstance()->setFileName("");
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ArtAppEntryPointScene));
@@ -107,7 +145,7 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
 
 void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& contentItem, int rowIndex, int elementIndex, const std::string& hqCategory, const std::string& location)
 {
-	if(contentItem->getType() == ConfigStorage::kContentTypeManual)
+	if(contentItem->getType() == HQContentItemObject::kContentTypeManual)
 	{
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ManualGameInput));
 		return;
@@ -115,7 +153,7 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
 	
 	if(!contentItem->isEntitled())
 	{
-		AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(hqCategory, rowIndex, elementIndex), location);
+		AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, location);
 		
 #ifndef AZOOMEE_VODACOM_BUILD
         AgeGate* ageGate = AgeGate::create();
@@ -132,11 +170,11 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
 #endif
 	}
 	
-	AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(hqCategory, rowIndex, elementIndex), location);
+	AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, rowIndex, elementIndex, location);
 	
-	if(contentItem->getType() == ConfigStorage::kContentTypeVideo || contentItem->getType() == ConfigStorage::kContentTypeAudio)
+	if(contentItem->getType() == HQContentItemObject::kContentTypeVideo || contentItem->getType() == HQContentItemObject::kContentTypeAudio)
 	{
-		if(hqCategory == ConfigStorage::kGroupHQName)
+		if(hqCategory == HQDataObject::kGroupHQName)
 		{
 			VideoPlaylistManager::getInstance()->setPlaylist(HQDataObjectManager::getInstance()->getHQDataObjectForKey(hqCategory)->getHqCarousels().at(rowIndex));
 		}
@@ -147,7 +185,7 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
             const HQContentItemObjectRef& groupForContent = ContentItemManager::getInstance()->getParentOfContentItemForId(contentItem->getContentItemId());
             if(groupForContent)
             {
-                const auto& items = HQDataProvider::getInstance()->getContentItemsFromIDs(groupForContent->getItems());
+                const auto& items = ContentItemManager::getInstance()->getContentItemsFromIDs(groupForContent->getItems());
                 carousel->addContentItemsToCarousel(items);
             }
             else
@@ -160,6 +198,13 @@ void ContentOpener::doCarouselContentOpenLogic(const HQContentItemObjectRef& con
 	openContentObject(contentItem);
 }
 
+void ContentOpener::getDataForGroupHQ(const std::string &uri, const Color4B& carouselColour)
+{
+    HQStructureDownloadHandler::getInstance()->loadGroupHQData(uri);
+    Color4B colourCopy = carouselColour; // event is sent immediatly so we send address of colour object stored on the stack so we dont get mem leak
+    Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(kGroupRefreshEvent, &colourCopy);
+}
+
 // delegate functions
 
 void ContentOpener::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
@@ -167,7 +212,7 @@ void ContentOpener::onHttpRequestSuccess(const std::string& requestTag, const st
 	if(requestTag == API::TagChildCookieRefresh)
 	{
 		ChildManager::getInstance()->parseChildSessionUpdate(body);
-		HttpRequestCreator* request = API::GetSessionCookiesRequest(ChildManager::getInstance()->getLoggedInChild()->getId(), ChildManager::getInstance()->getLoggedInChild()->getCDNSessionId(), this);
+		HttpRequestCreator* request = API::GetSessionCookiesRequest(ChildManager::getInstance()->getLoggedInChild()->getId(), ChildManager::getInstance()->getLoggedInChild()->getCDNSessionId(), false, this);
 		request->execute();
 	}
 	else if(requestTag == API::TagGetSessionCookies)
@@ -190,4 +235,4 @@ void ContentOpener::onHttpRequestFailed(const std::string& requestTag, long erro
     }
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

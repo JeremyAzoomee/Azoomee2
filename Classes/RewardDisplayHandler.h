@@ -8,11 +8,14 @@
 #ifndef RewardDisplayHandler_h
 #define RewardDisplayHandler_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include "RewardScreen.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class RewardDisplayHandler : public RewardScreenDelegate
 {
@@ -39,6 +42,6 @@ public:
 	void onAnimationComplete(const RewardItemRef& reward);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* RewardDisplayHandler_h */

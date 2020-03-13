@@ -6,19 +6,20 @@
 //
 #ifdef AZOOMEE_VODACOM_BUILD
 #include "VodacomOnboardingLoginLayer.h"
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/API/API.h>
+#include "ModalMessages.h"
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 #include "VodacomMessageBoxNotification.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool VodacomOnboardingLoginLayer::init()
 {
@@ -99,7 +100,7 @@ void VodacomOnboardingLoginLayer::onEnter()
 	_emailInput->setText(_flowData->getEmail());
 	
 	Label* emailError = Label::createWithTTF(_("*Invalid email address"), Style::Font::Regular(), 53);
-	emailError->setTextColor(Color4B(Style::Color::watermelon));
+	emailError->setTextColor(Color4B(Colours::Color_3B::watermelon));
 	emailError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	emailError->setNormalizedPosition(Vec2(0.1f,-0.1));
 	emailError->setName("error");
@@ -130,7 +131,7 @@ void VodacomOnboardingLoginLayer::onEnter()
 	_passwordInput->setText(_flowData->getPassword());
 	
 	Label* pwError = Label::createWithTTF(_("*Invalid password"), Style::Font::Regular(), 53);
-	pwError->setTextColor(Color4B(Style::Color::watermelon));
+	pwError->setTextColor(Color4B(Colours::Color_3B::watermelon));
 	pwError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	pwError->setNormalizedPosition(Vec2(0.1f,-0.1));
 	pwError->setName("error");
@@ -162,16 +163,16 @@ void VodacomOnboardingLoginLayer::onEnter()
 	_confirmButton->addChild(confirmText);
 	
 	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular(), 64);
-	needHelp->setTextColor(Color4B(Style::Color::skyBlue));
+	needHelp->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	needHelp->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	needHelp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
 	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular(), 64);
-	contactUs->setTextColor(Color4B(Style::Color::skyBlue));
+	contactUs->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	contactUs->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	contactUs->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
 	
 	DrawNode* underline = DrawNode::create();
-	underline->drawRect(Vec2(0, -7), Vec2(contactUs->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+	underline->drawRect(Vec2(0, -7), Vec2(contactUs->getContentSize().width, -6), Color4F(Colours::Color_3B::skyBlue));
 	contactUs->addChild(underline);
 	
 	ui::Layout* contactUsHolder = ui::Layout::create();
@@ -221,17 +222,17 @@ void VodacomOnboardingLoginLayer::onHttpRequestSuccess(const std::string& reques
 {
 	if(requestTag == API::TagLogin)
 	{
-		if(ParentManager::getInstance()->parseParentLoginData(body))
+		if(UserAccountManager::getInstance()->parseParentLoginData(body))
 		{
-			ConfigStorage::getInstance()->setFirstSlideShowSeen();
-			ParentManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headers));
+			UserAccountManager::getInstance()->setHasLoggedInOnDevice(true);
+			UserAccountManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headers));
 			AnalyticsSingleton::getInstance()->signInSuccessEvent();
 			AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
 			_flowData->setUserType(UserType::FREE);
 			UserDefault* def = UserDefault::getInstance();
-			def->setStringForKey(ConfigStorage::kStoredUsernameKey, _flowData->getEmail());
+			def->setStringForKey(UserAccountManager::kStoredUsernameKey, _flowData->getEmail());
 			def->flush();
-			HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentManager::getInstance()->getLoggedInParentId(), this);
+			HttpRequestCreator* request = API::UpdateBillingDataRequest(UserAccountManager::getInstance()->getLoggedInParentId(), this);
 			request->execute();
 		}
 		else
@@ -246,8 +247,8 @@ void VodacomOnboardingLoginLayer::onHttpRequestSuccess(const std::string& reques
 	}
 	else if(requestTag == API::TagUpdateBillingData)
 	{
-		ParentManager::getInstance()->parseParentBillingData(body);
-		if(!ParentManager::getInstance()->isPaidUser())
+		UserAccountManager::getInstance()->parseParentBillingData(body);
+		if(!UserAccountManager::getInstance()->isPaidUser())
 		{
 			ModalMessages::getInstance()->stopLoading();
 			VodacomMessageBoxNotification* messageBox = VodacomMessageBoxNotification::create();
@@ -258,12 +259,12 @@ void VodacomOnboardingLoginLayer::onHttpRequestSuccess(const std::string& reques
 				ModalMessages::getInstance()->startLoading();
 				if(_flowData->getPurchaseType() == PurchaseType::VOUCHER)
 				{
-					HttpRequestCreator* request = API::AddVoucher(ParentManager::getInstance()->getLoggedInParentId(), _flowData->getVoucherCode(), this);
+					HttpRequestCreator* request = API::AddVoucher(UserAccountManager::getInstance()->getLoggedInParentId(), _flowData->getVoucherCode(), this);
 					request->execute();
 				}
 				else
 				{
-					HttpRequestCreator* request = API::GetVodacomTransactionId(ParentManager::getInstance()->getLoggedInParentId(), this);
+					HttpRequestCreator* request = API::GetVodacomTransactionId(UserAccountManager::getInstance()->getLoggedInParentId(), this);
 					request->execute();
 				}
 			})));
@@ -282,13 +283,13 @@ void VodacomOnboardingLoginLayer::onHttpRequestSuccess(const std::string& reques
 	else if(requestTag == API::TagAddVoucher)
 	{
 		AnalyticsSingleton::getInstance()->vodacomOnboardingVoucherAdded(_flowData->getVoucherCode());
-		HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentManager::getInstance()->getLoggedInParentId(), this);
-		request->requestTag = "billingAfterVoucher";
+		HttpRequestCreator* request = API::UpdateBillingDataRequest(UserAccountManager::getInstance()->getLoggedInParentId(), this);
+		request->_requestTag = "billingAfterVoucher";
 		request->execute();
 	}
 	else if(requestTag == "billingAfterVoucher")
 	{
-		ParentManager::getInstance()->parseParentBillingData(body);
+		UserAccountManager::getInstance()->parseParentBillingData(body);
 		ModalMessages::getInstance()->stopLoading();
 		if(_delegate)
 		{
@@ -383,5 +384,5 @@ void VodacomOnboardingLoginLayer::editBoxEditingDidEnd(TextInputLayer* inputLaye
 	
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 #endif

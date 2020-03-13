@@ -9,7 +9,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool ContentTile::init()
 {
@@ -29,7 +31,7 @@ bool ContentTile::init()
         }
     });
     
-    _imageDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+    _imageDownloader = ImageDownloader::create(ImageDownloader::kImageCachePath, ImageDownloader::CacheMode::File);
     
     return true;
 }
@@ -76,4 +78,4 @@ void ContentTile::onImageDownloadFailed()
     
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

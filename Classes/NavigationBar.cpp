@@ -6,24 +6,33 @@
 //
 
 #include "NavigationBar.h"
-#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include "HQConstants.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const std::map<std::string, HQType> NavigationBar::kHQNameToTypeConv = {
-    {ConfigStorage::kGameHQName,HQType::GAME},
-    {ConfigStorage::kVideoHQName, HQType::VIDEO},
-    {ConfigStorage::kChatHQName, HQType::CHAT},
-    {ConfigStorage::kMeHQName, HQType::OOMEE}
+    {HQConsts::kGameHQName,HQType::GAME},
+    {HQConsts::kVideoHQName, HQType::VIDEO},
+    {HQConsts::kChatHQName, HQType::CHAT},
+    {HQConsts::kOomeeHQName, HQType::OOMEE}
 };
 
 const std::map<HQType, std::string> NavigationBar::kHQTypeToNameConv = {
-    {HQType::GAME, ConfigStorage::kGameHQName},
-    {HQType::VIDEO, ConfigStorage::kVideoHQName},
-    {HQType::CHAT, ConfigStorage::kChatHQName},
-    {HQType::OOMEE, ConfigStorage::kMeHQName}
+    {HQType::GAME, HQConsts::kGameHQName},
+    {HQType::VIDEO, HQConsts::kVideoHQName},
+    {HQType::CHAT, HQConsts::kChatHQName},
+    {HQType::OOMEE, HQConsts::kOomeeHQName}
+};
+
+const std::map<std::string, cocos2d::Color3B> NavigationBar::kHQColourMap = {
+    {HQConsts::kGameHQName, Color3B(84, 174, 255)},
+    {HQConsts::kVideoHQName, Color3B(249, 74, 91)},
+    {HQConsts::kChatHQName, Color3B(218, 18, 255)},
+    {HQConsts::kOomeeHQName, Color3B(55, 188, 152)}
 };
 
 bool NavigationBar::init()
@@ -51,7 +60,7 @@ bool NavigationBar::init()
     
     _gameHQButton = NavigationButton::create();
     _gameHQButton->setPosition(Vec2(pos,0));
-    _gameHQButton->setCircleColour(Color3B(ConfigStorage::getInstance()->getColourForMenuItem(ConfigStorage::kGameHQName)));
+    _gameHQButton->setCircleColour(kHQColourMap.at(HQConsts::kGameHQName));
     _gameHQButton->setButtonIcons("res/navigation/menu_game_hq_on.png", "res/navigation/menu_game_hq.png");
     _gameHQButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -73,7 +82,7 @@ bool NavigationBar::init()
     
     _videoHQButton = NavigationButton::create();
     _videoHQButton->setPosition(Vec2(pos,0));
-    _videoHQButton->setCircleColour(Color3B(ConfigStorage::getInstance()->getColourForMenuItem(ConfigStorage::kVideoHQName)));
+    _videoHQButton->setCircleColour(kHQColourMap.at(HQConsts::kVideoHQName));
     _videoHQButton->setButtonIcons("res/navigation/menu_video_hq_on.png", "res/navigation/menu_video_hq.png");
     _videoHQButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -95,7 +104,7 @@ bool NavigationBar::init()
     
     _chatHQButton = NavigationButton::create();
     _chatHQButton->setPosition(Vec2(pos,0));
-    _chatHQButton->setCircleColour(Color3B(ConfigStorage::getInstance()->getColourForMenuItem(ConfigStorage::kChatHQName)));
+    _chatHQButton->setCircleColour(kHQColourMap.at(HQConsts::kChatHQName));
     _chatHQButton->setButtonIcons("res/navigation/menu_chat_on.png", "res/navigation/menu_chat.png");
     _chatHQButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -117,7 +126,7 @@ bool NavigationBar::init()
     
     _oomeeHQButton = NavigationButton::create();
     _oomeeHQButton->setPosition(Vec2(pos,0));
-    _oomeeHQButton->setCircleColour(Color3B(ConfigStorage::getInstance()->getColourForMenuItem(ConfigStorage::kMeHQName)));
+    _oomeeHQButton->setCircleColour(kHQColourMap.at(HQConsts::kOomeeHQName));
     _oomeeHQButton->setButtonIcons("res/navigation/menu_me_hq_on.png", "res/navigation/menu_me_hq.png");
     _oomeeHQButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -180,4 +189,4 @@ void NavigationBar::toggleHQSelected(const std::string &hqName)
     toggleHQSelected(type);
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

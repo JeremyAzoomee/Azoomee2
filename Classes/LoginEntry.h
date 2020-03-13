@@ -8,13 +8,16 @@
 #ifndef LoginEntry_h
 #define LoginEntry_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/CTAButton.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
+#include <TinizineCommon/UI/TextButton.h>
+#include <TinizineCommon/UI/DynamicText.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 enum class LoginEntryState {EMAIL, PASSWORD};
 
@@ -29,7 +32,7 @@ protected:
 	DynamicText* _inputTitle = nullptr;
 	cocos2d::ui::Scale9Sprite* _inputBg = nullptr;
 	cocos2d::ui::EditBox* _inputBox = nullptr;
-	CTAButton* _continueButton = nullptr;
+	TextButton* _continueButton = nullptr;
 	DynamicText* _backButton = nullptr;
 	DynamicText* _versionNumber = nullptr;
 	
@@ -74,6 +77,6 @@ public:
 	void editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox) override;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* LoginEntry_h */

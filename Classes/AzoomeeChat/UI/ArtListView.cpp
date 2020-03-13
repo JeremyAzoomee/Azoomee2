@@ -8,11 +8,13 @@
 
 #include "ArtListView.h"
 #include "ArtListColumn.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <TinizineCommon/UI/Colour.h>
 
 using namespace cocos2d;
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 void ArtListView::doLayout()
 {
@@ -74,7 +76,7 @@ bool ArtListView::init()
     }
     
     setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::darkIndigoTwo);
+    setBackGroundColor(Colours::Color_3B::darkIndigoTwo);
     
     setDirection(ui::ScrollView::Direction::HORIZONTAL);
     setBounceEnabled(true);
@@ -100,4 +102,4 @@ void ArtListView::setContentSize(const cocos2d::Size& contentSize)
 }
 
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

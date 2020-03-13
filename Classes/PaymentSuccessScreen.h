@@ -8,13 +8,16 @@
 #ifndef PaymentSuccessScreen_h
 #define PaymentSuccessScreen_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/CTAButton.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
+#include <TinizineCommon/UI/TextButton.h>
+#include <TinizineCommon/UI/DynamicText.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class PaymentSuccessScreen : public cocos2d::ui::Layout
 {
@@ -26,7 +29,7 @@ private:
 
 	DynamicText* _headerText = nullptr;
 	DynamicText* _bodyText = nullptr;
-	CTAButton* _continueButton = nullptr;
+	TextButton* _continueButton = nullptr;
 	
 	DynamicText* _loginButton = nullptr;
 	DynamicText* _loginHeader = nullptr;
@@ -49,6 +52,6 @@ public:
 	static const std::string kPaymentSuccessScreenName;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* PaymentSuccessScreen_h */

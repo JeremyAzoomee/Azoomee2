@@ -4,11 +4,13 @@
 #include "../AzoomeeChat.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
+#include <TinizineCommon/ImageDownloader/ImageDownloader.h>
 #include "../Data/Friend.h"
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
     
 class AvatarWidget : public cocos2d::ui::Layout, public ImageDownloaderDelegate
 {
@@ -58,6 +60,6 @@ public:
     CREATE_FUNC(AvatarWidget);
 };
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END
 
 #endif

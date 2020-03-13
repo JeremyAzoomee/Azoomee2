@@ -1,29 +1,29 @@
 #include "ChildSelectorScene.h"
 #include "BackEndCaller.h"
-#include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Audio/AudioMixer.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
-#include "LoginLogicHandler.h"
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <TinizineCommon/API/API.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include "ModalMessages.h"
+#include "LoginController.h"
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
 #include "SceneManagerScene.h"
 #include "FlowDataSingleton.h"
-#include <AzoomeeCommon/UI/PrivacyLayer.h>
-#include "ContentHistoryManager.h"
+#include <TinizineCommon/ContentDataManagers/ContentHistoryManager.h>
 #include "ForceUpdateAppLockScene.h"
-#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
-#include <AzoomeeCommon/Utils/ActionBuilder.h>
-#include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <TinizineCommon/ImageDownloader/RemoteImageSprite.h>
+#include "ActionBuilder.h"
+#include <TinizineCommon/Utils/StringFunctions.h>
+#include <TinizineCommon/UI/Colour.h>
 #include "HQHistoryManager.h"
 #include "PopupMessageBox.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const Size ChildSelectorScene::kBaseButtonSize = Size(560,710);
 
@@ -36,13 +36,13 @@ bool ChildSelectorScene::init()
     
     AnalyticsSingleton::getInstance()->logoutChildEvent();
     AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
-    ParentManager::getInstance()->logoutChild();
+    UserAccountManager::getInstance()->logoutChild();
     ContentHistoryManager::getInstance()->setReturnedFromContent(false);
     HQHistoryManager::getInstance()->clearCachedHQData();
     
     AudioMixer::getInstance()->stopBackgroundMusic();
     
-    const Color3B& bgColour = Style::Color::darkIndigo;
+    const Color3B& bgColour = Colours::Color_3B::darkIndigo;
     
     _titleLayout = ui::Layout::create();
     _titleLayout->setSizeType(ui::Layout::SizeType::PERCENT);
@@ -57,7 +57,7 @@ bool ChildSelectorScene::init()
     _bgPattern->setTexture("res/decoration/pattern_stem_tile.png");
     _bgPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _bgPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _bgPattern->setColor(Style::Color::macaroniAndCheese);
+    _bgPattern->setColor(Colours::Color_3B::macaroniAndCheese);
     _bgPattern->setRoundedCorners(false, false, false, false);
     _bgPattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
     _bgPattern->setTileScaleFactor(1.0f);
@@ -82,13 +82,13 @@ bool ChildSelectorScene::init()
     _titleText->enableShadow(Color4B(0,0,0,125), Size(4,-8));
     _titleLayout->addChild(_titleText);
     
-    _settingsButton = CTAButton::create("res/onboarding/rounded_button.png");
+    _settingsButton = TextButton::create("res/onboarding/rounded_button.png");
     _settingsButton->ignoreContentAdaptWithSize(false);
     _settingsButton->setScale9Enabled(true);
     _settingsButton->setContentSize(Size(700,140));
     _settingsButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _settingsButton->setNormalizedPosition(Vec2(0.5f, 0.48f));
-    _settingsButton->setColor(Style::Color::white);
+    _settingsButton->setColor(Colours::Color_3B::white);
     _settingsButton->setTextColour(Color4B::BLACK);
     _settingsButton->setTextFontInfo(Style::Font::PoppinsBold(), 66);
     _settingsButton->setTextAreaSizePercent(Vec2(0.9f,0.8f));
@@ -115,16 +115,16 @@ bool ChildSelectorScene::init()
     _switchProfileText->setNormalizedPosition(Vec2(0.5f, 0.92f));
     _switchProfileText->setTextHorizontalAlignment(TextHAlignment::CENTER);
     _switchProfileText->setTextVerticalAlignment(TextVAlignment::BOTTOM);
-    _switchProfileText->setTextColor(Color4B(Style::Color::brownGrey));
+    _switchProfileText->setTextColor(Color4B(Colours::Color_3B::brownGrey));
     _childLayout->addChild(_switchProfileText);
     
     _childPageView = ui::PageView::create();
     _childPageView->setDirection(ui::PageView::Direction::HORIZONTAL);
     _childPageView->setIndicatorEnabled(true);
     _childPageView->setIndicatorPositionAsAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    _childPageView->setIndicatorIndexNodesColor(Style::Color::brownGrey);
+    _childPageView->setIndicatorIndexNodesColor(Colours::Color_3B::brownGrey);
     _childPageView->setIndicatorIndexNodesOpacity(125);
-    _childPageView->setIndicatorSelectedIndexColor(Style::Color::brownGrey);
+    _childPageView->setIndicatorSelectedIndexColor(Colours::Color_3B::brownGrey);
     _childPageView->setIndicatorSelectedIndexOpacity(255);
     _childPageView->setIndicatorSpaceBetweenIndexNodes(20);
     _childPageView->setSizeType(ui::Layout::SizeType::PERCENT);
@@ -150,21 +150,21 @@ void ChildSelectorScene::onEnter()
     if(FlowDataSingleton::getInstance()->hasError())
     {
         const long errorCode = FlowDataSingleton::getInstance()->getErrorCode();
-        const auto& errorMessageText = StringMgr::getInstance()->getErrorMessageWithCode(errorCode);
+        const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(errorCode);
         
         PopupMessageBox* messageBox = PopupMessageBox::create();
         messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
         messageBox->setBody(errorMessageText.at(ERROR_BODY));
         messageBox->setButtonText(_("Back"));
-        messageBox->setButtonColour(Style::Color::darkIndigo);
-        messageBox->setPatternColour(Style::Color::azure);
-        messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+        messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+        messageBox->setPatternColour(Colours::Color_3B::azure);
+        messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
             pSender->removeFromParent();
         });
         this->addChild(messageBox, 1);
     }
     
-    if(ParentManager::getInstance()->getAmountOfAvailableChildren() == 0)
+    if(UserAccountManager::getInstance()->getAmountOfAvailableChildren() == 0)
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::AddChild));
     }
@@ -201,7 +201,7 @@ void ChildSelectorScene::onSizeChanged()
 
 void ChildSelectorScene::createChildButtons()
 {
-    const int numChildren = ParentManager::getInstance()->getAmountOfAvailableChildren();
+    const int numChildren = UserAccountManager::getInstance()->getAmountOfAvailableChildren();
     
     const int rowsPerPage = 2;
     const int colsPerPage = 2;
@@ -235,7 +235,7 @@ void ChildSelectorScene::createChildButtons()
                 
                 if(childNum < numChildren)
                 {
-                    const ChildRef& child = ParentManager::getInstance()->getChild(childNum);
+                    const ChildRef& child = UserAccountManager::getInstance()->getChild(childNum);
                     if(child)
                     {
                         ui::Layout* button = createChildButton(child, childNum);
@@ -257,7 +257,7 @@ cocos2d::ui::Layout* ChildSelectorScene::createChildButton(const ChildRef& child
     childButton->setContentSize(kBaseButtonSize);
     
     RemoteImageSprite* oomee = RemoteImageSprite::create();
-    oomee->initWithUrlAndSizeWithoutPlaceholder(child->getAvatar(), Size(kBaseButtonSize.width, kBaseButtonSize.width));
+    oomee->initWithUrlAndSize(child->getAvatar(), Size(kBaseButtonSize.width, kBaseButtonSize.width));
     oomee->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     childButton->addChild(oomee);
@@ -274,132 +274,22 @@ cocos2d::ui::Layout* ChildSelectorScene::createChildButton(const ChildRef& child
     text->setTextVerticalAlignment(TextVAlignment::BOTTOM);
     text->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     text->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    text->setTextColor(Color4B(Style::Color::brownGrey));
+    text->setTextColor(Color4B(Colours::Color_3B::brownGrey));
     childButton->addChild(text);
     
     childButton->setTouchEnabled(true);
     childButton->addTouchEventListener([childNum](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            AudioMixer::getInstance()->playEffect(SELECT_OOMEE_AUDIO_EFFECT);
-            AnalyticsSingleton::getInstance()->registerChildGenderAndAge(ParentManager::getInstance()->getChild(childNum));
-            BackEndCaller::getInstance()->childLogin(childNum);
+            AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_08_v1.mp3");
+            AnalyticsSingleton::getInstance()->registerChildGenderAndAge(UserAccountManager::getInstance()->getChild(childNum));
+            LoginController::getInstance()->childLogin(UserAccountManager::getInstance()->getChild(childNum)->getProfileName());
         }
     });
     
     return childButton;
 
 }
-
-//-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
-
-/*
-ui::Button *ChildSelectorScene::createChildProfileButton(const std::string& profileName, int childNum)
-{
-	const Size& oomeeSize = Size(370,370);
-	
-    auto button = ui::Button::create();
-    button->setContentSize(Size(OOMEE_LAYER_WIDTH,OOMEE_LAYER_HEIGHT));
-    button->ignoreContentAdaptWithSize(false);
-    button->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-    
-    button->addTouchEventListener([=](Ref* pSender, ui::Widget::TouchEventType eType)
-    {
-        if(eType == ui::Widget::TouchEventType::BEGAN)
-        {
-            auto button = dynamic_cast<Node*>(pSender);
-            if(button)
-            {
-                auto oomeeLayer = button->getChildByName(kOomeeLayerName);
-                if(oomeeLayer)
-                {
-                    oomeeLayer->setScale(1.25f);
-                }
-            }
-        }
-        else if(eType == ui::Widget::TouchEventType::ENDED)
-        {
-            AudioMixer::getInstance()->playEffect(SELECT_OOMEE_AUDIO_EFFECT);
-            _parentIconSelected = false;
-            int childNumber = ((Node*)pSender)->getTag();
-            AnalyticsSingleton::getInstance()->registerChildGenderAndAge(ParentManager::getInstance()->getChild(childNumber));
-            BackEndCaller::getInstance()->childLogin(childNumber);
-        }
-        else if(eType == ui::Widget::TouchEventType::CANCELED)
-        {
-            auto button = dynamic_cast<Node*>(pSender);
-            if(button)
-            {
-                auto oomeeLayer = button->getChildByName(kOomeeLayerName);
-                if(oomeeLayer)
-                {
-                    oomeeLayer->setScale(1.0f);
-                }
-            }
-        }
-    });
-	
-	Sprite* bgCircle1 = Sprite::create("res/oomeeMaker/circle_0.png");
-	bgCircle1->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	bgCircle1->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	bgCircle1->setScale(0);
-	bgCircle1->setOpacity(25);
-	bgCircle1->setRotation(RandomHelper::random_real(0.0,M_PI));
-	bgCircle1->setColor(Style::Color::darkTeal);
-	button->addChild(bgCircle1, -1);
-	
-	auto popIn1 = EaseBackOut::create(ScaleTo::create(0.5, ((oomeeSize.height * 0.85) / bgCircle1->getContentSize().height)));
-	auto rotate1 = RepeatForever::create(RotateBy::create(30 + CCRANDOM_0_1() * 30, 360));
-	
-	bgCircle1->runAction(popIn1);
-	bgCircle1->runAction(rotate1);
-	
-	Sprite* bgCircle2 = Sprite::create("res/oomeeMaker/circle_1.png");
-	bgCircle2->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	bgCircle2->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	bgCircle2->setScale(0);
-	bgCircle2->setOpacity(25);
-	bgCircle2->setRotation(RandomHelper::random_real(0.0,M_PI));
-	bgCircle2->setColor(Style::Color::darkTeal);
-	button->addChild(bgCircle2, -1);
-	
-	auto popIn2 = EaseBackOut::create(ScaleTo::create(0.5, ((oomeeSize.height * 1.15f) / bgCircle2->getContentSize().height)));
-	auto rotate2 = RepeatForever::create(RotateBy::create(30 +  CCRANDOM_0_1() * 30, -360));
-	
-	bgCircle2->runAction(popIn2);
-	bgCircle2->runAction(rotate2);
-	
-    auto oomee = RemoteImageSprite::create();
-    oomee->initWithUrlAndSizeWithoutPlaceholder(ParentManager::getInstance()->getChild(childNum)->getAvatar(), oomeeSize);
-    oomee->setKeepAspectRatio(true);
-    oomee->setAnchorPoint(Vec2(0.5,0.4));
-    oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    oomee->setName(kOomeeLayerName);
-    button->addChild(oomee);
-    
-    float delayTime = CCRANDOM_0_1() * 0.5;
-    if(_firstTime)
-    {
-        oomee->setOpacity(0);
-        oomee->runAction(createBlinkEffect(delayTime, 0.1));
-    }
-	
-    auto profileLabel = createLabelChildName(profileName);
-    profileLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    profileLabel->setNormalizedPosition(Vec2(0.5,0));
-	profileLabel->setTextColor(Color4B::BLACK);
-    reduceLabelTextToFitWidth(profileLabel,OOMEE_LAYER_WIDTH);
-    button->addChild(profileLabel);
-    
-    if(_firstTime)
-    {
-        profileLabel->setOpacity(0);
-        profileLabel->runAction(createBlinkEffect(delayTime, 0.1));
-    }
-
-    return button;
-}
-*/
 
 //----------------------- Delegate Functions ----------------------------
 
@@ -433,18 +323,18 @@ void ChildSelectorScene::onForceUpdateCheckFinished(const ForceUpdateResult& res
             PopupMessageBox* messageBox = PopupMessageBox::create();
             messageBox->setTitle(_("Update recommended"));
             messageBox->setBody(_("You should update to the latest version of Azoomee. Ask a grown-up to help you."));
-            messageBox->setPatternColour(Style::Color::azure);
+            messageBox->setPatternColour(Colours::Color_3B::azure);
             
             messageBox->setButtonText(_("Update"));
-            messageBox->setButtonColour(Style::Color::strongPink);
-            messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+            messageBox->setButtonColour(Colours::Color_3B::strongPink);
+            messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
                 pSender->removeFromParent();
                 Application::getInstance()->openURL(ForceUpdateSingleton::getInstance()->getUpdateUrlFromFile());
             });
             
             messageBox->setSecondButtonText(_("Back"));
-            messageBox->setSecondButtonColour(Style::Color::darkIndigo);
-            messageBox->setSecondButtonPressedCallback([this](PopupMessageBox* pSender){
+            messageBox->setSecondButtonColour(Colours::Color_3B::darkIndigo);
+            messageBox->setSecondButtonPressedCallback([this](MessagePopupBase* pSender){
                 pSender->removeFromParent();
             });
             this->addChild(messageBox, 1);
@@ -458,4 +348,4 @@ void ChildSelectorScene::onForceUpdateCheckFinished(const ForceUpdateResult& res
 			break;
 	}
 }
-NS_AZOOMEE_END
+NS_AZ_END

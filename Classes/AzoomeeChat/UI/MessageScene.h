@@ -6,17 +6,18 @@
 #include "MessageListView.h"
 #include "TitleBarWidget.h"
 #include "MessageComposer.h"
-#include <AzoomeeCommon/UI/Scene.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
+#include <TinizineCommon/UI/Scene.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/RequestAdultPinLayer.h>
+#include "../../RequestAdultPinLayer.h"
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
     
-class MessageScene : public Azoomee::Scene, public ChatAPIObserver, public MessageComposer::Delegate, public MessageBoxDelegate, public RequestAdultPinLayerDelegate
+class MessageScene : public TZ::Scene, public ChatAPIObserver, public MessageComposer::Delegate, public RequestAdultPinLayerDelegate
 {
-    typedef Azoomee::Scene Super;
+    typedef TZ::Scene Super;
 private:
     
     static const cocos2d::Vec2 kPaddingPercent;
@@ -97,7 +98,6 @@ private:
     void onMessageComposerSendMessage(const MessageRef& message) override;
     
     // - MessageBoxDelegate
-    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle) override;
     void AdultPinCancelled(RequestAdultPinLayer* layer) override;
     void AdultPinAccepted(RequestAdultPinLayer* layer) override;
 
@@ -128,6 +128,6 @@ public:
     static MessageScene* create(const FriendList& participants);
 };
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END
 
 #endif

@@ -6,14 +6,16 @@
 //
 
 #include "ArtContentTile.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/ImageDownloader/ImageDownloaderCacheCleanerLogic.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/ImageDownloader/ImageDownloaderCacheCleanerLogic.h>
 #include "HQConstants.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const Size ArtContentTile::kDropshadowPadding = Size(78,78);
 
@@ -57,7 +59,7 @@ bool ArtContentTile::init()
     _buttonOverlay = RoundedRectSprite::create();
     _buttonOverlay->setTexture("res/decoration/white_1px.png");
     _buttonOverlay->setCornerRadius(HQConsts::OomeeHQTileCornerRadius);
-    _buttonOverlay->setColor(Style::Color::white);
+    _buttonOverlay->setColor(Colours::Color_3B::white);
     _buttonOverlay->setOpacity(125);
     _buttonOverlay->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _buttonOverlay->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -173,4 +175,4 @@ void ArtContentTile::elementAppeared(cocos2d::Node *sender)
     resizeContentImage();
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

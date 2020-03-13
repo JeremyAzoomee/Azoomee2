@@ -8,13 +8,16 @@
 #ifndef SettingsKidsPage_h
 #define SettingsKidsPage_h
 
-#include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/API/HttpRequestCreator.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/API/HttpRequestCreator.h>
 #include <cocos/cocos2d.h>
 #include <ui/CocosGUI.h>
 #include "SettingsPageHeader.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class SettingsKidsPage : public cocos2d::ui::Layout, public HttpRequestCreatorResponseDelegate
 {
@@ -40,6 +43,6 @@ public:
     
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* SettingsKidsPage_h */

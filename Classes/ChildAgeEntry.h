@@ -8,14 +8,17 @@
 #ifndef ChildAgeEntry_h
 #define ChildAgeEntry_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/CTAButton.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
+#include <TinizineCommon/UI/TextButton.h>
+#include <TinizineCommon/UI/DynamicText.h>
 #include "ProgressBar.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class ChildAgeEntry : public cocos2d::ui::Layout
 {
@@ -28,7 +31,7 @@ private:
     cocos2d::ui::Layout* _ageNumLayout = nullptr;
     cocos2d::Vector<cocos2d::ui::Button*> _buttons;
     cocos2d::ui::Scale9Sprite* _inputBg = nullptr;
-    CTAButton* _continueButton = nullptr;
+    TextButton* _continueButton = nullptr;
     DynamicText* _backButton = nullptr;
     
     ButtonCallback _continueCallback = nullptr;
@@ -59,6 +62,6 @@ public:
     CREATE_FUNC(ChildAgeEntry);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* ChildAgeEntry_h */

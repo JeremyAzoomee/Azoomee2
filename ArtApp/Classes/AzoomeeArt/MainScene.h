@@ -5,11 +5,13 @@
 #include "DrawingCanvas.h"
 #include "AzoomeeArtApp.h"
 #include "DrawingCanvasUILayer.h"
-#include <AzoomeeCommon/UI/ConfirmCancelMessageBox.h>
+#include "ArtAppConfirmCancelMessageBox.h"
 
-NS_AZOOMEE_AA_BEGIN
+USING_NS_TZ
 
-class MainScene : public cocos2d::Layer, ConfirmCancelMessageBoxDelegate
+NS_AZ_ART_BEGIN
+
+class MainScene : public cocos2d::Layer
 {
     typedef cocos2d::Layer Super;
 private:
@@ -39,12 +41,8 @@ public:
     void saveAndSendFile();
     // implement the "static create()" method manually
     CREATE_FUNC(MainScene);
-    
-    //delegate functions
-    void onConfirmPressed(ConfirmCancelMessageBox* pSender) override;
-    void onCancelPressed(ConfirmCancelMessageBox* pSender) override;
 };
 
-NS_AZOOMEE_AA_END
+NS_AZ_ART_END
 
 #endif // __ARTAPP_MAIN_SCENE_H__

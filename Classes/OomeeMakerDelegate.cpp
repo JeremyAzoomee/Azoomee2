@@ -9,17 +9,19 @@
 #include "ChatDelegate.h"
 #include "SceneManagerScene.h"
 #include "HQHistoryManager.h"
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include <AzoomeeOomeeMaker/UI/OomeeMakerScene.h>
-#include <AzoomeeOomeeMaker/UI/OomeeSelectScene.h>
-#include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include "AzoomeeOomeeMaker/UI/OomeeMakerScene.h"
+#include "AzoomeeOomeeMaker/UI/OomeeSelectScene.h"
+#include <TinizineCommon/API/API.h>
+#include "ModalMessages.h"
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 
 USING_NS_CC;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 static std::auto_ptr<OomeeMakerDelegate> sOomeeMakerDelegateSharedInstance;
 
@@ -58,7 +60,7 @@ void OomeeMakerDelegate::onOomeeMakerShareOomee(const std::string& filename)
     ChatDelegate::getInstance()->_imageFileName = filename;
     if(filename != "")
     {
-		if(!HQHistoryManager::getInstance()->isOffline() && ParentManager::getInstance()->isPaidUser())
+		if(!HQHistoryManager::getInstance()->isOffline() && UserAccountManager::getInstance()->isPaidUser())
         {
             ChatDelegate::getInstance()->_sharingOomee = true;
             HQHistoryManager::getInstance()->setReturnedFromForcedOrientation(true);
@@ -76,7 +78,7 @@ void OomeeMakerDelegate::onOomeeMakerUpdateAvatar(const std::string &filename)
 	char* str = nullptr;
 	base64Encode((unsigned char*)imageData.c_str(), (unsigned int)imageData.length(), &str);
 		
-	HttpRequestCreator* request = API::UpdateChildAvatar(ChildManager::getInstance()->getParentOrChildId(), str, this);
+	HttpRequestCreator* request = API::UpdateChildAvatar(ChildManager::getInstance()->getLoggedInChild()->getId(), str, this);
 	request->execute();
 }
 
@@ -111,4 +113,4 @@ void OomeeMakerDelegate::onHttpRequestFailed(const std::string& requestTag, long
     ModalMessages::getInstance()->stopLoading();
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

@@ -9,11 +9,14 @@
 #define SettingsMessageBoxFREvent_h
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/Input/TextInputLayer.h>
+#include <TinizineCommon/Tinizine.h>
+#include "TextInputLayer.h"
 #include "SettingsMessageBox.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 enum class EventType {SUCCESS, FAIL};
 
@@ -46,7 +49,7 @@ public:
     virtual void editBoxEditingDidEnd(TextInputLayer* inputLayer);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 
 #endif /* SettingsMessageBoxFREvent_h */

@@ -4,12 +4,14 @@
 #include "../AzoomeeChat.h"
 #include "StickerCategoryListView.h"
 #include "StickerListView.h"
-#include <AzoomeeCommon/UI/SplitLayout.h>
+#include <TinizineCommon/UI/SplitLayout.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
     
 class StickerSelector : public cocos2d::ui::Layout
 {
@@ -54,6 +56,6 @@ public:
     CREATE_FUNC(StickerSelector);
 };
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END
 
 #endif

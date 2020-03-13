@@ -1,13 +1,15 @@
 #include "StickerListViewColumn.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
 
 
 using namespace cocos2d;
 
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 bool StickerListViewColumn::init()
 {
@@ -147,4 +149,4 @@ void StickerListViewColumn::addItemSelectedEventListener(const ItemSelectedCallb
     _selectedEventCallback = callback;
 }
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

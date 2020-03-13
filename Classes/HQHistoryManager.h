@@ -2,11 +2,15 @@
 #define Azoomee_HQHistoryManager_h
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/UI/UIConsts.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/UI/UIConsts.h>
 #include "HQScene.h"
+#include "HQConstants.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class HQHistoryManager
 {
@@ -19,6 +23,8 @@ private:
 	bool _returnedFromForcedOrientation = false;
 	
 	Orientation _prevHQOrientation = Orientation::Landscape;
+    
+    std::string kDefaultHQName = HQConsts::kGameHQName;
     
     HQScene* _cachedHQScene = nullptr;
     HQSnapshot _hqSnapshot;
@@ -72,6 +78,6 @@ public:
     
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif

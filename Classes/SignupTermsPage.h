@@ -8,13 +8,16 @@
 #ifndef SignupTermsPage_h
 #define SignupTermsPage_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/CTAButton.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
+#include <TinizineCommon/UI/TextButton.h>
+#include <TinizineCommon/UI/DynamicText.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class SignupTermsPage : public cocos2d::ui::Layout
 {
@@ -27,7 +30,7 @@ private:
 	cocos2d::ui::CheckBox* _acceptTermsCheckBox = nullptr;
 	cocos2d::ui::CheckBox* _acceptMarketingCheckBox = nullptr;
 	
-	CTAButton* _submitButton = nullptr;
+	TextButton* _submitButton = nullptr;
 	DynamicText* _backButton = nullptr;
 	
 	ButtonCallback _submitCallback = nullptr;
@@ -47,6 +50,6 @@ public:
 	CREATE_FUNC(SignupTermsPage);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* SignupTermsPage_h */

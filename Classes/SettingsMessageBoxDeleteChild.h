@@ -9,10 +9,13 @@
 #define SettingsMessageBoxDeleteChild_h
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include "SettingsMessageBox.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class SettingsMessageBoxDeleteChild : public SettingsMessageBox
 {
@@ -29,7 +32,7 @@ public:
     CREATE_FUNC(SettingsMessageBoxDeleteChild);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 
 #endif /* SettingsMessageBoxDeleteChild_h */

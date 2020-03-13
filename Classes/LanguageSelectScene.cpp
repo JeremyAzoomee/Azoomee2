@@ -6,17 +6,19 @@
 //
 
 #include "LanguageSelectScene.h"
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
 #include "SceneManagerScene.h"
 #include "BackEndCaller.h"
-#include "LoginLogicHandler.h"
+#include "LoginController.h"
 #include "HQHistoryManager.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const std::string LanguageSelectScene::kGreekLangID = "gre";
 const cocos2d::Size LanguageSelectScene::kBaseButtonSize = Size(255,410);
@@ -28,7 +30,7 @@ bool LanguageSelectScene::init()
 		return false;
 	}
     
-    const Color3B& bgColour = Style::Color::darkIndigo;
+    const Color3B& bgColour = Colours::Color_3B::darkIndigo;
     
     _titleLayout = ui::Layout::create();
     _titleLayout->setSizeType(ui::Layout::SizeType::PERCENT);
@@ -43,7 +45,7 @@ bool LanguageSelectScene::init()
     _bgPattern->setTexture("res/decoration/pattern_stem_tile.png");
     _bgPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _bgPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _bgPattern->setColor(Style::Color::macaroniAndCheese);
+    _bgPattern->setColor(Colours::Color_3B::macaroniAndCheese);
     _bgPattern->setRoundedCorners(false, false, false, false);
     _bgPattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
     _bgPattern->setTileScaleFactor(1.0f);
@@ -122,7 +124,7 @@ void LanguageSelectScene::onSizeChanged()
 
 void LanguageSelectScene::createLanguageButtons()
 {
-    const auto& langsData = StringMgr::kLanguageParams;
+    const auto& langsData = LocaleManager::kLanguageParams;
     
 	int langsPerRow = 3;
 	
@@ -173,35 +175,35 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
     text->setTextVerticalAlignment(TextVAlignment::BOTTOM);
     text->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     text->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    text->setTextColor(Color4B(Style::Color::brownGrey));
+    text->setTextColor(Color4B(Colours::Color_3B::brownGrey));
     langButton->addChild(text);
     
     langButton->setTouchEnabled(true);
     langButton->addTouchEventListener([params](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            StringMgr::getInstance()->changeLanguage(params._identifier);
+            LocaleManager::getInstance()->changeLanguage(params._identifier);
             HQHistoryManager::getInstance()->clearCachedHQData();
-            if(!ParentManager::getInstance()->hasParentLoginDataInUserDefaults())
+            if(!UserAccountManager::getInstance()->hasParentLoginDataInUserDefaults())
             {
-                if(ParentManager::getInstance()->getParent())
+                if(UserAccountManager::getInstance()->getParent())
                 {
                     Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
                 }
                 else
                 {
-                    BackEndCaller::getInstance()->anonymousDeviceLogin();
+                    LoginController::getInstance()->anonLogin();
                 }
             }
             else
             {
-                if(ParentManager::getInstance()->getParent())
+                if(UserAccountManager::getInstance()->getParent())
                 {
                     Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
                 }
                 else
                 {
-                    LoginLogicHandler::getInstance()->doLoginLogic();
+                    LoginController::getInstance()->doLoginLogic();
                 }
             }
         }
@@ -212,4 +214,4 @@ cocos2d::ui::Layout* LanguageSelectScene::createLanguageButton(const LanguagePar
 	
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

@@ -8,10 +8,10 @@
 #ifndef OomeeHQ_h
 #define OomeeHQ_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
+#include <TinizineCommon/UI/DynamicText.h>
 #include "HQPage.h"
 #include "OomeeDisplay.h"
 #include "DropdownContentHolder.h"
@@ -20,8 +20,11 @@
 #include "OomeeStoreButton.h"
 #include "ArtStudioButton.h"
 #include "ArtTileHolder.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class OomeeHQ : public HQPage
 {
@@ -68,6 +71,6 @@ public:
     CREATE_FUNC(OomeeHQ);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* OomeeHQ_h */

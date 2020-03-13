@@ -8,13 +8,16 @@
 #ifndef EpisodeBar_h
 #define EpisodeBar_h
 
-#include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/ImageDownloader/OnScreenChecker.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
-#include <AzoomeeCommon/UI/RoundedRectSprite.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/ImageDownloader/OnScreenChecker.h>
+#include <TinizineCommon/UI/DynamicText.h>
+#include <TinizineCommon/UI/RoundedRectSprite.h>
 #include "ContentTile.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class EpisodeBar : public ContentTile, public OnScreenChecker
 {
@@ -58,6 +61,6 @@ public:
     virtual void onImageDownloadFailed() override;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* EpisodeBar_h */

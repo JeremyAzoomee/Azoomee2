@@ -6,12 +6,14 @@
 //
 
 #include "EpisodeSelector.h"
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/UI/Colour.h>
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const float EpisodeSelector::kListViewPadding = 45.0f;
 const float EpisodeSelector::kHeaderHeightPercent = 0.29f;
@@ -36,7 +38,7 @@ bool EpisodeSelector::init()
     _background->setCornerRadius(20);
     _background->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _background->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _background->setColor(Style::Color::darkIndigoThree);
+    _background->setColor(Colours::Color_3B::darkIndigoThree);
     _background->setStretchImageEnabled(true);
     addChild(_background, -1);
     
@@ -62,9 +64,9 @@ bool EpisodeSelector::init()
     _headerLayout->addChild(_bannerImage);
     
     _bannerShadow = LayerGradient::create();
-    _bannerShadow->setStartColor(Style::Color::darkIndigoThree);
+    _bannerShadow->setStartColor(Colours::Color_3B::darkIndigoThree);
     _bannerShadow->setStartOpacity(0);
-    _bannerShadow->setEndColor(Style::Color::darkIndigoThree);
+    _bannerShadow->setEndColor(Colours::Color_3B::darkIndigoThree);
     _bannerShadow->setEndOpacity(255);
     _bannerShadow->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     _bannerShadow->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
@@ -98,7 +100,7 @@ bool EpisodeSelector::init()
     _bottomGradient->setRoundedCorners(true, true, false, false);
     _bottomGradient->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
     _bottomGradient->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_RIGHT);
-    _bottomGradient->setColor(Style::Color::darkIndigoThree);
+    _bottomGradient->setColor(Colours::Color_3B::darkIndigoThree);
     _contentLayout->addChild(_bottomGradient);
     
     _closeButton = ui::Button::create("res/hqscene/episode_select_close.png");
@@ -117,8 +119,8 @@ bool EpisodeSelector::init()
     });
     _headerLayout->addChild(_closeButton);
     
-    _bannerDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
-    _logoDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+    _bannerDownloader = ImageDownloader::create(ImageDownloader::kImageCachePath, ImageDownloader::CacheMode::File);
+    _logoDownloader = ImageDownloader::create(ImageDownloader::kImageCachePath, ImageDownloader::CacheMode::File);
     
     return true;
 }
@@ -266,4 +268,4 @@ void EpisodeSelector::onImageDownloadFailed()
 
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

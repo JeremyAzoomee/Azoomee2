@@ -6,12 +6,14 @@
 //
 
 #include "FriendTile.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <TinizineCommon/UI/Colour.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const float FriendTile::kHeightScale = 1.5f;
 const float FriendTile::kFrameThickness = 10.0f;
@@ -27,7 +29,7 @@ bool FriendTile::init()
     _frame->ignoreContentAdaptWithSize(false);
     _frame->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     _frame->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    _frame->setColor(Style::Color::darkIndigoThree);
+    _frame->setColor(Colours::Color_3B::darkIndigoThree);
     addChild(_frame);
     
     _clippingStencil = Sprite::create("res/hqscene/circle.png");
@@ -37,7 +39,7 @@ bool FriendTile::init()
     _contentClipper->setAlphaThreshold(0.5f);
     addChild(_contentClipper);
     
-    const Color3B& bgColour = Style::Color::darkIndigoThree;
+    const Color3B& bgColour = Colours::Color_3B::darkIndigoThree;
     
     _bgColour = ui::ImageView::create("res/hqscene/circle.png");
     _bgColour->ignoreContentAdaptWithSize(false);
@@ -65,7 +67,7 @@ bool FriendTile::init()
     _oomee->ignoreContentAdaptWithSize(false);
     _oomee->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _oomee->setColor(Style::Color::darkIndigoFour);
+    _oomee->setColor(Colours::Color_3B::darkIndigoFour);
     _bgColour->addChild(_oomee);
     
     _friendName = DynamicText::create("", Style::Font::PoppinsBold(), 55);
@@ -87,7 +89,7 @@ bool FriendTile::init()
         }
     });
     
-    _imgDownloader = ImageDownloader::create(ConfigStorage::kAvatarImageCacheFolder, ImageDownloader::CacheMode::File);
+    _imgDownloader = ImageDownloader::create(ImageDownloader::kAvatarImageCacheFolder, ImageDownloader::CacheMode::File);
     
     return true;
 }
@@ -116,7 +118,7 @@ void FriendTile::setFriendData(const Chat::FriendRef& friendData)
     {
         _friendName->setString(_friendData->friendName());
         _imgDownloader->downloadImage(this, _friendData->avatarURL());
-        _frame->setColor(Style::Color::macaroniAndCheese);
+        _frame->setColor(Colours::Color_3B::macaroniAndCheese);
         _pattern->setVisible(true);
     }
 }
@@ -163,4 +165,4 @@ void FriendTile::onImageDownloadFailed()
     
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

@@ -7,17 +7,21 @@
 
 #include "ChildCreator.h"
 #include "FlowDataSingleton.h"
-#include <AzoomeeCommon/Input/TextInputChecker.h>
-#include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Utils/TimeFunctions.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/API/API.h>
+#include <TinizineCommon/Input/TextInputChecker.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
+#include <TinizineCommon/Utils/TimeUtils.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/API/API.h>
 
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
+
+const std::string ChildCreator::kDefaultOomeeImgUrl = "https://media.azoomee.com/static/thumbs/oomee_11.png";
 
 ChildCreatorRef ChildCreator::create()
 {
@@ -64,21 +68,21 @@ std::string ChildCreator::getCreatedChildId() const
     return _createdChildId;
 }
 
-void ChildCreator::setHttpRespnseDelegate(Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+void ChildCreator::setHttpRespnseDelegate(TZ::HttpRequestCreatorResponseDelegate *delegate)
 {
     _delegate = delegate;
 }
 
 bool ChildCreator::addChild()
 {
-    if(_age <= 0 || !isValidChildName(_childName.c_str()))
+    if(_age <= 0 || !TextInputChecker::isValidChildName(_childName.c_str()))
     {
         return false;
     }
     
-    int year = birthYearFromAge(_age);
+    int year = TimeUtils::birthYearFromAge(_age);
 	
-	if(!isDate(1, 1, year))
+	if(!TextInputChecker::isDate(1, 1, year))
 	{
 		return false;
 	}
@@ -86,11 +90,9 @@ bool ChildCreator::addChild()
     const std::string& DOB = StringUtils::format("%04d-%02d-%02d",year,1,1);
     const std::string& gender = "MALE";
 	
-	_oomeeNum = 4;
     AnalyticsSingleton::getInstance()->childProfileCreatedEvent(_age);
     
-    const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(_oomeeNum);
-    HttpRequestCreator* request = API::RegisterChildRequest(_childName, gender, DOB, oomeeUrl, _delegate);
+    HttpRequestCreator* request = API::RegisterChildRequest(_childName, gender, DOB, kDefaultOomeeImgUrl, _delegate);
     
     request->execute();
     
@@ -99,30 +101,27 @@ bool ChildCreator::addChild()
 
 bool ChildCreator::updateChild(const ChildRef &child)
 {
-	if(_age <= 0 || !isValidChildName(_childName.c_str()))
+	if(_age <= 0 || !TextInputChecker::isValidChildName(_childName.c_str()))
 	{
 		return false;
 	}
 	
-	int year = birthYearFromAge(_age);
+	int year = TimeUtils::birthYearFromAge(_age);
 
-	if(!isDate(1, 1, year))
+	if(!TextInputChecker::isDate(1, 1, year))
 	{
 		return false;
 	}
 	const std::string& DOB = StringUtils::format("%04d-%02d-%02d",year,1,1);
 	
-	const std::string& ownerId = ParentManager::getInstance()->getLoggedInParentId();
-	
-	_oomeeNum = 4;
+	const std::string& ownerId = UserAccountManager::getInstance()->getLoggedInParentId();
+
 	AnalyticsSingleton::getInstance()->childProfileCreatedEvent(_age);
 	
-	const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(_oomeeNum);
-	
-	HttpRequestCreator* request = API::UpdateChildRequest(child->getId(),_childName, child->getSex(), DOB, oomeeUrl, ownerId, _delegate);
+	HttpRequestCreator* request = API::UpdateChildRequest(child->getId(),_childName, child->getSex(), DOB, kDefaultOomeeImgUrl, ownerId, _delegate);
 	request->execute();
 	
 	return true;
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

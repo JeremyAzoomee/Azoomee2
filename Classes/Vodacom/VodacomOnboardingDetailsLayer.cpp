@@ -6,13 +6,15 @@
 //
 #ifdef AZOOMEE_VODACOM_BUILD
 #include "VodacomOnboardingDetailsLayer.h"
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/Colour.h>
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool VodacomOnboardingDetailsLayer::init()
 {
@@ -132,16 +134,16 @@ void VodacomOnboardingDetailsLayer::onEnter()
 	
 	// add this in later when we have a link
 	/*Label* voucherLearnMore = Label::createWithTTF(_("Don’t have a voucher?"), Style::Font::Regular(), 64);
-	voucherLearnMore->setTextColor(Color4B(Style::Color::skyBlue));
+	voucherLearnMore->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	voucherLearnMore->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	voucherLearnMore->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
 	Label* learnMore = Label::createWithTTF(_("Learn more"), Style::Font::Regular(), 64);
-	learnMore->setTextColor(Color4B(Style::Color::skyBlue));
+	learnMore->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	learnMore->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	learnMore->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
 	
 	DrawNode* underline = DrawNode::create();
-	underline->drawRect(Vec2(0, -7), Vec2(learnMore->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+	underline->drawRect(Vec2(0, -7), Vec2(learnMore->getContentSize().width, -6), Color4F(Colours::Color_3B::skyBlue));
 	learnMore->addChild(underline);
 	
 	ui::Layout* learnMoreHolder = ui::Layout::create();
@@ -154,5 +156,5 @@ void VodacomOnboardingDetailsLayer::onEnter()
 	Super::onEnter();
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 #endif

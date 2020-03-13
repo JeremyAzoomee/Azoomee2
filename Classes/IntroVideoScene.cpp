@@ -1,27 +1,24 @@
 #include "IntroVideoScene.h"
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQHistoryManager.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Strings.h>
-#include "LoginLogicHandler.h"
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include "LoginController.h"
 #include "SceneManagerScene.h"
 #include "BackEndCaller.h"
 #include "ForceUpdateAppLockScene.h"
 #include "LanguageSelectScene.h"
-
-#if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    #include <AzoomeeCommon/Utils/IosNativeFunctionsSingleton.h>
-#elif(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    #include "platform/android/jni/JniHelper.h"
-    static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppActivity";
-#endif
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include "PopupMessageBox.h"
+#include <TinizineCommon/Device.h>
 
 using namespace cocos2d;
 using namespace cocos2d::experimental::ui;
 
 //#define novideo
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 //ATTENTION! FRAMEWORK MODIFICATION REQUIRED IN ORDER TO HAVE THE VIDEO PLAYED WITHOUT CONTROL BAR!
 //cocos2d/cocos/platform/android/java/src/org/cocos2dx/lib/Cocos2dxVideoView.java row 204-206 if(isPlaying()) to be commented out
@@ -165,11 +162,7 @@ void IntroVideoScene::navigateToNextScene()
     this->stopActionByTag(3);
     this->stopActionByTag(4);
     
-#if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    IosNativeFunctionsSingleton::getInstance()->identifyMixpanel();
-#elif(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "identifyMixpanel");
-#endif
+    TZ::Device::getInstance()->identifyMixpanel();
     
     if(_videoPlayer)
     {
@@ -198,28 +191,42 @@ void IntroVideoScene::onForceUpdateCheckFinished(const ForceUpdateResult& result
 	{
 		case ForceUpdateResult::DO_NOTHING:
 		{
-			if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
+			if(!UserAccountManager::getInstance()->userHasLoggedInOnDevice())
 			{
-				if(UserDefault::getInstance()->getStringForKey(ConfigStorage::kAnonEmailKey, "") == "")
+				if(UserDefault::getInstance()->getStringForKey(UserAccountManager::kAnonEmailKey, "") == "")
 				{
 					Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::WelcomeScene));
 				}
 				else
 				{
-					BackEndCaller::getInstance()->anonymousDeviceLogin();
+                    LoginController::getInstance()->anonLogin();
 				}
 			}
 			else
 			{
-				LoginLogicHandler::getInstance()->doLoginLogic();
+				LoginController::getInstance()->doLoginLogic();
 			}
 			
 			break;
 		}
 		case ForceUpdateResult::NOTIFY:
 		{
-			std::vector<std::string> buttonNames = {_("OK"), _("Update")};
-			MessageBox::createWith(_("Update recommended"), _("You should update to the latest version of Azoomee. Ask a grown-up to help you."), buttonNames, this);
+            PopupMessageBox* messageBox = PopupMessageBox::create();
+            messageBox->setTitle(_("Update recommended"));
+            messageBox->setBody(_("You should update to the latest version of Azoomee. Ask a grown-up to help you."));
+            messageBox->setButtonText(_("OK"));
+            messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+            messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
+                pSender->removeFromParent();
+                this->onForceUpdateCheckFinished(ForceUpdateResult::DO_NOTHING);
+            });
+            messageBox->setSecondButtonText(_("Update"));
+            messageBox->setSecondButtonColour(Colours::Color_3B::strongPink);
+            messageBox->setSecondButtonPressedCallback([](MessagePopupBase* pSender){
+                pSender->removeFromParent();
+                Director::getInstance()->replaceScene(ForceUpdateAppLockScene::create());
+            });
+            addChild(messageBox, 1);
 			break;
 		}
 		case ForceUpdateResult::LOCK:
@@ -231,24 +238,5 @@ void IntroVideoScene::onForceUpdateCheckFinished(const ForceUpdateResult& result
 	}
 }
 
-void IntroVideoScene::MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle)
-{
-	if(buttonTitle == _("Update"))
-	{
-		Application::getInstance()->openURL(ForceUpdateSingleton::getInstance()->getUpdateUrlFromFile());
-	}
-	else
-	{
-		if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
-		{
-			BackEndCaller::getInstance()->anonymousDeviceLogin();
-		}
-		else
-		{
-			LoginLogicHandler::getInstance()->doLoginLogic();
-		}
-	}
-}
-
-NS_AZOOMEE_END
+NS_AZ_END
 

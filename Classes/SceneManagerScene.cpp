@@ -3,22 +3,22 @@
 #include "ChildSelectorScene.h"
 #include "LoginScene.h"
 #include "OfflineScene.h"
-#include <AzoomeeCommon/Application.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Application.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 #include "FlowDataSingleton.h"
 #include "AzoomeeChat/UI/FriendListScene.h"
 #include "ChatDelegate.h"
 #include "../ArtApp/Classes/AzoomeeArt/MainScene.h"
 #include "../ArtApp/Classes/AzoomeeArt/AzoomeeArtApp.h"
 #include "OomeeMakerDelegate.h"
-#include <AzoomeeOomeeMaker/UI/OomeeSelectScene.h>
+#include "AzoomeeOomeeMaker/UI/OomeeSelectScene.h"
 #include "ArtAppDelegate.h"
 #include "WebViewSelector.h"
 #include "IntroVideoScene.h"
-#include "ContentHistoryManager.h"
+#include <TinizineCommon/ContentDataManagers/ContentHistoryManager.h>
 #include "WelcomeScene.h"
 #include "RewardDisplayHandler.h"
-
+#include <TinizineCommon/Device.h>
 #include "SettingsHub.h"
 #include "ShopScene.h"
 
@@ -27,10 +27,10 @@
 
 #include "HQScene.h"
 
-#include <AzoomeeCommon/UI/RoundedRectSprite.h>
+#include <TinizineCommon/UI/RoundedRectSprite.h>
 
 #include "CoinCollectLayer.h"
-#include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
+#include <TinizineCommon/Crashlytics/CrashlyticsConfig.h>
 
 #include "ShareInChatScene.h"
 
@@ -44,7 +44,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 cocos2d::Scene* SceneManagerScene::createScene(SceneNameEnum sceneName)
 {
@@ -141,10 +143,10 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         case SceneNameEnum::ChatEntryPointScene:
         {
             // Make sure we set the chat delegate
-            Azoomee::Chat::delegate = ChatDelegate::getInstance();
+            AZ::Chat::delegate = ChatDelegate::getInstance();
             returnToPrevOrientation();
             acceptAnyOrientation();
-            cocos2d::Scene* goToScene = Azoomee::Chat::FriendListScene::create();
+            cocos2d::Scene* goToScene = AZ::Chat::FriendListScene::create();
             AnalyticsSingleton::getInstance()->registerCurrentScene("CHAT");
             Director::getInstance()->replaceScene(TransitionSlideInR::create(0.25f, goToScene));
             break;
@@ -152,16 +154,16 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         case SceneNameEnum::ArtAppEntryPointScene:
         {
             HQHistoryManager::getInstance()->updatePrevOrientation();
-            Azoomee::ArtApp::delegate = ArtAppDelegate::getInstance();
+            AZ::ArtApp::delegate = ArtAppDelegate::getInstance();
             ArtAppDelegate::getInstance()->ArtAppRunning = true;
             
             std::string fileName = ArtAppDelegate::getInstance()->getFileName();
             cocos2d::Scene* goToScene;
             forceToLandscape();
             if(FileUtils::getInstance()->isFileExist(fileName))
-                goToScene = Azoomee::ArtApp::MainScene::createSceneWithDrawing(fileName);
+                goToScene = AZ::ArtApp::MainScene::createSceneWithDrawing(fileName);
             else
-                goToScene = Azoomee::ArtApp::MainScene::createScene();
+                goToScene = AZ::ArtApp::MainScene::createScene();
 			AnalyticsSingleton::getInstance()->registerCurrentScene("ART_APP");
             Director::getInstance()->replaceScene(TransitionSlideInR::create(0.25f, goToScene));
             break;
@@ -169,10 +171,10 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         case SceneNameEnum::OomeeMakerEntryPointScene:
         {
             HQHistoryManager::getInstance()->updatePrevOrientation();
-            Azoomee::OomeeMaker::delegate = OomeeMakerDelegate::getInstance();
+            AZ::OomeeMaker::delegate = OomeeMakerDelegate::getInstance();
 			OomeeMakerDelegate::getInstance()->_oomeeMakerFromShop = false;
             forceToLandscape();
-            cocos2d::Scene* goToScene = Azoomee::OomeeMaker::OomeeSelectScene::create();
+            cocos2d::Scene* goToScene = AZ::OomeeMaker::OomeeSelectScene::create();
 			AnalyticsSingleton::getInstance()->registerCurrentScene("OOMEE_MAKER");
             Director::getInstance()->replaceScene(goToScene);
             break;
@@ -180,10 +182,10 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 		case SceneNameEnum::OomeeMakerEntryPointSceneFromShop:
 		{
 			HQHistoryManager::getInstance()->updatePrevOrientation();
-			Azoomee::OomeeMaker::delegate = OomeeMakerDelegate::getInstance();
+			AZ::OomeeMaker::delegate = OomeeMakerDelegate::getInstance();
 			OomeeMakerDelegate::getInstance()->_oomeeMakerFromShop = true;
 			forceToLandscape();
-			cocos2d::Scene* goToScene = Azoomee::OomeeMaker::OomeeSelectScene::create();
+			cocos2d::Scene* goToScene = AZ::OomeeMaker::OomeeSelectScene::create();
 			AnalyticsSingleton::getInstance()->registerCurrentScene("OOMEE_MAKER");
 			Director::getInstance()->replaceScene(goToScene);
 			break;
@@ -303,11 +305,11 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 		}
         case SceneNameEnum::ShareInChatScene:
         {
-            Azoomee::Chat::delegate = ChatDelegate::getInstance();
+            AZ::Chat::delegate = ChatDelegate::getInstance();
             returnToPrevOrientation();
             acceptAnyOrientation();
             ShareInChatScene* scene = ShareInChatScene::create();
-            if(Azoomee::Chat::delegate->_sharedContentId != "")
+            if(AZ::Chat::delegate->_sharedContentId != "")
             {
                 scene->setShareType(ShareInChatLayer::ShareType::CONTENT);
             }
@@ -341,24 +343,24 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 void SceneManagerScene::forceToPortrait()
 {
     AnalyticsSingleton::getInstance()->setPortraitOrientation();
-    Azoomee::Application::setOrientation(Azoomee::Application::Orientation::Portrait);
+    TZ::Application::setOrientation(TZ::Application::Orientation::Portrait);
 }
 
 void SceneManagerScene::forceToLandscape()
 {
     AnalyticsSingleton::getInstance()->setLandscapeOrientation();
-    Azoomee::Application::setOrientation(Azoomee::Application::Orientation::Landscape);
+    TZ::Application::setOrientation(TZ::Application::Orientation::Landscape);
 }
 
 void SceneManagerScene::acceptAnyOrientation()
 {
-	if(ConfigStorage::getInstance()->isDevicePhone())
+	if(TZ::Device::getInstance()->isDevicePhone())
 	{
 		forceToPortrait();
 	}
 	else
 	{
-    	Azoomee::Application::setOrientation(Azoomee::Application::Orientation::Any);
+    	TZ::Application::setOrientation(TZ::Application::Orientation::Any);
 	}
 }
 
@@ -367,7 +369,7 @@ void SceneManagerScene::returnToPrevOrientation()
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 	if(ContentHistoryManager::getInstance()->getReturnedFromContent() || HQHistoryManager::getInstance()->hasReturnedFromForcedOrientation())
     {
-        if(HQHistoryManager::getInstance()->getPrevHQOrientation() == Portrait || ConfigStorage::getInstance()->isDevicePhone())
+        if(HQHistoryManager::getInstance()->getPrevHQOrientation() == Portrait || TZ::Device::getInstance()->isDevicePhone())
         {
             forceToPortrait();
         }
@@ -397,7 +399,7 @@ cocos2d::Scene* SceneManagerScene::getBaseScene()
 
 void SceneManagerScene::checkForRewardsAndGotoBaseScene()
 {
-//    LayerColor* bgColour = LayerColor::create(Color4B(Style::Color::darkIndigo));
+//    LayerColor* bgColour = LayerColor::create(Color4B(Colours::Color_3B::darkIndigo));
 //	this->addChild(bgColour, -1);
 //
 //	this->setPosition(Director::getInstance()->getVisibleOrigin());
@@ -408,7 +410,7 @@ void SceneManagerScene::checkForRewardsAndGotoBaseScene()
 //    pattern->setCornerRadius(0);
 //    pattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 //    pattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-//    pattern->setColor(Style::Color::white);
+//    pattern->setColor(Colours::Color_3B::white);
 //    pattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
 //    pattern->setContentSize(getContentSize());
 //    pattern->setOpacity(100);
@@ -437,4 +439,4 @@ void SceneManagerScene::checkForRewardsAndGotoBaseScene()
 	Director::getInstance()->replaceScene(getBaseScene());
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

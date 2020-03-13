@@ -1,12 +1,14 @@
 #include "Sticker.h"
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
 #include "StickerCache.h"
 
 using namespace cocos2d;
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 StickerRef Sticker::create(const std::string& url, const std::string& localPath)
 {
@@ -30,4 +32,4 @@ std::string Sticker::imageLocalPath() const
     return _imageLocalPath;
 }
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

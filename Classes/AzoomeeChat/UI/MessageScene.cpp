@@ -1,12 +1,12 @@
 #include "MessageScene.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/UI/SplitLayout.h>
-#include <AzoomeeCommon/Audio/AudioMixer.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Strings.h>
+#include <TinizineCommon/UI/Colour.h>
+#include "../../ModalMessages.h"
+#include <TinizineCommon/UI/SplitLayout.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include "../../ErrorCodes.h"
 #include "FriendListScene.h"
 #include "../../HQHistoryManager.h"
 
@@ -17,7 +17,9 @@
 using namespace cocos2d;
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 const Vec2 MessageScene::kPaddingPercent = Vec2(0.02, 0.01);
 
@@ -52,7 +54,7 @@ bool MessageScene::init()
     bgColour->setSizeType(ui::Widget::SizeType::PERCENT);
     bgColour->setSizePercent(Vec2(1.0f, 1.0f));
     bgColour->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    bgColour->setBackGroundColor(Style::Color::darkIndigo);
+    bgColour->setBackGroundColor(Colours::Color_3B::darkIndigo);
     addChild(bgColour);
     
     // Create the root layout which fills the whole screen
@@ -60,7 +62,7 @@ bool MessageScene::init()
     _rootLayout->setSizeType(ui::Widget::SizeType::PERCENT);
     _rootLayout->setSizePercent(Vec2(1.0f, 1.0f));
     _rootLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _rootLayout->setBackGroundColor(Style::Color::darkIndigo);
+    _rootLayout->setBackGroundColor(Colours::Color_3B::darkIndigo);
     _rootLayout->setLayoutType(ui::Layout::Type::VERTICAL);
     addChild(_rootLayout);
     
@@ -88,7 +90,7 @@ bool MessageScene::init()
     
     _rootLayout->addChild(_titleBar);
     
-    if(_participants[0]->friendId() == ParentManager::getInstance()->getLoggedInParentId())
+    if(_participants[0]->friendId() == UserAccountManager::getInstance()->getLoggedInParentId())
     {
         _titleBar->setChatReportingToForbidden();
     }
@@ -305,11 +307,11 @@ void MessageScene::createContentUI(cocos2d::ui::Layout* parent)
 
 void MessageScene::onBackButtonPressed()
 {
-    AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
+    AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_01_v1.mp3");
     AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - BackButton");
     AnalyticsSingleton::getInstance()->contentItemClosedEvent();
     // Back to friend list
-    if(_participants[0]->friendId() == ParentManager::getInstance()->getLoggedInParentId())
+    if(_participants[0]->friendId() == UserAccountManager::getInstance()->getLoggedInParentId())
     {
         Director::getInstance()->replaceScene(TransitionSlideInT::create(0.25f, FriendListScene::create()));
     }
@@ -321,23 +323,23 @@ void MessageScene::onBackButtonPressed()
 
 void MessageScene::onReportButtonPressed()
 {
-    AudioMixer::getInstance()->playEffect(SETTINGS_BUTTON_AUDIO_EFFECT);
+    AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_07_v1.mp3");
     AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - ReportButton");
     
     PopupMessageBox* messageBox = PopupMessageBox::create();
     messageBox->setTitle(_("Report chat"));
     messageBox->setBody(_("Do you really want to report this chat to your parents?"));
     messageBox->setButtonText(_("Report"));
-    messageBox->setButtonColour(Style::Color::strongPink);
-    messageBox->setPatternColour(Style::Color::azure);
-    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+    messageBox->setButtonColour(Colours::Color_3B::strongPink);
+    messageBox->setPatternColour(Colours::Color_3B::azure);
+    messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
         ChatAPI::getInstance()->reportChat(_participants[1]);
         ModalMessages::getInstance()->startLoading();
     });
     messageBox->setSecondButtonText(_("Cancel"));
-    messageBox->setSecondButtonColour(Style::Color::darkIndigo);
-    messageBox->setSecondButtonPressedCallback([this](PopupMessageBox* pSender){
+    messageBox->setSecondButtonColour(Colours::Color_3B::darkIndigo);
+    messageBox->setSecondButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
     });
     this->addChild(messageBox, 1);
@@ -345,7 +347,7 @@ void MessageScene::onReportButtonPressed()
 
 void MessageScene::onReportResetButtonPressed()
 {
-    AudioMixer::getInstance()->playEffect(SETTINGS_BUTTON_AUDIO_EFFECT);
+    AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_07_v1.mp3");
     RequestAdultPinLayer::create()->setDelegate(this);
 }
 
@@ -430,7 +432,18 @@ void MessageScene::onChatAPISendMessage(const MessageRef& sentMessage)
 void MessageScene::onChatAPIErrorRecieved(const std::string& requestTag, long errorCode)
 {
     ModalMessages::getInstance()->stopLoading();
-    MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, nullptr);
+    const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(ERROR_CODE_SOMETHING_WENT_WRONG);
+           
+    PopupMessageBox* messageBox = PopupMessageBox::create();
+    messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+    messageBox->setBody(errorMessageText.at(ERROR_BODY));
+    messageBox->setButtonText(_("Back"));
+    messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+    messageBox->setPatternColour(Colours::Color_3B::azure);
+    messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
+        pSender->removeFromParent();
+    });
+    addChild(messageBox, 1);
 }
 
 void MessageScene::onChatAPIGetFriendList(const FriendList& friendList, int amountOfNewMessages)
@@ -498,22 +511,6 @@ void MessageScene::onMessageComposerSendMessage(const MessageRef& message)
     _timeTillGet = -1.0f;
 }
 
-#pragma mark - MessageBoxDelegate
-
-void MessageScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
-{
-    if(buttonTitle == MessageBox::kReport)
-    {
-        ChatAPI::getInstance()->reportChat(_participants[1]);
-        ModalMessages::getInstance()->startLoading();
-    }
-    else if(buttonTitle == MessageBox::kReset)
-    {
-        ChatAPI::getInstance()->resetReportedChat(_participants[1]);
-        ModalMessages::getInstance()->startLoading();
-    }
-}
-
 #pragma mark - RequestAdultPinDelegate
 
 void MessageScene::AdultPinCancelled(RequestAdultPinLayer* layer)
@@ -523,27 +520,27 @@ void MessageScene::AdultPinCancelled(RequestAdultPinLayer* layer)
 
 void MessageScene::AdultPinAccepted(RequestAdultPinLayer* layer)
 {
-    std::string replacedText = stringReplace(_("Reset %s1 & %s2's conversation?"), "%s1", _participants[0]->friendName());
+    std::string replacedText = StringFunctions::stringReplace(_("Reset %s1 & %s2's conversation?"), "%s1", _participants[0]->friendName());
     
-    replacedText = stringReplace(replacedText, "%s2", _participants[1]->friendName());
+    replacedText = StringFunctions::stringReplace(replacedText, "%s2", _participants[1]->friendName());
     
     PopupMessageBox* messageBox = PopupMessageBox::create();
     messageBox->setTitle(_("Reset chat"));
     messageBox->setBody(replacedText);
     messageBox->setButtonText(_("Reset"));
-    messageBox->setButtonColour(Style::Color::strongPink);
-    messageBox->setPatternColour(Style::Color::azure);
-    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+    messageBox->setButtonColour(Colours::Color_3B::strongPink);
+    messageBox->setPatternColour(Colours::Color_3B::azure);
+    messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
         ChatAPI::getInstance()->resetReportedChat(_participants[1]);
         ModalMessages::getInstance()->startLoading();
     });
     messageBox->setSecondButtonText(_("Cancel"));
-    messageBox->setSecondButtonColour(Style::Color::darkIndigo);
-    messageBox->setSecondButtonPressedCallback([this](PopupMessageBox* pSender){
+    messageBox->setSecondButtonColour(Colours::Color_3B::darkIndigo);
+    messageBox->setSecondButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
     });
     this->addChild(messageBox, 1);
 }
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

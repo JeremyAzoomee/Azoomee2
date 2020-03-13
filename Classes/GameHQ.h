@@ -8,16 +8,19 @@
 #ifndef GameHQ_h
 #define GameHQ_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon//UI/DynamicText.h>
+#include <TinizineCommon//UI/DynamicText.h>
 #include "HQPage.h"
 #include "FeaturedGamesHolder.h"
 #include "CircleContentHolder.h"
 #include "DropdownContentHolder.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class GameHQ : public HQPage
 {
@@ -47,6 +50,6 @@ public:
     CREATE_FUNC(GameHQ);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* GameHQ_h */

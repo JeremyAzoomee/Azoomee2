@@ -9,13 +9,16 @@
 #define ShopItem_h
 
 //shop tile visual object, takes ShopDisplayItemRef
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/Data/Shop/ShopDisplayItem.h>
-#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
+#include <TinizineCommon/Data/Shop/ShopDisplayItem.h>
+#include <TinizineCommon/ImageDownloader/RemoteImageSprite.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class ShopItem : public cocos2d::ui::Button
 {
@@ -61,6 +64,6 @@ public:
 	CREATE_FUNC(ShopItem);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* ShopItem_h */

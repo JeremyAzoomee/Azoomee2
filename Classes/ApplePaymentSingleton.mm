@@ -1,17 +1,23 @@
 #include "ApplePaymentSingleton.h"
 #include "PaymentViewController_ios.h"
-#include <AzoomeeCommon/UI/ModalMessages.h>
+#include "ModalMessages.h"
 #include "external/json/document.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 #include "BackEndCaller.h"
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include "LoginLogicHandler.h"
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include "LoginController.h"
 #include "RoutePaymentSingleton.h"
 #include "FlowDataSingleton.h"
+#include "PopupMessageBox.h"
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include "ErrorCodes.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 static ApplePaymentSingleton *_sharedApplePaymentSingleton = NULL;
 
@@ -58,7 +64,7 @@ void ApplePaymentSingleton::transactionStatePurchased(const std::string& receipt
         AnalyticsSingleton::getInstance()->iapSubscriptionSuccessEvent();
     }
     
-    if(!ParentManager::getInstance()->isUserLoggedIn())
+    if(!UserAccountManager::getInstance()->isUserLoggedIn())
     {
         ModalMessages::getInstance()->stopLoading();
 		Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(RoutePaymentSingleton::kPaymentSuccessfulEventName);
@@ -87,7 +93,7 @@ void ApplePaymentSingleton::onAnswerReceived(const std::string& responseDataStri
         {
             AnalyticsSingleton::getInstance()->iapAppleAutoRenewSubscriptionEvent();
             ModalMessages::getInstance()->stopLoading();
-            BackEndCaller::getInstance()->updateBillingData();
+            UserAccountManager::getInstance()->getBillingDataForLoggedInParent(nullptr);
             return;
         }
         else
@@ -104,10 +110,22 @@ void ApplePaymentSingleton::onAnswerReceived(const std::string& responseDataStri
     }
     else
     {
-        if(ParentManager::getInstance()->isPaidUser())
+        if(UserAccountManager::getInstance()->isPaidUser())
         {
             ModalMessages::getInstance()->stopLoading();
-            MessageBox::createWith(ERROR_CODE_APPLE_ACCOUNT_DOWNGRADED, this);
+            const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(ERROR_CODE_APPLE_ACCOUNT_DOWNGRADED);
+                   
+            PopupMessageBox* messageBox = PopupMessageBox::create();
+            messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+            messageBox->setBody(errorMessageText.at(ERROR_BODY));
+            messageBox->setButtonText(_("Back"));
+            messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+            messageBox->setPatternColour(Colours::Color_3B::azure);
+            messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
+                pSender->removeFromParent();
+                LoginController::getInstance()->doLoginLogic();
+            });
+            Director::getInstance()->getRunningScene()->addChild(messageBox, 1);
         }
         else
         {
@@ -117,10 +135,4 @@ void ApplePaymentSingleton::onAnswerReceived(const std::string& responseDataStri
     }
 }
 
-//---------Delegate Functions----------
-void ApplePaymentSingleton::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
-{
-    LoginLogicHandler::getInstance()->doLoginLogic();
-}
-
-NS_AZOOMEE_END
+NS_AZ_END

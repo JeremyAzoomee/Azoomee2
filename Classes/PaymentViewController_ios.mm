@@ -1,11 +1,10 @@
 #import "PaymentViewController_ios.h"
 #include "ApplePaymentSingleton.h"
 #include "RoutePaymentSingleton.h"
-#include "LoginLogicHandler.h"
+#include "LoginController.h"
 #include "IAPProductDataHandler.h"
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 
-using namespace Azoomee;
+using namespace AZ;
 
 @interface PaymentViewController ()
 -(void) queryProductInfo;
@@ -113,7 +112,7 @@ using namespace Azoomee;
     NSMutableArray* productIDList = [NSMutableArray array];
     for(auto productID : productIDs)
     {
-        NSString* idAsNS = [NSString stringWithUTF8String:ConfigStorage::getInstance()->getIapSkuForProvider(productID).c_str()];
+        NSString* idAsNS = [NSString stringWithUTF8String:RoutePaymentSingleton::getInstance()->getIapSkuForProvider(productID).c_str()];
         [productIDList addObject:idAsNS];
     }
     
@@ -206,7 +205,7 @@ using namespace Azoomee;
     {
         if(self.purchaseAfterQuery)
         {
-            LoginLogicHandler::getInstance()->doLoginLogic();
+            LoginController::getInstance()->doLoginLogic();
         }
         else
         {

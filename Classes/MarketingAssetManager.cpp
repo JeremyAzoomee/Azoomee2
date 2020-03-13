@@ -6,11 +6,13 @@
 //
 
 #include "MarketingAssetManager.h"
-#include <AzoomeeCommon/Utils/StringMgr.h>
-#include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/API/API.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 MarketingAssetRef MarketingAsset::create()
 {
@@ -76,7 +78,7 @@ std::string MarketingAsset::getTitle(const std::string& language) const
 	{
 		return _title.at(language);
 	}
-    return _title.at(StringMgr::kDefaultLanguageIdentifier);
+    return _title.at(LocaleManager::kDefaultLanguageIdentifier);
 }
 std::string MarketingAsset::getDescription(const std::string& language) const
 {
@@ -84,7 +86,7 @@ std::string MarketingAsset::getDescription(const std::string& language) const
 	{
 		return _description.at(language);
 	}
-    return _description.at(StringMgr::kDefaultLanguageIdentifier);
+    return _description.at(LocaleManager::kDefaultLanguageIdentifier);
 }
 std::string MarketingAsset::getLocation() const
 {
@@ -115,7 +117,7 @@ void MarketingAssetManager::downloadMarketingAssets()
 {
 	_marketingAssets.clear();
     
-    HttpRequestCreator* request = API::GetMarketingAssets(ParentManager::getInstance()->getLoggedInParentCountryCode() ,this);
+    HttpRequestCreator* request = API::GetMarketingAssets(UserAccountManager::getInstance()->getLoggedInParentCountryCode() ,this);
     request->execute();
 }
 
@@ -193,4 +195,4 @@ void MarketingAssetManager::onImageDownloadFailed()
 	
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

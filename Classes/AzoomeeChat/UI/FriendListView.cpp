@@ -1,15 +1,17 @@
 #include "FriendListView.h"
 #include "FriendListViewItem.h"
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include "../../Style.h"
 
 using namespace cocos2d;
 
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 bool FriendListView::init()
 {
@@ -199,7 +201,7 @@ void FriendListView::setItems(const FriendList& friendList)
             addFriendButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType event){
                 if(event == ui::Widget::TouchEventType::ENDED)
                 {
-                    Azoomee::Chat::delegate->onChatAddFriend();
+                    AZ::Chat::delegate->onChatAddFriend();
                 }
             });
             addFriendButton->setContentSize(itemSize);
@@ -317,7 +319,7 @@ ui::Layout* FriendListView::createAddFriendButton()
     ui::Text* label = ui::Text::create();
     label->setFontName(Style::Font::Regular());
     label->setFontSize(70.0f);
-    label->setTextColor(Color4B(Style::Color::white));
+    label->setTextColor(Color4B(Colours::Color_3B::white));
     label->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(150.0f, 0, 0, 0)));
     label->setString(_("Add Friends"));
     contentLayout->addChild(label);
@@ -325,4 +327,4 @@ ui::Layout* FriendListView::createAddFriendButton()
     return addFriendButton;
 }
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

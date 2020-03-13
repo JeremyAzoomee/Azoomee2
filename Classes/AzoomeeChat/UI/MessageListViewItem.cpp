@@ -1,16 +1,19 @@
 #include "MessageListViewItem.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Data/HQDataObject/ContentItemManager.h>
 #include "../Data/StickerCache.h"
-
+#include "../../Style.h"
 
 using namespace cocos2d;
 
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 bool MessageListViewItem::init()
 {
@@ -250,7 +253,7 @@ void MessageListViewItem::setData(const MessageRef& message)
         else if(messageType == Message::MessageTypeArt)
         {
             const Size& contentSize = getContentSize();
-            _artImage->initWithUrlAndSizeWithoutPlaceholder(message->artURL(), Size(contentSize.width/2,contentSize.width/2 * 10.0f/16.0f));
+            _artImage->initWithUrlAndSize(message->artURL(), Size(contentSize.width/2,contentSize.width/2 * 10.0f/16.0f));
             _artLayout->setTouchEnabled(false);
         }
         else if(messageType == Message::MessageTypeContent)
@@ -260,7 +263,7 @@ void MessageListViewItem::setData(const MessageRef& message)
             {
                 const std::string& imgUrl = contentItem->getBaseImageThumbUrl();
                 const Size& contentSize = getContentSize();
-                _artImage->initWithUrlAndSizeWithoutPlaceholder(imgUrl, Size(contentSize.width/2,contentSize.width/2 * 10.0f/16.0f));
+                _artImage->initWithUrlAndSize(imgUrl, Size(contentSize.width/2,contentSize.width/2 * 10.0f/16.0f));
                 if(!_userIsParent)
                 {
                     _artLayout->addTouchEventListener([=](Ref* sender, ui::Widget::TouchEventType event){
@@ -310,15 +313,15 @@ void MessageListViewItem::setData(const MessageRef& message)
         
         // Color depends also on current user
         const std::string& senderId = message->senderId();
-        const bool isCurrentUser = (senderId == ChildManager::getInstance()->getParentOrChildId());
-        const Color3B& fontColor = (isCurrentUser) ? Style::Color::darkIndigoTwo : Style::Color::white;
+        const bool isCurrentUser = (senderId == (ChildManager::getInstance()->isChildLoggedIn() ? ChildManager::getInstance()->getLoggedInChild()->getId() : UserAccountManager::getInstance()->getLoggedInParentId()));
+        const Color3B& fontColor = (isCurrentUser) ? Colours::Color_3B::darkIndigoTwo : Colours::Color_3B::white;
         _textLabel->setTextColor(Color4B(fontColor));
-        _bubbleLayout->setBackGroundImageColor((isCurrentUser) ? Style::Color::white : Style::Color::darkIndigo);
+        _bubbleLayout->setBackGroundImageColor((isCurrentUser) ? Colours::Color_3B::white : Colours::Color_3B::darkIndigo);
     }
     else
     {
         _textLabel->setString("");
-        _textLabel->setTextColor(Color4B(Style::Color::black));
+        _textLabel->setTextColor(Color4B(Colours::Color_3B::black));
         _stickerLayout->setVisible(false);
         _bubbleLayout->setVisible(false);
         _artLayout->setVisible(false);
@@ -382,4 +385,4 @@ void MessageListViewItem::setEdgeMargin(float marginFloat)
     forceDoLayout();
 }
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

@@ -6,14 +6,16 @@
 //
 #ifdef AZOOMEE_VODACOM_BUILD
 #include "VodacomOnboardingRegisterLayer.h"
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
 #include "VodacomMessageBoxExitFlow.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool VodacomOnboardingRegisterLayer::init()
 {
@@ -77,16 +79,16 @@ void VodacomOnboardingRegisterLayer::onEnter()
 	_verticalLayout->addChild(titleHolder);
 	
 	Label* loginLabel = Label::createWithTTF(_("Already have an account?"), Style::Font::Regular(), 64);
-	loginLabel->setTextColor(Color4B(Style::Color::skyBlue));
+	loginLabel->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	loginLabel->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	loginLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
 	Label* logIn = Label::createWithTTF(_("Log in"), Style::Font::Regular(), 64);
-	logIn->setTextColor(Color4B(Style::Color::skyBlue));
+	logIn->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	logIn->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	logIn->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
 	
 	DrawNode* underline = DrawNode::create();
-	underline->drawRect(Vec2(0, -7), Vec2(logIn->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+	underline->drawRect(Vec2(0, -7), Vec2(logIn->getContentSize().width, -6), Color4F(Colours::Color_3B::skyBlue));
 	logIn->addChild(underline);
 	
 	ui::Layout* loginLabelHolder = ui::Layout::create();
@@ -125,7 +127,7 @@ void VodacomOnboardingRegisterLayer::onEnter()
 	_emailInput->setText(_flowData->getEmail());
 	
 	Label* emailError = Label::createWithTTF(_("*Invalid email address"), Style::Font::Regular(), 53);
-	emailError->setTextColor(Color4B(Style::Color::watermelon));
+	emailError->setTextColor(Color4B(Colours::Color_3B::watermelon));
 	emailError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	emailError->setNormalizedPosition(Vec2(0.1f,-0.1));
 	emailError->setName("error");
@@ -156,7 +158,7 @@ void VodacomOnboardingRegisterLayer::onEnter()
 	_confirmEmailInput->setText(_flowData->getEmail());
 	
 	Label* confEmailError = Label::createWithTTF(_("*Email addresses do not match"), Style::Font::Regular(), 53);
-	confEmailError->setTextColor(Color4B(Style::Color::watermelon));
+	confEmailError->setTextColor(Color4B(Colours::Color_3B::watermelon));
 	confEmailError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	confEmailError->setNormalizedPosition(Vec2(0.1f,-0.1));
 	confEmailError->setName("error");
@@ -187,7 +189,7 @@ void VodacomOnboardingRegisterLayer::onEnter()
 	_passwordInput->setText(_flowData->getPassword());
 	
 	Label* pwError = Label::createWithTTF(_("*Invalid password"), Style::Font::Regular(), 53);
-	pwError->setTextColor(Color4B(Style::Color::watermelon));
+	pwError->setTextColor(Color4B(Colours::Color_3B::watermelon));
 	pwError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	pwError->setNormalizedPosition(Vec2(0.1f,-0.1));
 	pwError->setName("error");
@@ -223,16 +225,16 @@ void VodacomOnboardingRegisterLayer::onEnter()
 	_verticalLayout->addChild(progressIcon);
 	
 	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular(), 64);
-	needHelp->setTextColor(Color4B(Style::Color::skyBlue));
+	needHelp->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	needHelp->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	needHelp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
 	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular(), 64);
-	contactUs->setTextColor(Color4B(Style::Color::skyBlue));
+	contactUs->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	contactUs->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	contactUs->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
 	
 	DrawNode* underline2 = DrawNode::create();
-	underline2->drawRect(Vec2(0, -7), Vec2(contactUs->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+	underline2->drawRect(Vec2(0, -7), Vec2(contactUs->getContentSize().width, -6), Color4F(Colours::Color_3B::skyBlue));
 	contactUs->addChild(underline2);
 	
 	ui::Layout* contactUsHolder = ui::Layout::create();
@@ -343,5 +345,5 @@ void VodacomOnboardingRegisterLayer::onButtonPressed(SettingsMessageBox *pSender
 	}
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 #endif

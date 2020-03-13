@@ -3,18 +3,20 @@
 
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
-#include <AzoomeeCommon/UI/Scene.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/UI/Scene.h>
+#include <TinizineCommon/UI/DynamicText.h>
 #include "OfflineChecker.h"
 #include "LoginEntry.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
 
-class LoginScene : public Azoomee::Scene, public cocos2d::IMEDelegate, public OfflineCheckerDelegate
+NS_AZ_BEGIN
+
+class LoginScene : public TZ::Scene, public cocos2d::IMEDelegate, public OfflineCheckerDelegate
 {
-    typedef Azoomee::Scene Super;
+    typedef TZ::Scene Super;
 private:
 	
 	LoginEntry* _loginEntryForm = nullptr;
@@ -52,6 +54,6 @@ public:
     CREATE_FUNC(LoginScene);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif

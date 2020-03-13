@@ -1,25 +1,28 @@
 #include "ios_Cocos2d_Callbacks.h"
 #include "HQHistoryManager.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include "WebGameAPIDataManager.h"
-#include "VideoPlaylistManager.h"
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/WebGameAPI/WebGameAPIDataManager.h>
 #include "SceneManagerScene.h"
-#include "LoginLogicHandler.h"
+#include "LoginController.h"
 #include "FlowDataSingleton.h"
-#include <AzoomeeCommon/ErrorCodes.h>
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
-#include "ContentHistoryManager.h"
-#include "FavouritesManager.h"
+#include "ErrorCodes.h"
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Data/HQDataObject/HQDataObjectManager.h>
+#include <TinizineCommon/ContentDataManagers/ContentHistoryManager.h>
+#include <TinizineCommon/ContentDataManagers/FavouritesManager.h>
 #include "ChatDelegate.h"
-#include "VideoPlaylistManager.h"
+#include <TinizineCommon/WebGameAPI/VideoPlaylistManager.h>
 #include "BackEndCaller.h"
-#include "RecentlyPlayedManager.h"
+#include <TinizineCommon/ContentDataManagers/RecentlyPlayedManager.h>
+#include <TinizineCommon/Device.h>
+#include <TinizineCommon/Data/AppConfig.h>
+#include "RewardManager.h"
 
 using namespace cocos2d;
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 void navigateToBaseScene()
 {
@@ -30,10 +33,8 @@ void navigateToBaseScene()
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineHub));
         return;
     }
-    if(HQHistoryManager::getInstance()->getCurrentHQ() != ConfigStorage::kHomeHQName && !(HQHistoryManager::getInstance()->getCurrentHQ() == ConfigStorage::kGroupHQName && HQHistoryManager::getInstance()->getPreviousHQ() == ConfigStorage::kHomeHQName))
-    {
-        ContentHistoryManager::getInstance()->setReturnedFromContent(true);
-    }
+
+    ContentHistoryManager::getInstance()->setReturnedFromContent(true);
 	
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 }
@@ -42,7 +43,7 @@ void navigateToLoginScene()
 {
     AnalyticsSingleton::getInstance()->contentItemClosedEvent();
     FlowDataSingleton::getInstance()->setErrorCode(ERROR_CODE_SOMETHING_WENT_WRONG);
-    LoginLogicHandler::getInstance()->doLoginLogic();
+    LoginController::getInstance()->doLoginLogic();
 }
 
 void sendMixPanelData(const char* host, const char* query)
@@ -121,12 +122,12 @@ NSString* getVideoPlaylist()
 
 NSString* getRemoteWebGameAPIPath()
 {
-    return [NSString stringWithUTF8String:ConfigStorage::getInstance()->getRemoteWebGameAPIPath().c_str()];
+    return [NSString stringWithUTF8String:AppConfig::getInstance()->getRemoteWebGameAPIPath().c_str()];
 }
 
 bool isDeviceIphoneX()
 {
-    return ConfigStorage::getInstance()->isDeviceIphoneX();
+    return TZ::Device::getInstance()->isDeviceIphoneX();
 }
 
 void favContent()
@@ -155,12 +156,12 @@ void shareContentInChat()
 
 bool isChatEntitled()
 {
-    return !HQHistoryManager::getInstance()->isOffline() && HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName)->getHqEntitlement();
+    return !HQHistoryManager::getInstance()->isOffline() && HQDataObjectManager::getInstance()->getHQDataObjectForKey(HQConsts::kChatHQName)->getHqEntitlement();
 }
 
 bool isAnonUser()
 {
-    return ParentManager::getInstance()->isLoggedInParentAnonymous();
+    return UserAccountManager::getInstance()->isLoggedInParentAnonymous();
 }
 
 void releaseCachedHQMemory()
@@ -176,13 +177,15 @@ void sendProgressMetaDataVideo(int videoProgressSeconds, int videoDuration)
 void sendProgressMetaDataGame()
 {
 	ContentHistoryManager::getInstance()->onGameContentClosed();
+    // Notify RewardManager to calculate reward
+    RewardManager::getInstance()->calculateRewardForContent(ContentHistoryManager::getInstance()->getLastOpenedContent(), ContentHistoryManager::getInstance()->getTimeInContentSec());
 }
 
 void newVideoOpened(int playlistIndex)
 {
 	const auto& contentItem = VideoPlaylistManager::getInstance()->getContentItemDataForPlaylistElement(playlistIndex);
-	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kVideoHQName);
-	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMeHQName);
+	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), HQConsts::kVideoHQName);
+	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), HQConsts::kOomeeHQName);
 	ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
 	ContentHistoryManager::getInstance()->onContentOpened();
 	
@@ -195,7 +198,7 @@ NSString* getPlaylistString()
 
 NSString* getNSStringForKey(const char* key)
 {
-    return [NSString stringWithUTF8String:StringMgr::getInstance()->getStringForKey(key).c_str()];
+    return [NSString stringWithUTF8String:LocaleManager::getInstance()->getStringForKey(key).c_str()];
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

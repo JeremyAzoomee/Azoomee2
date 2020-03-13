@@ -6,12 +6,15 @@
 //
 
 #include "AddFriendTile.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Strings.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const float AddFriendTile::kHeightScale = 1.5f;
 const float AddFriendTile::kFrameThickness = 10.0f;
@@ -37,7 +40,7 @@ bool AddFriendTile::init()
     _contentClipper->setAlphaThreshold(0.5f);
     addChild(_contentClipper);
     
-    const Color3B& bgColour = Style::Color::darkIndigoThree;
+    const Color3B& bgColour = Colours::Color_3B::darkIndigoThree;
     
     _bgColour = ui::ImageView::create("res/hqscene/circle.png");
     _bgColour->ignoreContentAdaptWithSize(false);
@@ -133,4 +136,4 @@ void AddFriendTile::resizeContent()
 }
 
 
-NS_AZOOMEE_END
+NS_AZ_END

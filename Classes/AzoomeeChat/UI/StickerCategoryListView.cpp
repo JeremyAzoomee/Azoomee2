@@ -1,13 +1,15 @@
 #include "StickerCategoryListView.h"
 #include "StickerCategoryListViewItem.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <TinizineCommon/UI/Colour.h>
 
 
 using namespace cocos2d;
 
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 bool StickerCategoryListView::init()
 {
@@ -17,7 +19,7 @@ bool StickerCategoryListView::init()
     }
     
     setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::darkIndigoTwo);
+    setBackGroundColor(Colours::Color_3B::darkIndigoTwo);
     
     setDirection(ui::ScrollView::Direction::HORIZONTAL);
     setBounceEnabled(true);
@@ -93,13 +95,10 @@ void StickerCategoryListView::setItems(const StickerCategoryList& data)
     const Size& contentSize = getContentSize();
     for(const auto& category : _listData)
     {
-        if(SpecialCalendarEventManager::getInstance()->checkIfInSeason(category->season()))
-        {
-            StickerCategoryListViewItem* item = StickerCategoryListViewItem::create();
-            item->setContentSize(Size(0.0f, contentSize.height));
-            item->setData(category);
-            pushBackCustomItem(item);
-        }
+        StickerCategoryListViewItem* item = StickerCategoryListViewItem::create();
+        item->setContentSize(Size(0.0f, contentSize.height));
+        item->setData(category);
+        pushBackCustomItem(item);
     }
     
     forceDoLayout();
@@ -130,4 +129,4 @@ void StickerCategoryListView::addItemSelectedEventListener(const ItemSelectedCal
     _selectedEventCallback = callback;
 }
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

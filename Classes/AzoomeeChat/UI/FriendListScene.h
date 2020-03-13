@@ -6,27 +6,27 @@
 #include "FriendListView.h"
 #include "AvatarWidget.h"
 #include "TitleBarWidget.h"
-#include <AzoomeeCommon/UI/Scene.h>
+#include <TinizineCommon/UI/Scene.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/PrivacyLayer.h>
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
     
-class FriendListScene : public Azoomee::Scene, public ChatAPIObserver
+class FriendListScene : public TZ::Scene, public ChatAPIObserver
 {
-    typedef Azoomee::Scene Super;
+    typedef TZ::Scene Super;
 private:
     
     /// A friend object which represents the current user
     FriendRef _currentUser;
+    bool _isParent = false;
     
     /// Root layout for all elements
     cocos2d::ui::Layout* _rootLayout = nullptr;
     /// Titlebar at the top of the screen
     TitleBarWidget* _titleBar = nullptr;
-    /// Privacy Policy button, top right of Titlebar
-    PrivacyLayer* _privacyButton = nullptr;
     
     /// Container layout for the content (always sits below the titlebar)
     cocos2d::ui::Layout* _contentLayout = nullptr;
@@ -69,6 +69,6 @@ public:
     CREATE_FUNC(FriendListScene);
 };
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END
 
 #endif

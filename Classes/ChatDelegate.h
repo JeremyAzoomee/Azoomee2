@@ -1,18 +1,19 @@
 #ifndef Azoomee_ChatDelegate_h
 #define Azoomee_ChatDelegate_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include "AzoomeeChat/AzoomeeChat.h"
-#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
+#include <TinizineCommon/ImageDownloader/ImageDownloader.h>
+#include "Azoomee.h"
 
+USING_NS_TZ
 
-NS_AZOOMEE_BEGIN
+NS_AZ_BEGIN
 
 /**
  * Global chat delegate to handle chat events
  */
-class ChatDelegate : public Azoomee::Chat::Delegate, ImageDownloaderDelegate, MessageBoxDelegate
+class ChatDelegate : public AZ::Chat::Delegate, ImageDownloaderDelegate
 {
 public:
     
@@ -30,10 +31,8 @@ public:
     // delegate functions
     void onImageDownloadComplete(const ImageDownloaderRef& downloader) override;
     void onImageDownloadFailed() override;
-	
-	void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle) override;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif

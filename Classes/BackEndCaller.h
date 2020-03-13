@@ -4,17 +4,20 @@
 #include <cocos/cocos2d.h>
 #include <cocos/network/HttpClient.h>
 #include <external/json/document.h>
-#include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/API/HttpRequestCreator.h>
-#include <AzoomeeCommon/Data/HQDataObject/ContentItemPoolDownloadHandler.h>
-#include <AzoomeeCommon/Data/HQDataObject/HQStructureDownloadHandler.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/API/HttpRequestCreator.h>
+#include <TinizineCommon/Data/HQDataObject/ContentItemPoolDownloadHandler.h>
+#include <TinizineCommon/Data/HQDataObject/HQStructureDownloadHandler.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 // forward ref
 class AwaitingAdultPinLayer;
 
-class BackEndCaller : public cocos2d::Ref, public Azoomee::HttpRequestCreatorResponseDelegate
+class BackEndCaller : public cocos2d::Ref, public TZ::HttpRequestCreatorResponseDelegate
 {
 private:
     
@@ -36,10 +39,6 @@ private:
     void onChildLoginAnswerReceived(const std::string& responseString, const std::string& headerString);
     // Session cookies success
     void onSessionCookiesAnswerReceived(const std::string& responseString);
-    // Register child API success
-    void onRegisterChildAnswerReceived();
-    // Update child API success
-    void onUpdateChildAnswerReceived();
     // Get Force Update Data success
     void onGetForceUpdateDataAnswerReceived(const std::string& responseString);
     
@@ -77,10 +76,6 @@ public:
     void getAvailableChildren();
     // Login child profile with index
     void childLogin(int childNumber);
-    // Register a new child profile on the current parent
-    void registerChild(const std::string& childProfileName, const std::string& childGender, const std::string& childDOB, int oomeeNumber);
-    // Update a child profile
-    void updateChild(const std::string& childId, const std::string& childProfileName, const std::string& childGender, const std::string& childDOB, int oomeeNumber);
     // Update child avatar
     void updateChildAvatar(const std::string& childId, const std::string& imageData);
     // Get sssion cookies
@@ -105,6 +100,6 @@ public:
 	void getChildInventory();
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif

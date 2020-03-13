@@ -9,8 +9,11 @@
 #define SignupEnterEmail_h
 
 #include "SignupPage.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class SignupEnterEmail : public SignupPage
 {
@@ -31,6 +34,6 @@ public:
 	void editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox) override;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* SignupEnterEmail_h */

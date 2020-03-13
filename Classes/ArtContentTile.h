@@ -8,13 +8,16 @@
 #ifndef ArtContentTile_h
 #define ArtContentTile_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/ImageDownloader/OnScreenChecker.h>
-#include <AzoomeeCommon/UI/RoundedRectSprite.h>
+#include <TinizineCommon/ImageDownloader/OnScreenChecker.h>
+#include <TinizineCommon/UI/RoundedRectSprite.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class ArtContentTile : public cocos2d::ui::Layout, public OnScreenChecker
 {
@@ -66,6 +69,6 @@ public:
     CREATE_FUNC(ArtContentTile);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* ArtContentTile_h */

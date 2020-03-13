@@ -1,13 +1,15 @@
 #include "StickerCategoryListViewItem.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
 
 
 using namespace cocos2d;
 
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 bool StickerCategoryListViewItem::init()
 {
@@ -17,7 +19,7 @@ bool StickerCategoryListViewItem::init()
     }
     
     setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::darkIndigoTwo);
+    setBackGroundColor(Colours::Color_3B::darkIndigoTwo);
     setLayoutType(ui::Layout::Type::HORIZONTAL);
     // List items are selectable in the ListView
     setTouchEnabled(true);
@@ -41,7 +43,7 @@ bool StickerCategoryListViewItem::init()
     // Border on the right
     _border = ui::Layout::create();
     _border->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _border->setBackGroundColor(Style::Color::darkIndigoTwo);
+    _border->setBackGroundColor(Colours::Color_3B::darkIndigoTwo);
     _border->setSizeType(ui::Widget::SizeType::PERCENT);
     _border->setSizePercent(Vec2(borderWidthPct, 0.7f));
     _border->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
@@ -126,9 +128,9 @@ StickerCategoryRef StickerCategoryListViewItem::getData() const
 void StickerCategoryListViewItem::setSelected(bool selected)
 {
     _selected = selected;
-    setBackGroundColor(selected ? Style::Color::darkIndigo : Style::Color::darkIndigoTwo);
+    setBackGroundColor(selected ? Colours::Color_3B::darkIndigo : Colours::Color_3B::darkIndigoTwo);
     _border->setVisible(!selected);
 }
 
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

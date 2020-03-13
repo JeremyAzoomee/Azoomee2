@@ -1,17 +1,21 @@
 #include "MessageComposer.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/Audio/AudioMixer.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Utils/DirUtil.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Utils/DirUtil.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Device.h>
+#include <TinizineCommon/Data/AppConfig.h>
+#include "../../Style.h"
 
 using namespace cocos2d;
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 const int kResizeAnimationTag = 10001;
 
@@ -25,7 +29,7 @@ bool MessageComposer::init()
     }
     
     setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::darkIndigoTwo);
+    setBackGroundColor(Colours::Color_3B::darkIndigoTwo);
     setLayoutType(ui::Layout::Type::VERTICAL);
     
     setSizeType(ui::Widget::SizeType::PERCENT);
@@ -70,7 +74,7 @@ bool MessageComposer::init()
     ui::Layout* artBG = ui::Layout::create();
     artBG->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     artBG->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    artBG->setBackGroundColor(Style::Color::darkIndigoTwo);
+    artBG->setBackGroundColor(Colours::Color_3B::darkIndigoTwo);
     artBG->setSizeType(ui::Widget::SizeType::PERCENT);
     artBG->setSizePercent(Vec2(1.0f,1.0f));
     _selectorLayout->addChild(artBG);
@@ -80,16 +84,21 @@ bool MessageComposer::init()
     _artListView->setSizeType(ui::Widget::SizeType::PERCENT);
     _artListView->setSizePercent(Vec2(1.0f, 0.99f));
     
-    const std::string& artDir = DirUtil::getCachesPath() + ConfigStorage::kArtCacheFolder + ChildManager::getInstance()->getParentOrChildId();
-    const auto& files = DirUtil::getImagesInDirectory(artDir);
-    std::vector<std::string> fullFiles;
-    
-    for(auto file : files)
+    if(ChildManager::getInstance()->isChildLoggedIn())
     {
-        fullFiles.push_back(StringUtils::format("%s/%s",artDir.c_str(), file.c_str()));
+        const std::string& artDir = DirUtil::getCachesPath() + AppConfig::kArtCacheFolder + ChildManager::getInstance()->getLoggedInChild()->getId();
+        const auto& files = DirUtil::getImagesInDirectory(artDir);
+        std::vector<std::string> fullFiles;
+        
+        for(auto file : files)
+        {
+            fullFiles.push_back(StringUtils::format("%s/%s",artDir.c_str(), file.c_str()));
+        }
+        _artListView->setItems(fullFiles);
     }
-    _artListView->setItems(fullFiles);
-    
+    else{
+        _galleryTab->setEnabled(false);
+    }
     _artListView->addItemSelectedEventListener([this](const std::string& artFile){
         sendArtMessage(artFile);
     });
@@ -114,16 +123,16 @@ void MessageComposer::onEnter()
     _touchListener->onTouchEnded = CC_CALLBACK_2(MessageComposer::onTouchEnded, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(_touchListener, this);
     
-    if(Azoomee::Chat::delegate->_imageFileName != "")
+    if(AZ::Chat::delegate->_imageFileName != "")
     {
-        if(Azoomee::Chat::delegate->_sharedContentId != "")
+        if(AZ::Chat::delegate->_sharedContentId != "")
         {
             sendMessage("Hey! This is great, check it out");
-            sendContentMessage(Azoomee::Chat::delegate->_sharedContentId);
+            sendContentMessage(AZ::Chat::delegate->_sharedContentId);
         }
         else
         {
-            sendArtMessage(Azoomee::Chat::delegate->_imageFileName);
+            sendArtMessage(AZ::Chat::delegate->_imageFileName);
         }
     }
 }
@@ -131,8 +140,8 @@ void MessageComposer::onEnter()
 void MessageComposer::onExit()
 {
     Super::onExit();
-    Azoomee::Chat::delegate->_imageFileName = "";
-    Azoomee::Chat::delegate->_sharedContentId = "";
+    AZ::Chat::delegate->_imageFileName = "";
+    AZ::Chat::delegate->_sharedContentId = "";
     if(_touchListener)
     {
         _eventDispatcher->removeEventListener(_touchListener);
@@ -287,7 +296,7 @@ float MessageComposer::getEstimatedKeyboardHeight() const
     const bool currentOrientationPortrait = (nativeScreenSize.height > nativeScreenSize.width);
     
     // Do we have a value in user defaults?
-    float height = UserDefault::getInstance()->getFloatForKey(currentOrientationPortrait ? ConfigStorage::kEstimatedKeyboardHeightPortrait : ConfigStorage::kEstimatedKeyboardHeightLandscape);
+    float height = UserDefault::getInstance()->getFloatForKey(currentOrientationPortrait ? TZ::Device::kEstimatedKeyboardHeightPortrait : TZ::Device::kEstimatedKeyboardHeightLandscape);
     if(height == 0)
     {
         // If no value stored, calculate a sensible default based on the native device's
@@ -379,13 +388,13 @@ float MessageComposer::getEstimatedKeyboardHeight() const
         const float heightPortrait = (portraitSize.width * keyboardHeightPct.y) - visibleOrigin.y;
         const float heightLandscape = (portraitSize.height * keyboardHeightPct.x) - visibleOrigin.x;
         // Check before we save, we don't overwrite any legit values
-        if(UserDefault::getInstance()->getFloatForKey(ConfigStorage::kEstimatedKeyboardHeightPortrait) == 0)
+        if(UserDefault::getInstance()->getFloatForKey(TZ::Device::kEstimatedKeyboardHeightPortrait) == 0)
         {
-            UserDefault::getInstance()->setFloatForKey(ConfigStorage::kEstimatedKeyboardHeightPortrait, heightPortrait);
+            UserDefault::getInstance()->setFloatForKey(TZ::Device::kEstimatedKeyboardHeightPortrait, heightPortrait);
         }
-        if(UserDefault::getInstance()->getFloatForKey(ConfigStorage::kEstimatedKeyboardHeightLandscape) == 0)
+        if(UserDefault::getInstance()->getFloatForKey(TZ::Device::kEstimatedKeyboardHeightLandscape) == 0)
         {
-            UserDefault::getInstance()->setFloatForKey(ConfigStorage::kEstimatedKeyboardHeightLandscape, heightLandscape);
+            UserDefault::getInstance()->setFloatForKey(TZ::Device::kEstimatedKeyboardHeightLandscape, heightLandscape);
         }
         
         return (currentOrientationPortrait) ? heightPortrait : heightLandscape;
@@ -408,7 +417,7 @@ void MessageComposer::sendMessage(const std::string& message)
     
     if(_delegate)
     {
-        const std::string& trimmedMessage = Azoomee::trim(message);
+        const std::string& trimmedMessage = StringFunctions::trim(message);
         if(trimmedMessage.length() > 0)
         {
             const MessageRef& messageObj = Message::createTextMessage(trimmedMessage);
@@ -689,7 +698,7 @@ void MessageComposer::keyboardWillShow(cocos2d::IMEKeyboardNotificationInfo& inf
     
     _imeOpen = true;
     setMode(MessageComposer::Mode::TextEntry);
-    ConfigStorage::getInstance()->setEstimatedKeyboardHeight(keyboardHeight);
+    TZ::Device::getInstance()->setEstimatedKeyboardHeight(keyboardHeight);
     resizeUIForKeyboard(keyboardHeight, info.duration);
 }
 
@@ -706,7 +715,7 @@ void MessageComposer::keyboardDidShow(cocos2d::IMEKeyboardNotificationInfo& info
     
     _imeOpen = true;
     setMode(MessageComposer::Mode::TextEntry);
-    ConfigStorage::getInstance()->setEstimatedKeyboardHeight(keyboardHeight);
+    TZ::Device::getInstance()->setEstimatedKeyboardHeight(keyboardHeight);
     resizeUIForKeyboard(keyboardHeight, 0);
 }
 
@@ -812,7 +821,7 @@ void MessageComposer::createTabButtonsUI(cocos2d::ui::Layout* parent)
     _stickersTab->setContentSize(Size(buttonHeight, buttonHeight));
     _stickersTab->setLayoutParameter(CreateLeftLinearLayoutParam(ui::Margin(leftMarginX, (_topLayout->getContentSize().height - buttonHeight) / 2, 0, 0)));
     _stickersTab->addClickEventListener([this](Ref* button){
-        AudioMixer::getInstance()->playEffect(OK_BUTTON_AUDIO_EFFECT);
+        AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_06_v1.mp3");
         AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - OpenStickers");
         
         setMode(MessageComposer::Mode::StickersEntry);
@@ -859,7 +868,7 @@ void MessageComposer::createCancelButton(cocos2d::ui::Layout* parent)
     _cancelButton->setContentSize(Size(buttonHeight, buttonHeight));
     _cancelButton->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(contentMarginX, 0, 0, 0)));
     _cancelButton->addClickEventListener([this](Ref* button){
-        AudioMixer::getInstance()->playEffect(CANCEL_BUTTON_AUDIO_EFFECT);
+        AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_01_v1.mp3");
         AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - CancelInput");
         // Clear the message before we set to idle
         _messageEntryField->setString("");
@@ -907,8 +916,8 @@ void MessageComposer::createMessageEntryUI(cocos2d::ui::Layout* parent)
     _messageEntryField->setTextHorizontalAlignment(TextHAlignment::LEFT);
     _messageEntryField->setTextVerticalAlignment(TextVAlignment::TOP);
     _messageEntryField->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(textEntryLeftMargin, 0, 0, 0)));
-    _messageEntryField->setPlaceHolderColor(Style::Color::white);
-    _messageEntryField->setTextColor(Color4B(Style::Color::black));
+    _messageEntryField->setPlaceHolderColor(Colours::Color_3B::white);
+    _messageEntryField->setTextColor(Color4B(Colours::Color_3B::black));
     _messageEntryField->addEventListener(CC_CALLBACK_2(MessageComposer::onTextFieldEvent, this));
     firstLayout->addChild(_messageEntryField);
     
@@ -951,7 +960,7 @@ void MessageComposer::createMessageEntryUI(cocos2d::ui::Layout* parent)
         const Size& nativeScreenSize = Director::getInstance()->getOpenGLView()->getFrameSize();
         const bool currentOrientationPortrait = (nativeScreenSize.height > nativeScreenSize.width);
         
-        const char* const keyToRead = currentOrientationPortrait ? ConfigStorage::kEstimatedKeyboardHeightPortrait : ConfigStorage::kEstimatedKeyboardHeightLandscape;
+        const char* const keyToRead = currentOrientationPortrait ? TZ::Device::kEstimatedKeyboardHeightPortrait : TZ::Device::kEstimatedKeyboardHeightLandscape;
         
         if(UserDefault::getInstance()->getFloatForKey(keyToRead) < 100.0f)
         {
@@ -964,4 +973,4 @@ void MessageComposer::createMessageEntryUI(cocos2d::ui::Layout* parent)
 #endif
 }
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

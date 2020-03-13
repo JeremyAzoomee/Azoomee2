@@ -1,10 +1,11 @@
 #include "HQHistoryManager.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 static HQHistoryManager *_sharedHQHistoryManager = NULL;
 
@@ -26,7 +27,7 @@ void HQHistoryManager::addHQToHistoryManager(std::string hqName)
 {
     if(hqName == getCurrentHQ()) return;
     
-    Azoomee::AnalyticsSingleton::getInstance()->registerCurrentScene(hqName);
+    TZ::AnalyticsSingleton::getInstance()->registerCurrentScene(hqName);
     
     _hqNames.push_back(hqName);
     
@@ -52,7 +53,7 @@ std::string HQHistoryManager::getPreviousHQ()
 		return _hqNames.at(_hqNames.size() - 2);
 	}
 	
-	return ConfigStorage::getInstance()->getDefaultHQ();
+	return kDefaultHQName;
 }
 
 std::string HQHistoryManager::getBeforePreviousHQ()
@@ -74,12 +75,12 @@ void HQHistoryManager::addDefaultHQIfHistoryEmpty()
 {
     if(_hqNames.size() == 0)
     {
-        Azoomee::AnalyticsSingleton::getInstance()->registerCurrentScene(ConfigStorage::getInstance()->getDefaultHQ());
-        _hqNames.push_back(ConfigStorage::getInstance()->getDefaultHQ());
+        TZ::AnalyticsSingleton::getInstance()->registerCurrentScene(kDefaultHQName);
+        _hqNames.push_back(kDefaultHQName);
     }
     else
     {
-        Azoomee::AnalyticsSingleton::getInstance()->registerCurrentScene(getCurrentHQ());
+        TZ::AnalyticsSingleton::getInstance()->registerCurrentScene(getCurrentHQ());
     }
 }
 
@@ -207,4 +208,4 @@ bool HQHistoryManager::isDataCached() const
 
 
 
-NS_AZOOMEE_END
+NS_AZ_END

@@ -6,12 +6,15 @@
 //
 
 #include "SettingsMessageBoxDeleteChild.h"
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 void SettingsMessageBoxDeleteChild::onEnter()
 {
@@ -29,7 +32,7 @@ void SettingsMessageBoxDeleteChild::onEnter()
     
     _cancelButton = SettingsMessageBoxButton::create();
     _cancelButton->loadTextureNormal("res/settings/rounded_button.png");
-    _cancelButton->setColor(Style::Color::skyBlue);
+    _cancelButton->setColor(Colours::Color_3B::skyBlue);
     _cancelButton->setMessageBoxButtonType(SettingsMessageBoxButtonType::CANCEL);
     _cancelButton->setNormalizedPosition(Vec2(0.5,0.3));
     _cancelButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
@@ -43,7 +46,7 @@ void SettingsMessageBoxDeleteChild::onEnter()
     
     _deleteButton = SettingsMessageBoxButton::create();
     _deleteButton->loadTextureNormal("res/settings/rounded_button.png");
-    _deleteButton->setColor(Style::Color::watermelon);
+    _deleteButton->setColor(Colours::Color_3B::watermelon);
     _deleteButton->setMessageBoxButtonType(SettingsMessageBoxButtonType::DELETE);
     _deleteButton->setNormalizedPosition(Vec2(0.5,0.12));
     _deleteButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
@@ -57,4 +60,4 @@ void SettingsMessageBoxDeleteChild::onEnter()
     
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

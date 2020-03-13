@@ -6,15 +6,19 @@
 //
 
 #include "EpisodeBar.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/ImageDownloader/ImageDownloaderCacheCleanerLogic.h>
-#include "HQDataProvider.h"
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/ImageDownloader/ImageDownloaderCacheCleanerLogic.h>
+#include <TinizineCommon/Data/HQDataObject/ContentItemManager.h>
+#include "Style.h"
+#include "HQConstants.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const Vec2 EpisodeBar::kDropShadowPadding = Vec2(52,52);
 const float EpisodeBar::kTextPadding = 60.0f;
@@ -48,7 +52,7 @@ bool EpisodeBar::init()
     _lockedOverlay->setCornerRadius(25);
     _lockedOverlay->setRoundedCorners(true, false, true, false);
     _lockedOverlay->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _lockedOverlay->setColor(Style::Color::darkIndigo);
+    _lockedOverlay->setColor(Colours::Color_3B::darkIndigo);
     _lockedOverlay->setOpacity(51);
     _lockedOverlay->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _lockedOverlay->setStretchImageEnabled(true);
@@ -144,7 +148,7 @@ void EpisodeBar::resizeImageAndText()
 void EpisodeBar::setEpisodeNumber(int episodeNumber)
 {
     _episodeTag->setString(StringUtils::format("%s %d",_("Episode").c_str(),episodeNumber));
-    _dropShadow->setColor(episodeNumber % 2 ? Style::Color::darkIndigo: Style::Color::darkIndigoTwo);
+    _dropShadow->setColor(episodeNumber % 2 ? Colours::Color_3B::darkIndigo: Colours::Color_3B::darkIndigoTwo);
 }
 
 void EpisodeBar::setContentItemData(const HQContentItemObjectRef& contentItem)
@@ -174,7 +178,7 @@ void EpisodeBar::elementAppeared(cocos2d::Node *sender)
 {
     if(_contentItem)
     {
-        _imageDownloader->downloadImage(this, HQDataProvider::getInstance()->getThumbnailUrlForItem(_contentItem, TILESIZE_1X1));
+        _imageDownloader->downloadImage(this, ContentItemManager::getInstance()->getThumbnailUrlForItem(_contentItem, TILESIZE_1X1));
     }
     else
     {
@@ -193,4 +197,4 @@ void EpisodeBar::onImageDownloadFailed()
     
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

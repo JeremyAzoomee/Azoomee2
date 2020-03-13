@@ -1,21 +1,23 @@
 #include "WebViewNativeCaller_android.h"
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/Cookie/CookieManager.h>
-#include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Data/Cookie/CookieManager.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
 #include "HQHistoryManager.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include "WebGameAPIDataManager.h"
-#include "VideoPlaylistManager.h"
-#include "FavouritesManager.h"
-#include "ContentHistoryManager.h"
-#include "RecentlyPlayedManager.h"
-#include <AzoomeeCommon/Utils/SessionIdManager.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
-#include <AzoomeeCommon/Strings.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/WebGameAPI/WebGameAPIDataManager.h>
+#include <TinizineCommon/WebGameAPI/VideoPlaylistManager.h>
+#include <TinizineCommon/ContentDataManagers/FavouritesManager.h>
+#include <TinizineCommon/ContentDataManagers/ContentHistoryManager.h>
+#include <TinizineCommon/ContentDataManagers/RecentlyPlayedManager.h>
+#include <TinizineCommon/Utils/AppBackgroundManager.h>
+#include <TinizineCommon/Data/HQDataObject/HQDataObjectManager.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Data/AppConfig.h>
 #include "ChatDelegate.h"
 #include "BackEndCaller.h"
+#include "WebViewSelector.h"
+#include "RewardManager.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -25,9 +27,11 @@ static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppAc
 #endif
 
 using namespace cocos2d;
-using namespace Azoomee;
+using namespace AZ;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 cocos2d::Scene* WebViewNativeCaller_android::createSceneWithUrl(const std::string& url, Orientation orientation, Vec2 closeButtonAnchor, int videoProgressSeconds)
 {
@@ -123,11 +127,11 @@ void WebViewNativeCaller_android::onEnterTransitionDidFinish()
 {
     AudioMixer::getInstance()->stopBackgroundMusic();
     Director::getInstance()->purgeCachedData();
-    this->setName(ConfigStorage::kAndroidWebviewName);
+    this->setName(WebViewSelector::kAndroidWebviewName);
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    SessionIdManager::getInstance()->registerAndroidSceneChangeEvent();
-    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "startWebView", loadUrl,ChildManager::getInstance()->getParentOrChildId(),(int)_orientation, _closeButtonAnchor.x, _closeButtonAnchor.y, _videoProgressSeconds);
+    AppBackgroundManager::getInstance()->registerAndroidSceneChangeEvent();
+    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "startWebView", loadUrl,ChildManager::getInstance()->getLoggedInChild()->getId(),(int)_orientation, _closeButtonAnchor.x, _closeButtonAnchor.y, _videoProgressSeconds);
         
 #endif
 }
@@ -143,7 +147,7 @@ bool WebViewNativeCaller_android::init()
     return true;
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -220,7 +224,7 @@ JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIGetStringForKey(JNIE
 {
     const char* cKey = env->GetStringUTFChars(key, NULL);
     
-    jstring returnString = env->NewStringUTF(StringMgr::getInstance()->getStringForKey(cKey).c_str());
+    jstring returnString = env->NewStringUTF(LocaleManager::getInstance()->getStringForKey(cKey).c_str());
     return returnString;
 }
 
@@ -284,7 +288,7 @@ extern "C"
 
 JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIGetRemoteWebGameAPIPath(JNIEnv* env, jobject thiz)
 {
-    jstring returnString = env->NewStringUTF(ConfigStorage::getInstance()->getRemoteWebGameAPIPath().c_str());
+    jstring returnString = env->NewStringUTF(AppConfig::getInstance()->getRemoteWebGameAPIPath().c_str());
     return returnString;
 }
 
@@ -358,7 +362,7 @@ extern "C"
 
 JNIEXPORT bool JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIIsChatEntitled(JNIEnv* env, jobject thiz)
 {
-    return !HQHistoryManager::getInstance()->isOffline() && HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kChatHQName)->getHqEntitlement();
+    return !HQHistoryManager::getInstance()->isOffline() && HQDataObjectManager::getInstance()->getHQDataObjectForKey(HQConsts::kChatHQName)->getHqEntitlement();
 }
 
 #endif
@@ -372,7 +376,7 @@ extern "C"
 
 JNIEXPORT bool JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIIsAnonUser(JNIEnv* env, jobject thiz)
 {
-    return ParentManager::getInstance()->isLoggedInParentAnonymous();
+    return UserAccountManager::getInstance()->isLoggedInParentAnonymous();
 }
 
 #endif
@@ -401,6 +405,8 @@ extern "C"
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNISendProgressMetaDataGame(JNIEnv* env, jobject thiz)
 {
 	ContentHistoryManager::getInstance()->onGameContentClosed();
+    // Notify RewardManager to calculate reward
+    RewardManager::getInstance()->calculateRewardForContent(ContentHistoryManager::getInstance()->getLastOpenedContent(), ContentHistoryManager::getInstance()->getTimeInContentSec());
 }
 
 #endif
@@ -415,8 +421,8 @@ extern "C"
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNINewVideoOpened(JNIEnv* env, jobject thiz, int playlistIndex)
 {
 	const auto& contentItem = VideoPlaylistManager::getInstance()->getContentItemDataForPlaylistElement(playlistIndex);
-	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kVideoHQName);
-	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), ConfigStorage::kMeHQName);
+	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), HQConsts::kVideoHQName);
+	RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFileForHQ(contentItem->getContentItemId(), HQConsts::kOomeeHQName);
 	ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
 }
 

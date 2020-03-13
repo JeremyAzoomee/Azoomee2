@@ -8,12 +8,15 @@
 #ifndef NavigationBar_h
 #define NavigationBar_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include "NavigationButton.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 enum class HQType {GAME, VIDEO, CHAT, OOMEE};
 
@@ -36,6 +39,7 @@ public:
     
     static const std::map<std::string, HQType> kHQNameToTypeConv;
     static const std::map<HQType,std::string> kHQTypeToNameConv;
+    static const std::map<std::string, cocos2d::Color3B> kHQColourMap;
     
     bool init() override;
     void onEnter() override;
@@ -50,6 +54,6 @@ public:
     CREATE_FUNC(NavigationBar);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* NavigationBar_h */

@@ -2,14 +2,15 @@
 #define AzoomeeChat_StickerCategory_h
 
 #include "../AzoomeeChat.h"
-#include <AzoomeeCommon/Data/Json.h>
-#include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
+#include <TinizineCommon/Data/Json.h>
 #include <string>
 #include <memory>
 #include "Sticker.h"
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 // forward decleration
 class StickerCategory;
@@ -25,7 +26,6 @@ private:
     
     std::string _imageURL;
     std::string _categoryID;
-    CalenderSeasons _season;
     StickerList _stickers;
     
     // no direct construction
@@ -39,10 +39,9 @@ public:
     std::string imageURL() const;
     std::string categoryID() const;
     std::string imageLocalPath() const;
-    CalenderSeasons season() const;
     StickerList stickers() const;
 };
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END
 
 #endif

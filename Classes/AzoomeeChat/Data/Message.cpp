@@ -2,13 +2,15 @@
 #include <cocos/cocos2d.h>
 #include "../ChatAPI.h"
 #include "Sticker.h"
-#include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Net/Utils.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
+#include <TinizineCommon/Net/Utils.h>
 
 using namespace cocos2d;
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 const char* const Message::MessageTypeText = "TEXT";
 const char* const Message::MessageTypeSticker = "STICKER";
@@ -95,7 +97,7 @@ MessageRef Message::createFromJson(const rapidjson::Value& json)
             messageText = params["text"].GetString();
             
             // Decode the string and trim whitespace
-            messageText = Azoomee::trim(Azoomee::Net::urlDecode(messageText));
+            messageText = StringFunctions::trim(TZ::Net::urlDecode(messageText));
         }
         else if(messageType == Message::MessageTypeSticker)
         {
@@ -113,7 +115,7 @@ MessageRef Message::createFromJson(const rapidjson::Value& json)
                 return MessageRef();
             }
             
-            stickerLocation = Azoomee::trim(params["sticker_location"].GetString());
+            stickerLocation = StringFunctions::trim(params["sticker_location"].GetString());
         }
         else if(messageType == Message::MessageTypeArt)
         {
@@ -288,7 +290,7 @@ rapidjson::Value Message::toJson() const
     if(_messageType == Message::MessageTypeText)
     {
         std::map<std::string, std::string> params = {
-            { "text", Azoomee::Net::urlEncode(_messageText) }
+            { "text", TZ::Net::urlEncode(_messageText) }
         };
         json.AddMember("params", ToJson(params), allocator);
     }
@@ -318,4 +320,4 @@ rapidjson::Value Message::toJson() const
     return json;
 }
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

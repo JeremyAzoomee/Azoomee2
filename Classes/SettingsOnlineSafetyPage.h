@@ -8,12 +8,15 @@
 #ifndef SettingsOnlineSafetyPage_h
 #define SettingsOnlineSafetyPage_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <ui/CocosGUI.h>
 #include "SettingsPageHeader.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class SettingsOnlineSafetyPage : public cocos2d::ui::Layout
 {
@@ -32,6 +35,6 @@ public:
     CREATE_FUNC(SettingsOnlineSafetyPage);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* SettingsOnlineSafetyPage_h */

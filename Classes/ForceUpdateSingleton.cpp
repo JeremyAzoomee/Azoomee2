@@ -2,23 +2,19 @@
 #include "BackEndCaller.h"
 
 #include <external/json/document.h>
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/Utils/VersionChecker.h>
-#include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Utils/DirUtil.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
+#include <TinizineCommon/Utils/DirUtil.h>
+#include "ModalMessages.h"
 #include "ForceUpdateAppLockScene.h"
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#include "platform/android/jni/JniHelper.h"
-
-static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppActivity";
-
-#endif
+#include <TinizineCommon/Data/AppConfig.h>
+#include <TinizineCommon/Device.h>
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const std::string ForceUpdateSingleton::kAcceptedMinAzVerID = "acceptedMinAzoomeeVersion";
 const std::string ForceUpdateSingleton::kNotifiedMinAzVerID = "notifiedMinAzoomeeVersion";
@@ -106,7 +102,7 @@ bool ForceUpdateSingleton::parseAndSaveForceUpdateData(const std::string &jsonSt
 {
 	    std::map<std::string, std::string> forceUpdateData = getMapFromForceUpdateJsonData(jsonString);
 	    forceUpdateData["timeStamp"] = StringUtils::format("%ld", time(NULL));
-	    const std::string &jsonStringToBeWritten = getJSONStringFromMap(forceUpdateData);
+	    const std::string &jsonStringToBeWritten = StringFunctions::getJSONStringFromMap(forceUpdateData);
 	
 	    FileUtils::getInstance()->writeStringToFile(jsonStringToBeWritten, writablePath + forceUpdateFileSubPath);
 	
@@ -168,12 +164,12 @@ void ForceUpdateSingleton::setLocalEtag(const std::string& etag)
 
 bool ForceUpdateSingleton::isNotificationRequired()
 {
-    return !azoomeeMeetsVersionRequirement(getAcceptedMinAzoomeeVersion()); //if acceptedMinAzoomeeVersion is not met, we need to at least notify, but check if close required.
+    return StringFunctions::compareVersionNumbers(getAcceptedMinAzoomeeVersion(), AppConfig::getInstance()->getVersionNumber()) < 0; //if acceptedMinAzoomeeVersion is not met, we need to at least notify, but check if close required.
 }
 
 bool ForceUpdateSingleton::isAppCloseRequired()
 {
-    return !azoomeeMeetsVersionRequirement(getNotifiedMinAzoomeeVersion()); //if not even the notifiedMinAzoomeeVersion is met, we need to close the app
+    return StringFunctions::compareVersionNumbers(getNotifiedMinAzoomeeVersion(), AppConfig::getInstance()->getVersionNumber()) < 0; //if not even the notifiedMinAzoomeeVersion is met, we need to close the app
 }
 
 std::string ForceUpdateSingleton::getAcceptedMinAzoomeeVersion()
@@ -245,22 +241,23 @@ std::string ForceUpdateSingleton::getUpdateUrlFromFile()
 	}
 	return "";
 #endif
-		
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+	
+    const std::string& osManufacturer = TZ::Device::getInstance()->getOSManufacturer();
     
-    std::string resultStr = JniHelper::callStaticStringMethod(kAzoomeeActivityJavaClassName, "getOSBuildManufacturer");
-    
-    if (resultStr == "Amazon")
+    if(osManufacturer == TZ::Device::kOSManufacturerAmazon)
     {
         return forceUpdateData.at(kUpdateUrlAmazonID);
     }
-    else
+    else if(osManufacturer == TZ::Device::kOSManufacturerGoogle)
     {
         return forceUpdateData.at(kUpdateUrlGoogleID);
     }
-#else
-    return forceUpdateData.at(kUpdateUrlAppleID);
-#endif
+    else if(osManufacturer == TZ::Device::kOSManufacturerApple)
+    {
+        return forceUpdateData.at(kUpdateUrlAppleID);
+    }
+    
+    return "";
 }
 
 void ForceUpdateSingleton::onFileDownloadComplete(const std::string &fileString, const std::string &tag, long responseCode)
@@ -274,4 +271,4 @@ void ForceUpdateSingleton::onFileDownloadComplete(const std::string &fileString,
 	
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

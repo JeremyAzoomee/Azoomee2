@@ -1,12 +1,14 @@
 #include "AvatarWidget.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <TinizineCommon/UI/Colour.h>
 
 
 using namespace cocos2d;
 
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 bool AvatarWidget::init()
 {
@@ -176,4 +178,4 @@ void AvatarWidget::onImageDownloadFailed()
     }
 }
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

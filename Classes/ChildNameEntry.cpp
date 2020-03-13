@@ -6,14 +6,17 @@
 //
 
 #include "ChildNameEntry.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/Input/TextInputChecker.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Input/TextInputChecker.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool ChildNameEntry::init()
 {
@@ -57,7 +60,7 @@ void ChildNameEntry::createInputHolder()
     _inputTitle->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _inputTitle->setTextHorizontalAlignment(TextHAlignment::CENTER);
     _inputTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
-    _inputTitle->setTextColor(Color4B(Style::Color::black));
+    _inputTitle->setTextColor(Color4B(Colours::Color_3B::black));
     _inputTitle->setTextAreaSize(Size(500,180));
     _inputTitle->setOverflow(Label::Overflow::SHRINK);
     _inputHolder->addChild(_inputTitle);
@@ -83,12 +86,12 @@ void ChildNameEntry::createInputHolder()
     _inputBox->setShouldMoveContentOnKeyboardDisplay(false);
     _inputHolder->addChild(_inputBox);
     
-    _continueButton = CTAButton::create("res/onboarding/rounded_button.png");
+    _continueButton = TextButton::create("res/onboarding/rounded_button.png");
     _continueButton->ignoreContentAdaptWithSize(false);
     _continueButton->setContentSize(Size(700,140));
     _continueButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _continueButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,elementSpacing,0,0)));
-    _continueButton->setColor(Style::Color::darkIndigo);
+    _continueButton->setColor(Colours::Color_3B::darkIndigo);
     _continueButton->setTextAreaSizePercent(Vec2(0.9f,0.8f));
     _continueButton->setText(_("Continue"));
     _continueButton->setTextFontInfo(Style::Font::PoppinsBold(), 70);
@@ -98,7 +101,7 @@ void ChildNameEntry::createInputHolder()
         {
             if(_continueCallback)
             {
-                _continueCallback(trim(_inputBox->getText()));
+                _continueCallback(StringFunctions::trim(_inputBox->getText()));
             }
         }
     });
@@ -108,7 +111,7 @@ void ChildNameEntry::createInputHolder()
     _backButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _backButton->setContentSize(Size(700,140));
     _backButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,elementSpacing,0,0)));
-    _backButton->setTextColor(Color4B(Style::Color::brownGrey));
+    _backButton->setTextColor(Color4B(Colours::Color_3B::brownGrey));
     _backButton->setTouchEnabled(true);
     _backButton->setTouchScaleChangeEnabled(true);
     _backButton->ignoreContentAdaptWithSize(false);
@@ -131,7 +134,7 @@ void ChildNameEntry::createInputHolder()
                 _backButton->setScale(1.0f);
                 if(_backCallback)
                 {
-                    _backCallback(trim(_inputBox->getText()));
+                    _backCallback(StringFunctions::trim(_inputBox->getText()));
                 }
                 break;
             }
@@ -193,7 +196,7 @@ void ChildNameEntry::clearInputText()
 void ChildNameEntry::setContinueButtonEnabled(bool enabled)
 {
     _continueButton->setTouchEnabled(enabled);
-    _continueButton->setColor(enabled ? Style::Color::darkIndigo : Style::Color::greyBlue2);
+    _continueButton->setColor(enabled ? Colours::Color_3B::darkIndigo : Colours::Color_3B::greyBlue2);
 }
 
 void ChildNameEntry::setChildName(const std::string& name)
@@ -205,11 +208,11 @@ void ChildNameEntry::setChildName(const std::string& name)
 //Editbox Delegate Functions
 void ChildNameEntry::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text)
 {
-    setContinueButtonEnabled(isValidChildName(text.c_str()));
+    setContinueButtonEnabled(TextInputChecker::isValidChildName(text.c_str()));
 }
 void ChildNameEntry::editBoxReturn(cocos2d::ui::EditBox* editBox)
 {
-    setContinueButtonEnabled(isValidChildName(editBox->getText()));
+    setContinueButtonEnabled(TextInputChecker::isValidChildName(editBox->getText()));
 }
 void ChildNameEntry::editBoxEditingDidEndWithAction(cocos2d::ui::EditBox* editBox, EditBoxEndAction action)
 {
@@ -217,12 +220,12 @@ void ChildNameEntry::editBoxEditingDidEndWithAction(cocos2d::ui::EditBox* editBo
 }
 void ChildNameEntry::editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox)
 {
-    setContinueButtonEnabled(isValidChildName(editBox->getText()));
+    setContinueButtonEnabled(TextInputChecker::isValidChildName(editBox->getText()));
 }
 void ChildNameEntry::editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox)
 {
-    setContinueButtonEnabled(isValidChildName(editBox->getText()));
+    setContinueButtonEnabled(TextInputChecker::isValidChildName(editBox->getText()));
 }
 
 
-NS_AZOOMEE_END
+NS_AZ_END

@@ -2,9 +2,12 @@
 #define __GOOGLE_PAYMENT_SINGLETON_H__
 
 #include "cocos2d.h"
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class GooglePaymentSingleton : public cocos2d::Ref
 {
@@ -22,7 +25,10 @@ public:
 	void restoreFailedNoPurchase();
     void onGooglePaymentVerificationAnswerReceived(std::string responseDataString);
     
+    std::string getDeveloperPublicKey();
+    
 private:
+    
     std::string savedDeveloperPayload;
     std::string savedOrderId;
     std::string savedToken;
@@ -31,6 +37,6 @@ private:
     int requestAttempts;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif

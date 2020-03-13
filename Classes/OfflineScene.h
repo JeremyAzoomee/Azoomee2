@@ -8,22 +8,25 @@
 #ifndef OfflineScene_h
 #define OfflineScene_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/Scene.h>
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
-#include <AzoomeeCommon/UI/CTAButton.h>
-#include <AzoomeeCommon/UI/RoundedRectSprite.h>
+#include <TinizineCommon/UI/Scene.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/DynamicText.h>
+#include <TinizineCommon/UI/TextButton.h>
+#include <TinizineCommon/UI/RoundedRectSprite.h>
 #include "FeaturedTile.h"
 #include "OfflineChecker.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
 
-class OfflineScene : public Azoomee::Scene, OfflineCheckerDelegate
+NS_AZ_BEGIN
+
+class OfflineScene : public TZ::Scene, OfflineCheckerDelegate
 {
-    typedef Azoomee::Scene Super;
+    typedef TZ::Scene Super;
 private:
     
     static const cocos2d::Size kTileSize;
@@ -35,7 +38,7 @@ private:
     cocos2d::ui::ImageView* _offlineLogo = nullptr;
     DynamicText* _offlineText = nullptr;
     DynamicText* _checkConnectionText = nullptr;
-    CTAButton* _retryButton = nullptr;
+    TextButton* _retryButton = nullptr;
     DynamicText* _gamesSmallHeading = nullptr;
     DynamicText* _playTheseText = nullptr;
     cocos2d::ui::Layout* _offlineMsgLayout = nullptr;
@@ -56,6 +59,6 @@ public:
     void connectivityStateChanged(bool online) override;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* OfflineScene_h */

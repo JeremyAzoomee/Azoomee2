@@ -6,15 +6,18 @@
 //
 
 #include "SettingsSupportPage.h"
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/NativeShare/NativeShare.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/NativeShare/NativeShare.h>
+#include <TinizineCommon/Data/AppConfig.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool SettingsSupportPage::init()
 {
@@ -32,7 +35,7 @@ void SettingsSupportPage::onEnter()
 {
     _headerBanner = SettingsPageHeader::create();
     _headerBanner->setContentSize(Size(this->getContentSize().width, 316));
-    _headerBanner->setText(ConfigStorage::getInstance()->getVersionNumberToDisplay());
+    _headerBanner->setText(AppConfig::getInstance()->getVersionNumberToDisplay());
     _headerBanner->setLayoutParameter(CreateTopLinearLayoutParam());
     this->addChild(_headerBanner);
     
@@ -106,4 +109,4 @@ void SettingsSupportPage::onEnter()
     Super::onEnter();
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

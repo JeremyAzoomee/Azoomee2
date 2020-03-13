@@ -6,14 +6,17 @@
 //
 
 #include "CircleTile.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/ImageDownloader/ImageDownloaderCacheCleanerLogic.h>
-#include "HQDataProvider.h"
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/ImageDownloader/ImageDownloaderCacheCleanerLogic.h>
+#include <TinizineCommon/Data/HQDataObject/ContentItemManager.h>
+#include "HQConstants.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const float CircleTile::kFrameThickness = 12.0f;
 
@@ -30,7 +33,7 @@ bool CircleTile::init()
     _bgColour->setSizePercent(Vec2(1.0f, 1.0f));
     _bgColour->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _bgColour->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _bgColour->setColor(Style::Color::darkIndigoThree);
+    _bgColour->setColor(Colours::Color_3B::darkIndigoThree);
     addChild(_bgColour);
     
     _clippingStencil = Sprite::create("res/hqscene/circle.png");
@@ -83,7 +86,7 @@ void CircleTile::onSizeChanged()
 void CircleTile::setContentItemData(const HQContentItemObjectRef& contentItem)
 {
     _contentItem = contentItem;
-    _bgColour->setColor(_contentItem ? Style::Color::macaroniAndCheese : Style::Color::darkIndigoThree);
+    _bgColour->setColor(_contentItem ? Colours::Color_3B::macaroniAndCheese : Colours::Color_3B::darkIndigoThree);
 }
 
 void CircleTile::setEmptyImage(const std::string& filename)
@@ -107,7 +110,7 @@ void CircleTile::elementAppeared(cocos2d::Node *sender)
 {
     if(_contentItem)
     {
-        _imageDownloader->downloadImage(this, HQDataProvider::getInstance()->getThumbnailUrlForItem(_contentItem, TILESIZE_3X3));
+        _imageDownloader->downloadImage(this, ContentItemManager::getInstance()->getThumbnailUrlForItem(_contentItem, TILESIZE_3X3));
     }
     else
     {
@@ -132,12 +135,12 @@ void CircleTile::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 }
 void CircleTile::onImageDownloadFailed()
 {
-    if(_imageDownloader->getUrl() == HQDataProvider::getInstance()->getThumbnailUrlForItem(_contentItem, TILESIZE_3X3))
+    if(_imageDownloader->getUrl() == ContentItemManager::getInstance()->getThumbnailUrlForItem(_contentItem, TILESIZE_3X3))
     {
-        _imageDownloader->downloadImage(this, HQDataProvider::getInstance()->getThumbnailUrlForItem(_contentItem, TILESIZE_1X1));
+        _imageDownloader->downloadImage(this, ContentItemManager::getInstance()->getThumbnailUrlForItem(_contentItem, TILESIZE_1X1));
     }
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 

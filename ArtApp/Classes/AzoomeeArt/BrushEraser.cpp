@@ -7,11 +7,13 @@
 //
 
 #include "BrushEraser.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <TinizineCommon/UI/Colour.h>
 
 using namespace cocos2d;
 
-NS_AZOOMEE_AA_BEGIN
+USING_NS_TZ
+
+NS_AZ_ART_BEGIN
 
 BrushEraser::BrushEraser():Brush()
 {
@@ -62,4 +64,4 @@ void BrushEraser::onTouchEnded(Touch *touch, Event *event)
     
 }
 
-NS_AZOOMEE_AA_END
+NS_AZ_ART_END

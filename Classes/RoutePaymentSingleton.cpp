@@ -1,18 +1,21 @@
 #include "RoutePaymentSingleton.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include "ModalMessages.h"
 #include "AmazonPaymentSingleton.h"
 #include "GooglePaymentSingleton.h"
-#include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Utils/DirUtil.h>
-#include "LoginLogicHandler.h"
+#include <TinizineCommon/Utils/StringFunctions.h>
+#include <TinizineCommon/Utils/DirUtil.h>
+#include "LoginController.h"
 #include "BackEndCaller.h"
-#include <AzoomeeCommon/UI/MessageBox.h>
 #include "FlowDataSingleton.h"
 #include "SceneManagerScene.h"
-#include "AzoomeeCommon/Data/Child/ChildManager.h"
-#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include "TinizineCommon/Data/Child/ChildManager.h"
+#include <TinizineCommon/Device.h>
+#include "PopupMessageBox.h"
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include "ErrorCodes.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     #include "platform/android/jni/JniHelper.h"
@@ -25,7 +28,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const std::string& RoutePaymentSingleton::kReceiptCacheFolder = "receiptCache/";
 const std::string& RoutePaymentSingleton::kReceiptDataFileName = "receiptData.dat";
@@ -52,13 +57,23 @@ RoutePaymentSingleton::~RoutePaymentSingleton(void)
 
 bool RoutePaymentSingleton::init(void)
 {
+    const std::string& jsonString = FileUtils::getInstance()->getStringFromFile("res/configuration/IapConfiguration.json");
+    
+    _iapConfiguration.Parse(jsonString.c_str());
+    
+    if(_iapConfiguration.HasParseError())
+    {
+        cocos2d::log("IAPConfig file parsing error!");
+        _iapConfiguration.SetObject();
+    }
+    
     return true;
 }
 void RoutePaymentSingleton::startInAppPayment()
 {
     if(receiptDataFileExists())
     {
-        if(!ParentManager::getInstance()->isUserLoggedIn())
+        if(!UserAccountManager::getInstance()->isUserLoggedIn())
         {
             Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(kPaymentSuccessfulEventName);
         }
@@ -95,22 +110,22 @@ void RoutePaymentSingleton::startInAppPayment()
 
 bool RoutePaymentSingleton::showIAPContent()
 {
-    return !ParentManager::getInstance()->isPaidUser();
+    return !UserAccountManager::getInstance()->isPaidUser();
 }
 
 bool RoutePaymentSingleton::osIsIos()
 {
-    return (ConfigStorage::getInstance()->getOSManufacturer() == ConfigStorage::kOSManufacturerApple);
+    return (TZ::Device::getInstance()->getOSManufacturer() == TZ::Device::kOSManufacturerApple);
 }
 
 bool RoutePaymentSingleton::osIsAndroid()
 {
-    return (ConfigStorage::getInstance()->getOSManufacturer() == ConfigStorage::kOSManufacturerGoogle);
+    return (TZ::Device::getInstance()->getOSManufacturer() == TZ::Device::kOSManufacturerGoogle);
 }
 
 bool RoutePaymentSingleton::osIsAmazon()
 {
-    return (ConfigStorage::getInstance()->getOSManufacturer() == ConfigStorage::kOSManufacturerAmazon);
+    return (TZ::Device::getInstance()->getOSManufacturer() == TZ::Device::kOSManufacturerAmazon);
 }
 
 void RoutePaymentSingleton::restorePayment()
@@ -147,7 +162,19 @@ void RoutePaymentSingleton::backendRequestFailed(long errorCode)
     }
     else // generic error message for 400 and 403 errors where either the request was invalid or signatures didnt match up do access was denied
     {
-        MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, this);
+        const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(ERROR_CODE_PURCHASE_FAILURE);
+               
+        PopupMessageBox* messageBox = PopupMessageBox::create();
+        messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+        messageBox->setBody(errorMessageText.at(ERROR_BODY));
+        messageBox->setButtonText(_("Back"));
+        messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+        messageBox->setPatternColour(Colours::Color_3B::azure);
+        messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
+            pSender->removeFromParent();
+            LoginController::getInstance()->doLoginLogic();
+        });
+        Director::getInstance()->getRunningScene()->addChild(messageBox, 1);
     }
 }
 
@@ -161,39 +188,48 @@ void RoutePaymentSingleton::purchaseFailureErrorMessage(const std::string& failu
 void RoutePaymentSingleton::doublePurchaseMessage()
 {
     AnalyticsSingleton::getInstance()->iapSubscriptionDoublePurchaseEvent();
-    Azoomee::ModalMessages::getInstance()->stopLoading();
-    MessageBox::createWith(ERROR_CODE_PURCHASE_DOUBLE, nullptr);
+    AZ::ModalMessages::getInstance()->stopLoading();
+    const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(ERROR_CODE_PURCHASE_DOUBLE);
+           
+    PopupMessageBox* messageBox = PopupMessageBox::create();
+    messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+    messageBox->setBody(errorMessageText.at(ERROR_BODY));
+    messageBox->setButtonText(_("Back"));
+    messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+    messageBox->setPatternColour(Colours::Color_3B::azure);
+    messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
+        pSender->removeFromParent();
+    });
+    Director::getInstance()->getRunningScene()->addChild(messageBox, 1);
 }
 
 void RoutePaymentSingleton::failedRestoreMessage()
 {
 	AnalyticsSingleton::getInstance()->iapSubscriptionErrorEvent("failed restore - no purchase");
-	Azoomee::ModalMessages::getInstance()->stopLoading();
-	MessageBox::createWith(ERROR_CODE_APPLE_NO_PREVIOUS_PURCHASE, nullptr);
+	AZ::ModalMessages::getInstance()->stopLoading();
+    const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(ERROR_CODE_APPLE_NO_PREVIOUS_PURCHASE);
+           
+    PopupMessageBox* messageBox = PopupMessageBox::create();
+    messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+    messageBox->setBody(errorMessageText.at(ERROR_BODY));
+    messageBox->setButtonText(_("Back"));
+    messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+    messageBox->setPatternColour(Colours::Color_3B::azure);
+    messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
+        pSender->removeFromParent();
+    });
+    Director::getInstance()->getRunningScene()->addChild(messageBox, 1);
 }
 
 void RoutePaymentSingleton::canceledAction()
 {
-    Azoomee::ModalMessages::getInstance()->stopLoading();
+    AZ::ModalMessages::getInstance()->stopLoading();
 }
 
 void RoutePaymentSingleton::inAppPaymentSuccess()
 {
     removeReceiptDataFile();
-    
-    BackEndCaller::getInstance()->updateBillingData();
-    FlowDataSingleton::getInstance()->addIAPSuccess(true);
-    if(FlowDataSingleton::getInstance()->isSignupFlow())
-    {
-        FlowDataSingleton::getInstance()->setSuccessFailPath(PREMIUM_NEW_ACCOUNT);
-    }
-    else
-    {
-        FlowDataSingleton::getInstance()->setSuccessFailPath(PREMIUM_EXISTING_ACCOUNT);
-    }
-    
-    ChildManager::getInstance()->setChildLoggedIn(false);
-    BackEndCaller::getInstance()->getAvailableChildren();
+    LoginController::getInstance()->handleLoginSuccess();
 }
 
 void RoutePaymentSingleton::writeAppleReceiptDataToFile(const std::string& receiptData, const std::string& transactionID)
@@ -220,7 +256,7 @@ void RoutePaymentSingleton::writeReceiptDataToFile(const std::string &receiptDat
     
     if(receiptDataFileExists())
     {
-        attemptNumber = atoi(splitStringToVector(FileUtils::getInstance()->getStringFromFile(DirUtil::getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName), "||").at(0).c_str());
+        attemptNumber = atoi(StringFunctions::splitStringToVector(FileUtils::getInstance()->getStringFromFile(DirUtil::getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName), "||").at(0).c_str());
         attemptNumber++;
     }
     
@@ -244,7 +280,7 @@ void RoutePaymentSingleton::removeReceiptDataFile()
 void RoutePaymentSingleton::removeReceiptDataFileAndLogin()
 {
     removeReceiptDataFile();
-    LoginLogicHandler::getInstance()->doLoginLogic();
+    LoginController::getInstance()->doLoginLogic();
 }
 
 void RoutePaymentSingleton::retryReceiptValidation()
@@ -256,7 +292,7 @@ void RoutePaymentSingleton::retryReceiptValidation()
     }
     
     const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(DirUtil::getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName);
-    const std::vector<std::string>& fileContentSplit = splitStringToVector(fileContent, "||");
+    const std::vector<std::string>& fileContentSplit = StringFunctions::splitStringToVector(fileContent, "||");
     
     if(fileContentSplit.size() != 2)
     {
@@ -284,7 +320,7 @@ void RoutePaymentSingleton::retryReceiptValidation()
     pressedRestorePurchaseButton = false;
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    const std::vector<std::string>& paymentElements = splitStringToVector(dataString, "|");
+    const std::vector<std::string>& paymentElements = StringFunctions::splitStringToVector(dataString, "|");
     const std::string& receiptData = paymentElements[0];
     // Get transactionID if we stored it. It may not exist if the receipt was saved in an older version
     const std::string& transactionID = (paymentElements.size() > 1) ? paymentElements[1] : "";
@@ -292,7 +328,7 @@ void RoutePaymentSingleton::retryReceiptValidation()
 #endif
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    const std::vector<std::string>& paymentElements = splitStringToVector(dataString, "|");
+    const std::vector<std::string>& paymentElements = StringFunctions::splitStringToVector(dataString, "|");
     if(paymentElements.size() == 3)
     {
         if(osIsAmazon())
@@ -323,10 +359,10 @@ void RoutePaymentSingleton::createReceiptDataFolder()
     }
 }
 
-//Delegate Functions
-void RoutePaymentSingleton::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
+
+std::string RoutePaymentSingleton::getIapSkuForProvider(const std::string& provider)
 {
-    LoginLogicHandler::getInstance()->doLoginLogic();
+    return getStringFromJson(provider, _iapConfiguration);
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

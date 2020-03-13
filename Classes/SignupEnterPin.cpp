@@ -8,13 +8,15 @@
 //
 
 #include "SignupEnterPin.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/Input/TextInputChecker.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Input/TextInputChecker.h>
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool SignupEnterPin::init()
 {
@@ -38,14 +40,14 @@ bool SignupEnterPin::init()
 	_progressBar->setNumberOfSteps(3);
 	_progressBar->setProgress(3);
 	
-	setContinueButtonEnabled(isValidPin(_inputBox->getText()));
+	setContinueButtonEnabled(TextInputChecker::isValidPin(_inputBox->getText()));
 	
 	return true;
 }
 
 void SignupEnterPin::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text)
 {
-	setContinueButtonEnabled(isValidPin(text.c_str()));
+	setContinueButtonEnabled(TextInputChecker::isValidPin(text.c_str()));
 }
 void SignupEnterPin::editBoxReturn(cocos2d::ui::EditBox* editBox)
 {
@@ -53,11 +55,11 @@ void SignupEnterPin::editBoxReturn(cocos2d::ui::EditBox* editBox)
 }
 void SignupEnterPin::editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox)
 {
-	setContinueButtonEnabled(isValidPin(editBox->getText()));
+	setContinueButtonEnabled(TextInputChecker::isValidPin(editBox->getText()));
 }
 void SignupEnterPin::editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox)
 {
-	setContinueButtonEnabled(isValidPin(editBox->getText()));
+	setContinueButtonEnabled(TextInputChecker::isValidPin(editBox->getText()));
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

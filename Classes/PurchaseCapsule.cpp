@@ -6,15 +6,18 @@
 //
 
 #include "PurchaseCapsule.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Strings.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
 #include "AgeGate.h"
 #include "SceneManagerScene.h"
-#include "LoginLogicHandler.h"
+#include "LoginController.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const float PurchaseCapsule::kDropshadowPadding = 60.0f;
 const float PurchaseCapsule::kLoginWidthPercent = 0.35f;
@@ -41,7 +44,7 @@ bool PurchaseCapsule::init()
     _purchaseLayout = ui::Layout::create();
     _purchaseLayout->setSizeType(SizeType::PERCENT);
     _purchaseLayout->setBackGroundColorType(BackGroundColorType::SOLID);
-    _purchaseLayout->setBackGroundColor(Style::Color::macaroniAndCheese);
+    _purchaseLayout->setBackGroundColor(Colours::Color_3B::macaroniAndCheese);
     _purchaseLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     _purchaseLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
     _purchaseLayout->setTouchEnabled(true);
@@ -116,7 +119,7 @@ bool PurchaseCapsule::init()
             case ui::Widget::TouchEventType::ENDED:
             {
                 _loginText->setScale(1.0f);
-                LoginLogicHandler::getInstance()->setLoginOrigin(LoginOrigin::HQ);
+                LoginController::getInstance()->setLoginOrigin(LoginOrigin::HQ);
                 Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
                 break;
             }
@@ -134,7 +137,7 @@ bool PurchaseCapsule::init()
     _clippingNode->addChild(_loginLayout);
     
     _loginText = DynamicText::create(_("Log In"), Style::Font::PoppinsBold(), 53);
-    _loginText->setTextColor(Color4B(Style::Color::macaroniAndCheese));
+    _loginText->setTextColor(Color4B(Colours::Color_3B::macaroniAndCheese));
     _loginText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _loginText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _loginText->setTextHorizontalAlignment(TextHAlignment::CENTER);
@@ -217,4 +220,4 @@ void PurchaseCapsule::setupForCurrentState()
     onSizeChanged();
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

@@ -6,18 +6,19 @@
 //
 
 #include "GameHQ.h"
-#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include "RecentlyPlayedManager.h"
-#include "HQDataProvider.h"
-#include "GameDataManager.h"
+#include <TinizineCommon/Data/HQDataObject/HQDataObjectManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/ContentDataManagers/RecentlyPlayedManager.h>
+#include <TinizineCommon/ContentDataManagers/GameDataManager.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool GameHQ::init()
 {
@@ -30,7 +31,7 @@ bool GameHQ::init()
     createRecentlyPlayedTiles();
     createDropdowns();
     
-    const Color3B& gradColour = Style::Color::darkIndigo;
+    const Color3B& gradColour = Colours::Color_3B::darkIndigo;
     _topScrollGradient = LayerGradient::create(Color4B(gradColour), Color4B(gradColour.r, gradColour.g, gradColour.b, 0));
     _topScrollGradient->setIgnoreAnchorPointForPosition(false);
     _topScrollGradient->setContentSize(Size(_contentListView->getContentSize().width, 0));
@@ -55,7 +56,7 @@ bool GameHQ::init()
 void GameHQ::onEnter()
 {
     MutableHQCarouselObjectRef recentlyPlayedData = MutableHQCarouselObject::create();
-    recentlyPlayedData->addContentItemsToCarousel(RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQ(ConfigStorage::kGameHQName));
+    recentlyPlayedData->addContentItemsToCarousel(RecentlyPlayedManager::getInstance()->getRecentlyPlayedContentForHQ(HQConsts::kGameHQName));
     recentlyPlayedData->setTitle(_("Recently played"));
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     _recentlyPlayedLayout->setContentItemData(GameDataManager::getInstance()->createFilteredCarouselForBundledGames(recentlyPlayedData));
@@ -134,7 +135,7 @@ void GameHQ::onSizeChanged()
 
 void GameHQ::createFeaturedTiles()
 {
-    const auto& hqData = HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName);
+    const auto& hqData = HQDataObjectManager::getInstance()->getHQDataObjectForKey(HQConsts::kGameHQName);
     HQCarouselObjectRef carouselData = nullptr;
     if(hqData)
     {
@@ -152,7 +153,7 @@ void GameHQ::createFeaturedTiles()
     _featuredLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
         if(_contentSelectedCallback)
         {
-            const std::string& location = StringUtils::format("%s%d", ConfigStorage::kContentLocFeature, elementIndex);
+            const std::string& location = StringUtils::format("%s%d", HQConsts::kContentLocFeature, elementIndex);
             _contentSelectedCallback(content, elementIndex, 0, location);
         }
     });
@@ -180,7 +181,7 @@ void GameHQ::createRecentlyPlayedTiles()
     _recentlyPlayedLayout->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
         if(_contentSelectedCallback)
         {
-            _contentSelectedCallback(content, elementIndex, -1, ConfigStorage::kContentLocRecentPlayed);
+            _contentSelectedCallback(content, elementIndex, -1, HQConsts::kContentLocRecentPlayed);
         }
     });
     _contentListView->pushBackCustomItem(_recentlyPlayedLayout);
@@ -188,8 +189,8 @@ void GameHQ::createRecentlyPlayedTiles()
 
 void GameHQ::createDropdowns()
 {
-    //const auto& carouselData = HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName)->getHqCarousels();
-    const auto& hqData = HQDataObjectManager::getInstance()->getHQDataObjectForKey(ConfigStorage::kGameHQName);
+    //const auto& carouselData = HQDataObjectManager::getInstance()->getHQDataObjectForKey(HQConsts::kGameHQName)->getHqCarousels();
+    const auto& hqData = HQDataObjectManager::getInstance()->getHQDataObjectForKey(HQConsts::kGameHQName);
     if(!hqData)
     {
         return;
@@ -213,7 +214,7 @@ void GameHQ::createDropdowns()
         dropdown->setContentSelectedCallback([this, i](HQContentItemObjectRef content, int elementIndex){
             if(_contentSelectedCallback)
             {
-                _contentSelectedCallback(content, elementIndex, i, ConfigStorage::kContentLocCategory);
+                _contentSelectedCallback(content, elementIndex, i, HQConsts::kContentLocCategory);
             }
         });
         dropdown->setOnResizeCallback([this](){
@@ -256,4 +257,4 @@ void GameHQ::setDropdownOpen(int dropdownIndex)
     }
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

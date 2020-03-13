@@ -8,13 +8,16 @@
 #ifndef AgeGate_h
 #define AgeGate_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/CTAButton.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
+#include <TinizineCommon/UI/TextButton.h>
+#include <TinizineCommon/UI/DynamicText.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 #define AGE_GATE_Z_ORDER 1000
 
@@ -67,6 +70,6 @@ public:
 	CREATE_FUNC(AgeGate);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* AgeGate_h */

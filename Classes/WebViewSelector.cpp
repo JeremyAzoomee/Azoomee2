@@ -1,12 +1,12 @@
 #include "WebViewSelector.h"
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Audio/AudioMixer.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/ErrorCodes.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
+#include <TinizineCommon/API/API.h>
+#include "ErrorCodes.h"
 #include "SceneManagerScene.h"
-#include "ContentHistoryManager.h"
+#include <TinizineCommon/ContentDataManagers/ContentHistoryManager.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "NativeContentInterface_ios.h"
 #endif
@@ -17,7 +17,12 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
+
+const char* const WebViewSelector::kIosWebviewName = "iosWebView";
+const char* const WebViewSelector::kAndroidWebviewName = "androidWebView";
 
 cocos2d::Scene* WebViewSelector::createSceneWithUrl(const std::string& url, Orientation orientation, const Vec2& closeButtonAnchor)
 {
@@ -68,11 +73,11 @@ void WebViewSelector::loadWebView(const std::string& url, Orientation orientatio
 	ContentHistoryManager::getInstance()->onContentOpened();
     AudioMixer::getInstance()->stopBackgroundMusic();
     
-    if(stringEndsWith(_targetUrl, "m3u8")) //this if clause will probably need changes for later
+    if(StringFunctions::stringEndsWith(_targetUrl, "m3u8")) //this if clause will probably need changes for later
     {
-        const std::string& userSessionId = ChildManager::getInstance()->getParentOrChildCdnSessionId();
-        _targetUrl = replaceAll(_targetUrl, "{sessionId}", userSessionId);
-		HttpRequestCreator* progressCheck = API::GetVideoProgress(ChildManager::getInstance()->getParentOrChildId(), ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId(),this);
+        const std::string& userSessionId = ChildManager::getInstance()->getLoggedInChild()->getCDNSessionId();
+        _targetUrl = StringFunctions::replaceAll(_targetUrl, "{sessionId}", userSessionId);
+		HttpRequestCreator* progressCheck = API::GetVideoProgress(ChildManager::getInstance()->getLoggedInChild()->getId(), ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId(),this);
         progressCheck->execute();
     }
     else
@@ -110,7 +115,7 @@ void WebViewSelector::onEnter()
     loadWebView(_targetUrl, _orientation, _closeButtonAnchor);
 }
 
-void WebViewSelector::setParams(const std::string &url, Azoomee::Orientation orientation, const cocos2d::Vec2 &closeButtonAnchor)
+void WebViewSelector::setParams(const std::string &url, TZ::Orientation orientation, const cocos2d::Vec2 &closeButtonAnchor)
 {
     _targetUrl = url;
     _orientation = orientation;
@@ -153,4 +158,4 @@ void WebViewSelector::onHttpRequestFailed(const std::string& requestTag, long er
 }
 
 
-NS_AZOOMEE_END
+NS_AZ_END

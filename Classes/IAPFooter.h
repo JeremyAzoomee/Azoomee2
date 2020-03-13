@@ -8,12 +8,15 @@
 #ifndef IAPFooter_h
 #define IAPFooter_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
+#include <TinizineCommon/UI/DynamicText.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class IAPFooter : public cocos2d::ui::Layout
 {
@@ -43,6 +46,6 @@ public:
 	CREATE_FUNC(IAPFooter);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* IAPFooter_h */

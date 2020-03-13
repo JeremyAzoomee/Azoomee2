@@ -8,18 +8,21 @@
 #ifndef KidDetailsLayer_h
 #define KidDetailsLayer_h
 
-#include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/API/HttpRequestCreator.h>
-#include <AzoomeeCommon/Input/TextInputLayer.h>
-#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
-#include <AzoomeeCommon/Data/Child/Child.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/API/HttpRequestCreator.h>
+#include "TextInputLayer.h"
+#include <TinizineCommon/ImageDownloader/RemoteImageSprite.h>
+#include <TinizineCommon/Data/Child/Child.h>
 #include <cocos/cocos2d.h>
 #include <ui/CocosGUI.h>
 #include "SettingsMessageBox.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
 
-class KidDetailsLayer : public cocos2d::ui::Layout, public Azoomee::HttpRequestCreatorResponseDelegate, public SettingsMessageBoxDelegate
+NS_AZ_BEGIN
+
+class KidDetailsLayer : public cocos2d::ui::Layout, public TZ::HttpRequestCreatorResponseDelegate, public SettingsMessageBoxDelegate
 {
     typedef cocos2d::ui::Layout Super;
     typedef std::function<void()> DeleteChildCallback;
@@ -61,6 +64,6 @@ public:
     void onButtonPressed(SettingsMessageBox* pSender, SettingsMessageBoxButtonType type) override;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* KidDetailsLayer_h */

@@ -8,16 +8,19 @@
 #ifndef ChatHQ_h
 #define ChatHQ_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon//UI/DynamicText.h>
+#include <TinizineCommon//UI/DynamicText.h>
 #include "HQPage.h"
 #include "AzoomeeChat/ChatAPI.h"
 #include "FriendsList.h"
 #include "RecentMessages.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class ChatHQ : public HQPage, Chat::ChatAPIObserver
 {
@@ -53,6 +56,6 @@ public:
     virtual void onChatAPIGetTimelineSummary(const Chat::MessageList& messageList) override;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* ChatHQ_h */

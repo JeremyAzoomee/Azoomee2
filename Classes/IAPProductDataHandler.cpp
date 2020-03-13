@@ -1,5 +1,6 @@
 #include "IAPProductDataHandler.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <TinizineCommon/UI/Colour.h>
+#include "Style.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -10,7 +11,9 @@ static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppAc
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const std::string &IAPProductDataHandler::kDefaultPrice = "£4.99";
 static std::auto_ptr<IAPProductDataHandler> sIAPProductDataHandlerSharedInstance;
@@ -103,7 +106,7 @@ std::string IAPProductDataHandler::getHumanReadableProductPrice() const
 cocos2d::Label* IAPProductDataHandler::createOptionalSubscriptionLabel()
 {
     cocos2d::Label *optionalLabel = Label::createWithTTF("Then " + getHumanReadableProductPrice() + "/month. No commitment, cancel anytime.", Style::Font::Regular(), 40);
-    optionalLabel->setColor(Style::Color::brightAqua);
+    optionalLabel->setColor(Colours::Color_3B::brightAqua);
     optionalLabel->setAnchorPoint(Vec2(0.5,0.5));
     optionalLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     return optionalLabel;
@@ -158,4 +161,4 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_priceFetchFailed(JNIEnv
 
 #endif
 
-NS_AZOOMEE_END
+NS_AZ_END

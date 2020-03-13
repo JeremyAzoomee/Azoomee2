@@ -9,16 +9,19 @@
 #define ShareInChatLayer_h
 
 #include "AzoomeeChat/ChatAPI.h"
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/RoundedRectSprite.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
-#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
-#include <AzoomeeCommon/UI/Scene.h>
+#include <TinizineCommon/UI/RoundedRectSprite.h>
+#include <TinizineCommon/UI/DynamicText.h>
+#include <TinizineCommon/ImageDownloader/ImageDownloader.h>
+#include <TinizineCommon/UI/Scene.h>
 #include "FriendsList.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class ShareInChatLayer : public cocos2d::ui::Layout
 {
@@ -67,6 +70,6 @@ public:
     CREATE_FUNC(ShareInChatLayer);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* ShareInChatLayer_h */

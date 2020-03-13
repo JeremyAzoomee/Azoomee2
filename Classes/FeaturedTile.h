@@ -9,10 +9,13 @@
 #define FeaturedTile_h
 
 #include "ContentTile.h"
-#include <AzoomeeCommon/ImageDownloader/OnScreenChecker.h>
-#include <AzoomeeCommon/UI/RoundedRectSprite.h>
+#include <TinizineCommon/ImageDownloader/OnScreenChecker.h>
+#include <TinizineCommon/UI/RoundedRectSprite.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class FeaturedTile : public ContentTile, public OnScreenChecker
 {
@@ -51,6 +54,6 @@ public:
     virtual void onImageDownloadFailed() override;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* FeaturedTile_h */

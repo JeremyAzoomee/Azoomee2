@@ -6,12 +6,15 @@
 //
 
 #include "SettingsMessageBoxNotification.h"
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 void SettingsMessageBoxNotification::onEnter()
 {
@@ -46,5 +49,5 @@ void SettingsMessageBoxNotification::setHeading(const std::string &heading)
 }
 
 
-NS_AZOOMEE_END
+NS_AZ_END
 

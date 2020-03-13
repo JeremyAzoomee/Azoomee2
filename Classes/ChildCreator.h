@@ -10,11 +10,14 @@
 
 #include <memory>
 #include <string>
-#include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/API/HttpRequestCreator.h>
-#include <AzoomeeCommon/Data/Child/Child.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/API/HttpRequestCreator.h>
+#include <TinizineCommon/Data/Child/Child.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class ChildCreator;
 typedef std::shared_ptr<ChildCreator> ChildCreatorRef;
@@ -22,6 +25,8 @@ typedef std::shared_ptr<ChildCreator> ChildCreatorRef;
 class ChildCreator
 {
 private:
+    static const std::string kDefaultOomeeImgUrl;
+    
     std::string _childName = "";
     int _age = -1;
     int _oomeeNum = 0;
@@ -48,6 +53,6 @@ public:
 	bool updateChild(const ChildRef& child);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* ChildCreator_h */

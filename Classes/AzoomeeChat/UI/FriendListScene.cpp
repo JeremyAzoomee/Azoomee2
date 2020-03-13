@@ -1,20 +1,23 @@
 #include "FriendListScene.h"
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include <AzoomeeCommon/Audio/AudioMixer.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include "../../ModalMessages.h"
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/ImageDownloader/RemoteImageSprite.h>
+#include <TinizineCommon/Device.h>
 #include "MessageScene.h"
+#include "../../PopupMessageBox.h"
+#include "../../Style.h"
 
 using namespace cocos2d;
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 bool FriendListScene::init()
 {
@@ -23,12 +26,14 @@ bool FriendListScene::init()
         return false;
     }
     
+    _isParent = !ChildManager::getInstance()->isChildLoggedIn();
+    
     // Create the root layout which fills the whole screen
     _rootLayout = ui::Layout::create();
     _rootLayout->setSizeType(ui::Widget::SizeType::PERCENT);
     _rootLayout->setSizePercent(Vec2(1.0f, 1.0f));
     
-    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    if(TZ::Device::getInstance()->isDeviceIphoneX())
     {
         const bool isLandscape = _rootLayout->getContentSize().width > _rootLayout->getContentSize().height;
         
@@ -45,7 +50,7 @@ bool FriendListScene::init()
     }
     
     _rootLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _rootLayout->setBackGroundColor(Style::Color::black);
+    _rootLayout->setBackGroundColor(Colours::Color_3B::black);
     _rootLayout->setLayoutType(ui::Layout::Type::RELATIVE);
     addChild(_rootLayout);
     
@@ -65,10 +70,6 @@ bool FriendListScene::init()
     });
     _rootLayout->addChild(_titleBar);
     
-    //create Privacy Button, set location in OnSizeChanged.
-    _privacyButton = PrivacyLayer::createWithColor();
-    _titleBar->addChild(_privacyButton);
-    
     createContentUI(_contentLayout);
     
     return true;
@@ -79,15 +80,25 @@ void FriendListScene::onEnter()
     Super::onEnter();
     
     // Create a friend object which represents the current user
-    const std::string& childId = ChildManager::getInstance()->getParentOrChildId();
-    const std::string& childName = ChildManager::getInstance()->getParentOrChildName();
-    const std::string& childAvatar = ChildManager::getInstance()->getParentOrChildAvatarId();
-    _currentUser = Friend::create(childId, childName, childAvatar);
+    if(!_isParent)
+    {
+        const std::string& childId = ChildManager::getInstance()->getLoggedInChild()->getId();
+        const std::string& childName = ChildManager::getInstance()->getLoggedInChild()->getProfileName();
+        const std::string& childAvatar = ChildManager::getInstance()->getLoggedInChild()->getAvatar();
+        _currentUser = Friend::create(childId, childName, childAvatar);
+    }
+    else
+    {
+        const std::string& parentId = UserAccountManager::getInstance()->getLoggedInParentId();
+        const std::string& ParentName = UserAccountManager::getInstance()->getParentDisplayName();
+        const std::string& ParentAvatar = UserAccountManager::getInstance()->getParent()->getAvatar();
+        _currentUser = Friend::create(parentId, ParentName, ParentAvatar);
+    }
     
     // Register for API events
     ChatAPI::getInstance()->registerObserver(this);
 	
-	if(ChildManager::getInstance()->isChildLoggedIn() && ChildManager::getInstance()->getLoggedInChild()->isSessionExpired())
+	if(!_isParent && ChildManager::getInstance()->getLoggedInChild()->isSessionExpired())
 	{
 		ModalMessages::getInstance()->startLoading();
 		ChatAPI::getInstance()->refreshChildSession();
@@ -118,7 +129,7 @@ void FriendListScene::onSizeChanged()
     const cocos2d::Size& contentSize = getContentSize();
     const bool isLandscape = contentSize.width > contentSize.height;
     
-    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    if(TZ::Device::getInstance()->isDeviceIphoneX())
     {
         if(isLandscape)
         {
@@ -149,8 +160,6 @@ void FriendListScene::onSizeChanged()
     // 2 column on landscape, 1 column portrait
     _friendListView->setColumns((isLandscape) ? 2 : 1);
 
-    //Set location according the the titlebar
-    _privacyButton->setCenterPosition(Vec2(_titleBar->getContentSize().width - _privacyButton->getContentSize().height/2 -_privacyButton->getContentSize().width/2,_titleBar->getContentSize().height - _privacyButton->getContentSize().height));
 }
 
 #pragma mark - UI creation
@@ -163,7 +172,7 @@ void FriendListScene::createContentUI(cocos2d::ui::Layout* parent)
     _subTitleBar = ui::Layout::create();
     _subTitleBar->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _subTitleBar->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _subTitleBar->setBackGroundColor(Style::Color::dark);
+    _subTitleBar->setBackGroundColor(Colours::Color_3B::dark);
     
     parent->addChild(_subTitleBar);
     createSubTitleBarUI(_subTitleBar);
@@ -185,7 +194,7 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     childDataLayout->setLayoutType(cocos2d::ui::Layout::Type::HORIZONTAL);
     childDataLayout->setLayoutParameter(CreateCenterRelativeLayoutParam());
     childDataLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    childDataLayout->setBackGroundColor(Style::Color::dark);
+    childDataLayout->setBackGroundColor(Colours::Color_3B::dark);
     
     std::string oomeeFileName;
     std::string displayName;
@@ -194,13 +203,13 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     childAvatar->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
     childAvatar->setSizeType(ui::Widget::SizeType::ABSOLUTE);
     
-    if(ChildManager::getInstance()->isChildLoggedIn())
+    if(!_isParent)
     {
-        oomeeFileName = ChildManager::getInstance()->getParentOrChildAvatarId();
-		displayName = "   " + ChildManager::getInstance()->getParentOrChildName() + " (" + _("Kid Code:") + " " + ChildManager::getInstance()->getLoggedInChild()->getInviteCode() + ")";
+        oomeeFileName = ChildManager::getInstance()->getLoggedInChild()->getAvatar();
+		displayName = "   " + ChildManager::getInstance()->getLoggedInChild()->getProfileName() + " (" + _("Kid Code:") + " " + ChildManager::getInstance()->getLoggedInChild()->getInviteCode() + ")";
         auto childAvatarSprite = RemoteImageSprite::create();
         childAvatarSprite->setKeepAspectRatio(true);
-        childAvatarSprite->initWithUrlAndSizeWithoutPlaceholder(oomeeFileName, Size(128,128));
+        childAvatarSprite->initWithUrlAndSize(oomeeFileName, Size(128,128));
         childAvatarSprite->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
         childAvatar->setContentSize(Size(128,128));
         childAvatar->addChild(childAvatarSprite);
@@ -218,8 +227,8 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     
     //childAvatar->setScale(0.25f);
     
-    auto childInfoLabel = ui::Text::create(displayName, Azoomee::Style::Font::Regular(), 48);
-    childInfoLabel->setColor(Style::Color::white);
+    auto childInfoLabel = ui::Text::create(displayName, AZ::Style::Font::Regular(), 48);
+    childInfoLabel->setColor(Colours::Color_3B::white);
     childInfoLabel->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
     childInfoLabel->setSizeType(ui::Widget::SizeType::ABSOLUTE);
     
@@ -235,7 +244,7 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     _subTitleBarBorder->setLayoutParameter(CreateBottomCenterRelativeLayoutParam());
     _subTitleBarBorder->setSizeType(ui::Widget::SizeType::ABSOLUTE);
     _subTitleBarBorder->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _subTitleBarBorder->setBackGroundColor(Style::Color::greenishTeal);
+    _subTitleBarBorder->setBackGroundColor(Colours::Color_3B::greenishTeal);
     parent->addChild(_subTitleBarBorder);
 }
 
@@ -243,24 +252,24 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
 
 void FriendListScene::onBackButtonPressed()
 {
-    AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
+    AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_01_v1.mp3");
     AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatScene - BackButton");
     
     // Reset the polling time
     ChatAPI::getInstance()->scheduleFriendListPoll( ChatAPI::kScheduleRateLow );
     
-    Azoomee::Chat::delegate->onChatNavigationBack();
+    AZ::Chat::delegate->onChatNavigationBack();
 }
 
 void FriendListScene::onFriendListItemSelected(const FriendRef& friendData)
 {
-    const bool isParent = friendData->friendId() == ParentManager::getInstance()->getLoggedInParentId();
+    const bool isParent = friendData->friendId() == UserAccountManager::getInstance()->getLoggedInParentId();
     AnalyticsSingleton::getInstance()->setChatFriendIsParent(isParent);
     AnalyticsSingleton::getInstance()->genericButtonPressEvent(isParent ? "ChatScene - SelectedParent" : "ChatScene - SelectedFriend");
     
     AnalyticsSingleton::getInstance()->contentItemSelectedEvent("CHAT");
     
-    AudioMixer::getInstance()->playEffect(OK_BUTTON_AUDIO_EFFECT);
+    AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_06_v1.mp3");
     
     FriendList participants = { _currentUser, friendData };
     auto messageScene = MessageScene::create(participants);
@@ -282,7 +291,18 @@ void FriendListScene::onChatAPIGetFriendList(const FriendList& friendList, int a
 void FriendListScene::onChatAPIErrorRecieved(const std::string& requestTag, long errorCode)
 {
     ModalMessages::getInstance()->stopLoading();
-    MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, nullptr);
+    const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(errorCode);
+           
+    PopupMessageBox* messageBox = PopupMessageBox::create();
+    messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+    messageBox->setBody(errorMessageText.at(ERROR_BODY));
+    messageBox->setButtonText(_("Back"));
+    messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+    messageBox->setPatternColour(Colours::Color_3B::azure);
+    messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
+        pSender->removeFromParent();
+    });
+    addChild(messageBox, 1);
 }
 
 void FriendListScene::onChatAPIModerationStatusChanged(const FriendRef& friendObj)
@@ -298,4 +318,4 @@ void FriendListScene::onChatAPIRefreshChildSession()
 	ChatAPI::getInstance()->scheduleFriendListPoll( ChatAPI::kScheduleRateHigh );
 }
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

@@ -6,16 +6,19 @@
 //
 
 #include "PaymentSuccessScreen.h"
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include <AzoomeeCommon/Audio/AudioMixer.h>
-#include "LoginLogicHandler.h"
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
+#include "LoginController.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const std::string PaymentSuccessScreen::kPaymentSuccessScreenName = "paymentSuccessScreen";
 
@@ -34,7 +37,7 @@ bool PaymentSuccessScreen::init()
     setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     
 	setBackGroundColorType(BackGroundColorType::SOLID);
-	setBackGroundColor(Style::Color::darkIndigo);
+	setBackGroundColor(Colours::Color_3B::darkIndigo);
 	
     createBackground();
     createBody();
@@ -64,16 +67,16 @@ void PaymentSuccessScreen::createBackground()
     _pattern = Sprite::create("res/decoration/main_pattern_big.png");
     _pattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _pattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _pattern->setColor(Style::Color::strongPink);
+    _pattern->setColor(Colours::Color_3B::strongPink);
     addChild(_pattern);
     
     _gradient = LayerGradient::create();
     _gradient->setContentSize(contentSize);
     _gradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _gradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _gradient->setStartColor(Style::Color::darkIndigo);
+    _gradient->setStartColor(Colours::Color_3B::darkIndigo);
     _gradient->setStartOpacity(0);
-    _gradient->setEndColor(Style::Color::darkIndigo);
+    _gradient->setEndColor(Colours::Color_3B::darkIndigo);
     _gradient->setEndOpacity(isPortrait ? 140 : 180);
     _gradient->setIgnoreAnchorPointForPosition(false);
     addChild(_gradient);
@@ -102,7 +105,7 @@ void PaymentSuccessScreen::createBody()
     
     _bodyText->addChild(_headerText);
     
-    _continueButton = CTAButton::create("res/onboarding/rounded_button.png");
+    _continueButton = TextButton::create("res/onboarding/rounded_button.png");
     _continueButton->setContentSize(Size(700,140));
     _continueButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _continueButton->setNormalizedPosition(Vec2(0.5f, -0.3f));
@@ -137,11 +140,11 @@ void PaymentSuccessScreen::createLoginButton()
     _loginButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            ParentManager::getInstance()->logoutChild();
+            UserAccountManager::getInstance()->logoutChild();
             
             AudioMixer::getInstance()->stopBackgroundMusic();
             
-            LoginLogicHandler::getInstance()->forceNewLogin(LoginOrigin::IAP_PAYWALL);
+            LoginController::getInstance()->forceNewLogin(LoginOrigin::IAP_PAYWALL);
         }
     });
     addChild(_loginButton);
@@ -162,4 +165,4 @@ void PaymentSuccessScreen::setContinueCallback(const ContinueCallback& callback)
 	_callback = callback;
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

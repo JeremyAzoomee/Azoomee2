@@ -6,15 +6,14 @@
 //
 
 #include "SignupScene.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/ErrorCodes.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include "ModalMessages.h"
+#include <TinizineCommon/API/API.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include "ErrorCodes.h"
 #include "SignupEnterEmail.h"
 #include "SignupConfirmEmail.h"
 #include "SignupEnterPassword.h"
@@ -24,11 +23,15 @@
 #include "BackEndCaller.h"
 #include "SceneManagerScene.h"
 #include "PopupMessageBox.h"
-#include "LoginLogicHandler.h"
+#include "LoginController.h"
+#include <TinizineCommon/Device.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const std::string SignupScene::kEnterEmailPageKey = "enterEmail";
 const std::string SignupScene::kConfirmEmailPageKey = "confirmEmail";
@@ -37,12 +40,20 @@ const std::string SignupScene::kEnterPinPageKey = "enterPin";
 const std::string SignupScene::kTermsPageKey = "terms";
 
 const std::map<std::string, cocos2d::Color3B> SignupScene::kPagePatternColours = {
-	{kEnterEmailPageKey, Style::Color::macaroniAndCheese},
-	{kConfirmEmailPageKey, Style::Color::macaroniAndCheese},
-	{kEnterPasswordPageKey, Style::Color::purplyPink},
-	{kEnterPinPageKey, Style::Color::greenishCyan},
-	{kTermsPageKey, Style::Color::azure}
+	{kEnterEmailPageKey, Colours::Color_3B::macaroniAndCheese},
+	{kConfirmEmailPageKey, Colours::Color_3B::macaroniAndCheese},
+	{kEnterPasswordPageKey, Colours::Color_3B::purplyPink},
+	{kEnterPinPageKey, Colours::Color_3B::greenishCyan},
+	{kTermsPageKey, Colours::Color_3B::azure}
 };
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+const std::string SignupScene::kSignupPlatformSource = "IOS_INAPP";
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+const std::string SignupScene::kSignupPlatformSource = "ANDROID_INAPP";
+#else
+const std::string SignupScene::kSignupPlatformSource = "OTHER";
+#endif
 
 bool SignupScene::init()
 {
@@ -54,7 +65,7 @@ bool SignupScene::init()
 	const Size& contentSize = getContentSize();
 	const bool isPortrait = contentSize.width < contentSize.height;
 	
-	const Color3B& bgColour = Style::Color::darkIndigo;
+	const Color3B& bgColour = Colours::Color_3B::darkIndigo;
 	
 	_bgColour = ui::Layout::create();
 	_bgColour->setBackGroundColorType(ui::HBox::BackGroundColorType::SOLID);
@@ -68,19 +79,19 @@ bool SignupScene::init()
 	_bgPattern = Sprite::create("res/decoration/main_pattern_big.png");
 	_bgPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_bgPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	_bgPattern->setColor(Style::Color::macaroniAndCheese);
+	_bgPattern->setColor(Colours::Color_3B::macaroniAndCheese);
 	addChild(_bgPattern);
 	
 	_patternHider = DrawNode::create();
 	if(isPortrait)
 	{
 		Vec2 points[4] = {Vec2(0,0), Vec2(contentSize.width, 0), Vec2(contentSize.width, contentSize.height * 0.66f), Vec2(0,contentSize.height * 0.66f)};
-		_patternHider->drawSolidPoly(points, 4, Color4F(Style::Color::darkIndigo));
+		_patternHider->drawSolidPoly(points, 4, Color4F(Colours::Color_3B::darkIndigo));
 	}
 	else
 	{
 		Vec2 points[3] = {Vec2(contentSize.width, 0), Vec2(contentSize.width, contentSize.height), Vec2(0,contentSize.height)};
-		_patternHider->drawSolidPoly(points, 3, Color4F(Style::Color::darkIndigo));
+		_patternHider->drawSolidPoly(points, 3, Color4F(Colours::Color_3B::darkIndigo));
 	}
 	addChild(_patternHider);
 	
@@ -182,7 +193,7 @@ bool SignupScene::init()
 		{
 			_signupData._acceptMarketing = acceptMarketing;
 			ModalMessages::getInstance()->startLoading();
-            HttpRequestCreator* request = API::RegisterParentRequest(ParentManager::getInstance()->getLoggedInParentId(), _signupData._email, _signupData._password, _signupData._pin,ConfigStorage::kSignupPlatformSource, ConfigStorage::getInstance()->getDeviceInformation(), _signupData._acceptMarketing ? "true" : "false", this);
+            HttpRequestCreator* request = API::RegisterParentRequest(UserAccountManager::getInstance()->getLoggedInParentId(), _signupData._email, _signupData._password, _signupData._pin,kSignupPlatformSource, TZ::Device::getInstance()->getDeviceInformation(), _signupData._acceptMarketing ? "true" : "false", this);
 			request->execute();
 		}
 		else
@@ -192,9 +203,9 @@ bool SignupScene::init()
 			messageBox->setTitle(_("Setup unsuccessful"));
 			messageBox->setBody(_("To continue using Azoomee, you must confirm that you are over 18, and that you agree to our Policies."));
 			messageBox->setButtonText(_("Back"));
-			messageBox->setButtonColour(Style::Color::darkIndigo);
-			messageBox->setPatternColour(Style::Color::azure);
-			messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+			messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+			messageBox->setPatternColour(Colours::Color_3B::azure);
+			messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
 				pSender->removeFromParent();
 			});
 			this->addChild(messageBox, 1);
@@ -229,19 +240,19 @@ void SignupScene::onSizeChanged()
 	if(isPortrait)
 	{
 		Vec2 points[4] = {Vec2(0,-1), Vec2(contentSize.width, -1), Vec2(contentSize.width, contentSize.height * 0.66f), Vec2(0,contentSize.height * 0.66f)};
-		_patternHider->drawSolidPoly(points, 4, Color4F(Style::Color::darkIndigo));
+		_patternHider->drawSolidPoly(points, 4, Color4F(Colours::Color_3B::darkIndigo));
 	}
 	else
 	{
 		if(_activePage->getName() == kTermsPageKey)
 		{
 			Vec2 points[4] = {Vec2(contentSize.width / 2,-1), Vec2(contentSize.width, -1), Vec2(contentSize.width, contentSize.height), Vec2(contentSize.width / 2,contentSize.height)};
-			_patternHider->drawSolidPoly(points, 4, Color4F(Style::Color::darkIndigo));
+			_patternHider->drawSolidPoly(points, 4, Color4F(Colours::Color_3B::darkIndigo));
 		}
 		else
 		{
 			Vec2 points[3] = {Vec2(contentSize.width, 0), Vec2(contentSize.width, contentSize.height), Vec2(0,contentSize.height)};
-			_patternHider->drawSolidPoly(points, 3, Color4F(Style::Color::darkIndigo));
+			_patternHider->drawSolidPoly(points, 3, Color4F(Colours::Color_3B::darkIndigo));
 		}
 	}
 	
@@ -344,7 +355,7 @@ void SignupScene::changeToPage(const std::string& pageKey)
 		{
 			_patternHider->clear();
 			Vec2 points[4] = {Vec2(contentSize.width / 2,-1), Vec2(contentSize.width, -1), Vec2(contentSize.width, contentSize.height), Vec2(contentSize.width / 2,contentSize.height)};
-			_patternHider->drawSolidPoly(points, 4, Color4F(Style::Color::darkIndigo));
+			_patternHider->drawSolidPoly(points, 4, Color4F(Colours::Color_3B::darkIndigo));
 		}
 	}
 	else
@@ -360,7 +371,7 @@ void SignupScene::changeToPage(const std::string& pageKey)
 		{
 			_patternHider->clear();
 			Vec2 points[3] = {Vec2(contentSize.width, 0), Vec2(contentSize.width, contentSize.height), Vec2(0,contentSize.height)};
-			_patternHider->drawSolidPoly(points, 3, Color4F(Style::Color::darkIndigo));
+			_patternHider->drawSolidPoly(points, 3, Color4F(Colours::Color_3B::darkIndigo));
 		}
 	}
 }
@@ -412,20 +423,20 @@ void SignupScene::onHttpRequestSuccess(const std::string& requestTag, const std:
 	{
 		ModalMessages::getInstance()->stopLoading();
 		UserDefault* userDefault = UserDefault::getInstance();
-		userDefault->setBoolForKey(ConfigStorage::kAnonOnboardingCompleteKey, false); //registered account is upgrade of local anon account, if logging in as anon again, will need to complete onboarding again for fresh anon account
-		userDefault->setStringForKey(ConfigStorage::kAnonEmailKey, "");
-		ConfigStorage::getInstance()->setFirstSlideShowSeen();
+		userDefault->setBoolForKey(UserAccountManager::kAnonOnboardingCompleteKey, false); //registered account is upgrade of local anon account, if logging in as anon again, will need to complete onboarding again for fresh anon account
+		userDefault->setStringForKey(UserAccountManager::kAnonEmailKey, "");
+		UserAccountManager::getInstance()->setHasLoggedInOnDevice(true);
 		AnalyticsSingleton::getInstance()->OnboardingAccountCreatedEvent();
 		
 		PopupMessageBox* messageBox = PopupMessageBox::create();
 		messageBox->setTitle(_("Setup Complete"));
 		messageBox->setBody(_("Welcome to the Azoomee family! Your account is now active"));
 		messageBox->setButtonText(_("Let's go!"));
-		messageBox->setButtonColour(Style::Color::strongPink);
-		messageBox->setPatternColour(Style::Color::strongPink);
-		messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+		messageBox->setButtonColour(Colours::Color_3B::strongPink);
+		messageBox->setPatternColour(Colours::Color_3B::strongPink);
+		messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
 			pSender->removeFromParent();
-			BackEndCaller::getInstance()->login(_signupData._email, _signupData._password);
+            LoginController::getInstance()->login(_signupData._email, _signupData._password);
 		});
 		this->addChild(messageBox, 1);
 	}
@@ -434,26 +445,26 @@ void SignupScene::onHttpRequestFailed(const std::string& requestTag, long errorC
 {
 	ModalMessages::getInstance()->stopLoading();
 	
-	const auto& errorMessageText = StringMgr::getInstance()->getErrorMessageWithCode(errorCode);
+	const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(errorCode);
 	
     if(errorCode == ERROR_CODE_ALREADY_REGISTERED)
     {
         PopupMessageBox* messageBox = PopupMessageBox::create();
         messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
         messageBox->setBody(errorMessageText.at(ERROR_BODY));
-        messageBox->setPatternColour(Style::Color::azure);
+        messageBox->setPatternColour(Colours::Color_3B::azure);
         
         messageBox->setButtonText(_("Log in"));
-        messageBox->setButtonColour(Style::Color::strongPink);
-        messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+        messageBox->setButtonColour(Colours::Color_3B::strongPink);
+        messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
             pSender->removeFromParent();
-            LoginLogicHandler::getInstance()->setLoginOrigin(LoginOrigin::SIGNUP);
+            LoginController::getInstance()->setLoginOrigin(LoginOrigin::SIGNUP);
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Login));
         });
         
         messageBox->setSecondButtonText(_("Back"));
-        messageBox->setSecondButtonColour(Style::Color::darkIndigo);
-        messageBox->setSecondButtonPressedCallback([this](PopupMessageBox* pSender){
+        messageBox->setSecondButtonColour(Colours::Color_3B::darkIndigo);
+        messageBox->setSecondButtonPressedCallback([this](MessagePopupBase* pSender){
             pSender->removeFromParent();
             this->changeToPage(kEnterEmailPageKey);
         });
@@ -465,13 +476,13 @@ void SignupScene::onHttpRequestFailed(const std::string& requestTag, long errorC
         messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
         messageBox->setBody(errorMessageText.at(ERROR_BODY));
         messageBox->setButtonText(_("Back"));
-        messageBox->setButtonColour(Style::Color::darkIndigo);
-        messageBox->setPatternColour(Style::Color::azure);
-        messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+        messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+        messageBox->setPatternColour(Colours::Color_3B::azure);
+        messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
             pSender->removeFromParent();
         });
         this->addChild(messageBox, 1);
     }
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

@@ -8,13 +8,16 @@
 #ifndef PurchaseCapsule_h
 #define PurchaseCapsule_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
-#include <AzoomeeCommon/Data/Parent/BillingData.h>
+#include <TinizineCommon/UI/DynamicText.h>
+#include <TinizineCommon/Data/Parent/BillingData.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class PurchaseCapsule : public cocos2d::ui::Layout
 {
@@ -47,6 +50,6 @@ public:
     CREATE_FUNC(PurchaseCapsule);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* PurchaseCapsule_h */

@@ -1,24 +1,24 @@
 #include "AppDelegate.h"
 #include "IntroVideoScene.h"
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQHistoryManager.h"
-#include "LoginLogicHandler.h"
+#include "LoginController.h"
 #include "NativeContentInterface_ios.h"
-#include <AzoomeeCommon/Utils/SessionIdManager.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Utils/PushNotificationsHandler.h>
+#include <TinizineCommon/Utils/AppBackgroundManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 #include "FlowDataSingleton.h"
-#include <AzoomeeCommon/ErrorCodes.h>
-#include "ContentHistoryManager.h"
+#include "ErrorCodes.h"
+#include <TinizineCommon/ContentDataManagers/ContentHistoryManager.h>
 #include "IAPProductDataHandler.h"
 #include "ChatDelegate.h"
 #include "SceneManagerScene.h"
 #include "OfflineScene.h"
 #include "../artapp/Classes/AzoomeeArt/MainScene.h"
-#include "GameDataManager.h"
+#include <TinizineCommon/ContentDataManagers/GameDataManager.h>
+#include <TinizineCommon/Device.h>
+#include "WebViewSelector.h"
 
 using namespace cocos2d;
-using namespace Azoomee;
+using namespace AZ;
 
 
 // if you want to use the package manager to install more packages,  
@@ -37,11 +37,16 @@ bool AppDelegate::applicationDidFinishLaunching()
     // create a scene. it's an autorelease object
     Director::getInstance()->runWithScene(SceneManagerScene::createScene(SceneNameEnum::introVideo));
     
-    SessionIdManager::getInstance();
+    #ifdef AZOOMEE_ENVIRONMENT_CI
+        const std::string& url = "https://media.azoomee.ninja/static/popups/languages/languages.zip";
+    #else
+        const std::string& url = "https://media.azoomee.com/static/popups/languages/languages.zip";
+    #endif
+    LocaleManager::getInstance()->downloadRemoteStringsFiles(url);
+    
+    AppBackgroundManager::getInstance();
     AnalyticsSingleton::getInstance()->setLandscapeOrientation();
     AnalyticsSingleton::getInstance()->firstLaunchEvent();
-    
-    PushNotificationsHandler::getInstance()->resetExistingNotifications();
 	
     IAPProductDataHandler::getInstance()->fetchProductData();
     
@@ -50,7 +55,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     if(visibleSize.width / visibleSize.height > 1.95)
     {
-        ConfigStorage::getInstance()->setIsDevice18x9(true);
+        TZ::Device::getInstance()->setIsDevice18x9(true);
     }
     
 #ifdef AZOOMEE_ENVIRONMENT_CI
@@ -72,9 +77,9 @@ bool AppDelegate::applicationDidFinishLaunching()
 void AppDelegate::applicationDidEnterBackground()
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-	if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kIosWebviewName))
+	if(Director::getInstance()->getRunningScene()->getChildByName(WebViewSelector::kIosWebviewName))
 	{
-		NativeContentInterface_ios *webview = dynamic_cast<NativeContentInterface_ios*>(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kIosWebviewName));
+		NativeContentInterface_ios *webview = dynamic_cast<NativeContentInterface_ios*>(Director::getInstance()->getRunningScene()->getChildByName(WebViewSelector::kIosWebviewName));
 		if(webview)
 		{
 			webview->removeWebViewFromScreen();
@@ -82,7 +87,7 @@ void AppDelegate::applicationDidEnterBackground()
 	}
 	
 #endif
-    SessionIdManager::getInstance()->registerAppWentBackgroundEvent();
+    AppBackgroundManager::getInstance()->registerAppWentBackgroundEvent();
     AnalyticsSingleton::getInstance()->enteredBackgroundEvent();
     
     Super::applicationDidEnterBackground();
@@ -94,14 +99,13 @@ void AppDelegate::applicationWillEnterForeground()
     Super::applicationWillEnterForeground();
     
     AnalyticsSingleton::getInstance()->enteredForegroundEvent();
-    SessionIdManager::getInstance()->registerAppCameForegroundEvent();
-	
-    PushNotificationsHandler::getInstance()->resetExistingNotifications();
+    AppBackgroundManager::getInstance()->registerAppCameForegroundEvent();
+
 	
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-	if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kIosWebviewName))
+	if(Director::getInstance()->getRunningScene()->getChildByName(WebViewSelector::kIosWebviewName))
 	{
-		NativeContentInterface_ios *webview = dynamic_cast<NativeContentInterface_ios*>(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kIosWebviewName));
+		NativeContentInterface_ios *webview = dynamic_cast<NativeContentInterface_ios*>(Director::getInstance()->getRunningScene()->getChildByName(WebViewSelector::kIosWebviewName));
 		if(webview)
 		{
 			webview->reAddWebViewToScreen();
@@ -112,14 +116,14 @@ void AppDelegate::applicationWillEnterForeground()
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
-    if(Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kAndroidWebviewName))
+    if(Director::getInstance()->getRunningScene()->getChildByName(WebViewSelector::kAndroidWebviewName))
     {
         AnalyticsSingleton::getInstance()->contentItemClosedEvent();
         if(HQHistoryManager::getInstance()->hasError())
         {
             HQHistoryManager::getInstance()->setHasError(false);
             FlowDataSingleton::getInstance()->setErrorCode(ERROR_CODE_SOMETHING_WENT_WRONG);
-            LoginLogicHandler::getInstance()->doLoginLogic();
+            LoginController::getInstance()->doLoginLogic();
             return;
         }
         
@@ -128,10 +132,8 @@ void AppDelegate::applicationWillEnterForeground()
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OfflineHub));
             return;
         }
-        if(HQHistoryManager::getInstance()->getCurrentHQ() != ConfigStorage::kHomeHQName && !(HQHistoryManager::getInstance()->getCurrentHQ() == ConfigStorage::kGroupHQName && HQHistoryManager::getInstance()->getPreviousHQ() == ConfigStorage::kHomeHQName))
-        {
-            ContentHistoryManager::getInstance()->setReturnedFromContent(true);
-        }
+        
+        ContentHistoryManager::getInstance()->setReturnedFromContent(true);
 		
         if(ChatDelegate::getInstance()->_sharedContentId != "")
         {
@@ -145,7 +147,7 @@ void AppDelegate::applicationWillEnterForeground()
     }
 	else
 	{
-		Azoomee::ArtApp::MainScene* artAppScene = dynamic_cast<Azoomee::ArtApp::MainScene*>(Director::getInstance()->getRunningScene()->getChildByName("ArtAppMainScene"));
+		AZ::ArtApp::MainScene* artAppScene = dynamic_cast<AZ::ArtApp::MainScene*>(Director::getInstance()->getRunningScene()->getChildByName("ArtAppMainScene"));
 		if(artAppScene)
 		{
 			artAppScene->runAction(Sequence::create(DelayTime::create(0.25f), CallFunc::create([artAppScene](){

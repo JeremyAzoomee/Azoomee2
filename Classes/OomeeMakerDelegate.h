@@ -8,15 +8,18 @@
 #ifndef OomeeMakerDelegate_h
 #define OomeeMakerDelegate_h
 
-#include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeOomeeMaker/AzoomeeOomeeMaker.h>
-#include <AzoomeeCommon/API/HttpRequestCreator.h>
+#include <TinizineCommon/Tinizine.h>
+#include "AzoomeeOomeeMaker/AzoomeeOomeeMaker.h"
+#include <TinizineCommon/API/HttpRequestCreator.h>
 #include <string>
 #include <memory>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
 
-class OomeeMakerDelegate: public Azoomee::OomeeMaker::Delegate, HttpRequestCreatorResponseDelegate
+NS_AZ_BEGIN
+
+class OomeeMakerDelegate: public AZ::OomeeMaker::Delegate, HttpRequestCreatorResponseDelegate
 {
 public:
     static OomeeMakerDelegate* getInstance();
@@ -31,7 +34,7 @@ public:
 	bool _oomeeMakerFromShop = false;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 
 #endif /* OomeeMakerDelegate_h */

@@ -1,12 +1,14 @@
 #include "StickerCache.h"
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
 #include <dirent.h>
 
 using namespace cocos2d;
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 const char* const kStickersLocalDirectory = "res/chat/stickers/";
 const char* const kStickersCataloguePath = "res/chat/stickers/catalogue.json";
@@ -74,4 +76,4 @@ StickerRef StickerCache::findStickerByURL(const std::string& url) const
     return StickerRef();
 }
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

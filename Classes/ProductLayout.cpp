@@ -6,11 +6,12 @@
 //
 
 #include "ProductLayout.h"
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Device.h>
+#include "Style.h"
 
 #if defined(AZOOMEE_ENVIRONMENT_CI)
 #include "RoutePaymentSingleton.h"
@@ -18,7 +19,9 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool ProductLayout::init()
 {
@@ -42,12 +45,12 @@ bool ProductLayout::init()
 	buttonHolder->setLayoutType(Type::VERTICAL);
 	addChild(buttonHolder);
 	
-	_purchaseButton = CTAButton::create("res/onboarding/rounded_button.png");
+	_purchaseButton = TextButton::create("res/onboarding/rounded_button.png");
 	_purchaseButton->ignoreContentAdaptWithSize(false);
 	_purchaseButton->setContentSize(Size(700,140));
 	_purchaseButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_purchaseButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-	_purchaseButton->setColor(Style::Color::darkIndigo);
+	_purchaseButton->setColor(Colours::Color_3B::darkIndigo);
 	_purchaseButton->setTextColour(Color4B::WHITE);
 	_purchaseButton->setTextFontInfo(Style::Font::PoppinsBold(), 70);
 	_purchaseButton->setTextAreaSizePercent(Vec2(0.9f,0.8f));
@@ -70,7 +73,7 @@ bool ProductLayout::init()
 	_restoreButton->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_restoreButton->setTextVerticalAlignment(TextVAlignment::CENTER);
 	_restoreButton->setTextAreaSize(Size(700,140));
-	_restoreButton->setTextColor(Color4B(Style::Color::brownGrey));
+	_restoreButton->setTextColor(Color4B(Colours::Color_3B::brownGrey));
 	_restoreButton->setTouchEnabled(true);
 	_restoreButton->setOverflow(Label::Overflow::SHRINK);
 	_restoreButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
@@ -109,7 +112,7 @@ bool ProductLayout::init()
 }
 void ProductLayout::onEnter()
 {
-    if(ConfigStorage::getInstance()->getOSManufacturer() == ConfigStorage::kOSManufacturerAmazon)
+    if(TZ::Device::getInstance()->getOSManufacturer() == TZ::Device::kOSManufacturerAmazon)
     {
         _restoreButton->setVisible(false);
     }
@@ -159,7 +162,7 @@ void ProductLayout::setupProductBanner()
 			_productBanner->addChild(textLayout);
 			
 			ui::Text* desc = ui::Text::create(_productData.at(0).first, Style::Font::PoppinsRegular(), 50);
-			desc->setTextColor(Color4B(Style::Color::brownGrey));
+			desc->setTextColor(Color4B(Colours::Color_3B::brownGrey));
 			desc->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 			desc->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
 			desc->setTextHorizontalAlignment(TextHAlignment::CENTER);
@@ -201,9 +204,9 @@ void ProductLayout::setupProductBanner()
             freeTrialText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
             freeTrialText->setHorizontalAlignment(ui::RichText::HorizontalAlignment::CENTER);
             
-            ui::RichElementText* startYour = ui::RichElementText::create(1, Style::Color::brownGrey, 255, _("Start your"), Style::Font::poppinsRegular, 40);
-            ui::RichElementText* freeTrial = ui::RichElementText::create(2, Style::Color::black, 255, _(_productData.at(0).first), Style::Font::poppinsMedium, 40);
-            ui::RichElementText* then = ui::RichElementText::create(3, Style::Color::brownGrey, 255, _(", then"), Style::Font::poppinsRegular, 40);
+            ui::RichElementText* startYour = ui::RichElementText::create(1, Colours::Color_3B::brownGrey, 255, _("Start your"), Style::Font::poppinsRegular, 40);
+            ui::RichElementText* freeTrial = ui::RichElementText::create(2, Colours::Color_3B::black, 255, _(_productData.at(0).first), Style::Font::poppinsMedium, 40);
+            ui::RichElementText* then = ui::RichElementText::create(3, Colours::Color_3B::brownGrey, 255, _(", then"), Style::Font::poppinsRegular, 40);
             
             freeTrialText->pushBackElement(startYour);
             freeTrialText->pushBackElement(ui::RichElementNewLine::create(4, Color3B::WHITE, 0));
@@ -238,7 +241,7 @@ void ProductLayout::setupProductBanner()
             priceLayout->setContentSize(Size(price->getContentSize().width + perMonth->getContentSize().width + 20, price->getContentSize().height));
             
             ui::Text* cancelAnyTime = ui::Text::create(_("Cancel anytime"), Style::Font::poppinsRegular, 40);
-            cancelAnyTime->setTextColor(Color4B(Style::Color::brownGrey));
+            cancelAnyTime->setTextColor(Color4B(Colours::Color_3B::brownGrey));
             cancelAnyTime->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0, -30, 0, 0)));
             cancelAnyTime->setTextHorizontalAlignment(TextHAlignment::CENTER);
             cancelAnyTime->setTextVerticalAlignment(TextVAlignment::TOP);
@@ -259,4 +262,4 @@ void ProductLayout::setupProductBanner()
 }
 
 
-NS_AZOOMEE_END
+NS_AZ_END

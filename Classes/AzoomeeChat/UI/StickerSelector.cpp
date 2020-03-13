@@ -1,15 +1,17 @@
 #include "StickerSelector.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
 #include "../Data/StickerCache.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 bool StickerSelector::init()
 {
@@ -27,7 +29,7 @@ bool StickerSelector::init()
     
     ui::Layout* firstLayout = _splitLayout->firstLayout();
     firstLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    firstLayout->setBackGroundColor(Style::Color::darkIndigoThree);
+    firstLayout->setBackGroundColor(Colours::Color_3B::darkIndigoThree);
     firstLayout->setLayoutType(ui::Layout::Type::RELATIVE);
     
     _stickerListView = StickerListView::create();
@@ -45,13 +47,13 @@ bool StickerSelector::init()
     
     ui::Layout* secondLayout = _splitLayout->secondLayout();
     secondLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    secondLayout->setBackGroundColor(Style::Color::darkIndigoTwo);
+    secondLayout->setBackGroundColor(Colours::Color_3B::darkIndigoTwo);
     
     _categoryListView = StickerCategoryListView::create();
     _categoryListView->setSizeType(ui::Widget::SizeType::PERCENT);
     _categoryListView->setSizePercent(Vec2(1.0f, 1.0f));
     _categoryListView->addItemSelectedEventListener([this](const StickerCategoryRef& category){
-        AudioMixer::getInstance()->playEffect(OK_BUTTON_AUDIO_EFFECT);
+        AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_06_v1.mp3");
         AnalyticsSingleton::getInstance()->chatSelectedStickerTab(category->categoryID());
         selectCategory(category);
     });
@@ -102,4 +104,4 @@ void StickerSelector::addStickerSelectedEventListener(const StickerSelectedCallb
     _selectedEventCallback = callback;
 }
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

@@ -2,18 +2,23 @@
 #define __ROUTE_PAYMENT_SINGLETON_H__
 
 #include "cocos2d.h"
-#include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
+#include <TinizineCommon/Data/Json.h>
+#include <TinizineCommon/Tinizine.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
 
-class RoutePaymentSingleton : public cocos2d::Ref, public MessageBoxDelegate
+NS_AZ_BEGIN
+
+class RoutePaymentSingleton : public cocos2d::Ref
 {
 private:
     bool appleReceiptRefreshchecked = false;
     void createReceiptDataFolder();
     void removeReceiptDataFileAndLogin();
     void writeReceiptDataToFile(const std::string &receiptData);
+    
+    rapidjson::Document _iapConfiguration;
     
 public:
     static RoutePaymentSingleton* getInstance(void);
@@ -53,8 +58,7 @@ public:
     void removeReceiptDataFile();
     void retryReceiptValidation();
     
-    //Delegate Functions
-    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
+    std::string getIapSkuForProvider(const std::string& provider);
     
     static const std::string& kReceiptCacheFolder;
     static const std::string& kReceiptDataFileName;
@@ -63,6 +67,6 @@ public:
 	static const std::string kPaymentFailedEventName;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif

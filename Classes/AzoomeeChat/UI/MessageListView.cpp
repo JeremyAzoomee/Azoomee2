@@ -1,13 +1,15 @@
 #include "MessageListView.h"
 #include "MessageListViewItem.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
 
 using namespace cocos2d;
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 #pragma mark - Constants
 
@@ -23,7 +25,7 @@ bool MessageListView::init()
     }
     
     setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::darkIndigoThree);
+    setBackGroundColor(Colours::Color_3B::darkIndigoThree);
     
 #ifdef AVATARS_IN_LISTVIEW
     // Setup foreground with the Oomee bar
@@ -95,7 +97,7 @@ bool MessageListView::init()
     addChild(_foreground);
 #endif
   
-    const Color3B& gradColour = Style::Color::darkIndigoThree;
+    const Color3B& gradColour = Colours::Color_3B::darkIndigoThree;
     _topGradient = LayerGradient::create(Color4B(gradColour), Color4B(gradColour.r, gradColour.g, gradColour.b, 0));
     _topGradient->setIgnoreAnchorPointForPosition(false);
     _topGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
@@ -304,7 +306,7 @@ void MessageListView::setData(const FriendList& participants, const MessageList&
         _listView->removeLastItem();
 #endif
         bool userIsParent = false;
-        if(_participants[0]->friendId() == ParentManager::getInstance()->getLoggedInParentId())
+        if(_participants[0]->friendId() == UserAccountManager::getInstance()->getLoggedInParentId())
         {
             userIsParent = true;
         }
@@ -435,4 +437,4 @@ void MessageListView::addMessage(const MessageRef& message)
     setScrollPosition(1.0f);
 }
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

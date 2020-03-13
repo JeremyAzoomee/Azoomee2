@@ -7,24 +7,25 @@
 
 #include "HQScene.h"
 #include "HQHistoryManager.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectManager.h>
-#include <AzoomeeCommon/Strings.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Data/HQDataObject/HQDataObjectManager.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
 #include "FlowDataSingleton.h"
-#include "ContentHistoryManager.h"
+#include <TinizineCommon/ContentDataManagers/ContentHistoryManager.h>
 #include "RewardDisplayHandler.h"
 #include "SceneManagerScene.h"
 #include "AgeGate.h"
 #include "ContentOpener.h"
-
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 
 HQSnapshot::HQSnapshot()
@@ -90,7 +91,7 @@ bool HQScene::init()
     _background->setSizeType(ui::Layout::SizeType::PERCENT);
     _background->setSizePercent(Vec2(1.0f,1.0f));
     _background->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _background->setBackGroundColor(Style::Color::darkIndigo);
+    _background->setBackGroundColor(Colours::Color_3B::darkIndigo);
     addChild(_background);
     
     createHeaderUI();
@@ -121,10 +122,10 @@ void HQScene::onEnter()
 
 void HQScene::onExit()
 {
-    _gameHQ->setPositionPercent(_activePageName == ConfigStorage::kGameHQName ? Vec2::ANCHOR_MIDDLE : Vec2(-1,0.5));
-    _videoHQ->setPositionPercent(_activePageName == ConfigStorage::kVideoHQName ? Vec2::ANCHOR_MIDDLE : Vec2(-1,0.5));
-    _oomeeHQ->setPositionPercent(_activePageName == ConfigStorage::kMeHQName ? Vec2::ANCHOR_MIDDLE : Vec2(-1,0.5));
-    _chatHQ->setPositionPercent(_activePageName == ConfigStorage::kChatHQName ? Vec2::ANCHOR_MIDDLE : Vec2(-1,0.5));
+    _gameHQ->setPositionPercent(_activePageName == HQConsts::kGameHQName ? Vec2::ANCHOR_MIDDLE : Vec2(-1,0.5));
+    _videoHQ->setPositionPercent(_activePageName == HQConsts::kVideoHQName ? Vec2::ANCHOR_MIDDLE : Vec2(-1,0.5));
+    _oomeeHQ->setPositionPercent(_activePageName == HQConsts::kOomeeHQName ? Vec2::ANCHOR_MIDDLE : Vec2(-1,0.5));
+    _chatHQ->setPositionPercent(_activePageName == HQConsts::kChatHQName ? Vec2::ANCHOR_MIDDLE : Vec2(-1,0.5));
     OnScreenChecker::kUseStrictBoundry = true;
     Super::onExit();
 }
@@ -175,14 +176,16 @@ void HQScene::createHeaderUI()
     _titleBanner->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     addChild(_titleBanner, 1);
     
-    _topPattern = TileSprite::create();
+    _topPattern = RoundedRectSprite::create();
     _topPattern->setTexture("res/decoration/pattern_stem_tile.png");
     _topPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _topPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
-    _topPattern->setColor(Style::Color::macaroniAndCheese);
+    _topPattern->setRoundedCorners(false, false, false, false);
+    _topPattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
+    _topPattern->setColor(Colours::Color_3B::macaroniAndCheese);
     _titleBanner->addChild(_topPattern);
     
-    const Color3B& gradColour = Style::Color::darkIndigo;
+    const Color3B& gradColour = Colours::Color_3B::darkIndigo;
     _patternGradient = LayerGradient::create(Color4B(gradColour.r, gradColour.g, gradColour.b, 0), Color4B(gradColour));
     _patternGradient->setIgnoreAnchorPointForPosition(false);
     _patternGradient->setContentSize(Size(_titleBanner->getContentSize().width, 107));
@@ -261,20 +264,16 @@ void HQScene::createNavigationUI()
     _purchaseCapsule = PurchaseCapsule::create();
     _purchaseCapsule->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _purchaseCapsule->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
-    const BillingDataRef& billingData = ParentManager::getInstance()->getBillingData();
+    const BillingDataRef& billingData = UserAccountManager::getInstance()->getBillingData();
     BillingStatus billingStatus = BillingStatus::ANON;
-    if(billingData)
+    if(UserAccountManager::getInstance()->isUserLoggedIn())
     {
         billingStatus = billingData->getBillingStatus();
-    }
-    else if(ParentManager::getInstance()->isUserLoggedIn())
-    {
-        billingStatus = BillingStatus::FREE_REGISTERED;
     }
     _purchaseCapsule->setUserType(billingStatus);
     _navBar->addChild(_purchaseCapsule);
     
-    const Color3B& gradColour = Style::Color::darkIndigo;
+    const Color3B& gradColour = Colours::Color_3B::darkIndigo;
     _verticalScrollGradient = LayerGradient::create(Color4B(gradColour.r, gradColour.g, gradColour.b, 0), Color4B(gradColour));
     _verticalScrollGradient->setIgnoreAnchorPointForPosition(false);
     _verticalScrollGradient->setContentSize(Size(2736, 160));
@@ -299,7 +298,7 @@ void HQScene::createPageUI()
     _gameHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
     _gameHQ->setVisible(false);
     _gameHQ->setContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex, const std::string& location){
-        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kGameHQName, location);
+        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, HQConsts::kGameHQName, location);
     });
     _pageLayout->addChild(_gameHQ);
     
@@ -309,10 +308,10 @@ void HQScene::createPageUI()
     _videoHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
     _videoHQ->setVisible(false);
     _videoHQ->setContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex, const std::string& location){
-        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kVideoHQName, location);
+        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, HQConsts::kVideoHQName, location);
     });
     _videoHQ->setEpisodeSelectorContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex, const std::string& location){
-        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kGroupHQName, location);
+        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, HQDataObject::kGroupHQName, location);
     });
     _pageLayout->addChild(_videoHQ);
     
@@ -322,7 +321,7 @@ void HQScene::createPageUI()
     _oomeeHQ->setPositionPercent(Vec2::ANCHOR_MIDDLE);
     _oomeeHQ->setVisible(false);
     _oomeeHQ->setContentSelectedCallback([](HQContentItemObjectRef content, int elementIndex, int rowIndex, const std::string& location){
-        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, ConfigStorage::kMeHQName, location);
+        ContentOpener::getInstance()->doCarouselContentOpenLogic(content, rowIndex, elementIndex, HQConsts::kOomeeHQName, location);
     });
     _pageLayout->addChild(_oomeeHQ);
     
@@ -345,22 +344,22 @@ void HQScene::changeToPage(const HQType& page)
         case HQType::GAME:
             _gameHQ->forceDoLayout();
             _HQPageTitle->setString(_("Games"));
-            _activePageName = ConfigStorage::kGameHQName;
+            _activePageName = HQConsts::kGameHQName;
             break;
         case HQType::VIDEO:
             _videoHQ->forceDoLayout();
             _HQPageTitle->setString(_("Videos"));
-            _activePageName = ConfigStorage::kVideoHQName;
+            _activePageName = HQConsts::kVideoHQName;
             break;
         case HQType::CHAT:
             _chatHQ->forceDoLayout();
             _HQPageTitle->setString(_("Chat"));
-            _activePageName = ConfigStorage::kChatHQName;
+            _activePageName = HQConsts::kChatHQName;
             break;
         case HQType::OOMEE:
             _oomeeHQ->forceDoLayout();
-            _HQPageTitle->setString(ChildManager::getInstance()->getParentOrChildName());
-            _activePageName = ConfigStorage::kMeHQName;
+            _HQPageTitle->setString(ChildManager::getInstance()->getLoggedInChild()->getProfileName());
+            _activePageName = HQConsts::kOomeeHQName;
             break;
     }
     HQHistoryManager::getInstance()->addHQToHistoryManager(_activePageName);
@@ -384,15 +383,15 @@ HQSnapshot HQScene::getHQSnapshot()
     snapshot.setOpenDropDowns(openDropdowns);
     
     HQType openHQ = HQType::GAME;
-    if(_activePageName == ConfigStorage::kVideoHQName)
+    if(_activePageName == HQConsts::kVideoHQName)
     {
         openHQ = HQType::VIDEO;
     }
-    else if(_activePageName == ConfigStorage::kMeHQName)
+    else if(_activePageName == HQConsts::kOomeeHQName)
     {
         openHQ = HQType::OOMEE;
     }
-    else if(_activePageName == ConfigStorage::kChatHQName)
+    else if(_activePageName == HQConsts::kChatHQName)
     {
         openHQ = HQType::CHAT;
     }
@@ -442,4 +441,4 @@ void HQScene::setupWithSnapshot(const HQSnapshot& snapshot)
     }
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

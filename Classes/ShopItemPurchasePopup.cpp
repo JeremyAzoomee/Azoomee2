@@ -6,13 +6,16 @@
 //
 
 #include "ShopItemPurchasePopup.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool ShopItemPurchasePopup::init()
 {
@@ -37,7 +40,7 @@ bool ShopItemPurchasePopup::init()
 	_closeButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
+			AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_01_v1.mp3");
 			if(_purchaseCallback)
 			{
 				_purchaseCallback(_itemData, false);
@@ -120,17 +123,17 @@ void ShopItemPurchasePopup::refreshUI()
 	if(_itemData)
 	{
 		_itemAsset->removeLoadedImage();
-		_itemAsset->initWithUrlAndSizeWithoutPlaceholder(_itemData->getInventoryItem()->getUri(), this->getContentSize() * 0.4f);
+		_itemAsset->initWithUrlAndSize(_itemData->getInventoryItem()->getUri(), this->getContentSize() * 0.4f);
 		_itemAsset->startLoadingImage();
 		_cost->setString(StringUtils::format("%d",_itemData->getPrice()));
 		_valueLayout->setContentSize(_cost->getContentSize() + Size(_coin->getContentSize().width * 1.5f,0));
 	}
 	else
 	{
-		_itemAsset->initWithUrlAndSizeWithoutPlaceholder("", this->getContentSize() * 0.4f);
+		_itemAsset->initWithUrlAndSize("", this->getContentSize() * 0.4f);
 		_cost->setString(StringUtils::format("%d",0));
 		_valueLayout->setContentSize(_cost->getContentSize() + Size(_coin->getContentSize().width * 1.5f,0));
 	}
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

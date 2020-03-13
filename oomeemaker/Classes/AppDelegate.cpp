@@ -1,7 +1,6 @@
 #include "AppDelegate.h"
 #include "AzoomeeOomeeMaker/UI/OomeeMakerScene.h"
 #include "AzoomeeOomeeMaker/UI/OomeeSelectScene.h"
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 USING_NS_CC;
 
@@ -58,7 +57,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     if(visibleSize.width / visibleSize.height > 1.95)
     {
-        Azoomee::ConfigStorage::getInstance()->setIsDevice18x9(true);
+        Azoomee::Device::getInstance()->setIsDevice18x9(true);
     }
     
     // create a scene. it's an autorelease object

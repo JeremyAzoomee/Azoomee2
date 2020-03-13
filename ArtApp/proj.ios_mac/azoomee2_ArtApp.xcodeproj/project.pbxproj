@@ -69,6 +69,11 @@
 		D44C620E132DFF430009C878 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620D132DFF430009C878 /* AVFoundation.framework */; };
 		D44C6210132DFF4E0009C878 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620F132DFF4E0009C878 /* AudioToolbox.framework */; };
 		D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6B0611A1803AB670077942B /* CoreMotion.framework */; };
+		E228BF4723EDAC1100D9E57D /* ArtAppConfirmCancelMessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E228BF4623EDAC1100D9E57D /* ArtAppConfirmCancelMessageBox.cpp */; };
+		E228BF4823EDAD9E00D9E57D /* ArtAppConfirmCancelMessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E228BF4623EDAC1100D9E57D /* ArtAppConfirmCancelMessageBox.cpp */; };
+		E228BF4E23EDC02800D9E57D /* ModalMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E228BF4C23EDC02800D9E57D /* ModalMessages.cpp */; };
+		E228BF4F23EDC02800D9E57D /* ModalMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E228BF4C23EDC02800D9E57D /* ModalMessages.cpp */; };
+		E2E348F92407FB5C00EAB256 /* libTinizineCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2E347DB2407E3AD00EAB256 /* libTinizineCommon.a */; };
 		ED545A7C1B68A1F400C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7B1B68A1F400C3958E /* libiconv.dylib */; };
 /* End PBXBuildFile section */
 
@@ -108,19 +113,26 @@
 			remoteGlobalIDString = A07A4C241783777C0073F6A7;
 			remoteInfo = "libcocos2d iOS";
 		};
-		92F52EAC1F20DE3D0032EF83 /* PBXContainerItemProxy */ = {
+		E2E347DA2407E3AD00EAB256 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 92F52EA81F20DE3D0032EF83 /* AzoomeeCommon.xcodeproj */;
+			containerPortal = E2E347D62407E3AD00EAB256 /* TinizineCommon.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 3077F4411E8D5048006DA465;
-			remoteInfo = AzoomeeCommon;
+			remoteInfo = TinizineCommon;
 		};
-		92F52EAF1F20DE600032EF83 /* PBXContainerItemProxy */ = {
+		E2E347DC2407E3BD00EAB256 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 92F52EA81F20DE3D0032EF83 /* AzoomeeCommon.xcodeproj */;
+			containerPortal = E2E347D62407E3AD00EAB256 /* TinizineCommon.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 3077F4401E8D5048006DA465;
-			remoteInfo = AzoomeeCommon;
+			remoteInfo = TinizineCommon;
+		};
+		E2E347E02407E43400EAB256 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E2E347D62407E3AD00EAB256 /* TinizineCommon.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 3077F4401E8D5048006DA465;
+			remoteInfo = TinizineCommon;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -209,7 +221,6 @@
 		92D1E00E1F98DC090096E0FE /* PatternFileStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PatternFileStorage.h; path = ../../artapp/Classes/AzoomeeArt/PatternFileStorage.h; sourceTree = "<group>"; };
 		92D1E0521FA765BE0096E0FE /* BrushConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrushConfig.h; path = ../../artapp/Classes/AzoomeeArt/BrushConfig.h; sourceTree = "<group>"; };
 		92D1E0551FA769A50096E0FE /* BrushConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BrushConfig.cpp; path = ../../artapp/Classes/AzoomeeArt/BrushConfig.cpp; sourceTree = "<group>"; };
-		92F52EA81F20DE3D0032EF83 /* AzoomeeCommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AzoomeeCommon.xcodeproj; path = ../../common/proj.ios_mac/AzoomeeCommon.xcodeproj; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -217,6 +228,11 @@
 		D44C620D132DFF430009C878 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D44C620F132DFF4E0009C878 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D6B0611A1803AB670077942B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
+		E228BF4323EDAC1100D9E57D /* ArtAppConfirmCancelMessageBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ArtAppConfirmCancelMessageBox.h; path = AzoomeeArt/ArtAppConfirmCancelMessageBox.h; sourceTree = "<group>"; };
+		E228BF4623EDAC1100D9E57D /* ArtAppConfirmCancelMessageBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ArtAppConfirmCancelMessageBox.cpp; path = AzoomeeArt/ArtAppConfirmCancelMessageBox.cpp; sourceTree = "<group>"; };
+		E228BF4C23EDC02800D9E57D /* ModalMessages.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ModalMessages.cpp; path = AzoomeeArt/ModalMessages.cpp; sourceTree = "<group>"; };
+		E228BF4D23EDC02800D9E57D /* ModalMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModalMessages.h; path = AzoomeeArt/ModalMessages.h; sourceTree = "<group>"; };
+		E2E347D62407E3AD00EAB256 /* TinizineCommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TinizineCommon.xcodeproj; path = ../../common/proj.ios_mac/TinizineCommon.xcodeproj; sourceTree = "<group>"; };
 		ED545A7B1B68A1F400C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/usr/lib/libiconv.dylib; sourceTree = DEVELOPER_DIR; };
 		ED545A7D1B68A1FA00C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -226,6 +242,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2E348F92407FB5C00EAB256 /* libTinizineCommon.a in Frameworks */,
 				294D0D641D0D56D500F7F5D4 /* CoreText.framework in Frameworks */,
 				92A9A0751F068E5E008A19EB /* libAzoomeeArt.a in Frameworks */,
 				ED545A7C1B68A1F400C3958E /* libiconv.dylib in Frameworks */,
@@ -291,7 +308,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				92F52EA81F20DE3D0032EF83 /* AzoomeeCommon.xcodeproj */,
+				E2E347D62407E3AD00EAB256 /* TinizineCommon.xcodeproj */,
 				46880B8319C43A87006E1F66 /* Classes */,
 				1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
@@ -400,6 +417,10 @@
 				926174051F42006E008E3F9D /* MainScene.h */,
 				926174061F42006E008E3F9D /* AzoomeeArtApp.cpp */,
 				926174071F42006E008E3F9D /* AzoomeeArtApp.h */,
+				E228BF4623EDAC1100D9E57D /* ArtAppConfirmCancelMessageBox.cpp */,
+				E228BF4323EDAC1100D9E57D /* ArtAppConfirmCancelMessageBox.h */,
+				E228BF4C23EDC02800D9E57D /* ModalMessages.cpp */,
+				E228BF4D23EDC02800D9E57D /* ModalMessages.h */,
 			);
 			name = AzoomeeArt;
 			sourceTree = "<group>";
@@ -445,10 +466,10 @@
 			name = Stickers;
 			sourceTree = "<group>";
 		};
-		92F52EA91F20DE3D0032EF83 /* Products */ = {
+		E2E347D72407E3AD00EAB256 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				92F52EAD1F20DE3D0032EF83 /* libAzoomeeCommon.a */,
+				E2E347DB2407E3AD00EAB256 /* libTinizineCommon.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -467,6 +488,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				E2E347DD2407E3BD00EAB256 /* PBXTargetDependency */,
 				1AC6FB25180E99E1004C840B /* PBXTargetDependency */,
 			);
 			name = "AzoomeeArt-app";
@@ -485,7 +507,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				92F52EB01F20DE600032EF83 /* PBXTargetDependency */,
+				E2E347E12407E43400EAB256 /* PBXTargetDependency */,
 				92A9A0641F068A6F008A19EB /* PBXTargetDependency */,
 			);
 			name = AzoomeeArt;
@@ -525,12 +547,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 92F52EA91F20DE3D0032EF83 /* Products */;
-					ProjectRef = 92F52EA81F20DE3D0032EF83 /* AzoomeeCommon.xcodeproj */;
-				},
-				{
 					ProductGroup = 1AC6FAE6180E9839004C840B /* Products */;
 					ProjectRef = 1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */;
+				},
+				{
+					ProductGroup = E2E347D72407E3AD00EAB256 /* Products */;
+					ProjectRef = E2E347D62407E3AD00EAB256 /* TinizineCommon.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -563,11 +585,11 @@
 			remoteRef = 92139E251ED59E30006B0B6E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		92F52EAD1F20DE3D0032EF83 /* libAzoomeeCommon.a */ = {
+		E2E347DB2407E3AD00EAB256 /* libTinizineCommon.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libAzoomeeCommon.a;
-			remoteRef = 92F52EAC1F20DE3D0032EF83 /* PBXContainerItemProxy */;
+			path = libTinizineCommon.a;
+			remoteRef = E2E347DA2407E3AD00EAB256 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -612,6 +634,7 @@
 				9261741F1F420085008E3F9D /* BrushPen.cpp in Sources */,
 				9261741D1F420085008E3F9D /* BrushHighlighter.cpp in Sources */,
 				92D1E0061F94DA820096E0FE /* DrawingCanvasUILayer.cpp in Sources */,
+				E228BF4E23EDC02800D9E57D /* ModalMessages.cpp in Sources */,
 				926174211F420085008E3F9D /* DrawingCanvas.cpp in Sources */,
 				9261740C1F42006E008E3F9D /* AzoomeeArtApp.cpp in Sources */,
 				9261740D1F42006E008E3F9D /* Brush.cpp in Sources */,
@@ -619,6 +642,7 @@
 				92D1E00F1F98DC090096E0FE /* PatternFileStorage.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				9261740E1F42006E008E3F9D /* BrushEraser.cpp in Sources */,
+				E228BF4723EDAC1100D9E57D /* ArtAppConfirmCancelMessageBox.cpp in Sources */,
 				9261740B1F42006E008E3F9D /* MainScene.cpp in Sources */,
 				926174201F420085008E3F9D /* BrushSprayCan.cpp in Sources */,
 				926174221F420085008E3F9D /* StickerPlacementNode.cpp in Sources */,
@@ -631,6 +655,7 @@
 			files = (
 				926174281F42014F008E3F9D /* BrushPen.cpp in Sources */,
 				9261742A1F42014F008E3F9D /* BrushSprayCan.cpp in Sources */,
+				E228BF4823EDAD9E00D9E57D /* ArtAppConfirmCancelMessageBox.cpp in Sources */,
 				9261742D1F42014F008E3F9D /* DrawingCanvas.cpp in Sources */,
 				9261742F1F42014F008E3F9D /* StickerPlacementNode.cpp in Sources */,
 				926174311F42014F008E3F9D /* MainScene.cpp in Sources */,
@@ -638,6 +663,7 @@
 				926174351F42014F008E3F9D /* Brush.cpp in Sources */,
 				92D1E0071F94DA820096E0FE /* DrawingCanvasUILayer.cpp in Sources */,
 				92D1E0101F98DC090096E0FE /* PatternFileStorage.cpp in Sources */,
+				E228BF4F23EDC02800D9E57D /* ModalMessages.cpp in Sources */,
 				926174371F42014F008E3F9D /* BrushEraser.cpp in Sources */,
 				92D1E0571FA769A50096E0FE /* BrushConfig.cpp in Sources */,
 				926174241F420131008E3F9D /* BrushHighlighter.cpp in Sources */,
@@ -658,10 +684,15 @@
 			name = "libcocos2d iOS";
 			targetProxy = 92A9A0631F068A6F008A19EB /* PBXContainerItemProxy */;
 		};
-		92F52EB01F20DE600032EF83 /* PBXTargetDependency */ = {
+		E2E347DD2407E3BD00EAB256 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = AzoomeeCommon;
-			targetProxy = 92F52EAF1F20DE600032EF83 /* PBXContainerItemProxy */;
+			name = TinizineCommon;
+			targetProxy = E2E347DC2407E3BD00EAB256 /* PBXContainerItemProxy */;
+		};
+		E2E347E12407E43400EAB256 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = TinizineCommon;
+			targetProxy = E2E347E02407E43400EAB256 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

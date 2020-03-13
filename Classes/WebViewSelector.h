@@ -2,11 +2,14 @@
 #define __WEBVIEWSELECTOR_SCENE_H__
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/UI/UIConsts.h>
-#include <AzoomeeCommon/API/HttpRequestCreator.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/UI/UIConsts.h>
+#include <TinizineCommon/API/HttpRequestCreator.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class WebViewSelector : public cocos2d::Layer, HttpRequestCreatorResponseDelegate
 {
@@ -16,6 +19,10 @@ private:
     Orientation _orientation;
     cocos2d::Vec2 _closeButtonAnchor;
 public:
+    
+    static const char* const kIosWebviewName;
+    static const char* const kAndroidWebviewName;
+    
     CREATE_FUNC(WebViewSelector);
     static cocos2d::Scene* createSceneWithUrl(const std::string& url, Orientation orientation, const cocos2d::Vec2& closeButtonAnchor);
     virtual bool init() override;
@@ -34,6 +41,6 @@ public:
 
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif // __WEBVIEW_SCENE_H__

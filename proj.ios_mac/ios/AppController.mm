@@ -27,11 +27,7 @@
 #import "../../Classes/AppDelegate.h"
 #import <Mixpanel/Mixpanel.h>
 #import <AppsFlyerLib/AppsFlyerTracker.h>
-#import "../../Classes/DeepLinkingSingleton.h"
 #import <AirshipKit/AirshipKit.h>
-
-using namespace Azoomee;
-
 
 @implementation AppController
 
@@ -63,9 +59,6 @@ static AppDelegate s_sharedApplication;
 }
 
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    
-    if(url)
-        DeepLinkingSingleton::getInstance()->setDeepLink(std::string([[url absoluteString] UTF8String]));
     
     return YES;
 }

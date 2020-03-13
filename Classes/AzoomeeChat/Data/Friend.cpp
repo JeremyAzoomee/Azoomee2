@@ -1,8 +1,10 @@
 #include "Friend.h"
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 FriendRef Friend::createFromJson(const rapidjson::Value& json)
 {
@@ -49,7 +51,7 @@ FriendRef Friend::createFromJson(const rapidjson::Value& json)
     // If the avatar is empty, see if we have one already we have use
     if(avatarURL.empty())
     {
-		const ChildRef& child = ParentManager::getInstance()->getChildForId(friendId);
+		const ChildRef& child = UserAccountManager::getInstance()->getChildForId(friendId);
 		if(child)
 		{
         	avatarURL = child->getAvatar();
@@ -109,4 +111,4 @@ void Friend::markFriendInModeration(bool status)
     _inModeration = status;
 }
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

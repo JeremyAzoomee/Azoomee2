@@ -8,18 +8,23 @@
 #ifndef ContentOpener_h
 #define ContentOpener_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include "cocos2d.h"
-#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
-#include <AzoomeeCommon/API/API.h>
+#include <TinizineCommon/Data/HQDataObject/HQContentItemObject.h>
+#include <TinizineCommon/API/API.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class ContentOpener : public HttpRequestCreatorResponseDelegate
 {
 private:
 	HQContentItemObjectRef _contentItemToOpen = nullptr;
 public:
+    static const std::string kGroupRefreshEvent;
+    
     static ContentOpener* getInstance();
     
     void openContentById(const std::string& contentId);
@@ -27,11 +32,13 @@ public:
 	
 	void doCarouselContentOpenLogic(const HQContentItemObjectRef& contentItem, int rowIndex, int elementIndex, const std::string& hqCategory, const std::string& location);
 	
+    void getDataForGroupHQ(const std::string &uri, const cocos2d::Color4B& carouselColour);
+    
 	//delegate functions
 	void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body);
 	void onHttpRequestFailed(const std::string& requestTag, long errorCode);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* ContentOpener_h */

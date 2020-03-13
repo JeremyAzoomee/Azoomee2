@@ -8,12 +8,12 @@
 #ifndef HQScene_h
 #define HQScene_h
 
-#include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/UI/Scene.h>
-#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
-#include <AzoomeeCommon/UI/TileSprite.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/UI/Scene.h>
+#include <TinizineCommon/Data/HQDataObject/HQContentItemObject.h>
+#include <TinizineCommon/UI/RoundedRectSprite.h>
 #include "NavigationBar.h"
-#include <AzoomeeCommon/UI/DynamicText.h>
+#include <TinizineCommon/UI/DynamicText.h>
 #include "SettingsButton.h"
 #include "PurchaseCapsule.h"
 #include "CoinDisplay.h"
@@ -24,8 +24,11 @@
 #include "ChatHQ.h"
 #include "SettingsButton.h"
 #include "HQConstants.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class HQSnapshot
 {
@@ -56,9 +59,9 @@ public:
     HQContentItemObjectRef getSelectedSeries() const;
 };
 
-class HQScene : public Azoomee::Scene
+class HQScene : public TZ::Scene
 {
-    typedef Azoomee::Scene Super;
+    typedef TZ::Scene Super;
 private:
     static const std::string kTutHandName;
     static const float kTitleBarPadding;
@@ -73,7 +76,7 @@ private:
     bool _isPortrait = false;
     cocos2d::ui::Layout* _titleBanner = nullptr;
     DynamicText* _HQPageTitle = nullptr;
-    TileSprite* _topPattern = nullptr;
+    RoundedRectSprite* _topPattern = nullptr;
     cocos2d::LayerGradient* _patternGradient = nullptr;
     cocos2d::ui::Layout* _background = nullptr;
     cocos2d::ui::Layout* _titleBannerContent = nullptr;
@@ -107,6 +110,6 @@ public:
     CREATE_FUNC(HQScene);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* HQScene_h */

@@ -11,14 +11,17 @@
 #include "RoutePaymentSingleton.h"
 #include "PaymentSuccessScreen.h"
 #include "PopupMessageBox.h"
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
 #include "MarketingAssetManager.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool IAPScene::init()
 {
@@ -77,7 +80,7 @@ bool IAPScene::init()
 	_closeButton->addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-            const bool isLoggedIn = ParentManager::getInstance()->isLoggedInParentAnonymous() || ChildManager::getInstance()->isChildLoggedIn();
+            const bool isLoggedIn = UserAccountManager::getInstance()->isLoggedInParentAnonymous() || ChildManager::getInstance()->isChildLoggedIn();
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(isLoggedIn ? SceneNameEnum::Base : SceneNameEnum::ChildSelector));
 		}
 	});
@@ -103,9 +106,9 @@ void IAPScene::onEnter()
 		messageBox->setTitle(_("Oops!\nThat didn't work"));
 		messageBox->setBody(_("We couldn't process your payment. Please try again."));
 		messageBox->setButtonText(_("Back"));
-		messageBox->setButtonColour(Style::Color::darkIndigo);
-		messageBox->setPatternColour(Style::Color::azure);
-		messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+		messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+		messageBox->setPatternColour(Colours::Color_3B::azure);
+		messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
 			pSender->removeFromParent();
 		});
 		this->addChild(messageBox, 1);
@@ -116,7 +119,7 @@ void IAPScene::onEnter()
 	
 	if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
 	{
-		if(!ParentManager::getInstance()->isUserLoggedIn())
+		if(!UserAccountManager::getInstance()->isUserLoggedIn())
 		{
 			PaymentSuccessScreen* successScreen = PaymentSuccessScreen::create();
 			successScreen->setContinueCallback([](){
@@ -163,4 +166,4 @@ void IAPScene::onSizeChanged()
 	_footer->setNormalizedPosition(isPortrait ? Vec2::ANCHOR_MIDDLE_BOTTOM : Vec2::ANCHOR_BOTTOM_RIGHT);
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

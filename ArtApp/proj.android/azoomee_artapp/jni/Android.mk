@@ -27,11 +27,11 @@ LOCAL_SRC_FILES := $(call find-src-files, ../../../Classes/AzoomeeArt, $(EXCLUDE
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes/AzoomeeArt
 
 LOCAL_STATIC_LIBRARIES := cc_static
-LOCAL_STATIC_LIBRARIES += azoomee_common
+LOCAL_STATIC_LIBRARIES += tinizine_common
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/../../../Classes/
 
 include $(BUILD_STATIC_LIBRARY)
 
 $(call import-module, cocos)
-$(call import-module, azoomee_common/jni)
+$(call import-module, tinizine_common/jni)

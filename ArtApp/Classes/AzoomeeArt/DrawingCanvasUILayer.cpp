@@ -7,46 +7,47 @@
 //
 
 #include "DrawingCanvasUILayer.h"
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Utils/DirUtil.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Utils/DirUtil.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include "ModalMessages.h"
+#include <TinizineCommon/Device.h>
+#include <TinizineCommon/Data/AppConfig.h>
 
 using namespace cocos2d;
 
-NS_AZOOMEE_AA_BEGIN
+USING_NS_TZ
+NS_AZ_ART_BEGIN
 
 const std::vector<Color3B> DrawingCanvasUILayer::_kColours = { // top left
-    Color3B(Style::Color_4F::grey), //row 1
-    Color3B(Style::Color_4F::darkGrey),
-    Color3B(Style::Color_4F::black),
-    Color3B(Style::Color_4F::darkPurple), //row 2
-    Color3B(Style::Color_4F::purple),
-    Color3B(Style::Color_4F::neonPink),
-    Color3B(Style::Color_4F::babyPink),
-    Color3B(Style::Color_4F::palePink),
-    Color3B(Style::Color_4F::pink),
-    Color3B(Style::Color_4F::darkPink),
-    Color3B(Style::Color_4F::red),
-    Color3B(Style::Color_4F::darkBlue), // row 3
-    Color3B(Style::Color_4F::blue),
-    Color3B(Style::Color_4F::lightBlue),
-    Color3B(Style::Color_4F::neonBlue),
-    Color3B(Style::Color_4F::greenBlue),
-    Color3B(Style::Color_4F::green),
-    Color3B(Style::Color_4F::grassGreen),
-    Color3B(Style::Color_4F::neonGreen),
-    Color3B(Style::Color_4F::darkBrown), //row 4
-    Color3B(Style::Color_4F::brown),
-    Color3B(Style::Color_4F::lightBrown),
-    Color3B(Style::Color_4F::orangeBrown),
-    Color3B(Style::Color_4F::orange),
-    Color3B(Style::Color_4F::darkYellow),
-    Color3B(Style::Color_4F::yellow),
-    Color3B(Style::Color_4F::paleYellow) // bottom right
+    Color3B(Colours::Color_4F::grey), //row 1
+    Color3B(Colours::Color_4F::darkGrey),
+    Color3B(Colours::Color_4F::black),
+    Color3B(Colours::Color_4F::darkPurple), //row 2
+    Color3B(Colours::Color_4F::purple),
+    Color3B(Colours::Color_4F::neonPink),
+    Color3B(Colours::Color_4F::babyPink),
+    Color3B(Colours::Color_4F::palePink),
+    Color3B(Colours::Color_4F::pink),
+    Color3B(Colours::Color_4F::darkPink),
+    Color3B(Colours::Color_4F::red),
+    Color3B(Colours::Color_4F::darkBlue), // row 3
+    Color3B(Colours::Color_4F::blue),
+    Color3B(Colours::Color_4F::lightBlue),
+    Color3B(Colours::Color_4F::neonBlue),
+    Color3B(Colours::Color_4F::greenBlue),
+    Color3B(Colours::Color_4F::green),
+    Color3B(Colours::Color_4F::grassGreen),
+    Color3B(Colours::Color_4F::neonGreen),
+    Color3B(Colours::Color_4F::darkBrown), //row 4
+    Color3B(Colours::Color_4F::brown),
+    Color3B(Colours::Color_4F::lightBrown),
+    Color3B(Colours::Color_4F::orangeBrown),
+    Color3B(Colours::Color_4F::orange),
+    Color3B(Colours::Color_4F::darkYellow),
+    Color3B(Colours::Color_4F::yellow),
+    Color3B(Colours::Color_4F::paleYellow) // bottom right
 };
 
 const std::vector<std::pair<std::string, std::string>> DrawingCanvasUILayer::_kPatterns = {
@@ -76,7 +77,7 @@ void DrawingCanvasUILayer::onEnter()
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
     const Point& visibleOrigin = Director::getInstance()->getVisibleOrigin();
     
-    _overlay = LayerColor::create(Style::Color_4B::semiTransparentOverlay, visibleSize.width, visibleSize.height);
+    _overlay = LayerColor::create(Colours::Color_4B::semiTransparentOverlay, visibleSize.width, visibleSize.height);
     _overlay->setPosition(visibleOrigin);
     _overlay->setName("overlay");
     this->addChild(_overlay,POPUP_UI_LAYER);
@@ -122,7 +123,7 @@ void DrawingCanvasUILayer::saveImage()
     
     const std::string scheduleKey = "save";
     Director::getInstance()->getScheduler()->schedule([&](float dt){
-        const std::string& truncatedPath = _filename.substr(_filename.find(ConfigStorage::kArtCacheFolder));
+        const std::string& truncatedPath = _filename.substr(_filename.find(AppConfig::kArtCacheFolder));
         _drawingCanvas->saveImage(truncatedPath);
         ModalMessages::getInstance()->stopSaving();
     }, this, 0.5, 0, 0, false, scheduleKey);
@@ -139,7 +140,7 @@ void DrawingCanvasUILayer::addBackgroundFrame(const Size& visibleSize, const Poi
     stencil->setPosition(visibleOrigin + Vec2(visibleSize.width * 0.09,visibleSize.height * 0.175));
     stencil->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     bgClipNode->setStencil(stencil);
-    LayerColor* bgColour = LayerColor::create(Color4B(Style::Color_4F::black));
+    LayerColor* bgColour = LayerColor::create(Color4B(Colours::Color_4F::black));
     bgColour->setContentSize(Director::getInstance()->getWinSize());
     bgClipNode->addChild(bgColour);
     bgClipNode->setInverted(true);
@@ -155,9 +156,14 @@ void DrawingCanvasUILayer::addClearButton(const Size& visibleSize, const Point& 
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
 			const Size& visibleSize = Director::getInstance()->getVisibleSize();
-            ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(_("Save?"), "res/buttons/confirm_tick_2.png", "res/buttons/confirm_x_2.png", Color3B::BLACK, Color4B::WHITE);
-            messageBox->setName(kSavePopupName);
-            messageBox->setDelegate(this);
+            ArtAppConfirmCancelMessageBox* messageBox = ArtAppConfirmCancelMessageBox::createWithParams(_("Save?"), "res/buttons/confirm_tick_2.png", "res/buttons/confirm_x_2.png", Color3B::BLACK, Color4B::WHITE);
+            messageBox->setOnConfirmCallback([this](MessagePopupBase *pSender){
+                saveImage();
+                pSender->removeFromParent();
+            });
+            messageBox->setOnCancelCallback([](MessagePopupBase *pSender){
+                pSender->removeFromParent();
+            });
             messageBox->setPosition(Director::getInstance()->getVisibleOrigin() + Vec2(visibleSize.width * 0.09f/2.0f,visibleSize.height * 0.175f/2.0f));
             Director::getInstance()->getRunningScene()->addChild(messageBox,POPUP_UI_LAYER);
         }
@@ -173,9 +179,14 @@ void DrawingCanvasUILayer::addClearButton(const Size& visibleSize, const Point& 
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
 			const Size& visibleSize = Director::getInstance()->getVisibleSize();
-            ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(_("Delete?"), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png", Color3B::BLACK, Color4B::WHITE);
-            messageBox->setName(kClearPopupName);
-            messageBox->setDelegate(this);
+            ArtAppConfirmCancelMessageBox* messageBox = ArtAppConfirmCancelMessageBox::createWithParams(_("Delete?"), "res/buttons/confirm_bin.png", "res/buttons/confirm_x_2.png", Color3B::BLACK, Color4B::WHITE);
+            messageBox->setOnConfirmCallback([this](MessagePopupBase *pSender){
+                _drawingCanvas->clearDrawing();
+                pSender->removeFromParent();
+            });
+            messageBox->setOnCancelCallback([](MessagePopupBase *pSender){
+                pSender->removeFromParent();
+            });
             messageBox->setPosition(Director::getInstance()->getVisibleOrigin() + Vec2(visibleSize.width * 0.09f/2.0f,visibleSize.height * 0.175f/2.0f));
             Director::getInstance()->getRunningScene()->addChild(messageBox,POPUP_UI_LAYER);
         }
@@ -273,7 +284,7 @@ void DrawingCanvasUILayer::addColourSelectButtons(const Size& visibleSize, const
     closeButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onCloseColourSelectPressed, this));
     _colourButtonLayout->addChild(closeButton);
     
-    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    if(TZ::Device::getInstance()->isDeviceIphoneX())
     {
         _colourButtonLayout->setScale(0.85);
     }
@@ -452,7 +463,7 @@ void DrawingCanvasUILayer::addBrushRadiusSlider(const Size& visibleSize, const P
     
     this->addChild(_brushSizeSlider,MAIN_UI_LAYER);
     
-    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    if(TZ::Device::getInstance()->isDeviceIphoneX())
     {
         _brushSizeSlider->setScale(0.75);
         _brushSizeSlider->setPosition(_brushSizeSlider->getPosition() + Vec2(50,0));
@@ -513,7 +524,7 @@ void DrawingCanvasUILayer::onUndoButtonPressed(Ref *pSender, ui::Widget::TouchEv
 {
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
-        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+        AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_08_v1.mp3");
     }
     if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
@@ -532,7 +543,7 @@ void DrawingCanvasUILayer::onColourChangePressed(Ref *pSender, ui::Widget::Touch
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
-        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+        AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_08_v1.mp3");
     }
     else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
@@ -592,7 +603,7 @@ void DrawingCanvasUILayer::onColourSelectPressed(Ref *pSender, ui::Widget::Touch
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
-        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+        AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_08_v1.mp3");
     }
     else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
@@ -616,7 +627,7 @@ void DrawingCanvasUILayer::onCloseColourSelectPressed(Ref *pSender, ui::Widget::
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
-        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+        AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_08_v1.mp3");
     }
     else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
@@ -641,7 +652,7 @@ void DrawingCanvasUILayer::onAddStickerPressed(Ref *pSender, ui::Widget::TouchEv
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
-        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+        AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_08_v1.mp3");
     }
     else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
@@ -666,7 +677,7 @@ void DrawingCanvasUILayer::onAddStickerButtonPressed(Ref *pSender, ui::Widget::T
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
-        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+        AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_08_v1.mp3");
     }
     else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
@@ -691,7 +702,7 @@ void DrawingCanvasUILayer::onCloseStickerSelectPressed(Ref *pSender, ui::Widget:
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
-        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+        AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_08_v1.mp3");
     }
     else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
@@ -716,7 +727,7 @@ void DrawingCanvasUILayer::onConfirmStickerPressed(Ref *pSender, ui::Widget::Tou
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
-        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+        AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_08_v1.mp3");
     }
     else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
@@ -743,7 +754,7 @@ void DrawingCanvasUILayer::onCancelStickerPressed(Ref *pSender, ui::Widget::Touc
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
-        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+        AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_08_v1.mp3");
     }
     else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
@@ -768,7 +779,7 @@ void DrawingCanvasUILayer::onToolChanged(Ref *pSender, ui::Widget::TouchEventTyp
         if(pressedButton != _selectedToolButton)
         {
             pressedButton->setScale(baseScale * 1.15f);
-            AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+            AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_08_v1.mp3");
         }
     }
     else if(eEventType == ui::Widget::TouchEventType::ENDED)
@@ -821,7 +832,7 @@ void DrawingCanvasUILayer::onStickerCategoryChangePressed(Ref *pSender, ui::Widg
     
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
-        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+        AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_08_v1.mp3");
     }
     else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
@@ -923,7 +934,7 @@ void DrawingCanvasUILayer::setOnlyPatternBrushesEnabled(bool isEnabled)
             onToolChanged(toolButtons.at(0), ui::Widget::TouchEventType::BEGAN, PEN);
             onToolChanged(toolButtons.at(0), ui::Widget::TouchEventType::ENDED, PEN);
         }
-        setButtonBodyColour(brushBtn, Style::Color::charcoalGrey);
+        setButtonBodyColour(brushBtn, Colours::Color_3B::charcoalGrey);
     }
     
     if(!isEnabled && _selectedToolButton != brushBtn)
@@ -1002,7 +1013,7 @@ void DrawingCanvasUILayer::setButtonBodyPattern(cocos2d::ui::Button *button, con
 void DrawingCanvasUILayer::getStickerFilesFromJSON()
 {
     _stickerCats.clear();
-	const std::string& oomeeStoragePath = DirUtil::getCachesPath() + "oomeeMaker/" + ChildManager::getInstance()->getParentOrChildId();
+	const std::string& oomeeStoragePath = DirUtil::getCachesPath() + "oomeeMaker/" + ChildManager::getInstance()->getLoggedInChild()->getId();
     const std::vector<std::string>& oomeeImages = DirUtil::getImagesInDirectory(oomeeStoragePath);
     
     if(oomeeImages.size() != 0)
@@ -1031,11 +1042,6 @@ void DrawingCanvasUILayer::getStickerFilesFromJSON()
         std::vector<std::pair<std::string,std::string>> catStickers;
         const auto& jsonCatEntry = *it;
         
-        if(!SpecialCalendarEventManager::getInstance()->checkIfInSeason(SpecialCalendarEventManager::getInstance()->getSeasonFromString(getStringFromJson("season", jsonCatEntry, "any"))))
-        {
-            continue;
-        }
-        
         const std::string& catName = jsonCatEntry["image_location"].GetString();
         
         const rapidjson::Value& stickersJson = jsonCatEntry["stickers"];
@@ -1057,28 +1063,8 @@ void DrawingCanvasUILayer::getStickerFilesFromJSON()
     
 }
 
-// delegate functions
-
-void DrawingCanvasUILayer::onConfirmPressed(Azoomee::ConfirmCancelMessageBox *pSender)
-{
-    if(pSender->getName() == kSavePopupName)
-    {
-        saveImage();
-    }
-    else if(pSender->getName() == kClearPopupName)
-    {
-        _drawingCanvas->clearDrawing();
-    }
-    pSender->removeFromParent();
-}
-
-void DrawingCanvasUILayer::onCancelPressed(Azoomee::ConfirmCancelMessageBox *pSender)
-{
-    pSender->removeFromParent();
-}
 
 
 
 
-
-NS_AZOOMEE_AA_END
+NS_AZ_ART_END

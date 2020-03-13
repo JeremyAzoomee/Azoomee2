@@ -6,21 +6,24 @@
 //
 
 #include "ChildOnboardingScene.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
 #include "SceneManagerScene.h"
 #include "BackEndCaller.h"
-#include "LoginLogicHandler.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/ErrorCodes.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
+#include "LoginController.h"
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include "ErrorCodes.h"
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include "ModalMessages.h"
 #include "PopupMessageBox.h"
 #include "FlowDataSingleton.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool ChildOnboardingScene::init()
 {
@@ -29,7 +32,7 @@ bool ChildOnboardingScene::init()
         return false;
     }
     
-    const Color3B& bgColour = Style::Color::darkIndigo;
+    const Color3B& bgColour = Colours::Color_3B::darkIndigo;
     
     _bgColour = ui::Layout::create();
     _bgColour->setBackGroundColorType(ui::HBox::BackGroundColorType::SOLID);
@@ -68,7 +71,7 @@ bool ChildOnboardingScene::init()
         this->transitionState(State::ENTER_AGE);
     });
     _nameEntry->setBackCallback([this](const std::string& inputString){
-        if(ParentManager::getInstance()->isLoggedInParentAnonymous())
+        if(UserAccountManager::getInstance()->isLoggedInParentAnonymous())
         {
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::WelcomeScene));
         }
@@ -85,9 +88,9 @@ bool ChildOnboardingScene::init()
     _ageEntry->setContinueCallback([this](int age){
         _childCreator->setAge(age);
         ModalMessages::getInstance()->startLoading();
-        if(ParentManager::getInstance()->isLoggedInParentAnonymous())
+        if(UserAccountManager::getInstance()->isLoggedInParentAnonymous())
         {
-            _childCreator->updateChild(ParentManager::getInstance()->getChild(0));
+            _childCreator->updateChild(UserAccountManager::getInstance()->getChild(0));
         }
         else
         {
@@ -145,12 +148,12 @@ void ChildOnboardingScene::onSizeChanged()
     if(isPortrait)
     {
         Vec2 points[4] = {Vec2(0,-1), Vec2(contentSize.width, -1), Vec2(contentSize.width, contentSize.height * 0.66f), Vec2(0,contentSize.height * 0.66f)};
-        _patternHider->drawSolidPoly(points, 4, Color4F(Style::Color::darkIndigo));
+        _patternHider->drawSolidPoly(points, 4, Color4F(Colours::Color_3B::darkIndigo));
     }
     else
     {
         Vec2 points[3] = {Vec2(0, 0), Vec2(contentSize.width, contentSize.height), Vec2(contentSize.width,0)};
-        _patternHider->drawSolidPoly(points, 3, Color4F(Style::Color::darkIndigo));
+        _patternHider->drawSolidPoly(points, 3, Color4F(Colours::Color_3B::darkIndigo));
     }
     
     _gradient->setStartOpacity(isPortrait ? 166 : 255);
@@ -200,12 +203,30 @@ void ChildOnboardingScene::onHttpRequestSuccess(const std::string& requestTag, c
         AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent();
         UserDefault::getInstance()->setBoolForKey("anonOnboardingComplete", true);
         UserDefault::getInstance()->flush();
-        BackEndCaller::getInstance()->getAvailableChildren();
+        UserAccountManager::getInstance()->getChildrenForLoggedInParent([](bool success, long errorcode){
+            if(success)
+            {
+                LoginController::getInstance()->handleGetChildrenSuccess();
+            }
+            else
+            {
+                LoginController::getInstance()->forceNewLogin();
+            }
+        });
     }
     else if(requestTag == API::TagRegisterChild)
     {
         AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent();
-        BackEndCaller::getInstance()->getAvailableChildren();
+        UserAccountManager::getInstance()->getChildrenForLoggedInParent([](bool success, long errorcode){
+            if(success)
+            {
+                LoginController::getInstance()->handleGetChildrenSuccess();
+            }
+            else
+            {
+                LoginController::getInstance()->forceNewLogin();
+            }
+        });
     }
     ModalMessages::getInstance()->stopLoading();
 }
@@ -217,15 +238,15 @@ void ChildOnboardingScene::onHttpRequestFailed(const std::string& requestTag, lo
         errorCode = ERROR_CODE_NAME_EXISTS;
     }
     
-    const auto& errorMessageText = StringMgr::getInstance()->getErrorMessageWithCode(errorCode);
+    const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(errorCode);
         
     PopupMessageBox* messageBox = PopupMessageBox::create();
     messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
     messageBox->setBody(errorMessageText.at(ERROR_BODY));
     messageBox->setButtonText(_("Back"));
-    messageBox->setButtonColour(Style::Color::darkIndigo);
-    messageBox->setPatternColour(Style::Color::azure);
-    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+    messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+    messageBox->setPatternColour(Colours::Color_3B::azure);
+    messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
         this->transitionState(State::ENTER_NAME);
     });
@@ -235,5 +256,5 @@ void ChildOnboardingScene::onHttpRequestFailed(const std::string& requestTag, lo
     ModalMessages::getInstance()->stopLoading();
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 

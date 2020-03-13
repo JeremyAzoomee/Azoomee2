@@ -2,9 +2,12 @@
 #define IAPProductDataHandler_h
 
 #include "cocos2d.h"
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
     
     class IAPProductDataHandler : public cocos2d::Ref
     {
@@ -45,6 +48,6 @@ NS_AZOOMEE_BEGIN
         
     };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif

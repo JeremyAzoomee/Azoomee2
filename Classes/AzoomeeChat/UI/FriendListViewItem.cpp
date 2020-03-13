@@ -1,13 +1,15 @@
 #include "FriendListViewItem.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include "../../Style.h"
 
 using namespace cocos2d;
 
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 bool FriendListViewItem::init()
 {
@@ -68,7 +70,7 @@ bool FriendListViewItem::init()
     _nameLabel = ui::Text::create();
     _nameLabel->setFontName(Style::Font::Regular());
     _nameLabel->setFontSize(70.0f);
-    _nameLabel->setTextColor(Color4B(Style::Color::white));
+    _nameLabel->setTextColor(Color4B(Colours::Color_3B::white));
     _nameLabel->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(150.0f, 0, 0, 0)));
     _contentLayout->addChild(_nameLabel);
     
@@ -146,7 +148,7 @@ void FriendListViewItem::onPressStateChangedToNormal()
 {
     if(_nameLabel)
     {
-        _nameLabel->setTextColor(Color4B(Style::Color::white));
+        _nameLabel->setTextColor(Color4B(Colours::Color_3B::white));
     }
 }
 
@@ -154,7 +156,7 @@ void FriendListViewItem::onPressStateChangedToPressed()
 {
     if(_nameLabel)
     {
-        _nameLabel->setTextColor(Color4B(Style::Color::neonPurple));
+        _nameLabel->setTextColor(Color4B(Colours::Color_3B::neonPurple));
     }
 }
 
@@ -168,4 +170,4 @@ void FriendListViewItem::hideUnreadIndicator()
     _unreadIndicator->setVisible(false);
 }
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END

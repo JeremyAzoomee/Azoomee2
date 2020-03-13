@@ -6,16 +6,18 @@
 //
 
 #include "ShopItemPurchasedAnimation.h"
-#include <AzoomeeCommon/Audio/AudioMixer.h>
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 #include "SceneManagerScene.h"
 #include "OomeeMakerDelegate.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool ShopItemPurchasedAnimation::init()
 {
@@ -56,7 +58,7 @@ void ShopItemPurchasedAnimation::onEnter()
 {
 	if(_itemData)
 	{
-		_itemAsset->initWithUrlAndSizeWithoutPlaceholder(_itemData->getInventoryItem()->getUri(), _beam->getContentSize());
+		_itemAsset->initWithUrlAndSize(_itemData->getInventoryItem()->getUri(), _beam->getContentSize());
 		_itemAsset->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 		_itemAsset->startLoadingImage();
 		_clippingStencil->setContentSize(_itemAsset->getContentSize() * 1.25);
@@ -109,4 +111,4 @@ void ShopItemPurchasedAnimation::setOnCompleteCallback(const OnCompleteCallback&
 	_onCompleteCallback = callback;
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

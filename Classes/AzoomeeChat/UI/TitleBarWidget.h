@@ -5,10 +5,12 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include "AvatarWidget.h"
-#include <AzoomeeCommon/UI/RoundedRectSprite.h>
+#include <TinizineCommon/UI/RoundedRectSprite.h>
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
     
 class TitleBarWidget : public cocos2d::ui::Layout
 {
@@ -105,6 +107,6 @@ public:
     CREATE_FUNC(TitleBarWidget);
 };
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END
 
 #endif

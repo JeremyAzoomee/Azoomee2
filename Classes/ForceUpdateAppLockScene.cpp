@@ -1,11 +1,14 @@
 #include "ForceUpdateAppLockScene.h"
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/LayoutParams.h>
 #include "ForceUpdateSingleton.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool ForceUpdateAppLockScene::init()
 {
@@ -16,14 +19,14 @@ bool ForceUpdateAppLockScene::init()
     
     ui::Layout* bgColour = ui::Layout::create();
     bgColour->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    bgColour->setBackGroundColor(Style::Color::darkIndigo);
+    bgColour->setBackGroundColor(Colours::Color_3B::darkIndigo);
     bgColour->setSizeType(ui::Layout::SizeType::PERCENT);
     bgColour->setSizePercent(Vec2(1.0f,1.0f));
     addChild(bgColour);
     
     _bgPattern = RoundedRectSprite::create();
     _bgPattern->setTexture("res/decoration/pattern_stem_tile.png");
-    _bgPattern->setColor(Style::Color::azure);
+    _bgPattern->setColor(Colours::Color_3B::azure);
     _bgPattern->setRoundedCorners(false, false, false, false);
     _bgPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _bgPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -31,9 +34,9 @@ bool ForceUpdateAppLockScene::init()
     addChild(_bgPattern);
     
     _bgGradient = LayerGradient::create();
-    _bgGradient->setStartColor(Style::Color::darkIndigo);
+    _bgGradient->setStartColor(Colours::Color_3B::darkIndigo);
     _bgGradient->setStartOpacity(155);
-    _bgGradient->setEndColor(Style::Color::darkIndigo);
+    _bgGradient->setEndColor(Colours::Color_3B::darkIndigo);
     _bgGradient->setEndOpacity(0);
     _bgGradient->setVector(Vec2(0,1));
     _bgGradient->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
@@ -64,13 +67,13 @@ bool ForceUpdateAppLockScene::init()
     _bodyText->setMaxLineWidth(1000);
     _textLayout->addChild(_bodyText);
     
-    _updateButton = CTAButton::create("res/onboarding/rounded_button.png");
+    _updateButton = TextButton::create("res/onboarding/rounded_button.png");
     _updateButton->ignoreContentAdaptWithSize(false);
     _updateButton->setScale9Enabled(true);
     _updateButton->setContentSize(Size(600,140));
     _updateButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _updateButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,padding,0,0)));
-    _updateButton->setColor(Style::Color::white);
+    _updateButton->setColor(Colours::Color_3B::white);
     _updateButton->setTextColour(Color4B::BLACK);
     _updateButton->setTextFontInfo(Style::Font::PoppinsBold(), 66);
     _updateButton->setTextAreaSizePercent(Vec2(0.9f,0.8f));
@@ -110,4 +113,4 @@ void ForceUpdateAppLockScene::onExit()
     Super::onExit();
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

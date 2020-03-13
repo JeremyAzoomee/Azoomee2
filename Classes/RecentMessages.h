@@ -8,14 +8,17 @@
 #ifndef RecentMessages_h
 #define RecentMessages_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/RoundedRectSprite.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
+#include <TinizineCommon/UI/RoundedRectSprite.h>
+#include <TinizineCommon/UI/DynamicText.h>
 #include "RecentMessageBar.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class RecentMessages : public cocos2d::ui::Layout
 {
@@ -68,6 +71,6 @@ public:
     
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* RecentMessages_h */

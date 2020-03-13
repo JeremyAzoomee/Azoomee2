@@ -7,12 +7,14 @@
 
 #include "OomeeMakerButton.h"
 #include "SceneManagerScene.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include <TinizineCommon/UI/Colour.h>
 #include "HQConstants.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const cocos2d::Size OomeeMakerButton::kOverflowPadding = Size(0, 80);
 const cocos2d::Size OomeeMakerButton::kFramePadding = Size(10,10);
@@ -29,7 +31,7 @@ bool OomeeMakerButton::init()
     _frame = RoundedRectSprite::create();
     _frame->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
     _frame->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-    _frame->setColor(Style::Color::macaroniAndCheese);
+    _frame->setColor(Colours::Color_3B::macaroniAndCheese);
     _frame->setTexture("res/decoration/white_1px.png");
     _frame->setCornerRadius(HQConsts::OomeeHQTileCornerRadius);
     addChild(_frame);
@@ -61,4 +63,4 @@ void OomeeMakerButton::onSizeChanged()
     _oomees->setContentSize(Size(MIN(_oomees->getTexture()->getPixelsWide() * (contentSize.height / _oomees->getTexture()->getPixelsHigh()), contentSize.width) - kFramePadding.width,contentSize.height - (kFramePadding.height / 2.0f)));
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

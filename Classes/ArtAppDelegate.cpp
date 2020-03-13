@@ -9,14 +9,16 @@
 #include "ArtAppDelegate.h"
 #include "HQHistoryManager.h"
 #include "SceneManagerScene.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
 #include "ChatDelegate.h"
 #include "ShareInChatLayer.h"
 
 USING_NS_CC;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 static std::auto_ptr<ArtAppDelegate> sArtAppDelegateSharedInstance;
 
@@ -58,7 +60,7 @@ void ArtAppDelegate::onArtAppShareImage()
 {
     if(filename != "")
     {
-		if(!HQHistoryManager::getInstance()->isOffline() && ParentManager::getInstance()->isPaidUser())
+		if(!HQHistoryManager::getInstance()->isOffline() && UserAccountManager::getInstance()->isPaidUser())
         {
             AnalyticsSingleton::getInstance()->contentItemClosedEvent();
             ChatDelegate::getInstance()->_imageFileName = filename;
@@ -86,4 +88,4 @@ long ArtAppDelegate::getSecondsSpentInArtApp() const
 }
 
 
-NS_AZOOMEE_END
+NS_AZ_END

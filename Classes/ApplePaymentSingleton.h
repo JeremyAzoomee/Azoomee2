@@ -2,12 +2,14 @@
 #define __PAYMENT_SINGLETON_IOS_H__
 
 #include "cocos2d.h"
-#include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
+#include <TinizineCommon/Tinizine.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
 
-class ApplePaymentSingleton : public cocos2d::Ref, public MessageBoxDelegate
+NS_AZ_BEGIN
+
+class ApplePaymentSingleton : public cocos2d::Ref
 {
     
 public:
@@ -21,9 +23,6 @@ public:
     void transactionStatePurchased(const std::string& receiptData, const std::string& transactionID);
     void onAnswerReceived(const std::string& responseDataString);
     
-    //Delegate Functions
-    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
-    
 private:
     //For making repeat requests
     std::string _savedReceipt;
@@ -31,6 +30,6 @@ private:
     int _requestAttempts;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif

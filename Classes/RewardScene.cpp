@@ -10,11 +10,13 @@
 #include "CoinCollectLayer.h"
 #include "AwesomeLayer.h"
 #include "CoinChestLayer.h"
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool RewardScene::init()
 {
@@ -95,4 +97,4 @@ void RewardScene::onAnimationComplete(const RewardItemRef& reward)
 	}
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

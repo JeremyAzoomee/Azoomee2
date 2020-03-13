@@ -6,14 +6,17 @@
 //
 
 #include "ChildAgeEntry.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/Input/TextInputChecker.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Input/TextInputChecker.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool ChildAgeEntry::init()
 {
@@ -31,7 +34,7 @@ bool ChildAgeEntry::init()
 }
 void ChildAgeEntry::onEnter()
 {
-    setContinueButtonEnabled(isValidAge(StringUtils::format("%d", _selectedAge)));
+    setContinueButtonEnabled(TextInputChecker::isValidAge(StringUtils::format("%d", _selectedAge)));
     Super::onEnter();
 }
 void ChildAgeEntry::onExit()
@@ -58,7 +61,7 @@ void ChildAgeEntry::createContentLayout()
     _inputTitle->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _inputTitle->setTextHorizontalAlignment(TextHAlignment::CENTER);
     _inputTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
-    _inputTitle->setTextColor(Color4B(Style::Color::black));
+    _inputTitle->setTextColor(Color4B(Colours::Color_3B::black));
     _inputTitle->setTextAreaSize(Size(500,180));
     _inputTitle->setOverflow(Label::Overflow::SHRINK);
     _inputHolder->addChild(_inputTitle);
@@ -69,12 +72,12 @@ void ChildAgeEntry::createContentLayout()
     _inputHolder->addChild(_ageNumLayout);
     createAgeButtons();
     
-    _continueButton = CTAButton::create("res/onboarding/rounded_button.png");
+    _continueButton = TextButton::create("res/onboarding/rounded_button.png");
     _continueButton->ignoreContentAdaptWithSize(false);
     _continueButton->setContentSize(Size(700,140));
     _continueButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _continueButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,elementSpacing,0,0)));
-    _continueButton->setColor(Style::Color::darkIndigo);
+    _continueButton->setColor(Colours::Color_3B::darkIndigo);
     _continueButton->setTextAreaSizePercent(Vec2(0.9f,0.8f));
     _continueButton->setText(_("Continue"));
     _continueButton->setTextFontInfo(Style::Font::PoppinsBold(), 70);
@@ -94,7 +97,7 @@ void ChildAgeEntry::createContentLayout()
     _backButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _backButton->setContentSize(Size(700,140));
     _backButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,elementSpacing,0,0)));
-    _backButton->setTextColor(Color4B(Style::Color::brownGrey));
+    _backButton->setTextColor(Color4B(Colours::Color_3B::brownGrey));
     _backButton->setTouchEnabled(true);
     _backButton->setTouchScaleChangeEnabled(true);
     _backButton->ignoreContentAdaptWithSize(false);
@@ -167,7 +170,7 @@ void ChildAgeEntry::createAgeButtons()
                 button->setContentSize(buttonSize);
                 button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
                 button->setNormalizedPosition(Vec2((col + 0.5f) / gridSize.x, 0.5f));
-                button->setColor(Style::Color::darkIndigo);
+                button->setColor(Colours::Color_3B::darkIndigo);
                 button->addTouchEventListener([this, numVal](Ref* pSender, ui::Widget::TouchEventType eType){
                     if(eType == TouchEventType::ENDED)
                     {
@@ -202,7 +205,7 @@ void ChildAgeEntry::setBackCallback(const ButtonCallback& callback)
 void ChildAgeEntry::setContinueButtonEnabled(bool enabled)
 {
     _continueButton->setTouchEnabled(enabled);
-    _continueButton->setColor(enabled ? Style::Color::darkIndigo : Style::Color::greyBlue2);
+    _continueButton->setColor(enabled ? Colours::Color_3B::darkIndigo : Colours::Color_3B::greyBlue2);
 }
 
 void ChildAgeEntry::setChildName(const std::string &name)
@@ -216,7 +219,7 @@ void ChildAgeEntry::setSelectedAge(int age)
     ui::Button* targetButton = nullptr;
     for(auto btn : _buttons)
     {
-        btn->setColor(Style::Color::darkIndigo);
+        btn->setColor(Colours::Color_3B::darkIndigo);
         if(btn->getTag() == age)
         {
             targetButton = btn;
@@ -224,10 +227,10 @@ void ChildAgeEntry::setSelectedAge(int age)
     }
     if(targetButton)
     {
-        targetButton->setColor(Style::Color::strongPink);
+        targetButton->setColor(Colours::Color_3B::strongPink);
     }
     _selectedAge = age;
-    setContinueButtonEnabled(isValidAge(StringUtils::format("%d", _selectedAge)));
+    setContinueButtonEnabled(TextInputChecker::isValidAge(StringUtils::format("%d", _selectedAge)));
 }
 
 void ChildAgeEntry::highlightMessageString(const std::string& targetStr, const cocos2d::Color3B& highlightColour, const cocos2d::Color3B& baseColour)
@@ -255,4 +258,4 @@ void ChildAgeEntry::highlightMessageString(const std::string& targetStr, const c
     }
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

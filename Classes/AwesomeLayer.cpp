@@ -6,13 +6,16 @@
 //
 
 #include "AwesomeLayer.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const std::vector<cocos2d::Color4F> AwesomeLayer::kColours = {
 	cocos2d::Color4F(1, 0.81, 0.06, 1),
@@ -27,7 +30,7 @@ bool AwesomeLayer::init()
 		return false;
 	}
 	
-    _bgColour = LayerColor::create(Color4B(Style::Color::darkIndigo));
+    _bgColour = LayerColor::create(Color4B(Colours::Color_3B::darkIndigo));
 	this->addChild(_bgColour, -1);
 	
 	return true;
@@ -175,4 +178,4 @@ void AwesomeLayer::addStars()
 	}
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

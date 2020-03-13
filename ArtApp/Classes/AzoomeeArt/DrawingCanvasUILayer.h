@@ -12,15 +12,16 @@
 #include "AzoomeeArtApp.h"
 #include "DrawingCanvas.h"
 #include "PatternFileStorage.h"
-#include <AzoomeeCommon/UI/ConfirmCancelMessageBox.h>
+#include "ArtAppConfirmCancelMessageBox.h"
 
-NS_AZOOMEE_AA_BEGIN
+USING_NS_TZ
+NS_AZ_ART_BEGIN
 
 typedef std::pair<std::string,std::vector<std::pair<std::string,std::string>>> StickerSet;
 typedef std::shared_ptr<StickerSet> StickerSetRef;
 typedef std::vector<StickerSetRef> StickerFileStore;
 
-class DrawingCanvasUILayer: public cocos2d::Node, ConfirmCancelMessageBoxDelegate
+class DrawingCanvasUILayer: public cocos2d::Node
 {
     typedef cocos2d::Node Super;
 private:
@@ -110,12 +111,8 @@ public:
     void setDrawingCanvas(DrawingCanvas* drawingCanvas);
     void setFilename(const std::string& filename);
     
-    //delegate functions
-    virtual void onConfirmPressed(ConfirmCancelMessageBox* pSender) override;
-    virtual void onCancelPressed(ConfirmCancelMessageBox* pSender) override;
-    
 };
 
-NS_AZOOMEE_AA_END
+NS_AZ_ART_END
 
 #endif /* DrawingCanvasUILayer_h */

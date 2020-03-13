@@ -6,17 +6,19 @@
 //
 #ifdef AZOOMEE_VODACOM_BUILD
 #include "VodacomOnboardingVoucherLayer.h"
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/API/API.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include "ModalMessages.h"
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool VodacomOnboardingVoucherLayer::init()
 {
@@ -114,7 +116,7 @@ void VodacomOnboardingVoucherLayer::onEnter()
 	_voucherInput->setText(_flowData->getVoucherCode());
 	
 	Label* voucherError = Label::createWithTTF(_("*Invalid Voucher"), Style::Font::Regular(), 53);
-	voucherError->setTextColor(Color4B(Style::Color::watermelon));
+	voucherError->setTextColor(Color4B(Colours::Color_3B::watermelon));
 	voucherError->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
 	voucherError->setNormalizedPosition(Vec2(0.1f,-0.1));
 	voucherError->setName("error");
@@ -157,16 +159,16 @@ void VodacomOnboardingVoucherLayer::onEnter()
 	}
 	
 	Label* needHelp = Label::createWithTTF(_("Need help?"), Style::Font::Regular(), 64);
-	needHelp->setTextColor(Color4B(Style::Color::skyBlue));
+	needHelp->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	needHelp->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
 	needHelp->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
 	Label* contactUs = Label::createWithTTF(_("Contact us"), Style::Font::Regular(), 64);
-	contactUs->setTextColor(Color4B(Style::Color::skyBlue));
+	contactUs->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	contactUs->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
 	contactUs->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
 	
 	DrawNode* underline = DrawNode::create();
-	underline->drawRect(Vec2(0, -7), Vec2(contactUs->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+	underline->drawRect(Vec2(0, -7), Vec2(contactUs->getContentSize().width, -6), Color4F(Colours::Color_3B::skyBlue));
 	contactUs->addChild(underline);
 	
 	ui::Layout* contactUsHolder = ui::Layout::create();
@@ -194,12 +196,12 @@ void VodacomOnboardingVoucherLayer::onHttpRequestSuccess(const std::string& requ
 	if(requestTag == API::TagAddVoucher)
 	{
 		AnalyticsSingleton::getInstance()->vodacomOnboardingVoucherAdded(_flowData->getVoucherCode());
-		HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentManager::getInstance()->getLoggedInParentId(), this);
+		HttpRequestCreator* request = API::UpdateBillingDataRequest(UserAccountManager::getInstance()->getLoggedInParentId(), this);
 		request->execute();
 	}
 	else if(requestTag == API::TagUpdateBillingData)
 	{
-		ParentManager::getInstance()->parseParentBillingData(body);
+		UserAccountManager::getInstance()->parseParentBillingData(body);
 		if(_delegate)
 		{
 			_delegate->moveToState(FlowState::SUCCESS);
@@ -229,7 +231,7 @@ void VodacomOnboardingVoucherLayer::onConfirmPressed()
 		if(_flowData->getUserType() == UserType::FREE)
 		{
 			ModalMessages::getInstance()->startLoading();
-			HttpRequestCreator* request = API::AddVoucher(ParentManager::getInstance()->getLoggedInParentId(), _voucherInput->getText(), this);
+			HttpRequestCreator* request = API::AddVoucher(UserAccountManager::getInstance()->getLoggedInParentId(), _voucherInput->getText(), this);
 			request->execute();
 		}
 		else
@@ -267,5 +269,5 @@ void VodacomOnboardingVoucherLayer::editBoxEditingDidEnd(TextInputLayer* inputLa
 	
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 #endif

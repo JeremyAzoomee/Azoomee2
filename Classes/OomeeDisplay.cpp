@@ -6,14 +6,17 @@
 //
 
 #include "OomeeDisplay.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Strings.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
 #include "SceneManagerScene.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const cocos2d::Size OomeeDisplay::kKidCodeFrameSize = Size(334,217);
 const cocos2d::Size OomeeDisplay::kKidCodeFramePadding = Size(10,10);
@@ -29,7 +32,7 @@ bool OomeeDisplay::init()
     setSizePercent(Vec2(1.0f, 1.0f));
     setClippingEnabled(true);
     
-    const Color3B& bgColour = Style::Color::darkIndigoThree;
+    const Color3B& bgColour = Colours::Color_3B::darkIndigoThree;
     
     _background = RoundedRectSprite::create();
     _background->setTexture("res/decoration/white_1px.png");
@@ -106,7 +109,7 @@ bool OomeeDisplay::init()
     _kidCode->setOverflow(Label::Overflow::SHRINK);
     _kidCodeBody->addChild(_kidCode);
     
-    _imgDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+    _imgDownloader = ImageDownloader::create(ImageDownloader::kImageCachePath, ImageDownloader::CacheMode::File);
     
     return true;
 }
@@ -175,4 +178,4 @@ void OomeeDisplay::onImageDownloadFailed()
     
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

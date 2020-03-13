@@ -8,19 +8,23 @@
 #ifndef PopupMessageBox_h
 #define PopupMessageBox_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/CTAButton.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
+#include <TinizineCommon/UI/TextButton.h>
+#include <TinizineCommon/UI/DynamicText.h>
+#include <TinizineCommon/UI/MessagePopupBase.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
 
-class PopupMessageBox : public cocos2d::ui::Layout
+NS_AZ_BEGIN
+
+class PopupMessageBox : public MessagePopupBase
 {
-	typedef cocos2d::ui::Layout Super;
+	typedef MessagePopupBase Super;
 protected:
-    typedef std::function<void(PopupMessageBox* pSender)> ButtonPressedCallback;
+    //typedef std::function<void(PopupMessageBox* pSender)> ButtonPressedCallback;
     // fixed size of the popup
     static const float kPopupSize;
     // fixed height of the title bar
@@ -47,10 +51,10 @@ protected:
 	cocos2d::ui::Layout* _contentBody = nullptr;
 	DynamicText* _contentText = nullptr;
     
-	CTAButton* _actionButton = nullptr;
+	TextButton* _actionButton = nullptr;
 	ButtonPressedCallback _callback = nullptr;
     
-    CTAButton* _secondActionButton = nullptr;
+    TextButton* _secondActionButton = nullptr;
     ButtonPressedCallback _secondCallback = nullptr;
 	
     void createMessageBox();
@@ -84,6 +88,6 @@ public:
 	static const std::string kPopupMessageBoxName;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* PopupMessageBox_h */

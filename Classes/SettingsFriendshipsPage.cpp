@@ -6,20 +6,22 @@
 //
 
 #include "SettingsFriendshipsPage.h"
-#include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/API/API.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include "ModalMessages.h"
 #include "FriendRequestLayer.h"
+#include "PopupMessageBox.h"
+#include "ErrorCodes.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool SettingsFriendshipsPage::init()
 {
@@ -51,7 +53,7 @@ void SettingsFriendshipsPage::onEnter()
     _friendRequestList->setBottomPadding(50);
     this->addChild(_friendRequestList);
     
-    _pendingFRHttpRequest = API::GetPendingFriendRequests(this);
+    _pendingFRHttpRequest = API::GetPendingFriendRequests(UserAccountManager::getInstance()->getLoggedInParentId(), this);
     _pendingFRHttpRequest->execute();
     
     Super::onEnter();
@@ -70,9 +72,9 @@ void SettingsFriendshipsPage::onExit()
 
 void SettingsFriendshipsPage::addFriendRequestsToScrollView()
 {
-    for(int i = 0; i < ParentManager::getInstance()->getNoOfPendingFriendRequest(); i++)
+    for(int i = 0; i < UserAccountManager::getInstance()->getNoOfPendingFriendRequest(); i++)
     {
-		FriendRequestRef fr = ParentManager::getInstance()->getPendingFriendRequest(i);
+		FriendRequestRef fr = UserAccountManager::getInstance()->getPendingFriendRequest(i);
 		if(fr)
 		{
 			FriendRequestLayer* friendRequest = FriendRequestLayer::create();
@@ -88,7 +90,7 @@ void SettingsFriendshipsPage::addFriendRequestsToScrollView()
 
 void SettingsFriendshipsPage::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
-    ParentManager::getInstance()->parsePendingFriendRequests(body);
+    UserAccountManager::getInstance()->parsePendingFriendRequests(body);
     addFriendRequestsToScrollView();
 }
 
@@ -96,9 +98,20 @@ void SettingsFriendshipsPage::onHttpRequestFailed(const std::string& requestTag,
 {
     AnalyticsSingleton::getInstance()->settingsPendingFriendRequestsRefreshError(errorCode);
     ModalMessages::getInstance()->stopLoading();
-    MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, nullptr);
+    const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(errorCode);
+        
+    PopupMessageBox* messageBox = PopupMessageBox::create();
+    messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+    messageBox->setBody(errorMessageText.at(ERROR_BODY));
+    messageBox->setButtonText(_("Back"));
+    messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+    messageBox->setPatternColour(Colours::Color_3B::azure);
+    messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
+        pSender->removeFromParent();
+    });
+    this->addChild(messageBox, 1);
 }
-NS_AZOOMEE_END
+NS_AZ_END
 
 
 

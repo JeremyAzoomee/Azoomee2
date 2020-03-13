@@ -6,13 +6,15 @@
 //
 
 #include "FeaturedGamesHolder.h"
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/UIConsts.h>
-#include "HQDataProvider.h"
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/UI/UIConsts.h>
+#include "HQConstants.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const float FeaturedGamesHolder::kTileSpacing = 25.0f;
 
@@ -174,4 +176,4 @@ void FeaturedGamesHolder::enableFixedHeight(bool enable)
     _useFixedHeight = enable;
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

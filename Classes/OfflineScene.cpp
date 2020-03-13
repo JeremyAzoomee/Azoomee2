@@ -6,20 +6,22 @@
 //
 
 #include "OfflineScene.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include "GameDataManager.h"
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/ContentDataManagers/GameDataManager.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
 #include "FlowDataSingleton.h"
-#include "LoginLogicHandler.h"
+#include "LoginController.h"
 #include "HQHistoryManager.h"
 #include "BackEndCaller.h"
 #include "ContentOpener.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const Size OfflineScene::kTileSize = Size(570, 430);
 const float OfflineScene::kPadding = 20.0f;
@@ -44,14 +46,14 @@ bool OfflineScene::init()
     
     ui::Layout* bgColour = ui::Layout::create();
     bgColour->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    bgColour->setBackGroundColor(Style::Color::darkIndigo);
+    bgColour->setBackGroundColor(Colours::Color_3B::darkIndigo);
     bgColour->setSizeType(ui::Layout::SizeType::PERCENT);
     bgColour->setSizePercent(Vec2(1.0f,1.0f));
     addChild(bgColour);
     
     _bgPattern = RoundedRectSprite::create();
     _bgPattern->setTexture("res/decoration/pattern_stem_tile.png");
-    _bgPattern->setColor(Style::Color::azure);
+    _bgPattern->setColor(Colours::Color_3B::azure);
     _bgPattern->setRoundedCorners(false, false, false, false);
     _bgPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _bgPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -59,9 +61,9 @@ bool OfflineScene::init()
     addChild(_bgPattern);
     
     _bgGradient = LayerGradient::create();
-    _bgGradient->setStartColor(Style::Color::darkIndigo);
+    _bgGradient->setStartColor(Colours::Color_3B::darkIndigo);
     _bgGradient->setStartOpacity(155);
-    _bgGradient->setEndColor(Style::Color::darkIndigo);
+    _bgGradient->setEndColor(Colours::Color_3B::darkIndigo);
     _bgGradient->setEndOpacity(0);
     _bgGradient->setVector(Vec2(0,1));
     _bgGradient->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
@@ -94,13 +96,13 @@ bool OfflineScene::init()
     _checkConnectionText->setMaxLineWidth(650);
     _offlineMsgLayout->addChild(_checkConnectionText);
     
-    _retryButton = CTAButton::create("res/onboarding/rounded_button.png");
+    _retryButton = TextButton::create("res/onboarding/rounded_button.png");
     _retryButton->ignoreContentAdaptWithSize(false);
     _retryButton->setScale9Enabled(true);
     _retryButton->setContentSize(Size(460,140));
     _retryButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _retryButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,kPadding,0,0)));
-    _retryButton->setColor(Style::Color::white);
+    _retryButton->setColor(Colours::Color_3B::white);
     _retryButton->setTextColour(Color4B::BLACK);
     _retryButton->setTextFontInfo(Style::Font::PoppinsBold(), 66);
     _retryButton->setTextAreaSizePercent(Vec2(0.9f,0.8f));
@@ -179,8 +181,8 @@ void OfflineScene::populateOfflineGamesList()
     _gamesList->removeAllItems();
     auto games = GameDataManager::getInstance()->getOfflineGameList();
     MutableHQContentItemObjectRef artContent = MutableHQContentItemObject::create();
-    artContent->setUri(ConfigStorage::kArtAppURI);
-    artContent->setType(ConfigStorage::kContentTypeInternal);
+    artContent->setUri(HQConsts::kArtAppURI);
+    artContent->setType(HQContentItemObject::kContentTypeInternal);
     artContent->setEntitled(true);
     games.insert(games.begin(), artContent);
     const float tileSpacing = 35.0f;
@@ -206,7 +208,7 @@ void OfflineScene::populateOfflineGamesList()
             {
                 const auto& content = games.at((row * numCols) + col);
                 FeaturedTile* tile = FeaturedTile::create();
-                tile->setPlaceholderFilename(content->getUri() == ConfigStorage::kArtAppURI ? "res/contentPlaceholders/artStudio.jpg" : "res/contentPlaceholders/Games1X1.png");
+                tile->setPlaceholderFilename(content->getUri() == HQConsts::kArtAppURI ? "res/contentPlaceholders/artStudio.jpg" : "res/contentPlaceholders/Games1X1.png");
                 tile->setContentSize(tileSize);
                 tile->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
                 tile->setNormalizedPosition(Vec2((col + 0.5) / numCols,0.5f));
@@ -231,9 +233,9 @@ void OfflineScene::connectivityStateChanged(bool online)
         ChildManager::getInstance()->setChildLoggedIn(false);
         HQHistoryManager::getInstance()->setIsOffline(false);
         FlowDataSingleton::getInstance()->clearData();
-        LoginLogicHandler::getInstance()->doLoginLogic();
+        LoginController::getInstance()->doLoginLogic();
     }
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 

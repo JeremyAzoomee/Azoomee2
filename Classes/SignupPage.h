@@ -8,14 +8,17 @@
 #ifndef SignupPage_h
 #define SignupPage_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/CTAButton.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
+#include <TinizineCommon/UI/TextButton.h>
+#include <TinizineCommon/UI/DynamicText.h>
 #include "ProgressBar.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class SignupPage : public cocos2d::ui::Layout, cocos2d::ui::EditBoxDelegate
 {
@@ -28,7 +31,7 @@ protected:
 	DynamicText* _inputTitle = nullptr;
 	cocos2d::ui::EditBox* _inputBox = nullptr;
     cocos2d::ui::Scale9Sprite* _inputBg = nullptr;
-	CTAButton* _continueButton = nullptr;
+	TextButton* _continueButton = nullptr;
 	DynamicText* _backButton = nullptr;
 	DynamicText* _termsLink = nullptr;
 	DynamicText* _privacyPolicyLink = nullptr;
@@ -74,6 +77,6 @@ public:
 	void editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox) override;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* SignupPage_h */

@@ -1,14 +1,14 @@
 #include "MainScene.h"
 #include "SimpleAudioEngine.h"
 #include "AzoomeeArtApp.h"
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Utils/TimeFunctions.h>
-#include <AzoomeeCommon/Utils/DirUtil.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include "ModalMessages.h"
+#include <TinizineCommon/Utils/TimeUtils.h>
+#include <TinizineCommon/Utils/DirUtil.h>
+#include <TinizineCommon/Data/AppConfig.h>
 
 #include <iostream>
 #include <iomanip>
@@ -17,7 +17,9 @@
 
 USING_NS_CC;
 
-NS_AZOOMEE_AA_BEGIN
+USING_NS_TZ
+
+NS_AZ_ART_BEGIN
 
 Scene* MainScene::createScene()
 {
@@ -29,8 +31,8 @@ Scene* MainScene::createScene()
 	layer->setName("ArtAppMainScene");
     layer->addBackButton();
     layer->addShareButton();
-    const std::string& fileNameStr = getTimeStringForFileName();
-    const std::string& saveFileName = ConfigStorage::kArtCacheFolder + Azoomee::ChildManager::getInstance()->getParentOrChildId() + "/" + fileNameStr + ".png";
+    const std::string& fileNameStr = TimeUtils::getTimeStringForFileName();
+    const std::string& saveFileName = AppConfig::kArtCacheFolder + ChildManager::getInstance()->getLoggedInChild()->getId() + "/" + fileNameStr + ".png";
     layer->_fileName = DirUtil::getCachesPath() + "/" + saveFileName;
     // add layer as a child to scene
     scene->addChild(layer);
@@ -126,8 +128,20 @@ void MainScene::backButtonCallBack()
     
     if(_drawingCanvas->_actionCounter > 0)
     {
-        ConfirmCancelMessageBox* messageBox = ConfirmCancelMessageBox::createWithParams(_("Save?"), "res/buttons/confirm_tick_2.png", "res/buttons/confirm_x_2.png", Color3B::BLACK, Color4B::WHITE);
-        messageBox->setDelegate(this);
+        ArtAppConfirmCancelMessageBox* messageBox = ArtAppConfirmCancelMessageBox::createWithParams(_("Save?"), "res/buttons/confirm_tick_2.png", "res/buttons/confirm_x_2.png", Color3B::BLACK, Color4B::WHITE);
+        messageBox->setOnConfirmCallback([this](MessagePopupBase *pSender){
+            ModalMessages::getInstance()->startSaving();
+            
+            const std::string scheduleKey = "saveAndExit";
+            Director::getInstance()->getScheduler()->schedule([&](float dt){
+                this->saveFileAndExit();
+            }, this, 0.5, 0, 0, false, scheduleKey);
+            pSender->removeFromParent();
+        });
+        messageBox->setOnCancelCallback([this](MessagePopupBase *pSender){
+            delegate->onArtAppNavigationBack();
+            pSender->removeFromParent();
+        });
         messageBox->setPosition(Director::getInstance()->getVisibleOrigin() + Vec2(Director::getInstance()->getVisibleSize().width * 0.09f/2.0f,Director::getInstance()->getVisibleSize().height * 0.175f/2.0f));
         this->addChild(messageBox,POPUP_UI_LAYER);
         
@@ -177,14 +191,14 @@ void MainScene::saveFile()
     std::string saveFileName;
     if(this->_fileName == "")
     {
-        const std::string& fileNameStr = getTimeStringForFileName();
+        const std::string& fileNameStr = TimeUtils::getTimeStringForFileName();
         
-        saveFileName = ConfigStorage::kArtCacheFolder + Azoomee::ChildManager::getInstance()->getParentOrChildId() + "/" + fileNameStr + ".png";
+        saveFileName = AppConfig::kArtCacheFolder + TZ::ChildManager::getInstance()->getLoggedInChild()->getId() + "/" + fileNameStr + ".png";
         this->_fileName = DirUtil::getCachesPath() + "/" + saveFileName;
     }
     else
     {
-        const std::string& truncatedPath = this->_fileName.substr(this->_fileName.find(ConfigStorage::kArtCacheFolder));
+        const std::string& truncatedPath = this->_fileName.substr(this->_fileName.find(AppConfig::kArtCacheFolder));
         saveFileName = truncatedPath;
         
     }
@@ -197,22 +211,4 @@ void MainScene::reloadRenderTextureObject()
 	_drawingCanvas->reloadRenderTextureObject();
 }
 
-void MainScene::onConfirmPressed(Azoomee::ConfirmCancelMessageBox *pSender)
-{
-    ModalMessages::getInstance()->startSaving();
-    
-    const std::string scheduleKey = "saveAndExit";
-    Director::getInstance()->getScheduler()->schedule([&](float dt){
-        this->saveFileAndExit();
-    }, this, 0.5, 0, 0, false, scheduleKey);
-    
-    pSender->removeFromParent();
-}
-
-void MainScene::onCancelPressed(Azoomee::ConfirmCancelMessageBox *pSender)
-{
-    pSender->removeFromParent();
-    delegate->onArtAppNavigationBack();
-}
-
-NS_AZOOMEE_AA_END
+NS_AZ_ART_END

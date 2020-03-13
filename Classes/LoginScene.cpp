@@ -1,23 +1,26 @@
 #include "LoginScene.h"
-#include <AzoomeeCommon/Audio/AudioMixer.h>
-#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
-#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
-#include <AzoomeeCommon/Strings.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
 #include "BackEndCaller.h"
-#include <AzoomeeCommon/Input/TextInputChecker.h>
+#include <TinizineCommon/Input/TextInputChecker.h>
 #include "HQHistoryManager.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Utils/PushNotificationsHandler.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 #include "FlowDataSingleton.h"
 #include "SceneManagerScene.h"
 #include "ChatNotificationsSingleton.h"
-#include "ContentHistoryManager.h"
+#include <TinizineCommon/ContentDataManagers/ContentHistoryManager.h>
 #include "PopupMessageBox.h"
+#include <TinizineCommon/Device.h>
+#include "LoginController.h"
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include "ErrorCodes.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool LoginScene::init()
 {
@@ -31,8 +34,7 @@ bool LoginScene::init()
     
     ContentHistoryManager::getInstance()->setReturnedFromContent(false);
     HQHistoryManager::getInstance()->clearCachedHQData();
-    
-    PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel("NA");
+
     AudioMixer::getInstance()->stopBackgroundMusic();
 	
     getUserDefaults();
@@ -40,7 +42,7 @@ bool LoginScene::init()
 	const Size& contentSize = getContentSize();
 	const bool isPortrait = contentSize.width < contentSize.height;
 	
-	const Color3B& bgColour = Style::Color::darkIndigo;
+	const Color3B& bgColour = Colours::Color_3B::darkIndigo;
 	
 	_bgColour = ui::Layout::create();
 	_bgColour->setBackGroundColorType(ui::HBox::BackGroundColorType::SOLID);
@@ -54,19 +56,19 @@ bool LoginScene::init()
 	_bgPattern = Sprite::create("res/decoration/main_pattern_big.png");
 	_bgPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_bgPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	_bgPattern->setColor(Style::Color::macaroniAndCheese);
+	_bgPattern->setColor(Colours::Color_3B::macaroniAndCheese);
 	addChild(_bgPattern);
 	
 	_patternHider = DrawNode::create();
 	if(isPortrait)
 	{
 		Vec2 points[4] = {Vec2(0,0), Vec2(contentSize.width, 0), Vec2(contentSize.width, contentSize.height * 0.66f), Vec2(0,contentSize.height * 0.66f)};
-		_patternHider->drawSolidPoly(points, 4, Color4F(Style::Color::darkIndigo));
+		_patternHider->drawSolidPoly(points, 4, Color4F(Colours::Color_3B::darkIndigo));
 	}
 	else
 	{
 		Vec2 points[3] = {Vec2(contentSize.width, 0), Vec2(contentSize.width, contentSize.height), Vec2(0,contentSize.height)};
-		_patternHider->drawSolidPoly(points, 3, Color4F(Style::Color::darkIndigo));
+		_patternHider->drawSolidPoly(points, 3, Color4F(Colours::Color_3B::darkIndigo));
 	}
 	addChild(_patternHider);
 	
@@ -99,7 +101,7 @@ bool LoginScene::init()
 			case LoginEntryState::EMAIL:
 			{
 				_loginEntryForm->setState(LoginEntryState::PASSWORD);
-				_bgPattern->setColor(Style::Color::purplyPink);
+				_bgPattern->setColor(Colours::Color_3B::purplyPink);
 				break;
 			}
 			case LoginEntryState::PASSWORD:
@@ -112,13 +114,13 @@ bool LoginScene::init()
 		switch (state) {
 			case LoginEntryState::EMAIL:
 			{
-				BackEndCaller::getInstance()->anonymousDeviceLogin();
+                LoginController::getInstance()->anonLogin();
 				break;
 			}
 			case LoginEntryState::PASSWORD:
 			{
 				_loginEntryForm->setState(LoginEntryState::EMAIL);
-				_bgPattern->setColor(Style::Color::macaroniAndCheese);
+				_bgPattern->setColor(Colours::Color_3B::macaroniAndCheese);
 				break;
 			}
 		}
@@ -145,18 +147,18 @@ void LoginScene::onEnter()
 		_loginEntryForm->setVisible(false);
         
         const long errorCode = FlowDataSingleton::getInstance()->getErrorCode();
-        const auto& errorMessageText = StringMgr::getInstance()->getErrorMessageWithCode(errorCode);
+        const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(errorCode);
         
         if(errorCode == ERROR_CODE_INVALID_CREDENTIALS)
         {
             PopupMessageBox* messageBox = PopupMessageBox::create();
             messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
             messageBox->setBody(errorMessageText.at(ERROR_BODY));
-            messageBox->setPatternColour(Style::Color::azure);
+            messageBox->setPatternColour(Colours::Color_3B::azure);
             
             messageBox->setButtonText(_("Reset password"));
-            messageBox->setButtonColour(Style::Color::strongPink);
-            messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+            messageBox->setButtonColour(Colours::Color_3B::strongPink);
+            messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
                 pSender->removeFromParent();
                 BackEndCaller::getInstance()->resetPasswordRequest(_storedUsername);
                 
@@ -164,9 +166,9 @@ void LoginScene::onEnter()
                 messageBox->setTitle(_("Reset requested"));
                 messageBox->setBody(StringUtils::format((_("Instructions for resetting your password have been sent to:") + "\n\n%s").c_str(), _storedUsername.c_str()));
                 messageBox->setButtonText(_("OK"));
-                messageBox->setButtonColour(Style::Color::darkIndigo);
-                messageBox->setPatternColour(Style::Color::azure);
-                messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+                messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+                messageBox->setPatternColour(Colours::Color_3B::azure);
+                messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
                     pSender->removeFromParent();
                     _loginEntryForm->setVisible(true);
                 });
@@ -174,8 +176,8 @@ void LoginScene::onEnter()
             });
             
             messageBox->setSecondButtonText(_("Back"));
-            messageBox->setSecondButtonColour(Style::Color::darkIndigo);
-            messageBox->setSecondButtonPressedCallback([this](PopupMessageBox* pSender){
+            messageBox->setSecondButtonColour(Colours::Color_3B::darkIndigo);
+            messageBox->setSecondButtonPressedCallback([this](MessagePopupBase* pSender){
                 pSender->removeFromParent();
                 _loginEntryForm->setVisible(true);
             });
@@ -187,9 +189,9 @@ void LoginScene::onEnter()
             messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
             messageBox->setBody(errorMessageText.at(ERROR_BODY));
             messageBox->setButtonText(_("Back"));
-            messageBox->setButtonColour(Style::Color::darkIndigo);
-            messageBox->setPatternColour(Style::Color::azure);
-            messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+            messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+            messageBox->setPatternColour(Colours::Color_3B::azure);
+            messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
                 pSender->removeFromParent();
                 _loginEntryForm->setVisible(true);
             });
@@ -203,7 +205,7 @@ void LoginScene::onEnter()
 void LoginScene::getUserDefaults()
 {
     UserDefault* def = UserDefault::getInstance();
-    _storedUsername = def->getStringForKey(ConfigStorage::kStoredUsernameKey, "");
+    _storedUsername = def->getStringForKey(UserAccountManager::kStoredUsernameKey, "");
     def->flush();
     
     if(_storedUsername == "")
@@ -216,8 +218,7 @@ void LoginScene::getUserDefaults()
 
 void LoginScene::login(std::string username, std::string password)
 {
-    auto backEndCaller = BackEndCaller::getInstance();
-    backEndCaller->login(username, password);
+    LoginController::getInstance()->login(username, password);
 }
 
 //-------------DELEGATE FUNCTIONS-------------------
@@ -245,7 +246,7 @@ void LoginScene::keyboardWillShow(cocos2d::IMEKeyboardNotificationInfo& info)
 	const Vec2& targetPos = isPortrait ? Vec2(contentSize.width * 0.5f,contentSize.height * 0.85f) : Vec2(contentSize.width * 0.25f,contentSize.height * 0.5f);
 	
 	int keyboardHeight = info.end.size.height - Director::getInstance()->getVisibleOrigin().y;
-	ConfigStorage::getInstance()->setEstimatedKeyboardHeight(keyboardHeight);
+	TZ::Device::getInstance()->setEstimatedKeyboardHeight(keyboardHeight);
 	if((targetPos.y - (_titleText->getContentSize().height * 0.5f)) < keyboardHeight)
 	{
 		float offset = keyboardHeight - (targetPos.y - (_titleText->getContentSize().height * 0.5f));
@@ -276,12 +277,12 @@ void LoginScene::onSizeChanged()
 	if(isPortrait)
 	{
 		Vec2 points[4] = {Vec2(0,-1), Vec2(contentSize.width, -1), Vec2(contentSize.width, contentSize.height * 0.66f), Vec2(0,contentSize.height * 0.66f)};
-		_patternHider->drawSolidPoly(points, 4, Color4F(Style::Color::darkIndigo));
+		_patternHider->drawSolidPoly(points, 4, Color4F(Colours::Color_3B::darkIndigo));
 	}
 	else
 	{
 		Vec2 points[3] = {Vec2(contentSize.width, 0), Vec2(contentSize.width, contentSize.height), Vec2(0,contentSize.height)};
-		_patternHider->drawSolidPoly(points, 3, Color4F(Style::Color::darkIndigo));
+		_patternHider->drawSolidPoly(points, 3, Color4F(Colours::Color_3B::darkIndigo));
 	}
 	
 	_gradient->setEndOpacity(isPortrait ? 166 : 245);
@@ -300,4 +301,4 @@ void LoginScene::onSizeChanged()
 
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

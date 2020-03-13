@@ -6,19 +6,22 @@
 //
 
 #include "ChatHQ.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
 #include "AzoomeeChat/UI/MessageScene.h"
 #include "ChatDelegate.h"
 #include "SceneManagerScene.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const Size ChatHQ::kFriendTileSize = Size(300,450);
 
@@ -32,7 +35,7 @@ bool ChatHQ::init()
     createRecentMessages();
     createFriendsList();
     
-    const Color3B& gradColour = Style::Color::darkIndigo;
+    const Color3B& gradColour = Colours::Color_3B::darkIndigo;
     _topScrollGradient = LayerGradient::create(Color4B(gradColour), Color4B(gradColour.r, gradColour.g, gradColour.b, 0));
     _topScrollGradient->setIgnoreAnchorPointForPosition(false);
     _topScrollGradient->setContentSize(Size(_contentListView->getContentSize().width, 0));
@@ -57,11 +60,12 @@ bool ChatHQ::init()
 void ChatHQ::onEnter()
 {
     // Create a friend object which represents the current user
-    const std::string& childId = ChildManager::getInstance()->getParentOrChildId();
-    const std::string& childName = ChildManager::getInstance()->getParentOrChildName();
-    const std::string& childAvatar = ChildManager::getInstance()->getParentOrChildAvatarId();
+    auto child = ChildManager::getInstance()->getLoggedInChild();
+    const std::string& childId = child->getId();
+    const std::string& childName = child->getProfileName();
+    const std::string& childAvatar = child->getAvatar();
     _currentUser = Chat::Friend::create(childId, childName, childAvatar);
-    Azoomee::Chat::delegate = ChatDelegate::getInstance();
+    AZ::Chat::delegate = ChatDelegate::getInstance();
     Chat::ChatAPI::getInstance()->registerObserver(this);
     Chat::ChatAPI::getInstance()->requestFriendList();
     Chat::ChatAPI::getInstance()->scheduleFriendListPoll();
@@ -164,7 +168,7 @@ void ChatHQ::createFriendsList()
 
 void ChatHQ::openChatMessageSceneWithFriend(const Chat::FriendRef& friendData)
 {
-    const bool isParent = friendData->friendId() == ParentManager::getInstance()->getLoggedInParentId();
+    const bool isParent = friendData->friendId() == UserAccountManager::getInstance()->getLoggedInParentId();
     AnalyticsSingleton::getInstance()->setChatFriendIsParent(isParent);
     AnalyticsSingleton::getInstance()->genericButtonPressEvent(isParent ? "ChatScene - SelectedParent" : "ChatScene - SelectedFriend");
     AnalyticsSingleton::getInstance()->contentItemSelectedEvent("CHAT");
@@ -215,7 +219,7 @@ void ChatHQ::onChatAPIGetTimelineSummary(const Chat::MessageList& messageList)
     if(messages.size() == 0)
     {
         Chat::MessageRef message = Chat::Message::createTextMessage(_("Hi, welcome to chat!"));
-        Chat::FriendRef user = Chat::Friend::create(ChildManager::getInstance()->getParentOrChildId(), ChildManager::getInstance()->getParentOrChildName(), ChildManager::getInstance()->getParentOrChildAvatarId());
+        Chat::FriendRef user = _currentUser;//Chat::Friend::create(ChildManager::getInstance()->getParentOrChildId(), ChildManager::getInstance()->getParentOrChildName(), ChildManager::getInstance()->getParentOrChildAvatarId());
         messages.push_back({user, message});
         _recentMessagesLayout->setMessageSelectedCallback(nullptr);
     }
@@ -230,4 +234,4 @@ void ChatHQ::onChatAPIGetTimelineSummary(const Chat::MessageList& messageList)
 }
 
 
-NS_AZOOMEE_END
+NS_AZ_END

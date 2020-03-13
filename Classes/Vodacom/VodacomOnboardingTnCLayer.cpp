@@ -6,15 +6,17 @@
 //
 #ifdef AZOOMEE_VODACOM_BUILD
 #include "VodacomOnboardingTnCLayer.h"
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/ModalWebview.h>
-#include <AzoomeeCommon/Data/Urls.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/ModalWebview.h>
+#include "Urls.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool VodacomOnboardingTnCLayer::init()
 {
@@ -160,7 +162,7 @@ void VodacomOnboardingTnCLayer::onEnter()
 	_errorMessage = Label::createWithTTF("*You must be over 18 and agree to our T&Cs", Style::Font::Regular(), 59);
 	_errorMessage->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_errorMessage->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-	_errorMessage->setTextColor(Color4B(Style::Color::watermelon));
+	_errorMessage->setTextColor(Color4B(Colours::Color_3B::watermelon));
 	_errorMessage->setHorizontalAlignment(TextHAlignment::LEFT);
 	_errorMessage->setVerticalAlignment(TextVAlignment::TOP);
 	_errorMessage->setVisible(false);
@@ -191,12 +193,12 @@ void VodacomOnboardingTnCLayer::onEnter()
 	_confirmButton->addChild(confirmText);
 	
 	Label* privacyPolicy = Label::createWithTTF(_("Privacy Policy"), Style::Font::Regular(), 64);
-	privacyPolicy->setTextColor(Color4B(Style::Color::skyBlue));
+	privacyPolicy->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	privacyPolicy->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	privacyPolicy->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	
 	DrawNode* underline = DrawNode::create();
-	underline->drawRect(Vec2(0, -7), Vec2(privacyPolicy->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+	underline->drawRect(Vec2(0, -7), Vec2(privacyPolicy->getContentSize().width, -6), Color4F(Colours::Color_3B::skyBlue));
 	privacyPolicy->addChild(underline);
 	
 	ui::Layout* privacyPolicyHolder = ui::Layout::create();
@@ -208,18 +210,18 @@ void VodacomOnboardingTnCLayer::onEnter()
 	privacyPolicyHolder->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			ModalWebview::createWithURL(Url::PrivacyPolicyNoLinks);
+			ModalWebview::createWithURL(Url::PrivacyPolicyNoLinks, "res/buttons/windowCloseButton.png");
 		}
 	});
 	this->addChild(privacyPolicyHolder);
 	
 	Label* tnc = Label::createWithTTF(_("Terms and Conditions"), Style::Font::Regular(), 64);
-	tnc->setTextColor(Color4B(Style::Color::skyBlue));
+	tnc->setTextColor(Color4B(Colours::Color_3B::skyBlue));
 	tnc->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
 	tnc->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	
 	DrawNode* underline2 = DrawNode::create();
-	underline2->drawRect(Vec2(0, -7), Vec2(tnc->getContentSize().width, -6), Color4F(Style::Color::skyBlue));
+	underline2->drawRect(Vec2(0, -7), Vec2(tnc->getContentSize().width, -6), Color4F(Colours::Color_3B::skyBlue));
 	tnc->addChild(underline2);
 	
 	ui::Layout* tncHolder = ui::Layout::create();
@@ -231,7 +233,7 @@ void VodacomOnboardingTnCLayer::onEnter()
 	tncHolder->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			ModalWebview::createWithURL(Url::TermsOfUse);
+			ModalWebview::createWithURL(Url::TermsOfUse, "res/buttons/windowCloseButton.png");
 		}
 	});
 	this->addChild(tncHolder);
@@ -255,5 +257,5 @@ void VodacomOnboardingTnCLayer::onConfirmPressed()
 	}
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 #endif

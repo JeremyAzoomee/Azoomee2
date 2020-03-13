@@ -7,7 +7,9 @@
 #include <map>
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
 
 /**
  * Manages the cache of Stickers used in the chat app.
@@ -41,6 +43,6 @@ public:
     StickerRef findStickerByURL(const std::string& url) const;
 };
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END
 
 #endif

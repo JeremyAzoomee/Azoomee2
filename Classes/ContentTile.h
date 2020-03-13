@@ -8,13 +8,16 @@
 #ifndef ContentTile_h
 #define ContentTile_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
-#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
+#include <TinizineCommon/Data/HQDataObject/HQContentItemObject.h>
+#include <TinizineCommon/ImageDownloader/ImageDownloader.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class ContentTile : public cocos2d::ui::Layout , public ImageDownloaderDelegate
 {
@@ -54,6 +57,6 @@ public:
     virtual void onImageDownloadFailed() override;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* ContentTile_h */

@@ -6,22 +6,25 @@
 //
 
 #include "KidDetailsLayer.h"
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
-#include <AzoomeeCommon/NativeShare/NativeShare.h>
-#include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
+#include <TinizineCommon/NativeShare/NativeShare.h>
+#include <TinizineCommon/API/API.h>
+#include "ModalMessages.h"
 #include "SettingsMessageBoxDeleteChild.h"
 #include "SettingsMessageBoxFREvent.h"
 #include "SettingsMessageBoxNotification.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool KidDetailsLayer::init()
 {
@@ -112,7 +115,7 @@ void KidDetailsLayer::onEnter()
     _nameText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _nameText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _nameText->setTextColor(Color4B::BLACK);
-    reduceLabelTextToFitWidth(_nameText, _nameLayout->getContentSize().width * 0.8f);
+    StringFunctions::reduceLabelTextToFitWidth(_nameText, _nameLayout->getContentSize().width * 0.8f);
     _displayNameLayout->addChild(_nameText);
     
     _editNameButton = ui::Button::create("res/settings/edit_button_circle.png");
@@ -138,7 +141,7 @@ void KidDetailsLayer::onEnter()
     bgCircle1->setScale(0);
     bgCircle1->setOpacity(25);
     bgCircle1->setRotation(RandomHelper::random_real(0.0,M_PI));
-    bgCircle1->setColor(Style::Color::darkTeal);
+    bgCircle1->setColor(Colours::Color_3B::darkTeal);
     oomeeLayout->addChild(bgCircle1, -1);
     
     auto popIn1 = EaseBackOut::create(ScaleTo::create(0.5, ((oomeeLayout->getContentSize().height * 0.85) / bgCircle1->getContentSize().height)));
@@ -153,7 +156,7 @@ void KidDetailsLayer::onEnter()
     bgCircle2->setScale(0);
     bgCircle2->setOpacity(25);
     bgCircle2->setRotation(RandomHelper::random_real(0.0,M_PI));
-    bgCircle2->setColor(Style::Color::darkTeal);
+    bgCircle2->setColor(Colours::Color_3B::darkTeal);
     oomeeLayout->addChild(bgCircle2, -1);
     
     auto popIn2 = EaseBackOut::create(ScaleTo::create(0.5, ((oomeeLayout->getContentSize().height * 1.15f) / bgCircle2->getContentSize().height)));
@@ -163,7 +166,7 @@ void KidDetailsLayer::onEnter()
     bgCircle2->runAction(rotate2);
     
     _oomee = RemoteImageSprite::create();
-    _oomee->initWithUrlAndSizeWithoutPlaceholder(_child->getAvatar(), oomeeLayout->getContentSize());
+    _oomee->initWithUrlAndSize(_child->getAvatar(), oomeeLayout->getContentSize());
     _oomee->setKeepAspectRatio(true);
     _oomee->setAnchorPoint(Vec2(0.5,0.4));
     _oomee->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
@@ -262,7 +265,7 @@ void KidDetailsLayer::onEnter()
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
 			const std::string& targetChildId = _child->getId();
-			if(ChildManager::getInstance()->isChildLoggedIn() && ChildManager::getInstance()->getParentOrChildId() == targetChildId)
+			if(ChildManager::getInstance()->isChildLoggedIn() && ChildManager::getInstance()->getLoggedInChild()->getId() == targetChildId)
 			{
 				SettingsMessageBoxNotification* messageBox = SettingsMessageBoxNotification::create();
 				messageBox->setHeading(_("You can't do that right now, this child is currently logged in."));
@@ -287,7 +290,7 @@ void KidDetailsLayer::setChild(const ChildRef& child)
     _child = child;
 }
 
-void KidDetailsLayer::setDeleteChildCallback(const Azoomee::KidDetailsLayer::DeleteChildCallback &callback)
+void KidDetailsLayer::setDeleteChildCallback(const AZ::KidDetailsLayer::DeleteChildCallback &callback)
 {
     _deleteCallback = callback;
 }
@@ -320,9 +323,9 @@ void KidDetailsLayer::onHttpRequestSuccess(const std::string& requestTag, const 
 		if(!data.HasParseError())
 		{
 			
-			ParentManager::getInstance()->parseChildUpdateData(_child->getId(), body);
+			UserAccountManager::getInstance()->parseChildUpdateData(_child->getId(), body);
 			_nameText->setString(_child->getProfileName());
-			reduceLabelTextToFitWidth(_nameText, _nameLayout->getContentSize().width * 0.8f);
+			StringFunctions::reduceLabelTextToFitWidth(_nameText, _nameLayout->getContentSize().width * 0.8f);
 			_editNameButton->setPosition((_displayNameLayout->getContentSize() * 0.5) + Size(_nameText->getContentSize().width * 0.5f,0));
 			_editNameInput->setText(_child->getProfileName());
 		}
@@ -383,5 +386,5 @@ void KidDetailsLayer::onButtonPressed(SettingsMessageBox* pSender, SettingsMessa
     }
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 

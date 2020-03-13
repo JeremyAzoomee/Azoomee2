@@ -6,12 +6,15 @@
 //
 
 #include "DropdownContentHolder.h"
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/UI/Colour.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const cocos2d::Rect DropdownContentHolder::kBgCapInsetsSmall = Rect(130, 130, 82, 80);
 const cocos2d::Rect DropdownContentHolder::kBgCapInsetsBig = Rect(162, 162, 103, 100);
@@ -26,7 +29,7 @@ bool DropdownContentHolder::init()
         return false;
     }
     
-    _iconDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
+    _iconDownloader = ImageDownloader::create(ImageDownloader::kImageCachePath, ImageDownloader::CacheMode::File);
     
     setBackGroundImage("res/hqscene/dropdown_bg.png");
     setBackGroundImageScale9Enabled(true);
@@ -381,4 +384,4 @@ void DropdownContentHolder::onImageDownloadFailed()
     
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

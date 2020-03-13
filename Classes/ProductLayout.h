@@ -8,13 +8,16 @@
 #ifndef ProductLayout_h
 #define ProductLayout_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
-#include <AzoomeeCommon/UI/CTAButton.h>
+#include <TinizineCommon/UI/DynamicText.h>
+#include <TinizineCommon/UI/TextButton.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 enum class ProductLayoutType {PASS, SUBSCRIPTION, MULI_PASS};
 enum class IAPAction {PURCHASE, RESTORE};
@@ -26,7 +29,7 @@ class ProductLayout : public cocos2d::ui::Layout
 	typedef std::function<void(IAPAction)> IAPActionCallback;
 private:
 	cocos2d::ui::Layout* _productBanner = nullptr;
-	CTAButton* _purchaseButton = nullptr;
+	TextButton* _purchaseButton = nullptr;
 	DynamicText* _restoreButton = nullptr;
 	
 	ProductLayoutType _type;
@@ -51,6 +54,6 @@ public:
 	CREATE_FUNC(ProductLayout);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* ProductLayout_h */

@@ -1,13 +1,11 @@
 #include "AmazonPaymentSingleton.h"
 #include "external/json/document.h"
-#include <AzoomeeCommon/UI/MessageBox.h>
 #include "BackEndCaller.h"
-#include "LoginLogicHandler.h"
+#include "LoginController.h"
 #include "RoutePaymentSingleton.h"
-#include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include "ModalMessages.h"
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 #include "FlowDataSingleton.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -18,9 +16,11 @@ static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppAc
 #endif
 
 using namespace cocos2d;
-using namespace Azoomee;
+using namespace AZ;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 static AmazonPaymentSingleton *_sharedAmazonPaymentSingleton = NULL;
 
@@ -64,7 +64,7 @@ void AmazonPaymentSingleton::amazonPaymentMade(std::string requestId, std::strin
     savedRequestId = requestId;
     savedReceiptId = receiptId;
     savedAmazonUserid = amazonUserid;
-    if(!ParentManager::getInstance()->isUserLoggedIn())
+    if(!UserAccountManager::getInstance()->isUserLoggedIn())
     {
         auto funcCallAction = CallFunc::create([=](){
             ModalMessages::getInstance()->stopLoading();
@@ -147,7 +147,7 @@ void purchaseFailureErrorMessageWithDelay()
     Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from amazon window, otherwise the app will crash
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -214,7 +214,7 @@ extern "C"
 
 JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_AppActivity_getAmazonSku(JNIEnv* env, jobject thiz)
 {
-    return env->NewStringUTF(ConfigStorage::getInstance()->getIapSkuForProvider("amazon-prod").c_str());
+    return env->NewStringUTF(RoutePaymentSingleton::getInstance()->getIapSkuForProvider("amazon-prod").c_str());
 }
 
 #endif

@@ -17,17 +17,18 @@
 #include "VodacomOnboardingTnCLayer.h"
 #include "VodacomOnboardingDCBWebview.h"
 #include "../SceneManagerScene.h"
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/API/API.h>
+#include "ModalMessages.h"
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool VodacomOnboardingScene::init()
 {
@@ -47,14 +48,14 @@ void VodacomOnboardingScene::onEnter()
 	AnalyticsSingleton::getInstance()->vodacomOnboardingFlowStartedEvent();
 	_flowData = VodacomOnboardingFlowData::create();
 	_flowData->pushState(FlowState::EXIT);
-	if(ParentManager::getInstance()->isPaidUser())
+	if(UserAccountManager::getInstance()->isPaidUser())
 	{
 		_flowData->setUserType(UserType::REGISTERED);
 		moveToState(FlowState::DCB_WEBVIEW);
 	}       
 	else
 	{
-		_flowData->setUserType(ParentManager::getInstance()->isLoggedInParentAnonymous() ? UserType::ANON : UserType::FREE);
+		_flowData->setUserType(UserAccountManager::getInstance()->isLoggedInParentAnonymous() ? UserType::ANON : UserType::FREE);
 		moveToState(FlowState::DETAILS);
 	}
 	Super::onEnter();
@@ -63,7 +64,7 @@ void VodacomOnboardingScene::onEnter()
 void VodacomOnboardingScene::exitFlow()
 {
 	AnalyticsSingleton::getInstance()->vodacomOnboardingFlowExitEvent();
-	if(ParentManager::getInstance()->isUserLoggedIn())
+	if(UserAccountManager::getInstance()->isUserLoggedIn())
 	{
 		ModalMessages::getInstance()->startLoading();
 		HttpRequestCreator* request = API::GetAvailableChildrenRequest(this);
@@ -86,7 +87,7 @@ void VodacomOnboardingScene::moveToStateDCBProductSelected(const std::string& pr
 	else
 	{
 		ModalMessages::getInstance()->startLoading();
-		HttpRequestCreator* request = API::GetVodacomTransactionId(ParentManager::getInstance()->getLoggedInParentId(), this);
+		HttpRequestCreator* request = API::GetVodacomTransactionId(UserAccountManager::getInstance()->getLoggedInParentId(), this);
 		request->execute();
 	}
 	
@@ -119,7 +120,7 @@ void VodacomOnboardingScene::sendEventForStateTransition()
 			stateString = "Login";
 			break;
 		case FlowState::SUCCESS:
-			if(ParentManager::getInstance()->isPaidUser())
+			if(UserAccountManager::getInstance()->isPaidUser())
 			{
 				stateString = "Success - voucher redeemed";
 			}
@@ -282,12 +283,12 @@ void VodacomOnboardingScene::onHttpRequestSuccess(const std::string& requestTag,
 	ModalMessages::getInstance()->stopLoading();
 	if(requestTag == API::TagGetAvailableChildren)
 	{
-		ParentManager::getInstance()->parseAvailableChildren(body);
+		UserAccountManager::getInstance()->parseAvailableChildren(body);
 		if(_flowData->getDCBComplete())
 		{
 			ModalMessages::getInstance()->startLoading();
 			this->runAction(Sequence::createWithTwoActions(DelayTime::create(4.0f), CallFunc::create([this](){
-				HttpRequestCreator* request = API::UpdateBillingDataRequest(ParentManager::getInstance()->getLoggedInParentId(), this);
+				HttpRequestCreator* request = API::UpdateBillingDataRequest(UserAccountManager::getInstance()->getLoggedInParentId(), this);
 				request->execute();
 			})));
 		}
@@ -311,7 +312,7 @@ void VodacomOnboardingScene::onHttpRequestSuccess(const std::string& requestTag,
 	else if(requestTag == API::TagUpdateBillingData)
 	{
 		ChildManager::getInstance()->setChildLoggedIn(false);
-		ParentManager::getInstance()->parseParentBillingData(body);
+		UserAccountManager::getInstance()->parseParentBillingData(body);
 		Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::ChildSelector));
 	}
 }
@@ -325,5 +326,5 @@ void VodacomOnboardingScene::onHttpRequestFailed(const std::string& requestTag, 
 	}
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 #endif

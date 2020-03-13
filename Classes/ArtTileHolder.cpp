@@ -6,13 +6,15 @@
 //
 
 #include "ArtTileHolder.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
 #include "HQConstants.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const float ArtTileHolder::kTileSpacingPercent = 0.025f;
 const cocos2d::Vec2 ArtTileHolder::kTileAspectRatio = Vec2(1.0f, 0.625f);
@@ -32,7 +34,7 @@ bool ArtTileHolder::init()
     _bgColour->setCornerRadius(HQConsts::OomeeHQTileCornerRadius);
     _bgColour->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _bgColour->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _bgColour->setColor(Style::Color::white);
+    _bgColour->setColor(Colours::Color_3B::white);
     _bgColour->setOpacity(125);
     addChild(_bgColour);
     
@@ -42,7 +44,7 @@ bool ArtTileHolder::init()
     _bgPattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
     _bgPattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _bgPattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _bgPattern->setColor(Style::Color::white);
+    _bgPattern->setColor(Colours::Color_3B::white);
     addChild(_bgPattern);
     
     createContentLayout();
@@ -303,4 +305,4 @@ cocos2d::Size ArtTileHolder::calcTileSize(float rowWidth)
     return Size(tileWidth * kTileAspectRatio.x, tileWidth * kTileAspectRatio.y); //16:10 aspect ratio tiles
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

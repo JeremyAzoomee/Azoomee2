@@ -6,12 +6,14 @@
 //
 #ifdef AZOOMEE_VODACOM_BUILD
 #include "VodacomMessageBoxExitFlow.h"
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/Colour.h>
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 void VodacomMessageBoxExitFlow::onEnter()
 {
@@ -96,5 +98,5 @@ void VodacomMessageBoxExitFlow::setState(const ExitFlowState &state)
 	}
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 #endif

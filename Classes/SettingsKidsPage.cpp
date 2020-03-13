@@ -6,20 +6,23 @@
 //
 
 #include "SettingsKidsPage.h"
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/API/API.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include "ModalMessages.h"
+#include <TinizineCommon/API/API.h>
 #include "KidDetailsLayer.h"
 #include "SceneManagerScene.h"
+#include <TinizineCommon/Device.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool SettingsKidsPage::init()
 {
@@ -44,7 +47,7 @@ void SettingsKidsPage::onEnter()
     _kidList = ui::ListView::create();
     _kidList->setDirection(ui::ScrollView::Direction::VERTICAL);
     _kidList->setBounceEnabled(true);
-	_kidList->setContentSize(Size(this->getContentSize().width - 100, this->getContentSize().height - 316 - (ConfigStorage::getInstance()->isDeviceIphoneX() ? 200 : 150)));
+	_kidList->setContentSize(Size(this->getContentSize().width - 100, this->getContentSize().height - 316 - (TZ::Device::getInstance()->isDeviceIphoneX() ? 200 : 150)));
     _kidList->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _kidList->setItemsMargin(50);
     _kidList->setTopPadding(50);
@@ -55,7 +58,7 @@ void SettingsKidsPage::onEnter()
     
     _footerBanner = ui::Layout::create();
     _footerBanner->setContentSize(Size(this->getContentSize().width, 300));
-    _footerBanner->setBackGroundColor(Style::Color::skyBlue);
+    _footerBanner->setBackGroundColor(Colours::Color_3B::skyBlue);
     _footerBanner->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     _footerBanner->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -91,14 +94,14 @@ void SettingsKidsPage::onEnter()
 
 void SettingsKidsPage::addKidsToScrollView()
 {
-    for(int i = 0; i < ParentManager::getInstance()->getAmountOfAvailableChildren(); i++)
+    for(int i = 0; i < UserAccountManager::getInstance()->getAmountOfAvailableChildren(); i++)
     {
         KidDetailsLayer* kidLayer = KidDetailsLayer::create();
         kidLayer->setContentSize(Size(_kidList->getContentSize().width, 1900));
-		kidLayer->setChild(ParentManager::getInstance()->getChild(i));
+		kidLayer->setChild(UserAccountManager::getInstance()->getChild(i));
         kidLayer->setDeleteChildCallback([&](){
             ModalMessages::getInstance()->startLoading();
-            HttpRequestCreator* request = API::GetAvailableChildrenRequest(this);
+            HttpRequestCreator* request = API::GetAvailableChildrenRequest(UserAccountManager::getInstance()->getLoggedInParentId(), this);
             request->execute();
         });
         _kidList->pushBackCustomItem(kidLayer);
@@ -110,7 +113,7 @@ void SettingsKidsPage::addKidsToScrollView()
 void SettingsKidsPage::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
     ModalMessages::getInstance()->stopLoading();
-    if(ParentManager::getInstance()->parseAvailableChildren(body))
+    if(UserAccountManager::getInstance()->parseAvailableChildren(body))
     {
         _kidList->removeAllItems();
         addKidsToScrollView();
@@ -122,4 +125,4 @@ void SettingsKidsPage::onHttpRequestFailed(const std::string& requestTag, long e
     ModalMessages::getInstance()->stopLoading();
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

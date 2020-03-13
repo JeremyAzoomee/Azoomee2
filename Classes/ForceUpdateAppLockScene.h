@@ -2,17 +2,20 @@
 #define __Azoomee_ForceUpdateAppLockScene_H__
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/UI/Scene.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
-#include <AzoomeeCommon/UI/CTAButton.h>
-#include <AzoomeeCommon/UI/RoundedRectSprite.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/UI/Scene.h>
+#include <TinizineCommon/UI/DynamicText.h>
+#include <TinizineCommon/UI/TextButton.h>
+#include <TinizineCommon/UI/RoundedRectSprite.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
 
-class ForceUpdateAppLockScene : public Azoomee::Scene
+NS_AZ_BEGIN
+
+class ForceUpdateAppLockScene : public TZ::Scene
 {
-    typedef Azoomee::Scene Super;
+    typedef TZ::Scene Super;
 private:
     RoundedRectSprite* _bgPattern = nullptr;
     cocos2d::LayerGradient* _bgGradient = nullptr;
@@ -20,7 +23,7 @@ private:
     cocos2d::ui::Layout* _textLayout = nullptr;
     DynamicText* _headerText = nullptr;
     DynamicText* _bodyText = nullptr;
-    CTAButton* _updateButton = nullptr;
+    TextButton* _updateButton = nullptr;
 
 public:
     bool init() override;
@@ -31,6 +34,6 @@ public:
 
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif

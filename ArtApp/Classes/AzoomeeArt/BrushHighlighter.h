@@ -12,7 +12,9 @@
 #include "Brush.h"
 #include "AzoomeeArtApp.h"
 
-NS_AZOOMEE_AA_BEGIN
+USING_NS_TZ
+
+NS_AZ_ART_BEGIN
 
 class BrushHighlighter : public Brush
 {
@@ -31,6 +33,6 @@ public:
     void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) override;
 };
 
-NS_AZOOMEE_AA_END
+NS_AZ_ART_END
 
 #endif /* BrushHighlighter_h */

@@ -1,11 +1,14 @@
 #ifndef Azoomee_ios_Cocos2d_Callbacks_h
 #define Azoomee_ios_Cocos2d_Callbacks_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/cocos2d.h>
 #include <Foundation/Foundation.h>
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 #ifdef __cplusplus
 extern "C" {
@@ -42,6 +45,6 @@ extern "C" {
 }
 #endif
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif

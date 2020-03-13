@@ -9,8 +9,11 @@
 #define VodacomOnboardingDCBWebview_h
 
 #include "VodacomOnboardingLayer.h"
+#include "../Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 class VodacomOnboardingDCBWebview : public VodacomOnboardingLayer
 {
@@ -31,7 +34,7 @@ public:
 	CREATE_FUNC(VodacomOnboardingDCBWebview);
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 
 #endif /* VodacomOnboardingDCBWebview_h */

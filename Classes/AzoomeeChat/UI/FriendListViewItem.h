@@ -8,7 +8,9 @@
 #include <cocos/ui/CocosGUI.h>
 
 
-NS_AZOOMEE_CHAT_BEGIN
+USING_NS_TZ
+
+NS_AZ_CHAT_BEGIN
     
 class FriendListViewItem : public cocos2d::ui::Layout
 {
@@ -61,6 +63,6 @@ public:
     CREATE_FUNC(FriendListViewItem);
 };
 
-NS_AZOOMEE_CHAT_END
+NS_AZ_CHAT_END
 
 #endif

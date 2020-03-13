@@ -6,26 +6,27 @@
 //
 
 #include "OomeeHQ.h"
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Utils/DirUtil.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/HQDataObject/ContentItemManager.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include "HQDataProvider.h"
-#include "FavouritesManager.h"
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Utils/DirUtil.h>
+#include <TinizineCommon/Data/HQDataObject/ContentItemManager.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Data/AppConfig.h>
+#include <TinizineCommon/ContentDataManagers/FavouritesManager.h>
 #include "ArtAppDelegate.h"
 #include "SceneManagerScene.h"
-#include "GameDataManager.h"
-
+#include <TinizineCommon/ContentDataManagers/GameDataManager.h>
+#include "Style.h"
 #include "ShareInChatLayer.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool OomeeHQ::init()
 {
@@ -39,7 +40,7 @@ bool OomeeHQ::init()
     createFavouritesLayout();
     createOfflineDropdown();
     
-    const Color3B& gradColour = Style::Color::darkIndigo;
+    const Color3B& gradColour = Colours::Color_3B::darkIndigo;
     _topScrollGradient = LayerGradient::create(Color4B(gradColour), Color4B(gradColour.r, gradColour.g, gradColour.b, 0));
     _topScrollGradient->setIgnoreAnchorPointForPosition(false);
     _topScrollGradient->setContentSize(Size(_contentListView->getContentSize().width, 0));
@@ -159,7 +160,7 @@ void OomeeHQ::createScrollViewContent()
     _oomeeMakerButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(ConfigStorage::kOomeeMakerURI);
+            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(HQConsts::kOomeeMakerURI);
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::OomeeMakerEntryPointScene));
         }
     });
@@ -288,7 +289,7 @@ void OomeeHQ::createFavouritesLayout()
             // Open the actual content by checking _recentPlayedContent
             // This is because content might be a group if it's a video episode
             HQContentItemObjectRef contentToOpen = elementIndex < _favouritesContent.size() ? _favouritesContent[elementIndex] : content;
-            _contentSelectedCallback(contentToOpen, elementIndex, -1, ConfigStorage::kContentLocFavourite);
+            _contentSelectedCallback(contentToOpen, elementIndex, -1, HQConsts::kContentLocFavourite);
         }
     });
     _contentListView->pushBackCustomItem(_favouritesLayout);
@@ -301,12 +302,12 @@ void OomeeHQ::createOfflineDropdown()
     _offlineDropdown->setTilePlaceholder(CONTENT_PLACEHOLDER_GAME_1X1);
     _offlineDropdown->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _offlineDropdown->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
-    _offlineDropdown->setFrameColour(Style::Color::azure);
-    _offlineDropdown->setPatternColour(Style::Color::azure);
+    _offlineDropdown->setFrameColour(Colours::Color_3B::azure);
+    _offlineDropdown->setPatternColour(Colours::Color_3B::azure);
     _offlineDropdown->setContentSelectedCallback([this](HQContentItemObjectRef content, int elementIndex){
         if(_contentSelectedCallback)
         {
-            _contentSelectedCallback(content, elementIndex, -3, ConfigStorage::kContentLocOffline);
+            _contentSelectedCallback(content, elementIndex, -3, HQConsts::kContentLocOffline);
         }
     });
     _offlineDropdown->setOnResizeCallback([this](){
@@ -325,7 +326,7 @@ void OomeeHQ::createOfflineDropdown()
 void OomeeHQ::refreshOfflineList()
 {
     MutableHQCarouselObjectRef carousel = MutableHQCarouselObject::create();
-    carousel->setColour(Color4B(Style::Color::azure));
+    carousel->setColour(Color4B(Colours::Color_3B::azure));
     carousel->addContentItemsToCarousel(GameDataManager::getInstance()->getOfflineGameList());
     carousel->setTitle(_("Offline"));
     
@@ -336,11 +337,11 @@ void OomeeHQ::refreshFavouritesList()
 {
     const auto& allFavourites = FavouritesManager::getInstance()->getFavouriteContent();
     // Filter the recently played by group so videos can display as a series, but open the episode
-    const auto& filteredFavourites = HQDataProvider::getInstance()->filterContentItemsByUniqueGroup(allFavourites);
+    const auto& filteredFavourites = ContentItemManager::getInstance()->filterContentItemsByUniqueGroup(allFavourites);
     _favouritesContent = filteredFavourites.first;
     
     MutableHQCarouselObjectRef carousel = MutableHQCarouselObject::create();
-    carousel->setColour(Color4B(Style::Color::azure));
+    carousel->setColour(Color4B(Colours::Color_3B::azure));
     carousel->addContentItemsToCarousel(filteredFavourites.second);
     carousel->setTitle(_("Favourites"));
     _favouritesLayout->setMaxRows(_favouritesContent.size() > 0 ? -1 : 1);
@@ -349,7 +350,7 @@ void OomeeHQ::refreshFavouritesList()
 
 void OomeeHQ::refreshArtList()
 {
-    const std::string& dirPath = DirUtil::getCachesPath() + ConfigStorage::kArtCacheFolder + ChildManager::getInstance()->getParentOrChildId();
+    const std::string& dirPath = DirUtil::getCachesPath() + AppConfig::kArtCacheFolder + ChildManager::getInstance()->getLoggedInChild()->getId();
     
     if(!FileUtils::getInstance()->isDirectoryExist(dirPath))
     {
@@ -394,4 +395,4 @@ void OomeeHQ::setDropdownOpen()
     _offlineDropdown->setOpen(true);
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

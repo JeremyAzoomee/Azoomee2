@@ -10,7 +10,8 @@
 
 using namespace cocos2d;
 
-NS_AZOOMEE_AA_BEGIN
+USING_NS_TZ
+NS_AZ_ART_BEGIN
 
 BrushConfigRef BrushConfig::create()
 {
@@ -76,4 +77,4 @@ std::string BrushConfig::getBgImageFilename() const
     return _bgImageFilename;
 }
 
-NS_AZOOMEE_AA_END
+NS_AZ_ART_END

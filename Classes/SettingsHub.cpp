@@ -6,15 +6,14 @@
 //
 
 #include "SettingsHub.h"
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Data/Cookie/CookieManager.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/API/API.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include "ModalMessages.h"
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Data/Cookie/CookieManager.h>
 #include "SceneManagerScene.h"
 #include "SettingsSupportPage.h"
 #include "SettingsOnlineSafetyPage.h"
@@ -23,10 +22,14 @@
 #include "SettingsKidsPage.h"
 #include "SettingsLanguagePage.h"
 #include "HQHistoryManager.h"
+#include <TinizineCommon/Device.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool SettingsHub::init()
 {
@@ -37,7 +40,7 @@ bool SettingsHub::init()
     
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
 	
-	_prevLangCode = StringMgr::getInstance()->getLanguageID();
+	_prevLangCode = LocaleManager::getInstance()->getLanguageID();
 	
     LayerColor* bgColour = LayerColor::create(Color4B::WHITE, visibleSize.width, visibleSize.height);
     this->addChild(bgColour);
@@ -45,17 +48,17 @@ bool SettingsHub::init()
     _contentLayout = ui::Layout::create();
     _contentLayout->setContentSize(visibleSize);
     _contentLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _contentLayout->setBackGroundColor(Style::Color::greyBlue);
+    _contentLayout->setBackGroundColor(Colours::Color_3B::greyBlue);
     _contentLayout->setBackGroundColorOpacity(50);
     _contentLayout->setLayoutType(ui::Layout::Type::VERTICAL);
     this->addChild(_contentLayout);
     
-    bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
+    bool isIphoneX = TZ::Device::getInstance()->isDeviceIphoneX();
     
     _titleLayout = ui::Layout::create();
     _titleLayout->setContentSize(Size(visibleSize.width, isIphoneX ? 250 : 150));
     _titleLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _titleLayout->setBackGroundColor(Style::Color::skyBlue);
+    _titleLayout->setBackGroundColor(Colours::Color_3B::skyBlue);
     _contentLayout->addChild(_titleLayout);
     
     _titleBarButton = ui::Button::create("res/settings/exit_button.png");
@@ -89,9 +92,9 @@ bool SettingsHub::init()
                 _navigationLayout->setVisible(true);
                 _titleText->setString(_("Settings"));
                 _titleBarButton->loadTextureNormal("res/settings/exit_button.png");
-				if(_prevLangCode != StringMgr::getInstance()->getLanguageID())
+				if(_prevLangCode != LocaleManager::getInstance()->getLanguageID())
 				{
-					_prevLangCode = StringMgr::getInstance()->getLanguageID();
+					_prevLangCode = LocaleManager::getInstance()->getLanguageID();
 					this->updateTextForNewLanguage();
 				}
                 _inHub = true;
@@ -132,7 +135,7 @@ bool SettingsHub::init()
 	_languageButton = SettingsNavigationButton::create();
 	_languageButton->setContentSize(Size(visibleSize.width, buttonHeight));
 	_languageButton->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,0,0,10)));
-	_languageButton->setIconFilename(StringUtils::format("res/settings/flag_%s.png",StringMgr::getInstance()->getLanguageID().c_str()));
+	_languageButton->setIconFilename(StringUtils::format("res/settings/flag_%s.png",LocaleManager::getInstance()->getLanguageID().c_str()));
 	_languageButton->setTitleText(_("Language"));
 	_languageButton->setSubTitleText(_("Change your language selection"));
 	_languageButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
@@ -183,7 +186,7 @@ bool SettingsHub::init()
 	_parentInboxButton->addTouchEventListener([&](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			if(ParentManager::getInstance()->isPaidUser())
+			if(UserAccountManager::getInstance()->isPaidUser())
 			{
 			    ModalMessages::getInstance()->startLoading();
 				HttpRequestCreator* request = API::RefreshParentCookiesRequest(this);
@@ -254,7 +257,7 @@ void SettingsHub::onEnter()
 	{
 		_origin = SettingsOrigin::CHILD_SELECT;
 		ModalMessages::getInstance()->startLoading();
-		HttpRequestCreator* request = API::getParentDetailsRequest(ParentManager::getInstance()->getLoggedInParentId(), this);
+		HttpRequestCreator* request = API::getParentDetailsRequest(UserAccountManager::getInstance()->getLoggedInParentId(), this);
 		request->execute();
 	}
     Super::onEnter();
@@ -335,7 +338,7 @@ void SettingsHub::updateTextForNewLanguage()
 	_titleText->setString(_("Settings"));
 	_titleText->setFontName(Style::Font::Medium());
 	
-	_languageButton->setIconFilename(StringUtils::format("res/settings/flag_%s.png",StringMgr::getInstance()->getLanguageID().c_str()));
+	_languageButton->setIconFilename(StringUtils::format("res/settings/flag_%s.png",LocaleManager::getInstance()->getLanguageID().c_str()));
 	_languageButton->setTitleText(_("Language"));
 	_languageButton->setSubTitleText(_("Change your language selection"));
 	
@@ -381,7 +384,7 @@ void SettingsHub::AdultPinAccepted(RequestAdultPinLayer* layer)
 	layer->removeFromParent();
 	
 	ModalMessages::getInstance()->startLoading();
-	HttpRequestCreator* request = API::getParentDetailsRequest(ParentManager::getInstance()->getLoggedInParentId(), this);
+	HttpRequestCreator* request = API::getParentDetailsRequest(UserAccountManager::getInstance()->getLoggedInParentId(), this);
 	request->execute();
 	
 }
@@ -391,15 +394,15 @@ void SettingsHub::onHttpRequestSuccess(const std::string& requestTag, const std:
 	if(requestTag == API::TagGetParentDetails)
 	{
         ModalMessages::getInstance()->stopLoading();
-		ParentManager::getInstance()->parseParentDetails(body);
+		UserAccountManager::getInstance()->parseParentDetails(body);
 	}
 	else if(requestTag == API::TagCookieRefresh)
 	{
-		ParentManager::getInstance()->parseParentSessionData(body);
-		const std::string& userId = ParentManager::getInstance()->getLoggedInParentId();
-		const std::string& sessionId = ParentManager::getInstance()->getLoggedInParentCdnSessionId();
+		UserAccountManager::getInstance()->parseParentSessionData(body);
+		const std::string& userId = UserAccountManager::getInstance()->getLoggedInParentId();
+		const std::string& sessionId = UserAccountManager::getInstance()->getLoggedInParentCdnSessionId();
 		
-		HttpRequestCreator* request = API::GetSessionCookiesRequest(userId, sessionId, this);
+		HttpRequestCreator* request = API::GetSessionCookiesRequest(userId, sessionId, true, this);
 		request->execute();
 		return;
 	}
@@ -420,4 +423,4 @@ void SettingsHub::onHttpRequestFailed(const std::string& requestTag, long errorC
 	ModalMessages::getInstance()->stopLoading();
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

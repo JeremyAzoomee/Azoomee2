@@ -7,21 +7,23 @@
 
 #include "ShopScene.h"
 #include "SceneManagerScene.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Data/Shop/ShopDisplayItem.h>
-#include <AzoomeeCommon/Data/Shop/ShopDataDownloadHandler.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Data/Child/ChildManager.h>
-#include <AzoomeeCommon/Audio/AudioMixer.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Strings.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Data/Shop/ShopDisplayItem.h>
+#include <TinizineCommon/Data/Shop/ShopDataDownloadHandler.h>
+#include "ModalMessages.h"
+#include <TinizineCommon/Data/Child/ChildManager.h>
+#include <TinizineCommon/Audio/AudioMixer.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
 #include "PopupMessageBox.h"
-#include <AzoomeeCommon/Data/Rewards/RewardManager.h>
-
+#include "RewardManager.h"
+#include <TinizineCommon/Device.h>
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool ShopScene::init()
 {
@@ -32,7 +34,7 @@ bool ShopScene::init()
 	
 	const Size& visibleSize = this->getContentSize();
 	bool isPortrait = visibleSize.width < visibleSize.height;
-	bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
+	bool isIphoneX = TZ::Device::getInstance()->isDeviceIphoneX();
 	
 	_bgColour = LayerColor::create(Color4B(3, 36, 78,60));
 	this->addChild(_bgColour);
@@ -90,7 +92,7 @@ bool ShopScene::init()
 	_backButton->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
+			AudioMixer::getInstance()->playEffect("res/audio/Azoomee_Button_Click_01_v1.mp3");
 			Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::Base));
 		}
 	});
@@ -179,7 +181,7 @@ void ShopScene::onSizeChanged()
 	Super::onSizeChanged();
 	const Size& visibleSize = this->getContentSize();
 	bool isPortrait = visibleSize.width < visibleSize.height;
-	bool isIphoneX = ConfigStorage::getInstance()->isDeviceIphoneX();
+	bool isIphoneX = TZ::Device::getInstance()->isDeviceIphoneX();
 	if(_shopCarousel)
 	{
 		_shopCarousel->refreshUI();
@@ -233,9 +235,9 @@ void ShopScene::displayNotEnoughCoinsError()
     messageBox->setTitle(_("Oops! We can't find your coins."));
     messageBox->setBody(_("Earn more by watching and playing!"));
     messageBox->setButtonText(_("Back"));
-    messageBox->setButtonColour(Style::Color::darkIndigo);
-    messageBox->setPatternColour(Style::Color::azure);
-    messageBox->setButtonPressedCallback([this](PopupMessageBox* pSender){
+    messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+    messageBox->setPatternColour(Colours::Color_3B::azure);
+    messageBox->setButtonPressedCallback([this](MessagePopupBase* pSender){
         pSender->removeFromParent();
     });
     this->addChild(messageBox, 1);
@@ -264,4 +266,4 @@ void ShopScene::onHttpRequestFailed(const std::string& requestTag, long errorCod
     }
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

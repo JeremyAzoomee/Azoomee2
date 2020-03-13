@@ -6,12 +6,15 @@
 //
 
 #include "SignupConfirmEmail.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/Strings.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool SignupConfirmEmail::init()
 {
@@ -21,7 +24,7 @@ bool SignupConfirmEmail::init()
 	}
 	
 	_email = ui::Text::create("", Style::Font::PoppinsBold(), 70);
-	_email->setTextColor(Color4B(Style::Color::strongPink));
+	_email->setTextColor(Color4B(Colours::Color_3B::strongPink));
 	_email->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	_email->setNormalizedPosition(Vec2(0.5f,0.2f));
 	_email->setTextVerticalAlignment(TextVAlignment::CENTER);
@@ -56,4 +59,4 @@ void SignupConfirmEmail::setEmail(const std::string &email)
 	_email->setString(email);
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

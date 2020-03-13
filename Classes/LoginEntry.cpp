@@ -6,16 +6,19 @@
 //
 
 #include "LoginEntry.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Input/TextInputChecker.h>
-#include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Input/TextInputChecker.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
+#include <TinizineCommon/Data/AppConfig.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool LoginEntry::init()
 {
@@ -39,7 +42,7 @@ bool LoginEntry::init()
 	_inputTitle->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
 	_inputTitle->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_inputTitle->setTextVerticalAlignment(TextVAlignment::CENTER);
-	_inputTitle->setTextColor(Color4B(Style::Color::brownGrey));
+	_inputTitle->setTextColor(Color4B(Colours::Color_3B::brownGrey));
 	_inputHolder->addChild(_inputTitle);
 	
 	_inputBg = ui::Scale9Sprite::create("res/onboarding/input_rounded_frame.png");
@@ -63,12 +66,12 @@ bool LoginEntry::init()
 	_inputBox->setShouldMoveContentOnKeyboardDisplay(false);
 	_inputHolder->addChild(_inputBox);
 	
-	_continueButton = CTAButton::create("res/onboarding/rounded_button.png");
+	_continueButton = TextButton::create("res/onboarding/rounded_button.png");
 	_continueButton->ignoreContentAdaptWithSize(false);
 	_continueButton->setContentSize(Size(700,140));
 	_continueButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_continueButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,elementSpacing,0,0)));
-	_continueButton->setColor(Style::Color::darkIndigo);
+	_continueButton->setColor(Colours::Color_3B::darkIndigo);
 	_continueButton->setText(_("Continue"));
 	_continueButton->setTextFontInfo(Style::Font::PoppinsBold(), 70);
 	_continueButton->setTextColour(Color4B::WHITE);
@@ -77,7 +80,7 @@ bool LoginEntry::init()
 		{
 			if(_state == LoginEntryState::EMAIL)
 			{
-				_email = trim(_inputBox->getText());
+				_email = StringFunctions::trim(_inputBox->getText());
 				if(_continueCallback)
 				{
 					_continueCallback(_state);
@@ -85,7 +88,7 @@ bool LoginEntry::init()
 			}
 			else
 			{
-				_password = trim(_inputBox->getText());
+				_password = StringFunctions::trim(_inputBox->getText());
 				if(_loginConfirmCallback)
 				{
 					_loginConfirmCallback(_email,_password);
@@ -99,7 +102,7 @@ bool LoginEntry::init()
 	_backButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_backButton->setContentSize(Size(700,140));
 	_backButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,elementSpacing,0,0)));
-	_backButton->setTextColor(Color4B(Style::Color::brownGrey));
+	_backButton->setTextColor(Color4B(Colours::Color_3B::brownGrey));
 	_backButton->setTouchEnabled(true);
 	_backButton->setTouchScaleChangeEnabled(true);
 	_backButton->ignoreContentAdaptWithSize(false);
@@ -118,10 +121,10 @@ bool LoginEntry::init()
 	
 	_inputHolder->setContentSize(Size(0,_inputTitle->getContentSize().height + _inputBox->getContentSize().height + _continueButton->getContentSize().height + _backButton->getContentSize().height + (3 * elementSpacing)));
 	
-	_versionNumber = DynamicText::create(ConfigStorage::getInstance()->getVersionNumberToDisplay(), Style::Font::PoppinsRegular(), 35);
+	_versionNumber = DynamicText::create(AppConfig::getInstance()->getVersionNumberToDisplay(), Style::Font::PoppinsRegular(), 35);
 	_versionNumber->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	_versionNumber->setNormalizedPosition(Vec2(0.5,0.05));
-	_versionNumber->setTextColor(Color4B(Style::Color::brownGrey));
+	_versionNumber->setTextColor(Color4B(Colours::Color_3B::brownGrey));
 	_versionNumber->setTextVerticalAlignment(TextVAlignment::CENTER);
 	_versionNumber->setTextHorizontalAlignment(TextHAlignment::CENTER);
 	_versionNumber->setOverflow(Label::Overflow::SHRINK);
@@ -187,7 +190,7 @@ void LoginEntry::clearInputText()
 void LoginEntry::setContinueButtonEnabled(bool enabled)
 {
 	_continueButton->setTouchEnabled(enabled);
-    _continueButton->setColor(enabled ? Style::Color::darkIndigo : Style::Color::greyBlue2);
+    _continueButton->setColor(enabled ? Colours::Color_3B::darkIndigo : Colours::Color_3B::greyBlue2);
 }
 
 void LoginEntry::setState(const LoginEntryState& state)
@@ -219,7 +222,7 @@ void LoginEntry::setState(const LoginEntryState& state)
 
 bool LoginEntry::isValidInput(const std::string& text, const LoginEntryState& state)
 {
-	return _state == LoginEntryState::EMAIL ? isValidEmailAddress(text.c_str()) : isValidPassword(text.c_str(), kMinPasswordEntryLength);
+	return _state == LoginEntryState::EMAIL ? TextInputChecker::isValidEmailAddress(text.c_str()) : TextInputChecker::isValidPassword(text.c_str(), TextInputChecker::kMinPasswordEntryLength);
 }
 
 //Editbox Delegate Functions
@@ -232,7 +235,7 @@ void LoginEntry::editBoxReturn(cocos2d::ui::EditBox* editBox)
 	setContinueButtonEnabled(isValidInput(editBox->getText(), _state));
     if(_state == LoginEntryState::EMAIL)
     {
-        _email = trim(_inputBox->getText());
+        _email = StringFunctions::trim(_inputBox->getText());
         if(_continueCallback)
         {
             _continueCallback(_state);
@@ -240,7 +243,7 @@ void LoginEntry::editBoxReturn(cocos2d::ui::EditBox* editBox)
     }
     else
     {
-        _password = trim(_inputBox->getText());
+        _password = StringFunctions::trim(_inputBox->getText());
         if(_loginConfirmCallback)
         {
             _loginConfirmCallback(_email,_password);
@@ -257,5 +260,5 @@ void LoginEntry::editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox)
 	setContinueButtonEnabled(isValidInput(editBox->getText(), _state));
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 

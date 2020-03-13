@@ -1,17 +1,21 @@
 #include "ManualGameInputLayer.h"
-#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
-#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
-#include "GameDataManager.h"
-#include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
-#include "ContentHistoryManager.h"
-#include <AzoomeeCommon/Utils/DirUtil.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
+#include <TinizineCommon/ContentDataManagers/GameDataManager.h>
+#include "ModalMessages.h"
+#include <TinizineCommon/ContentDataManagers/ContentHistoryManager.h>
+#include <TinizineCommon/Utils/DirUtil.h>
+#include <TinizineCommon/UI/DynamicText.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include "ErrorCodes.h"
+#include "Style.h"
+#include "SceneManagerScene.h"
+#include "PopupMessageBox.h"
+#include "ModalMessages.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool ManualGameInputLayer::init()
 {
@@ -20,13 +24,13 @@ bool ManualGameInputLayer::init()
         return false;
     }
     
-    setName(ConfigStorage::kContentTypeManual);
+    setName(HQContentItemObject::kContentTypeManual);
     
     _background = ui::Layout::create();
     _background->setSizeType(ui::Layout::SizeType::PERCENT);
     _background->setSizePercent(Vec2(1.0,1.0));
     _background->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _background->setBackGroundColor(Style::Color::darkIndigo);
+    _background->setBackGroundColor(Colours::Color_3B::darkIndigo);
     addChild(_background);
 
     addTitle();
@@ -78,7 +82,7 @@ void ManualGameInputLayer::addButtons()
                 {
                     MutableHQContentItemObjectRef contentItem = MutableHQContentItemObject::create();
                     contentItem->setContentItemId(GameDataManager::kManualGameId);
-                    contentItem->setType(ConfigStorage::kContentTypeManual);
+                    contentItem->setType(HQContentItemObject::kContentTypeManual);
                     ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
                     Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Director::getInstance()->getVisibleSize().width > Director::getInstance()->getVisibleSize().height ? Landscape : Portrait, _uriTextInput->getText()));
                 }
@@ -87,7 +91,7 @@ void ManualGameInputLayer::addButtons()
             {
                 ModalMessages::getInstance()->startLoading();
                 
-                const std::string& manualGamePath = DirUtil::getCachesPath() + ConfigStorage::kGameCacheFolder + GameDataManager::kManualGameId;
+                const std::string& manualGamePath = DirUtil::getCachesPath() + GameDataManager::kGameCacheFolder + GameDataManager::kManualGameId;
                 
                 if(FileUtils::getInstance()->isDirectoryExist(manualGamePath))
                 {
@@ -97,10 +101,43 @@ void ManualGameInputLayer::addButtons()
                 FileUtils::getInstance()->createDirectory(manualGamePath);
                 MutableHQContentItemObjectRef contentItem = MutableHQContentItemObject::create();
                 contentItem->setContentItemId(GameDataManager::kManualGameId);
-                contentItem->setType(ConfigStorage::kContentTypeManual);
+                contentItem->setType(HQContentItemObject::kContentTypeManual);
+                contentItem->setUri(_uriTextInput->getText());
                 ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
                 
-                GameDataManager::getInstance()->getJSONGameData(_uriTextInput->getText().c_str(), GameDataManager::kManualGameId);
+                const auto& onSuccessCallback = [](Orientation orientation, const std::string& path, const cocos2d::Vec2& closeButtonAnchor){
+                    ModalMessages::getInstance()->stopLoading();
+                    Director::getInstance()->replaceScene(SceneManagerScene::createWebview(orientation, path, closeButtonAnchor));
+                };
+                
+                const auto& onFailedCallback = [](const std::string& errorType, long errorCode){
+                    ModalMessages::getInstance()->stopLoading();
+                    long messageCode = ERROR_CODE_SOMETHING_WENT_WRONG;
+                    if(errorType == GameDataManager::kZipDownloadError || errorType == GameDataManager::kJsonDownloadError)
+                    {
+                        messageCode = errorCode;
+                    }
+                    else if (errorType == GameDataManager::kVersionIncompatibleError)
+                    {
+                        messageCode = ERROR_CODE_GAME_INCOMPATIBLE;
+                    }
+                    const auto& errorMessageText = LocaleManager::getInstance()->getErrorMessageWithCode(messageCode);
+                    
+                    PopupMessageBox* messageBox = PopupMessageBox::create();
+                    messageBox->setTitle(errorMessageText.at(ERROR_TITLE));
+                    messageBox->setBody(errorMessageText.at(ERROR_BODY));
+                    messageBox->setButtonText(_("Back"));
+                    messageBox->setButtonColour(Colours::Color_3B::darkIndigo);
+                    messageBox->setPatternColour(Colours::Color_3B::azure);
+                    messageBox->setButtonPressedCallback([](MessagePopupBase* pSender){
+                        pSender->removeFromParent();
+                    });
+                    Director::getInstance()->getRunningScene()->addChild(messageBox, 1000);
+                };
+                
+                ModalMessages::getInstance()->stopLoading();
+                //GameDataManager::getInstance()->getJSONGameData(_uriTextInput->getText().c_str(), GameDataManager::kManualGameId);
+                GameDataManager::getInstance()->startProcessingGame(contentItem, onSuccessCallback, onFailedCallback, false);
             }
         }
     });
@@ -129,4 +166,4 @@ void ManualGameInputLayer::addTextBox()
     def->flush();
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

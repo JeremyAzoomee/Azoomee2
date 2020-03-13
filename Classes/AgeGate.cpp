@@ -6,14 +6,17 @@
 //
 
 #include "AgeGate.h"
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Analytics/AnalyticsSingleton.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 AgeGateValueSet::AgeGateValueSet()
 {
@@ -176,7 +179,7 @@ void AgeGate::createTitle()
     _titleBox->setSizeType(SizeType::PERCENT);
     _titleBox->setSizePercent(Vec2(1.0f, 0.27f));
     _titleBox->setBackGroundColorType(BackGroundColorType::SOLID);
-    _titleBox->setBackGroundColor(Style::Color::darkIndigo);
+    _titleBox->setBackGroundColor(Colours::Color_3B::darkIndigo);
     _titleBox->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _titleBox->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
     _titleBox->setClippingEnabled(true);
@@ -185,13 +188,13 @@ void AgeGate::createTitle()
     _titlePattern = ui::ImageView::create("res/decoration/main_pattern_small.png");
     _titlePattern->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _titlePattern->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _titlePattern->setColor(Style::Color::strongPink);
+    _titlePattern->setColor(Colours::Color_3B::strongPink);
     _titleBox->addChild(_titlePattern);
     
     _titleGradient = LayerGradient::create();
-    _titleGradient->setStartColor(Style::Color::darkIndigo);
+    _titleGradient->setStartColor(Colours::Color_3B::darkIndigo);
     _titleGradient->setStartOpacity(0);
-    _titleGradient->setEndColor(Style::Color::darkIndigo);
+    _titleGradient->setEndColor(Colours::Color_3B::darkIndigo);
     _titleGradient->setEndOpacity(90);
     _titleGradient->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     _titleGradient->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
@@ -222,7 +225,7 @@ void AgeGate::createBody()
     instructionText->setTextAreaSize(Size(700,140));
     instructionText->setTextHorizontalAlignment(TextHAlignment::CENTER);
     instructionText->setTextVerticalAlignment(TextVAlignment::CENTER);
-    instructionText->setTextColor(Color4B(Style::Color::brownGrey));
+    instructionText->setTextColor(Color4B(Colours::Color_3B::brownGrey));
     instructionText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     instructionText->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,80,0,60)));
     instructionText->setOverflow(Label::Overflow::SHRINK);
@@ -243,10 +246,10 @@ void AgeGate::createBody()
     for(int i = 0; i < ansValues._answers.size(); i++)
     {
         int value = ansValues._answers.at(i);
-        CTAButton* ansButton = CTAButton::create("res/onboarding/rounded_button.png");
+        TextButton* ansButton = TextButton::create("res/onboarding/rounded_button.png");
         ansButton->ignoreContentAdaptWithSize(false);
         ansButton->setContentSize(Size(700,140));
-        ansButton->setColor(Style::Color::strongPink);
+        ansButton->setColor(Colours::Color_3B::strongPink);
         ansButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         ansButton->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,0,0,60)));
         ansButton->setText(StringUtils::format("%d",value));
@@ -290,4 +293,4 @@ void AgeGate::setActionCompletedCallback(const ActionCompletedCallback& callback
 	_callback = callback;
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

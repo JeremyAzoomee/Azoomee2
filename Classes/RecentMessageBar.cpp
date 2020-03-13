@@ -6,15 +6,17 @@
 //
 
 #include "RecentMessageBar.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 const Vec2 RecentMessageBar::kDropShadowPadding = Vec2(52,52);
 const float RecentMessageBar::kTextPadding = 60.0f;
@@ -41,7 +43,7 @@ bool RecentMessageBar::init()
     _avatarBG->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     _avatarBG->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_LEFT);
     _avatarBG->setStretchImageEnabled(true);
-    _avatarBG->setColor(Style::Color::darkIndigoThree);
+    _avatarBG->setColor(Colours::Color_3B::darkIndigoThree);
     addChild(_avatarBG);
     
     _pattern = RoundedRectSprite::create();
@@ -76,7 +78,7 @@ bool RecentMessageBar::init()
     _senderName->setTextHorizontalAlignment(TextHAlignment::LEFT);
     _senderName->setTextVerticalAlignment(TextVAlignment::CENTER);
     _senderName->setOverflow(Label::Overflow::RESIZE_HEIGHT);
-    _senderName->setTextColor(Color4B(Style::Color::macaroniAndCheese));
+    _senderName->setTextColor(Color4B(Colours::Color_3B::macaroniAndCheese));
     _textLayout->addChild(_senderName);
     
     _messageText = DynamicText::create("", Style::Font::PoppinsBold(), 48);
@@ -86,7 +88,7 @@ bool RecentMessageBar::init()
     _messageText->setOverflow(Label::Overflow::CLAMP);
     _textLayout->addChild(_messageText);
     
-    _imageDownloader = ImageDownloader::create(ConfigStorage::kAvatarImageCacheFolder, ImageDownloader::CacheMode::File);
+    _imageDownloader = ImageDownloader::create(ImageDownloader::kAvatarImageCacheFolder, ImageDownloader::CacheMode::File);
     
     addTouchEventListener([this](Ref* pSender, ui::Widget::TouchEventType eType){
         if(eType == ui::Widget::TouchEventType::ENDED)
@@ -147,7 +149,7 @@ void RecentMessageBar::resizeImageAndText()
     _messageText->setString(text);
     if(_messageText->getContentSize().width > textMaxWidth && textMaxWidth > 0)
     {
-        reduceLabelTextToFitWidth(_messageText, textMaxWidth);
+        StringFunctions::reduceLabelTextToFitWidth(_messageText, textMaxWidth);
     }
     
     _textLayout->setPosition(Vec2(imageWidth + kTextPadding,contentSize.height / 2.0f));
@@ -187,5 +189,5 @@ void RecentMessageBar::onImageDownloadFailed()
     
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 

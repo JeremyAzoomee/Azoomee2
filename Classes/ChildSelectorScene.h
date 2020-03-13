@@ -2,28 +2,31 @@
 #define __CHILDSELECTOR_SCENE_H__
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Azoomee.h>
+#include <TinizineCommon/Tinizine.h>
 #include <cocos/ui/CocosGUI.h>
 #include "OfflineChecker.h"
-#include <AzoomeeCommon/API/HttpRequestCreator.h>
-#include <AzoomeeCommon/UI/Scene.h>
-#include <AzoomeeCommon/UI/DynamicText.h>
-#include <AzoomeeCommon/UI/RoundedRectSprite.h>
-#include <AzoomeeCommon/UI/CTAButton.h>
-#include <AzoomeeCommon/Data/Child/Child.h>
+#include <TinizineCommon/API/HttpRequestCreator.h>
+#include <TinizineCommon/UI/Scene.h>
+#include <TinizineCommon/UI/DynamicText.h>
+#include <TinizineCommon/UI/RoundedRectSprite.h>
+#include <TinizineCommon/UI/TextButton.h>
+#include <TinizineCommon/Data/Child/Child.h>
 #include "ForceUpdateSingleton.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
 
-class ChildSelectorScene : public Azoomee::Scene, public OfflineCheckerDelegate, public Azoomee::HttpRequestCreatorResponseDelegate, public ForceUpdateDelegate
+NS_AZ_BEGIN
+
+class ChildSelectorScene : public TZ::Scene, public OfflineCheckerDelegate, public TZ::HttpRequestCreatorResponseDelegate, public ForceUpdateDelegate
 {
-    typedef Azoomee::Scene Super;
+    typedef TZ::Scene Super;
     
 private:
     static const cocos2d::Size kBaseButtonSize;
     
     DynamicText* _titleText = nullptr;
-    CTAButton* _settingsButton = nullptr;
+    TextButton* _settingsButton = nullptr;
     RoundedRectSprite* _bgPattern = nullptr;
     cocos2d::LayerGradient* _gradient = nullptr;
     cocos2d::ui::Layout* _titleLayout = nullptr;
@@ -54,6 +57,6 @@ public:
     
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif

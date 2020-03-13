@@ -8,19 +8,22 @@
 #include "EditAccountLayer.h"
 #include "SettingsMessageBoxNotification.h"
 #include "SettingsMessageBoxTryAgain.h"
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/NativeShare/NativeShare.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
+#include <TinizineCommon/API/API.h>
+#include "ModalMessages.h"
+#include <TinizineCommon/NativeShare/NativeShare.h>
+#include "Urls.h"
 #include "SceneManagerScene.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool EditAccountLayer::init()
 {
@@ -56,7 +59,7 @@ void EditAccountLayer::onEnter()
     
     _editNameInput = TextInputLayer::createSettingsRoundedTextInput(contentSize.width * 0.6f, INPUT_IS_CHILD_NAME);
     _editNameInput->setCenterPosition(_editNameLayout->getContentSize() / 2);
-    _editNameInput->setText(ParentManager::getInstance()->getParentDisplayName());
+    _editNameInput->setText(UserAccountManager::getInstance()->getParentDisplayName());
     _editNameLayout->addChild(_editNameInput);
     
     ui::Button* confirmNameEditButton = ui::Button::create("res/settings/tick_button.png");
@@ -70,7 +73,7 @@ void EditAccountLayer::onEnter()
                 if(_editNameInput->inputIsValid())
                 {
                     ModalMessages::getInstance()->startLoading();
-                    HttpRequestCreator* request = API::UpdateParentDetailsRequest(ParentManager::getInstance()->getLoggedInParentId(), _editNameInput->getText(), ParentManager::getInstance()->getParentPin(), this);
+                    HttpRequestCreator* request = API::UpdateParentDetailsRequest(UserAccountManager::getInstance()->getLoggedInParentId(), _editNameInput->getText(), UserAccountManager::getInstance()->getParentPin(), this);
                     request->execute();
                     _displayNameLayout->setVisible(true);
                     _editNameLayout->setVisible(false);
@@ -90,7 +93,7 @@ void EditAccountLayer::onEnter()
     _displayNameLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _nameLayout->addChild(_displayNameLayout);
     
-    _nameText = ui::Text::create(ParentManager::getInstance()->getParentDisplayName(), Style::Font::Medium(), 107);
+    _nameText = ui::Text::create(UserAccountManager::getInstance()->getParentDisplayName(), Style::Font::Medium(), 107);
     _nameText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _nameText->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     _nameText->setTextColor(Color4B::BLACK);
@@ -111,7 +114,7 @@ void EditAccountLayer::onEnter()
     
     lowestY -= (_nameLayout->getContentSize().height + 80);
     
-    const std::string& username = ParentManager::getInstance()->getParentEmail();
+    const std::string& username = UserAccountManager::getInstance()->getParentEmail();
     _emailText = ui::Text::create(username, Style::Font::Medium(), 59);
     _emailText->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0,40,0,0)));
     _emailText->setTextColor(Color4B::BLACK);
@@ -127,7 +130,7 @@ void EditAccountLayer::onEnter()
     lowestY -= (pinEditboxLayout->getContentSize().height + 35);
     
     Label* pinText = Label::createWithTTF(_("PIN"), Style::Font::Medium(), 59);
-    pinText->setTextColor(Color4B(Style::Color::battleshipGrey));
+    pinText->setTextColor(Color4B(Colours::Color_3B::battleshipGrey));
 	pinText->setHorizontalAlignment(TextHAlignment::RIGHT);
 	pinText->setVerticalAlignment(TextVAlignment::CENTER);
 	pinText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
@@ -138,7 +141,7 @@ void EditAccountLayer::onEnter()
     
     _pinEditbox = TextInputLayer::createSettingsBoxTextInput(contentSize.width * 0.6f, INPUT_IS_PIN);
     _pinEditbox->setCenterPosition(Vec2(pinEditboxLayout->getContentSize().width * 0.55f, pinEditboxLayout->getContentSize().height / 2));
-    _pinEditbox->setText(ParentManager::getInstance()->getParentPin());
+    _pinEditbox->setText(UserAccountManager::getInstance()->getParentPin());
     _pinEditbox->setEnabled(false);
     pinEditboxLayout->addChild(_pinEditbox);
     
@@ -155,7 +158,7 @@ void EditAccountLayer::onEnter()
                 if(_pinEditbox->inputIsValid())
                 {
                     ModalMessages::getInstance()->startLoading();
-                    HttpRequestCreator* request = API::UpdateParentDetailsRequest(ParentManager::getInstance()->getLoggedInParentId(), ParentManager::getInstance()->getParentDisplayName(), _pinEditbox->getText(), this);
+                    HttpRequestCreator* request = API::UpdateParentDetailsRequest(UserAccountManager::getInstance()->getLoggedInParentId(), UserAccountManager::getInstance()->getParentDisplayName(), _pinEditbox->getText(), this);
                     request->execute();
 					_pinRequest = true;
 					_editingPin = false;
@@ -182,7 +185,7 @@ void EditAccountLayer::onEnter()
     lowestY -= passwordEditboxLayout->getContentSize().height;
     
     Label* passwordText = Label::createWithTTF(_("Password"), Style::Font::Medium(), 59);
-    passwordText->setTextColor(Color4B(Style::Color::battleshipGrey));
+    passwordText->setTextColor(Color4B(Colours::Color_3B::battleshipGrey));
     passwordText->setHorizontalAlignment(TextHAlignment::RIGHT);
 	passwordText->setVerticalAlignment(TextVAlignment::CENTER);
     passwordText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
@@ -237,7 +240,7 @@ void EditAccountLayer::onEnter()
 					if(_passwordEditBox->inputIsValid())
 					{
 						ModalMessages::getInstance()->startLoading();
-						HttpRequestCreator* request = API::UpdateParentPasswordRequest(ParentManager::getInstance()->getLoggedInParentId(), _currentPassword, _passwordEditBox->getText(), this);
+						HttpRequestCreator* request = API::UpdateParentPasswordRequest(UserAccountManager::getInstance()->getLoggedInParentId(), _currentPassword, _passwordEditBox->getText(), this);
 						request->execute();
 						
 						_passwordEditBox->setEnabled(false);
@@ -257,15 +260,15 @@ void EditAccountLayer::onEnter()
     
     _accountTypeLayout = ui::Layout::create();
     _accountTypeLayout->setBackGroundImage("res/settings/rounded_rect_half.png");
-    _accountTypeLayout->setBackGroundImageColor(Style::Color::skyBlue);
+    _accountTypeLayout->setBackGroundImageColor(Colours::Color_3B::skyBlue);
     _accountTypeLayout->setContentSize(Size(contentSize.width, 400));
     _accountTypeLayout->setBackGroundImageScale9Enabled(true);
     _accountTypeLayout->setLayoutParameter(CreateTopLinearLayoutParam(ui::Margin(0,remainingPadding,0,0)));
     
-    if(ParentManager::getInstance()->isPaidUser())
+    if(UserAccountManager::getInstance()->isPaidUser())
     {
 #ifdef AZOOMEE_VODACOM_BUILD
-        Label* subDeetsLab = Label::createWithTTF(StringUtils::format(_("Valid voucher\nExpires on %s").c_str(),ParentManager::getInstance()->getBillingDate().c_str()), Style::Font::Medium(), 59);
+        Label* subDeetsLab = Label::createWithTTF(StringUtils::format(_("Valid voucher\nExpires on %s").c_str(),UserAccountManager::getInstance()->getBillingDate().c_str()), Style::Font::Medium(), 59);
 #else
 		Label* subDeetsLab = Label::createWithTTF(_("Premium Subscription"), Style::Font::Medium(), 59);
 #endif
@@ -275,13 +278,13 @@ void EditAccountLayer::onEnter()
         subDeetsLab->setHorizontalAlignment(TextHAlignment::CENTER);
         _accountTypeLayout->addChild(subDeetsLab);
         
-        const std::string& billingProvider = ParentManager::getInstance()->getBillingProvider();
+        const std::string& billingProvider = UserAccountManager::getInstance()->getBillingProvider();
 #ifdef AZOOMEE_VODACOM_BUILD
-		if(billingProvider == ConfigStorage::kBillingProviderVodacomSA)
+		if(billingProvider == BillingData::kBillingProviderVodacomSA)
 		{
-			subDeetsLab->setString(StringUtils::format(_("Subscribed.\nRenews on %s").c_str(),ParentManager::getInstance()->getBillingDate().c_str()));
+			subDeetsLab->setString(StringUtils::format(_("Subscribed.\nRenews on %s").c_str(),UserAccountManager::getInstance()->getBillingDate().c_str()));
 #else
-        if(billingProvider == ConfigStorage::kBillingProviderApple || billingProvider == ConfigStorage::kBillingProviderGoogle || billingProvider == ConfigStorage::kBillingProviderAmazon)
+        if(billingProvider == BillingData::kBillingProviderApple || billingProvider == BillingData::kBillingProviderGoogle || billingProvider == BillingData::kBillingProviderAmazon)
         {
 #endif
 			subDeetsLab->setNormalizedPosition(Vec2(0.5f,0.66f));
@@ -295,17 +298,17 @@ void EditAccountLayer::onEnter()
 					Director::getInstance()->replaceScene(SceneManagerScene::createScene(SceneNameEnum::VodacomOnboarding));
 #else
 
-					if(billingProvider == ConfigStorage::kBillingProviderApple)
+					if(billingProvider == BillingData::kBillingProviderApple)
 					{
-						Application::getInstance()->openURL(ConfigStorage::kIOSSubURL);
+						Application::getInstance()->openURL(Url::kIOSSubURL);
 					}
-					else if(billingProvider == ConfigStorage::kBillingProviderGoogle)
+					else if(billingProvider == BillingData::kBillingProviderGoogle)
 					{
-						Application::getInstance()->openURL(ConfigStorage::kAndroidSubURL);
+						Application::getInstance()->openURL(Url::kAndroidSubURL);
 					}
-					else if(billingProvider == ConfigStorage::kBillingProviderAmazon)
+					else if(billingProvider == BillingData::kBillingProviderAmazon)
 					{
-						Application::getInstance()->openURL(ConfigStorage::kAmazonSubURL);
+						Application::getInstance()->openURL(Url::kAmazonSubURL);
 					}
 #endif
 				}
@@ -383,11 +386,11 @@ void EditAccountLayer::onHttpRequestSuccess(const std::string& requestTag, const
     if(requestTag == API::TagUpdateParentDetails)
     {
         ModalMessages::getInstance()->stopLoading();
-        ParentManager::getInstance()->parseParentDetails(body);
+        UserAccountManager::getInstance()->parseParentDetails(body);
 		if(_pinRequest)
 		{
 			_pinRequest = false;
-			_pinEditbox->setText(ParentManager::getInstance()->getParentPin());
+			_pinEditbox->setText(UserAccountManager::getInstance()->getParentPin());
 			SettingsMessageBoxNotification* messageBox = SettingsMessageBoxNotification::create();
 			messageBox->setHeading(_("Your pin number has been updated!"));
 			messageBox->setDelegate(this);
@@ -395,9 +398,9 @@ void EditAccountLayer::onHttpRequestSuccess(const std::string& requestTag, const
 		}
 		else
 		{
-			_nameText->setString(ParentManager::getInstance()->getParentDisplayName());
+			_nameText->setString(UserAccountManager::getInstance()->getParentDisplayName());
 			_editNameButton->setPosition((_displayNameLayout->getContentSize() * 0.5) + Size(_nameText->getContentSize().width * 0.5f,0));
-			_editNameInput->setText(ParentManager::getInstance()->getParentDisplayName());
+			_editNameInput->setText(UserAccountManager::getInstance()->getParentDisplayName());
 		}
     }
 	else if(requestTag == API::TagUpdateParentPassword)
@@ -436,5 +439,5 @@ void EditAccountLayer::onButtonPressed(SettingsMessageBox* pSender, SettingsMess
 	}
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 

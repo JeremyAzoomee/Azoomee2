@@ -9,8 +9,11 @@
 #define VodacomMessageBoxExitFlow_h
 
 #include "../SettingsMessageBox.h"
+#include "../Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 enum class ExitFlowState {VOUCHER, ACCOUNT_CREATE};
 
 class VodacomMessageBoxExitFlow : public SettingsMessageBox
@@ -32,7 +35,7 @@ public:
 	
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif /* VodacomMessageBoxExitFlow_h */
 #endif

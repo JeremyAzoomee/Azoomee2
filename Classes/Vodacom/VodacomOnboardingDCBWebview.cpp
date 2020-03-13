@@ -6,14 +6,14 @@
 //
 #ifdef AZOOMEE_VODACOM_BUILD
 #include "VodacomOnboardingDCBWebview.h"
-#include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/Parent/ParentManager.h>
-#include "../DeepLinkingSingleton.h"
+#include <TinizineCommon/Data/Parent/UserAccountManager.h>
 #include "../BackEndCaller.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 #ifdef AZOOMEE_ENVIRONMENT_CI
 const std::string VodacomOnboardingDCBWebview::kVodacomStorefrontUrl = "http://vodacom.azoomeepartners.ninja/purchase";
@@ -63,11 +63,42 @@ void VodacomOnboardingDCBWebview::onEnter()
 		if(url.find("azoomee://") != url.npos) // manually fire deeplink
 		{
 			_webview->setVisible(false);
-			DeepLinkingSingleton::getInstance()->setDeepLink(url);
+            const std::vector<std::string>& splitByAzoomeeVector = StringFunctions::splitStringToVector(StringFunctions::stringToLower(uriString), "azoomee://");
+               
+            if(splitByAzoomeeVector.size() == 0 || splitByAzoomeeVector.size() > 2)
+            {
+                return false;
+            }
+               
+            std::string uriStringWhole = splitByAzoomeeVector.at(0);
+               
+            if(splitByAzoomeVector.size() == 2)
+            {
+                uriStringWhole = splitByAzoomeeVector.at(1);
+            }
+               
+            const std::vector<std::string>&  splitByForwardSlash = StringFunctions::splitStringToVector(uriStringWhole, "/");
+               
+            if(splitByForwardSlash.size() != 2)
+            {
+                return false;
+            }
+               
+            const std::string& host = splitByForwardSlash.at(0);
+            const std::string& path = splitByForwardSlash.at(1);
+			if(host == "vodacom")
+            {
+                VodacomOnboardingScene* vodacomScene = dynamic_cast<VodacomOnboardingScene*>(Director::getInstance()->getRunningScene());
+                if(vodacomScene)
+                {
+                    vodacomScene->moveToStateDCBProductSelected(path);
+                    return true;
+                }
+            }
 		}
 		else if(url.find(kVodacomPurchaseRedirectUrlStart) != url.npos)
 		{
-			if(ParentManager::getInstance()->isUserLoggedIn())
+			if(UserAccountManager::getInstance()->isUserLoggedIn())
 			{
 				_flowData->setDCBCompete(true);
 				BackEndCaller::getInstance()->updateBillingData();
@@ -106,5 +137,5 @@ void VodacomOnboardingDCBWebview::onEnter()
 	Super::onEnter();
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
 #endif

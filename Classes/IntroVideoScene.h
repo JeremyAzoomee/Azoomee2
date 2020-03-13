@@ -2,17 +2,19 @@
 #define __INTRO_VIDEO_SCENE_H__
 
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Azoomee.h>
-#include <AzoomeeCommon/UI/Scene.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
+#include <TinizineCommon/Tinizine.h>
+#include <TinizineCommon/UI/Scene.h>
 #include "ForceUpdateSingleton.h"
 #include "ui/UIVideoPlayer.h"
+#include "Azoomee.h"
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
 
-class IntroVideoScene: public Azoomee::Scene, MessageBoxDelegate, ForceUpdateDelegate
+NS_AZ_BEGIN
+
+class IntroVideoScene: public TZ::Scene, ForceUpdateDelegate
 {
-    typedef Azoomee::Scene Super;
+    typedef TZ::Scene Super;
 private:
     static const char* const kSkipVideoKeyInUserDefault;
     
@@ -35,9 +37,8 @@ public:
 	
 	//Delegate functions
 	void onForceUpdateCheckFinished(const ForceUpdateResult& result) override;
-	void MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle) override;
 };
 
-NS_AZOOMEE_END
+NS_AZ_END
 
 #endif // __INTRO_VIDEO_SCENE_H__

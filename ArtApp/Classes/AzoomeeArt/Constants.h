@@ -13,7 +13,9 @@
 
 #include "AzoomeeArtApp.h"
 
-NS_AZOOMEE_AA_BEGIN
+USING_NS_TZ
+
+NS_AZ_ART_BEGIN
 
 #define BACKGROUND_LAYER  -1
 #define  MAIN_UI_LAYER  1
@@ -27,6 +29,6 @@ static const cocos2d::Vec2 BUTTON_OFFSET = cocos2d::Vec2(300,100);
 
 
 
-NS_AZOOMEE_AA_END
+NS_AZ_ART_END
 
 #endif /* Constants_h */

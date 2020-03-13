@@ -6,12 +6,15 @@
 //
 
 #include "SettingsMessageBoxFREvent.h"
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/UI/Style.h>
+#include <TinizineCommon/Utils/LocaleManager.h>
+#include <TinizineCommon/UI/Colour.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 void SettingsMessageBoxFREvent::onEnter()
 {
@@ -64,7 +67,7 @@ void SettingsMessageBoxFREvent::onEnter()
     _sendButton = SettingsMessageBoxButton::create();
     _sendButton->setMessageBoxButtonType(SettingsMessageBoxButtonType::SEND);
     _sendButton->loadTextureNormal("res/settings/settings_rounded.png");
-    _sendButton->setColor(Style::Color::skyBlue);
+    _sendButton->setColor(Colours::Color_3B::skyBlue);
     _sendButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _sendButton->setPosition(Vec2(messageBoxSize.width * 0.5f, messageBoxSize.height * 0.18f));
     _sendButton->addTouchEventListener(CC_CALLBACK_2(SettingsMessageBox::onButtonPressed, this));
@@ -96,7 +99,7 @@ void SettingsMessageBoxFREvent::onEnter()
     }
 }
 
-void SettingsMessageBoxFREvent::setType(Azoomee::EventType type)
+void SettingsMessageBoxFREvent::setType(AZ::EventType type)
 {
     _type = type;
 }
@@ -130,4 +133,4 @@ void SettingsMessageBoxFREvent::editBoxEditingDidEnd(TextInputLayer* inputLayer)
     
 }
 
-NS_AZOOMEE_END
+NS_AZ_END

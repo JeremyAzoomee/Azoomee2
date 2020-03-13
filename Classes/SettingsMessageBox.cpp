@@ -6,12 +6,15 @@
 //
 
 #include "SettingsMessageBox.h"
-#include <AzoomeeCommon/UI/Style.h>
-#include <AzoomeeCommon/UI/LayoutParams.h>
+#include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/UI/LayoutParams.h>
+#include "Style.h"
 
 using namespace cocos2d;
 
-NS_AZOOMEE_BEGIN
+USING_NS_TZ
+
+NS_AZ_BEGIN
 
 bool SettingsMessageBox::init()
 {
@@ -23,7 +26,7 @@ bool SettingsMessageBox::init()
     _visibleSize = Director::getInstance()->getVisibleSize();
     this->setContentSize(_visibleSize);
     
-    _overlay = LayerColor::create(Style::Color_4B::semiTransparentOverlay, _visibleSize.width, _visibleSize.height);
+    _overlay = LayerColor::create(Colours::Color_4B::semiTransparentOverlay, _visibleSize.width, _visibleSize.height);
     this->addChild(_overlay);
     
     auto listener = EventListenerTouchOneByOne::create();
@@ -61,7 +64,7 @@ void SettingsMessageBox::onExit()
     Super::onExit();
 }
 
-void SettingsMessageBox::setDelegate(Azoomee::SettingsMessageBoxDelegate *delegate)
+void SettingsMessageBox::setDelegate(AZ::SettingsMessageBoxDelegate *delegate)
 {
     _delegate = delegate;
 }
@@ -78,4 +81,4 @@ void SettingsMessageBox::onButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Wid
     }
 }
 
-NS_AZOOMEE_END
+NS_AZ_END
