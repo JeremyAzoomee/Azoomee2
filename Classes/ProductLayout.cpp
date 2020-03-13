@@ -195,52 +195,60 @@ void ProductLayout::setupProductBanner()
 		case ProductLayoutType::SUBSCRIPTION:
 		{
 			ui::Layout* textLayout = ui::Layout::create();
-			textLayout->setSizeType(SizeType::PERCENT);
-			textLayout->setSizePercent(Vec2(1.0f,0.0f));
-			textLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-			textLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-			_productBanner->addChild(textLayout);
+			textLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+			textLayout->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_TOP);
+            textLayout->setLayoutType(Type::VERTICAL);
+			_purchaseButton->addChild(textLayout);
 			
-			ui::Text* freeTrial = ui::Text::create(_productData.at(0).first, Style::Font::PoppinsMedium(), 105);
-			freeTrial->setTextColor(Color4B::BLACK);
-			freeTrial->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-			freeTrial->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_BOTTOM);
-			freeTrial->setTextHorizontalAlignment(TextHAlignment::CENTER);
-			freeTrial->setTextVerticalAlignment(TextVAlignment::TOP);
-			Label* freeTrialLab = dynamic_cast<Label*>(freeTrial->getVirtualRenderer());
-			if(freeTrialLab)
-			{
-				freeTrialLab->setMaxLineWidth(_productBanner->getContentSize().width * 0.7f);
-			}
-			textLayout->addChild(freeTrial);
-			
-			ui::Text* startYour = ui::Text::create(_("Start your"), Style::Font::Regular(), 50);
-			startYour->setTextColor(Color4B(Colours::Color_3B::brownGrey));
-			startYour->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
-			startYour->setNormalizedPosition(Vec2(0.5,1.1));
-			startYour->setTextHorizontalAlignment(TextHAlignment::CENTER);
-			startYour->setTextVerticalAlignment(TextVAlignment::BOTTOM);
-			Label* startYourLab = dynamic_cast<Label*>(startYour->getVirtualRenderer());
-			if(startYourLab)
-			{
-				startYourLab->setMaxLineWidth(_productBanner->getContentSize().width * 0.7f);
-				startYourLab->setOverflow(Label::Overflow::RESIZE_HEIGHT);
-			}
-			freeTrial->addChild(startYour);
-			
-			ui::Text* desc = ui::Text::create(StringUtils::format(_("Then %s per month. Cancel anytime.").c_str(),_productData.at(0).second.c_str()), Style::Font::PoppinsRegular(), 50);
-			desc->setTextColor(Color4B(Colours::Color_3B::brownGrey));
-			desc->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-			desc->setNormalizedPosition(Vec2(0.5,-0.1));
-			desc->setTextHorizontalAlignment(TextHAlignment::CENTER);
-			desc->setTextVerticalAlignment(TextVAlignment::BOTTOM);
-			Label* descLab = dynamic_cast<Label*>(desc->getVirtualRenderer());
-			if(descLab)
-			{
-				descLab->setMaxLineWidth(_productBanner->getContentSize().width * 0.7f);
-				descLab->setOverflow(Label::Overflow::RESIZE_HEIGHT);
-			}
-			freeTrial->addChild(desc);
+            ui::RichText* freeTrialText = ui::RichText::create();
+            freeTrialText->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+            freeTrialText->setHorizontalAlignment(ui::RichText::HorizontalAlignment::CENTER);
+            
+            ui::RichElementText* startYour = ui::RichElementText::create(1, Colours::Color_3B::brownGrey, 255, _("Start your"), Style::Font::poppinsRegular, 40);
+            ui::RichElementText* freeTrial = ui::RichElementText::create(2, Colours::Color_3B::black, 255, _(_productData.at(0).first), Style::Font::poppinsMedium, 40);
+            ui::RichElementText* then = ui::RichElementText::create(3, Colours::Color_3B::brownGrey, 255, _(", then"), Style::Font::poppinsRegular, 40);
+            
+            freeTrialText->pushBackElement(startYour);
+            freeTrialText->pushBackElement(ui::RichElementNewLine::create(4, Color3B::WHITE, 0));
+            freeTrialText->pushBackElement(freeTrial);
+            freeTrialText->pushBackElement(then);
+            
+            freeTrialText->setContentSize(Size(0, 120));
+            
+            textLayout->addChild(freeTrialText);
+            
+            ui::Layout* priceLayout = ui::Layout::create();
+            priceLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0, 100, 0, 0)));
+            priceLayout->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
+            textLayout->addChild(priceLayout);
+            
+            ui::Text* price = ui::Text::create(_productData.at(0).second, Style::Font::poppinsMedium, 134);
+            price->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+            price->setTextHorizontalAlignment(TextHAlignment::LEFT);
+            price->setTextVerticalAlignment(TextVAlignment::BOTTOM);
+            price->setNormalizedPosition(Vec2::ANCHOR_BOTTOM_LEFT);
+            price->setTextColor(Color4B::BLACK);
+            priceLayout->addChild(price);
+            
+            ui::Text* perMonth = ui::Text::create(_("per month"), Style::Font::poppinsRegular, 40);
+            perMonth->setTextColor(Color4B::BLACK);
+            perMonth->setNormalizedPosition(Vec2::ANCHOR_MIDDLE_RIGHT);
+            perMonth->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
+            perMonth->setTextHorizontalAlignment(TextHAlignment::RIGHT);
+            perMonth->setTextVerticalAlignment(TextVAlignment::BOTTOM);
+            priceLayout->addChild(perMonth);
+            
+            priceLayout->setContentSize(Size(price->getContentSize().width + perMonth->getContentSize().width + 20, price->getContentSize().height));
+            
+            ui::Text* cancelAnyTime = ui::Text::create(_("Cancel anytime"), Style::Font::poppinsRegular, 40);
+            cancelAnyTime->setTextColor(Color4B(Colours::Color_3B::brownGrey));
+            cancelAnyTime->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam(ui::Margin(0, -30, 0, 0)));
+            cancelAnyTime->setTextHorizontalAlignment(TextHAlignment::CENTER);
+            cancelAnyTime->setTextVerticalAlignment(TextVAlignment::TOP);
+            
+            textLayout->addChild(cancelAnyTime);
+            
+            textLayout->setContentSize(Size(0, 350 + price->getContentSize().height));
 			
 			_purchaseButton->setText(_("Subscribe now"));
 			
