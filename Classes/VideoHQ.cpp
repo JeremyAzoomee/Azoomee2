@@ -234,9 +234,9 @@ void VideoHQ::createDropdowns()
         dropdown->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
         dropdown->setOpen(i == 1);
         dropdown->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
-        dropdown->setContentItemData(carousel);
         dropdown->setFrameColour(Color3B(carousel->getColour()));
         dropdown->setPatternColour(Color3B(carousel->getColour()));
+        dropdown->setContentItemData(carousel);
         dropdown->setContentSelectedCallback([this, i](HQContentItemObjectRef content, int elementIndex){
             if(_contentSelectedCallback)
             {

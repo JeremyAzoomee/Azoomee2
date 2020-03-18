@@ -148,7 +148,16 @@ void EpisodeBar::resizeImageAndText()
 void EpisodeBar::setEpisodeNumber(int episodeNumber)
 {
     _episodeTag->setString(StringUtils::format("%s %d",_("Episode").c_str(),episodeNumber));
-    _dropShadow->setColor(episodeNumber % 2 ? Colours::Color_3B::darkIndigo: Colours::Color_3B::darkIndigoTwo);
+}
+
+void EpisodeBar::setBarColour(const cocos2d::Color3B &colour)
+{
+    _dropShadow->setColor(colour);
+}
+
+void EpisodeBar::setEpisodeNameColour(const cocos2d::Color3B &colour)
+{
+    _episodeTitle->setTextColor(Color4B(colour));
 }
 
 void EpisodeBar::setContentItemData(const HQContentItemObjectRef& contentItem)

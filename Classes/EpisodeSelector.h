@@ -47,6 +47,7 @@ private:
     RoundedRectSprite* _bottomGradient = nullptr;
     
     HQDataObjectRef _hqData = nullptr;
+    HQContentItemObjectRef _parentItem = nullptr;
     
     ContentSelectedCallback _callback = nullptr;
     CloseButtonCallback _closeCallback = nullptr;
@@ -61,6 +62,10 @@ private:
     void setupEpisodeBars();
     
     void resizeBannerImage();
+    
+    void enableDVMFlair(bool enable);
+    
+    void setEpisodeBarColours(const cocos2d::Color3B& colour1, const cocos2d::Color3B& colour2);
     
 public:
     static const float kEpisodeBarHeightPortrait;
