@@ -79,7 +79,8 @@ void SettingsSupportPage::onEnter()
 	
 	backgroundHeight += 75 + contactHolder->getContentSize().height;
 	
-	Label* contactLink = Label::createWithTTF(_("help@azoomee.com"), Style::Font::Medium(), 75);
+	Label* contactLink = Label::createWithTTF("維他命E是一種抗氧化劑，它一直在保護您的細胞和組織免受損害。您的皮膚和眼睛也喜歡它。\", \"維他命E—生育酚—喜歡脂肪。\", \"像松鼠一樣，吃些堅果—它們含豐富維他命E。您也可以在種子，水果和綠葉蔬菜中找到它。", "fonts/NotoSansTC-Regular.otf", 75);
+    contactLink->setWidth(_supportBox->getContentSize().width * 0.8f);
 	contactLink->setHorizontalAlignment(TextHAlignment::CENTER);
 	contactLink->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	contactLink->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
