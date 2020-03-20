@@ -90,7 +90,7 @@ void FeaturedTile::setContentItemData(const HQContentItemObjectRef& contentItem)
     {
         _lockedOverlay->setVisible(!_contentItem->isEntitled());
         
-        setBackGroundImageColor(StringFunctions::stringListContains(_contentItem->getTags(), "DVM") ? Color3B::WHITE : Colours::Color_3B::macaroniAndCheese);
+        setBackGroundImageColor(StringFunctions::stringListContains(_contentItem->getTags(), HQConsts::kDVMTag) ? Color3B::WHITE : Colours::Color_3B::macaroniAndCheese);
     }
 }
 

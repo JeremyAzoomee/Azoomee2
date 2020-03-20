@@ -47,7 +47,6 @@ private:
     RoundedRectSprite* _bottomGradient = nullptr;
     
     HQDataObjectRef _hqData = nullptr;
-    HQContentItemObjectRef _parentItem = nullptr;
     
     ContentSelectedCallback _callback = nullptr;
     CloseButtonCallback _closeCallback = nullptr;

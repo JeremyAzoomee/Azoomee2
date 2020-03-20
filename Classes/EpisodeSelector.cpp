@@ -10,6 +10,7 @@
 #include <TinizineCommon/UI/Colour.h>
 #include <TinizineCommon/Data/HQDataObject/ContentItemManager.h>
 #include <TinizineCommon/Utils/StringFunctions.h>
+#include "HQConstants.h"
 
 using namespace cocos2d;
 
@@ -163,19 +164,17 @@ void EpisodeSelector::onSizeChanged()
 void EpisodeSelector::setHqData(const HQDataObjectRef& hqData)
 {
     _hqData = hqData;
-    _parentItem = nullptr;
     
+    setupEpisodeBars();
     if(_hqData)
     {
-        _parentItem = ContentItemManager::getInstance()->getParentOfContentItemForId(_hqData->getHqCarousels().front()->getContentItems().front()->getContentItemId());
         _bannerImage->setVisible(false);
         _logoImage->setVisible(false);
         _logoDownloader->downloadImage(this, _hqData->getGroupLogo());
         _bannerDownloader->downloadImage(this, _hqData->getGroupBanner());
+        enableDVMFlair(StringFunctions::stringListContains(_hqData->getTags(), HQConsts::kDVMTag));
     }
-    setupEpisodeBars();
-    
-    enableDVMFlair(StringFunctions::stringListContains(_parentItem->getTags(), "DVM"));
+
 }
 
 void EpisodeSelector::setContentSelectedCallback(const ContentSelectedCallback& callback)
@@ -201,10 +200,6 @@ void EpisodeSelector::toggleBottomGradient(bool enabled)
 void EpisodeSelector::setLineAndTextColour(const Color3B& colour)
 {
     _lineAndTextColour = colour;
-    //if(_parentItem && StringFunctions::stringListContains(_parentItem->getTags(), "DVM"))
-    //{
-    //    return;
-    //}
     _divider->setBackGroundColor(_lineAndTextColour);
     for(auto episodeBar : _episodeBars)
     {
@@ -277,10 +272,11 @@ void EpisodeSelector::enableDVMFlair(bool enable)
     {
         _background->setColor(Colours::Color_3B::white);
         _bottomGradient->setColor(Colours::Color_3B::white);
+        _bannerShadow->setVisible(false);
         _divider->setBackGroundColor(Colours::Color_3B::macaroniAndCheese);
         for(auto episodeBar : _episodeBars)
         {
-            episodeBar->setEpisodeTagColour(Color3B(196, 50, 48));
+            episodeBar->setEpisodeTagColour(Colours::Color_3B::dullRed);
             episodeBar->setEpisodeNameColour(Color3B::BLACK);
         }
         setEpisodeBarColours(Color3B(234, 234, 234), Color3B(255, 250, 250));
@@ -290,11 +286,12 @@ void EpisodeSelector::enableDVMFlair(bool enable)
         setLineAndTextColour(_lineAndTextColour);
         for(auto episodeBar : _episodeBars)
         {
-            episodeBar->setEpisodeNameColour(Color3B::BLACK);
+            episodeBar->setEpisodeNameColour(Color3B::WHITE);
         }
         setEpisodeBarColours(Colours::Color_3B::darkIndigo, Colours::Color_3B::darkIndigoTwo);
         _background->setColor(Colours::Color_3B::darkIndigoThree);
         _bottomGradient->setColor(Colours::Color_3B::darkIndigoThree);
+        _bannerShadow->setVisible(true);
     }
 }
 

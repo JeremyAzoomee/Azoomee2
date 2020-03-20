@@ -53,6 +53,8 @@ namespace HQConsts
     
     const std::string DeleteArtButtonAnalyticsName = "artsAppDeleteButton";
     const std::string OpenArtAnalyticsContentName = "Art";
+
+    const std::string kDVMTag = "DVM";
 }
 
 NS_AZ_END
