@@ -205,6 +205,10 @@ void EpisodeSelector::setLineAndTextColour(const Color3B& colour)
     {
         episodeBar->setEpisodeTagColour(_lineAndTextColour);
     }
+    if(_hqData)
+    {
+        enableDVMFlair(StringFunctions::stringListContains(_hqData->getTags(), HQConsts::kDVMTag));
+    }
 }
 
 void EpisodeSelector::setEpisodeBarHeight(float height)
@@ -283,10 +287,11 @@ void EpisodeSelector::enableDVMFlair(bool enable)
     }
     else
     {
-        setLineAndTextColour(_lineAndTextColour);
+        _divider->setBackGroundColor(_lineAndTextColour);
         for(auto episodeBar : _episodeBars)
         {
             episodeBar->setEpisodeNameColour(Color3B::WHITE);
+            episodeBar->setEpisodeTagColour(_lineAndTextColour);
         }
         setEpisodeBarColours(Colours::Color_3B::darkIndigo, Colours::Color_3B::darkIndigoTwo);
         _background->setColor(Colours::Color_3B::darkIndigoThree);
