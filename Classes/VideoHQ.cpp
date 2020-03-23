@@ -315,9 +315,9 @@ void VideoHQ::createEpisodePlayer()
     addChild(_episodeSelector, 1);
     
     EventListenerCustom* eventListener = EventListenerCustom::create(ContentOpener::kGroupRefreshEvent, [this](EventCustom* event){
-        _episodeSelector->setHqData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(HQDataObject::kGroupHQName));
         Color4B colour = *static_cast<Color4B*>(event->getUserData());
         _episodeSelector->setLineAndTextColour(Color3B(colour));
+        _episodeSelector->setHqData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(HQDataObject::kGroupHQName));
         if(_isPortrait && !_episodePlayerOpen && !_episodePlayerMoving)
         {
             _episodePlayerMoving = true;
