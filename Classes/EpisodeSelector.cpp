@@ -8,6 +8,9 @@
 #include "EpisodeSelector.h"
 #include <TinizineCommon/UI/LayoutParams.h>
 #include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Data/HQDataObject/ContentItemManager.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
+#include "HQConstants.h"
 
 using namespace cocos2d;
 
@@ -161,11 +164,17 @@ void EpisodeSelector::onSizeChanged()
 void EpisodeSelector::setHqData(const HQDataObjectRef& hqData)
 {
     _hqData = hqData;
+    
     setupEpisodeBars();
-    _bannerImage->setVisible(false);
-    _logoImage->setVisible(false);
-    _logoDownloader->downloadImage(this, _hqData->getGroupLogo());
-    _bannerDownloader->downloadImage(this, _hqData->getGroupBanner());
+    if(_hqData)
+    {
+        _bannerImage->setVisible(false);
+        _logoImage->setVisible(false);
+        _logoDownloader->downloadImage(this, _hqData->getGroupLogo());
+        _bannerDownloader->downloadImage(this, _hqData->getGroupBanner());
+        enableDVMFlair(StringFunctions::stringListContains(_hqData->getTags(), HQConsts::kDVMTag));
+    }
+
 }
 
 void EpisodeSelector::setContentSelectedCallback(const ContentSelectedCallback& callback)
@@ -196,6 +205,10 @@ void EpisodeSelector::setLineAndTextColour(const Color3B& colour)
     {
         episodeBar->setEpisodeTagColour(_lineAndTextColour);
     }
+    if(_hqData)
+    {
+        enableDVMFlair(StringFunctions::stringListContains(_hqData->getTags(), HQConsts::kDVMTag));
+    }
 }
 
 void EpisodeSelector::setEpisodeBarHeight(float height)
@@ -223,9 +236,11 @@ void EpisodeSelector::setupEpisodeBars()
             auto itemList = carousel->getContentItems();
             for(auto item : itemList)
             {
+                episodeNumber++;
                 EpisodeBar* bar = EpisodeBar::create();
                 bar->setContentItemData(item);
-                bar->setEpisodeNumber(episodeNumber++);
+                bar->setEpisodeNumber(episodeNumber);
+                bar->setBarColour(episodeNumber % 2 ? Colours::Color_3B::darkIndigo : Colours::Color_3B::darkIndigoTwo);
                 bar->setEpisodeTagColour(_lineAndTextColour);
                 bar->setContentSize(episodeBarSize);
                 bar->setContentSelectedCallback([this, episodeNumber](HQContentItemObjectRef content){
@@ -245,6 +260,28 @@ void EpisodeSelector::setupEpisodeBars()
 void EpisodeSelector::resizeBannerImage()
 {
     _bannerImage->setContentSize(_headerLayout->getContentSize());
+}
+
+void EpisodeSelector::setEpisodeBarColours(const cocos2d::Color3B& colour1, const cocos2d::Color3B& colour2)
+{
+    for(int i = 0; i < _episodeBars.size(); i++)
+    {
+        _episodeBars.at(i)->setBarColour(i % 2 ? colour1 : colour2);
+    }
+}
+
+void EpisodeSelector::enableDVMFlair(bool enable)
+{
+    _background->setColor(enable ? Colours::Color_3B::white : Colours::Color_3B::darkIndigoThree);
+    _bottomGradient->setColor(enable ? Colours::Color_3B::white : Colours::Color_3B::darkIndigoThree);
+    _bannerShadow->setVisible(!enable);
+    _divider->setBackGroundColor(enable ? Colours::Color_3B::macaroniAndCheese : _lineAndTextColour);
+    for(auto episodeBar : _episodeBars)
+    {
+        episodeBar->setEpisodeTagColour(enable ? Colours::Color_3B::dullRed : _lineAndTextColour);
+        episodeBar->setEpisodeNameColour(enable ? Color3B::BLACK : Color3B::WHITE);
+    }
+    setEpisodeBarColours(enable ? Color3B(234, 234, 234) : Colours::Color_3B::darkIndigo, enable ? Color3B(255, 250, 250) : Colours::Color_3B::darkIndigoTwo);
 }
 
 // delegate functions

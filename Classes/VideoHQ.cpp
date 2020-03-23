@@ -234,9 +234,9 @@ void VideoHQ::createDropdowns()
         dropdown->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
         dropdown->setOpen(i == 1);
         dropdown->setContentSize(Size(_contentListView->getSizePercent().x * getContentSize().width, 0));
-        dropdown->setContentItemData(carousel);
         dropdown->setFrameColour(Color3B(carousel->getColour()));
         dropdown->setPatternColour(Color3B(carousel->getColour()));
+        dropdown->setContentItemData(carousel);
         dropdown->setContentSelectedCallback([this, i](HQContentItemObjectRef content, int elementIndex){
             if(_contentSelectedCallback)
             {
@@ -315,9 +315,9 @@ void VideoHQ::createEpisodePlayer()
     addChild(_episodeSelector, 1);
     
     EventListenerCustom* eventListener = EventListenerCustom::create(ContentOpener::kGroupRefreshEvent, [this](EventCustom* event){
-        _episodeSelector->setHqData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(HQDataObject::kGroupHQName));
         Color4B colour = *static_cast<Color4B*>(event->getUserData());
         _episodeSelector->setLineAndTextColour(Color3B(colour));
+        _episodeSelector->setHqData(HQDataObjectManager::getInstance()->getHQDataObjectForKey(HQDataObject::kGroupHQName));
         if(_isPortrait && !_episodePlayerOpen && !_episodePlayerMoving)
         {
             _episodePlayerMoving = true;

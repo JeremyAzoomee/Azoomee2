@@ -50,9 +50,10 @@ public:
     void onSizeChanged() override;
     
     void setContentItemData(const HQContentItemObjectRef& contentItem) override;
-    
+    void setBarColour(const cocos2d::Color3B& colour);
     void setEpisodeNumber(int episodeNumber);
     void setEpisodeTagColour(const cocos2d::Color3B& colour);
+    void setEpisodeNameColour(const cocos2d::Color3B& colour);
     
     CREATE_FUNC(EpisodeBar);
     

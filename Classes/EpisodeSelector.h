@@ -62,6 +62,10 @@ private:
     
     void resizeBannerImage();
     
+    void enableDVMFlair(bool enable);
+    
+    void setEpisodeBarColours(const cocos2d::Color3B& colour1, const cocos2d::Color3B& colour2);
+    
 public:
     static const float kEpisodeBarHeightPortrait;
     static const float kEpisodeBarHeightLandscape;

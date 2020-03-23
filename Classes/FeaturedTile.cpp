@@ -10,6 +10,7 @@
 #include <TinizineCommon/UI/LayoutParams.h>
 #include <TinizineCommon/ImageDownloader/ImageDownloaderCacheCleanerLogic.h>
 #include <TinizineCommon/Data/HQDataObject/ContentItemManager.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
 #include "HQConstants.h"
 
 using namespace cocos2d;
@@ -88,6 +89,8 @@ void FeaturedTile::setContentItemData(const HQContentItemObjectRef& contentItem)
     if(_contentItem)
     {
         _lockedOverlay->setVisible(!_contentItem->isEntitled());
+        
+        setBackGroundImageColor(StringFunctions::stringListContains(_contentItem->getTags(), HQConsts::kDVMTag) ? Color3B::WHITE : Colours::Color_3B::macaroniAndCheese);
     }
 }
 

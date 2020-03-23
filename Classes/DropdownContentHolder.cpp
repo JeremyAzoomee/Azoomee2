@@ -8,6 +8,8 @@
 #include "DropdownContentHolder.h"
 #include <TinizineCommon/UI/LayoutParams.h>
 #include <TinizineCommon/UI/Colour.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
+#include "HQConstants.h"
 #include "Style.h"
 
 using namespace cocos2d;
@@ -251,6 +253,23 @@ void DropdownContentHolder::setContentItemData(const HQCarouselObjectRef& conten
 {
     _contentData = contentData;
     updateContent();
+    if(_contentData)
+    {
+        if(StringFunctions::stringListContains(_contentData->getTags(), HQConsts::kDVMTag))
+        {
+            _categoryTitle->setTextColor(Color4B(Colours::Color_3B::dullRed));
+            setBackGroundImageColor(Color3B::WHITE);
+            _bgPattern->setScaleMode(RoundedRectSprite::ScaleMode::FILL);
+            _bgPattern->setTexture("res/decoration/white_1px.png");
+            _bgPattern->setColor(Color3B::WHITE);
+        }
+        else
+        {
+            _categoryTitle->setTextColor(Color4B::WHITE);
+            _bgPattern->setTexture("res/decoration/pattern_stem_tile.png");
+            _bgPattern->setScaleMode(RoundedRectSprite::ScaleMode::TILE);
+        }
+    }
 }
 
 void DropdownContentHolder::setTilePlaceholder(const std::string& tilePlaceholder)
