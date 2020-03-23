@@ -272,32 +272,16 @@ void EpisodeSelector::setEpisodeBarColours(const cocos2d::Color3B& colour1, cons
 
 void EpisodeSelector::enableDVMFlair(bool enable)
 {
-    if(enable)
+    _background->setColor(enable ? Colours::Color_3B::white : Colours::Color_3B::darkIndigoThree);
+    _bottomGradient->setColor(enable ? Colours::Color_3B::white : Colours::Color_3B::darkIndigoThree);
+    _bannerShadow->setVisible(!enable);
+    _divider->setBackGroundColor(enable ? Colours::Color_3B::macaroniAndCheese : _lineAndTextColour);
+    for(auto episodeBar : _episodeBars)
     {
-        _background->setColor(Colours::Color_3B::white);
-        _bottomGradient->setColor(Colours::Color_3B::white);
-        _bannerShadow->setVisible(false);
-        _divider->setBackGroundColor(Colours::Color_3B::macaroniAndCheese);
-        for(auto episodeBar : _episodeBars)
-        {
-            episodeBar->setEpisodeTagColour(Colours::Color_3B::dullRed);
-            episodeBar->setEpisodeNameColour(Color3B::BLACK);
-        }
-        setEpisodeBarColours(Color3B(234, 234, 234), Color3B(255, 250, 250));
+        episodeBar->setEpisodeTagColour(enable ? Colours::Color_3B::dullRed : _lineAndTextColour);
+        episodeBar->setEpisodeNameColour(enable ? Color3B::BLACK : Color3B::WHITE);
     }
-    else
-    {
-        _divider->setBackGroundColor(_lineAndTextColour);
-        for(auto episodeBar : _episodeBars)
-        {
-            episodeBar->setEpisodeNameColour(Color3B::WHITE);
-            episodeBar->setEpisodeTagColour(_lineAndTextColour);
-        }
-        setEpisodeBarColours(Colours::Color_3B::darkIndigo, Colours::Color_3B::darkIndigoTwo);
-        _background->setColor(Colours::Color_3B::darkIndigoThree);
-        _bottomGradient->setColor(Colours::Color_3B::darkIndigoThree);
-        _bannerShadow->setVisible(true);
-    }
+    setEpisodeBarColours(enable ? Color3B(234, 234, 234) : Colours::Color_3B::darkIndigo, enable ? Color3B(255, 250, 250) : Colours::Color_3B::darkIndigoTwo);
 }
 
 // delegate functions
