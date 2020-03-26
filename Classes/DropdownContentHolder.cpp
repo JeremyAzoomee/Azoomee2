@@ -95,7 +95,7 @@ void DropdownContentHolder::onSizeChanged()
     _iconStencil->setContentSize(iconSize);
     _iconBackground->setContentSize(iconSize);
     _iconClippingNode->setContentSize(iconSize);
-    _categoryIcon->setScale(MIN((iconSize.height * 0.9f) / _categoryIcon->getContentSize().height, (iconSize.width * 0.9f) / _categoryIcon->getContentSize().width));
+    _categoryIcon->setScale(MIN((iconSize.height) / _categoryIcon->getContentSize().height, (iconSize.width) / _categoryIcon->getContentSize().width));
     
     _categoryTitle->setTextAreaSize(Size(_titleBanner->getContentSize().width - (2.3f * iconSize.width), _categoryTitle->getContentSize().height));
     
@@ -262,6 +262,7 @@ void DropdownContentHolder::setContentItemData(const HQCarouselObjectRef& conten
             _bgPattern->setScaleMode(RoundedRectSprite::ScaleMode::FILL);
             _bgPattern->setTexture("res/decoration/white_1px.png");
             _bgPattern->setColor(Color3B::WHITE);
+            _iconBackground->setBackGroundColor(Color3B::WHITE);
         }
         else
         {

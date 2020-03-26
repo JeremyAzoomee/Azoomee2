@@ -228,7 +228,7 @@ void EpisodeSelector::setupEpisodeBars()
     _episodeBars.clear();
     if(_hqData)
     {
-        int episodeNumber = 1;
+        int episodeNumber = 0;
         auto carousels = _hqData->getHqCarousels();
         const Size& episodeBarSize = Size(getContentSize().width - (2 * kListViewPadding), _episodeBarHeight);
         for(auto carousel : carousels)
@@ -281,7 +281,7 @@ void EpisodeSelector::enableDVMFlair(bool enable)
         episodeBar->setEpisodeTagColour(enable ? Colours::Color_3B::dullRed : _lineAndTextColour);
         episodeBar->setEpisodeNameColour(enable ? Color3B::BLACK : Color3B::WHITE);
     }
-    setEpisodeBarColours(enable ? Color3B(234, 234, 234) : Colours::Color_3B::darkIndigo, enable ? Color3B(255, 250, 250) : Colours::Color_3B::darkIndigoTwo);
+    setEpisodeBarColours(enable ? Color3B(234, 234, 234) : Colours::Color_3B::darkIndigoTwo, enable ? Color3B(255, 250, 250) : Colours::Color_3B::darkIndigo);
 }
 
 // delegate functions
