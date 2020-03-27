@@ -10,10 +10,12 @@
 #include <TinizineCommon/UI/Colour.h>
 #include <TinizineCommon/UI/LayoutParams.h>
 #include <TinizineCommon/API/API.h>
-#include "ModalMessages.h"
+#include "../ModalMessages.h"
 #include <TinizineCommon/Data/Parent/UserAccountManager.h>
 #include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 #include "VodacomMessageBoxNotification.h"
+#include "../Style.h"
+#include <TinizineCommon/Utils/StringFunctions.h>
 
 using namespace cocos2d;
 
@@ -225,7 +227,7 @@ void VodacomOnboardingLoginLayer::onHttpRequestSuccess(const std::string& reques
 		if(UserAccountManager::getInstance()->parseParentLoginData(body))
 		{
 			UserAccountManager::getInstance()->setHasLoggedInOnDevice(true);
-			UserAccountManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headers));
+			UserAccountManager::getInstance()->setLoggedInParentCountryCode(StringFunctions::getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headers));
 			AnalyticsSingleton::getInstance()->signInSuccessEvent();
 			AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
 			_flowData->setUserType(UserType::FREE);

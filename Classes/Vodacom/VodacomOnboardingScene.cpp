@@ -21,7 +21,7 @@
 #include <TinizineCommon/Data/Child/ChildManager.h>
 #include <TinizineCommon/Utils/LocaleManager.h>
 #include <TinizineCommon/API/API.h>
-#include "ModalMessages.h"
+#include "../ModalMessages.h"
 #include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
@@ -67,7 +67,7 @@ void VodacomOnboardingScene::exitFlow()
 	if(UserAccountManager::getInstance()->isUserLoggedIn())
 	{
 		ModalMessages::getInstance()->startLoading();
-		HttpRequestCreator* request = API::GetAvailableChildrenRequest(this);
+		HttpRequestCreator* request = API::GetAvailableChildrenRequest(UserAccountManager::getInstance()->getLoggedInParentId(),this);
 		request->execute();
 	}
 	else

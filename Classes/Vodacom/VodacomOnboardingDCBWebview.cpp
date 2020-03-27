@@ -8,6 +8,8 @@
 #include "VodacomOnboardingDCBWebview.h"
 #include <TinizineCommon/Data/Parent/UserAccountManager.h>
 #include "../BackEndCaller.h"
+#include <TinizineCommon/Utils/StringFunctions.h>
+#include "VodacomOnboardingScene.h"
 
 using namespace cocos2d;
 
@@ -63,7 +65,7 @@ void VodacomOnboardingDCBWebview::onEnter()
 		if(url.find("azoomee://") != url.npos) // manually fire deeplink
 		{
 			_webview->setVisible(false);
-            const std::vector<std::string>& splitByAzoomeeVector = StringFunctions::splitStringToVector(StringFunctions::stringToLower(uriString), "azoomee://");
+            const std::vector<std::string>& splitByAzoomeeVector = StringFunctions::splitStringToVector(StringFunctions::stringToLower(url), "azoomee://");
                
             if(splitByAzoomeeVector.size() == 0 || splitByAzoomeeVector.size() > 2)
             {
@@ -72,7 +74,7 @@ void VodacomOnboardingDCBWebview::onEnter()
                
             std::string uriStringWhole = splitByAzoomeeVector.at(0);
                
-            if(splitByAzoomeVector.size() == 2)
+            if(splitByAzoomeeVector.size() == 2)
             {
                 uriStringWhole = splitByAzoomeeVector.at(1);
             }

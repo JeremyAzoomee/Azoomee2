@@ -10,11 +10,12 @@
 #include <TinizineCommon/UI/Colour.h>
 #include <TinizineCommon/UI/LayoutParams.h>
 #include <TinizineCommon/API/API.h>
-#include "ModalMessages.h"
+#include "../ModalMessages.h"
 #include <TinizineCommon/Data/Parent/UserAccountManager.h>
 #include "../ChildCreator.h"
 #include "VodacomMessageBoxInfo.h"
 #include "VodacomMessageBoxNotification.h"
+#include "../Style.h"
 
 using namespace cocos2d;
 
@@ -239,7 +240,7 @@ void VodacomOnboardingAddChildLayer::onHttpRequestSuccess(const std::string& req
 {
 	if(requestTag == API::TagRegisterChild)
 	{
-		HttpRequestCreator* request = API::GetAvailableChildrenRequest(this);
+		HttpRequestCreator* request = API::GetAvailableChildrenRequest(UserAccountManager::getInstance()->getLoggedInParentId(), this);
 		request->execute();
 	}
 	else if(requestTag == API::TagGetAvailableChildren)

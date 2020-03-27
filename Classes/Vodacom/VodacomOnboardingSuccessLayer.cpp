@@ -10,6 +10,7 @@
 #include <TinizineCommon/Data/Parent/UserAccountManager.h>
 #include <TinizineCommon/UI/Colour.h>
 #include <TinizineCommon/Utils/LocaleManager.h>
+#include "../Style.h"
 
 using namespace cocos2d;
 

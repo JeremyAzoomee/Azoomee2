@@ -8,6 +8,7 @@
 #include "VodacomMessageBoxExitFlow.h"
 #include <TinizineCommon/Utils/LocaleManager.h>
 #include <TinizineCommon/UI/Colour.h>
+#include "../Style.h"
 
 using namespace cocos2d;
 

@@ -10,11 +10,14 @@
 #include <TinizineCommon/UI/Colour.h>
 #include <TinizineCommon/UI/LayoutParams.h>
 #include <TinizineCommon/API/API.h>
-#include "ModalMessages.h"
+#include "../ModalMessages.h"
 #include <TinizineCommon/Data/Parent/UserAccountManager.h>
 #include <TinizineCommon/Analytics/AnalyticsSingleton.h>
 #include "VodacomMessageBoxExitFlow.h"
 #include "VodacomMessageBoxNotification.h"
+#include "../Style.h"
+#include <TinizineCommon/Device.h>
+#include <TinizineCommon/Utils/StringFunctions.h>
 
 using namespace cocos2d;
 
@@ -171,7 +174,7 @@ void VodacomOnboardingPinLayer::onEnter()
 	contactUsHolder->addTouchEventListener([](Ref* pSender, ui::Widget::TouchEventType eType){
 		if(eType == ui::Widget::TouchEventType::ENDED)
 		{
-			Application::getInstance()->openURL(_("mailto:help@azoomee.com"));
+			cocos2d::Application::getInstance()->openURL(_("mailto:help@azoomee.com"));
 		}
 	});
 	this->addChild(contactUsHolder);
@@ -193,7 +196,7 @@ void VodacomOnboardingPinLayer::onConfirmPressed()
 		_flowData->setPin(_pinInput->getText());
 		ModalMessages::getInstance()->startLoading();
 		const std::string &sourceDevice = TZ::Device::getInstance()->getDeviceInformation();
-		HttpRequestCreator* request = API::RegisterParentRequest(UserAccountManager::getInstance()->getLoggedInParentId(),_flowData->getEmail(), _flowData->getPassword(), _pinInput->getText(), "VODACOM", sourceDevice, boolToString(_flowData->getAcceptedMarketing()), this);
+		HttpRequestCreator* request = API::RegisterParentRequest(UserAccountManager::getInstance()->getLoggedInParentId(),_flowData->getEmail(), _flowData->getPassword(), _pinInput->getText(), "VODACOM", sourceDevice, StringFunctions::boolToString(_flowData->getAcceptedMarketing()), this);
 		request->execute();
 	}
 }
@@ -211,7 +214,7 @@ void VodacomOnboardingPinLayer::onHttpRequestSuccess(const std::string& requestT
 		if(UserAccountManager::getInstance()->parseParentLoginData(body))
 		{
 			UserAccountManager::getInstance()->setHasLoggedInOnDevice(true);
-			UserAccountManager::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headers));
+			UserAccountManager::getInstance()->setLoggedInParentCountryCode(StringFunctions::getValueFromHttpResponseHeaderForKey(API::kAZCountryCodeKey, headers));
 			AnalyticsSingleton::getInstance()->signInSuccessEvent();
 			AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
 			_flowData->setUserType(UserType::REGISTERED);
